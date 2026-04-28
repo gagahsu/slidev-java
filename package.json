@@ -1,0 +1,26 @@
+{
+  "name": "my-clas-portal",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "ch12":  "slidev ch12-char-string.md --port 3030",
+    "ch13":  "slidev ch13-regex.md --port 3031",
+    "ch13g": "slidev ch13-regex-gemini.md --port 3032",
+    "dev":   "slidev index.md --port 3030"
+  },
+  "dependencies": {
+    "@slidev/cli": "^52.14.2",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "slidev-theme-field-manual": "^0.1.0",
+    "slidev-theme-penguin": "^2.3.1",
+    "vue": "^3.5.29"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.2.20",
+    "@iconify-json/logos": "^1.2.11",
+    "@iconify-json/mdi": "^1.2.3",
+    "concurrently": "^9.0.0",
+    "playwright-chromium": "^1.59.1"
+  }
+}
