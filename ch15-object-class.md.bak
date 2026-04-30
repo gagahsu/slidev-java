@@ -52,11 +52,10 @@ layout: default
 # Outline
 
 - **認識 Object 類別** — `java.lang.Object` 與繼承關係
-- **Objects 工具類別** — `java.util.Objects` 的 Null 安全設計
-- **哈希碼與 `hashCode()`** — `Objects.hash()` 的現代實作
-- **`equals()` 方法** — 搭配 Pattern Matching 的現代化寫法
-- **`toString()` 方法** — 物件的字串表示與 Records 的自動實作
-- **`getClass()` 方法** — 取得物件所屬類別與 `finalize()` 的廢棄
+- **哈希碼與 `hashCode()`** — 物件的雜湊值
+- **`equals()` 方法** — 參照比較 vs 內容比較
+- **`toString()` 方法** — 物件的字串表示
+- **`getClass()` 方法** — 取得物件所屬類別
 
 ---
 layout: section
@@ -65,8 +64,6 @@ class: flex flex-col justify-center items-center text-center
 
 # 認識 Object 類別
 
----
-layout: default
 ---
 
 # Object 類別是什麼？
@@ -125,39 +122,12 @@ class Animal extends Object {
 | `final Class getClass()` | 傳回物件所屬的類別 |
 
 ---
-
-# Objects 工具類別 (JDK 7+)
-
-自 Java 7 起，建議使用 **`java.util.Objects`** 來處理物件，它能更安全地處理 `null`。
-
-| 方法 | 說明 |
-| --- | --- |
-| `equals(a, b)` | 比較 a, b 是否相等，**自動處理 null** |
-| `hash(fields...)` | 根據傳入的欄位產生 hash 值 |
-| `requireNonNull(obj)` | 檢查是否為 null，為空則拋出異常 |
-
-```java
-import java.util.Objects;
-
-String s1 = null;
-String s2 = "Java";
-
-// 傳統寫法會拋出 NPE (NullPointerException)
-// System.out.println(s1.equals(s2)); 
-
-// 安全寫法：若 s1 為 null 則回傳 false
-System.out.println(Objects.equals(s1, s2)); // false
-```
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # 哈希碼與 hashCode()
 
----
-layout: default
 ---
 
 # 什麼是哈希碼？
@@ -217,39 +187,12 @@ System.out.println(intObj.hashCode()); // 10
 </div>
 
 ---
-
-# 現代化的 hashCode() 實作
-
-現代開發不再手寫複雜的雜湊演算法，而是使用 **`Objects.hash()`**。
-
-| 方法 | 說明 |
-| --- | --- |
-| `Objects.hash(v1, v2...)` | 傳入多個欄位，自動計算出高品質的雜湊碼 |
-
-```java
-import java.util.Objects;
-
-class User {
-    String id;
-    String email;
-
-    @Override
-    public int hashCode() {
-        // 傳入所有用於判斷相等的欄位
-        return Objects.hash(id, email);
-    }
-}
-```
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # equals() 方法
 
----
-layout: default
 ---
 
 # Object 的 equals() — 參照比較
@@ -285,40 +228,12 @@ System.out.println(s1.equals(s2)); // true
 | `String`（Override） | 字串內容 | 內容相同 → `true` |
 
 ---
-
-# 現代化的 equals() 實作 (JDK 16+)
-
-JDK 16 引入 **Pattern Matching** 後，實作 `equals()` 變得更簡潔且易讀。
-
-```java
-@Override
-public boolean equals(Object o) {
-    // 1. 同一參照直接回傳 true
-    if (this == o) return true;
-    
-    // 2. 判斷型別並同時宣告變數 (JDK 16 Pattern Matching)
-    if (o instanceof User other) {
-        // 3. 比較各欄位內容 (使用 Objects.equals 避免 null)
-        return Objects.equals(this.id, other.id) &&
-               Objects.equals(this.email, other.email);
-    }
-    return false;
-}
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>重要：</b> 若 Override 了 <code>equals()</code>，<b>必須</b>同時 Override <code>hashCode()</code>！
-</div>
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # toString() 方法
 
----
-layout: default
 ---
 
 # Object 的 toString() — 預設格式
@@ -355,34 +270,12 @@ System.out.println(a); // Name: Foo, Age: 1
 ```
 
 ---
-
-# 紀錄類別 (Records) 與 Object 方法
-
-JDK 16+ 的 **`record`** 會自動為你 Override 所有重要的 `Object` 方法。
-
-| 方法 | Record 的預設行為 |
-| --- | --- |
-| `toString()` | 顯示類別名與所有屬性值 |
-| `equals()` | 比較所有屬性的內容 (State-based) |
-| `hashCode()` | 根據所有屬性產生雜湊值 |
-
-```java
-// 一行代碼搞定 toString/equals/hashCode
-record Point(int x, int y) { }
-
-Point p1 = new Point(10, 20);
-System.out.println(p1); // Point[x=10, y=20]
-```
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # getClass() 方法
 
----
-layout: default
 ---
 
 # getClass() — 取得物件的類別
@@ -411,20 +304,6 @@ MyClass obj = new MyClass();
 System.out.println(obj.getClass());
 System.out.println(obj.getClass().getName());
 ```
-
----
-
-# finalize() 方法的廢棄 (JDK 9+)
-
-`Object` 中還有一個 `finalize()` 方法，用於物件被 GC 回收前的清理工作。
-
-- **現況**：自 **JDK 9** 起已被標記為 **Deprecated** (廢棄)
-- **原因**：執行時機不確定、影響效能、可能導致死鎖
-- **替代方案**：使用 **Try-with-resources** 與 **`AutoCloseable`** 介面
-
-<div class="mt-4 p-3 bg-red-50 border-l-4 border-red-400 text-gray-700 text-sm text-left">
-⚠️ <b>警告：</b> 在現代 Java 開發中，絕對不要 Override 或依賴 <code>finalize()</code> 方法。
-</div>
 
 ---
 layout: default

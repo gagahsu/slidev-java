@@ -69,6 +69,8 @@ class: flex flex-col justify-center items-center text-center
 # 繼承的基本概念
 
 ---
+layout: default
+---
 
 # 什麼是繼承 (Inheritance)？
 
@@ -138,6 +140,8 @@ class: flex flex-col justify-center items-center text-center
 # 存取控制與成員管理
 
 ---
+layout: default
+---
 
 # 存取修飾符：protected
 
@@ -199,6 +203,8 @@ class: flex flex-col justify-center items-center text-center
 # 第三部分
 # 繼承結構與類型
 
+---
+layout: default
 ---
 
 # 單一繼承 (Single Inheritance)
@@ -277,6 +283,8 @@ class: flex flex-col justify-center items-center text-center
 # IS-A 與 HAS-A 關係分析
 
 ---
+layout: default
+---
 
 # IS-A 關係與 instanceof
 
@@ -339,6 +347,8 @@ class: flex flex-col justify-center items-center text-center
 # 第五部分
 # 方法改寫 (Override)
 
+---
+layout: default
 ---
 
 # 什麼是重新定義 (Override)？
@@ -408,6 +418,8 @@ class: flex flex-col justify-center items-center text-center
 # 多型 (Polymorphism)
 
 ---
+layout: default
+---
 
 # 多型的核心概念
 
@@ -465,6 +477,8 @@ class: flex flex-col justify-center items-center text-center
 # 類型轉換 (Casting)
 
 ---
+layout: default
+---
 
 # 向上轉型 (Upcasting)
 
@@ -505,6 +519,8 @@ class: flex flex-col justify-center items-center text-center
 # 第八部分
 # 巢狀類別 (Nested Classes)
 
+---
+layout: default
 ---
 
 # 巢狀類別的分類

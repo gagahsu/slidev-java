@@ -63,6 +63,8 @@ class: flex flex-col justify-center items-center text-center
 # 字元 Character 類別
 
 ---
+layout: default
+---
 
 # 字元類別方法 (一)
 ### 常用判斷方法
@@ -76,6 +78,9 @@ class: flex flex-col justify-center items-center text-center
 | `isUpperCase(char ch)` | 是否為大寫字母字元 |
 
 ---
+layout: full
+class: px-8
+---
 
 # 字元類別方法 (一) — 範例
 
@@ -84,9 +89,9 @@ char c1 = '9';
 char c2 = 'A';
 char c3 = '炭'; // 中文字元
 
-System.out.println(Character.isDigit(c1));        // true
-System.out.println(Character.isLetter(c3));        // true (中文也算字母)
-System.out.println(Character.isUpperCase(c2));     // true
+System.out.println(Character.isDigit(c1)); // true
+System.out.println(Character.isLetter(c3)); // true (中文也算字母)
+System.out.println(Character.isUpperCase(c2)); // true
 System.out.println(Character.isLetterOrDigit(c1)); // true
 ```
 
@@ -136,6 +141,8 @@ class: flex flex-col justify-center items-center text-center
 # 第二部分
 # 字串的建立
 
+---
+layout: default
 ---
 
 # 基本字串型態宣告
@@ -262,6 +269,8 @@ class: flex flex-col justify-center items-center text-center
 # 第三部分
 # String 類別的方法
 
+---
+layout: default
 ---
 
 # 字串長度與空白判斷
@@ -801,6 +810,8 @@ class: flex flex-col justify-center items-center text-center
 # 第四部分
 # StringBuffer 與 StringBuilder
 
+---
+layout: default
 ---
 
 # 為什麼需要緩衝區類別？

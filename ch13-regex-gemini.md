@@ -67,6 +67,8 @@ class: flex flex-col justify-center items-center text-center
 # 使用 Java 硬功夫搜尋文字
 
 ---
+layout: default
+---
 
 # 為什麼需要正規表達式？
 ### 範例：驗證台灣手機號碼格式
@@ -115,6 +117,8 @@ class: flex flex-col justify-center items-center text-center
 # 13-2
 # 使用 String 類別處理正規表達式
 
+---
+layout: default
 ---
 
 # 使用 String.matches()
@@ -213,6 +217,8 @@ class: flex flex-col justify-center items-center text-center
 # 13-3
 # 正規表達式的特殊字元 (核心語法)
 
+---
+layout: default
 ---
 
 # 數量詞：`?` (0 或 1 次)
@@ -397,6 +403,8 @@ class: flex flex-col justify-center items-center text-center
 # 再談 String 類別有關的正規表達方法
 
 ---
+layout: default
+---
 
 # String.replaceFirst()
 ### 教材實例：ch13_23.java
@@ -444,6 +452,8 @@ class: flex flex-col justify-center items-center text-center
 # 13-6
 # 正規表達式套件 (java.util.regex)
 
+---
+layout: default
 ---
 
 # 進階操作：Pattern 與 Matcher

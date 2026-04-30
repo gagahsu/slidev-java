@@ -1,0 +1,42 @@
+/* Inline code only */
+:not(pre) > code {
+  color: #1e3a8a !important;
+  background-color: #dbeafe !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+}
+
+/* Code blocks: wider layout, no scrollbars, wrap content for clean PDF export */
+.slidev-layout pre,
+.slidev-layout .shiki,
+.slidev-layout .slidev-code {
+  overflow: visible !important;
+  max-height: none !important;
+  font-size: 0.88em !important;
+  /* 讓程式碼區塊比文字向外擴展 1.5rem */
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important;
+  padding: 1rem 1.5rem !important;
+  border-radius: 8px !important;
+  width: calc(100% + 3rem) !important;
+}
+
+.slidev-layout pre code,
+.slidev-layout .shiki code {
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  overflow: visible !important;
+}
+
+/* Global scrollbar removal for code blocks */
+.slidev-code-wrapper,
+.slidev-code {
+  overflow-x: visible !important;
+}
+
+/* Ensure container doesn't force scrollbar */
+.slidev-layout {
+  width: 100% !important;
+}

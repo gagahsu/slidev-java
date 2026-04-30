@@ -67,6 +67,8 @@ class: flex flex-col justify-center items-center text-center
 # Abstract Class
 
 ---
+layout: default
+---
 
 # 什麼是抽象類別
 
@@ -168,6 +170,8 @@ class: flex flex-col justify-center items-center text-center
 # Abstract Method
 
 ---
+layout: default
+---
 
 # 抽象方法的特性
 
@@ -224,6 +228,8 @@ class: flex flex-col justify-center items-center text-center
 # Abstract Class & Method
 
 ---
+layout: default
+---
 
 # 抽象類別與抽象方法 — 重要規則
 
@@ -274,6 +280,8 @@ class: flex flex-col justify-center items-center text-center
 # 進階應用
 # Constructor & Upcasting
 
+---
+layout: default
 ---
 
 # 抽象類別的建構方法
@@ -338,6 +346,8 @@ class: flex flex-col justify-center items-center text-center
 # Abstract Class vs Interface
 
 ---
+layout: default
+---
 
 # 抽象類別與介面的比較
 
@@ -361,12 +371,54 @@ class: flex flex-col justify-center items-center text-center
 - **介面**：定義一些功能給不相干類別使用，如定義介面 `Fly`，子類別 `AirPlane` 及 `Bird` 實作 `Fly`
 
 ---
+
+# 密封抽象類別 (Sealed Classes)
+
+- Java 17 正式引入的特性，用來**精確限制**哪些類別可以繼承該抽象類別
+- 確保類別階層的封閉性與安全性
+- 必須位於同一個模組 (Module) 或同一個套件 (Package) 中
+
+| 關鍵字 | 說明 |
+| --- | --- |
+| `sealed` | 宣告該類別為密封類別 |
+| `permits` | 指定允許繼承的子類別清單 |
+
+```java
+// 限制只有 Circle 和 Square 可以繼承 Shape
+public abstract sealed class Shape permits Circle, Square {
+    public abstract double area();
+}
+```
+
+---
+
+# 密封子類別的修飾詞
+
+- 繼承密封類別的子類別，**必須**使用以下修飾詞之一：
+
+| 修飾詞 | 說明 |
+| --- | --- |
+| `final` | 終止繼承，不能再有子類別 |
+| `sealed` | 繼續密封，需指定新的 `permits` |
+| `non-sealed` | 解除限制，任何類別皆可繼承 |
+
+```java
+// Circle 不能再被繼承
+public final class Circle extends Shape { /*...*/ }
+
+// Square 重新開放繼承體系
+public non-sealed class Square extends Shape { /*...*/ }
+```
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # 實作練習
 
+---
+layout: default
 ---
 
 # 練習 1：Shape 面積與周長

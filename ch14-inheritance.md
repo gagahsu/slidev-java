@@ -67,6 +67,8 @@ class: flex flex-col justify-center items-center text-center
 # 繼承 Inheritance
 
 ---
+layout: default
+---
 
 # 為什麼需要繼承？
 
@@ -193,12 +195,49 @@ class Dog extends Animal {
 </div>
 
 ---
+
+# 密封類別 (Sealed Classes)
+
+JDK 17 正式功能，允許父類別**精確控制**哪些子類別可以繼承它。
+
+| 關鍵字 | 說明 |
+| --- | --- |
+| `sealed` | 宣告此類別為密封類別 |
+| `permits` | 指定允許繼承的子類別清單 |
+
+```java
+// 只允許 Circle 和 Square 繼承 Shape
+public sealed class Shape permits Circle, Square { }
+
+final class Circle extends Shape { }
+final class Square extends Shape { }
+```
+
+---
+
+# 密封子類別的修飾符限制
+
+密封類別的子類別**必須**明確宣告為以下三種狀態之一：
+
+| 修飾符 | 說明 |
+| --- | --- |
+| `final` | 禁止再被繼承（斷絕後代） |
+| `sealed` | 繼續保持密封，並指定自己的 permits |
+| `non-sealed` | 解除密封，允許任何類別繼承（回歸傳統） |
+
+```java
+public non-sealed class Circle extends Shape { } // 任何人都能繼承 Circle
+```
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # IS-A 與 HAS-A 關係
 
+---
+layout: default
 ---
 
 # IS-A 關係 — 繼承
@@ -215,6 +254,26 @@ class Eagle extends Bird {}
 Eagle eagle = new Eagle();
 System.out.println(eagle instanceof Bird);   // true
 System.out.println(eagle instanceof Animal); // true
+```
+
+---
+
+# 紀錄類別 (Records) 與繼承
+
+JDK 16 引入的 `record` 是特殊的類別，在繼承上有嚴格限制：
+
+| 規則 | 說明 |
+| --- | --- |
+| 隱含 final | Record 無法被繼承 |
+| 單一父類別 | Record 隱含繼承 `java.lang.Record`，不能再繼承其他類別 |
+| 實作介面 | Record **可以**實作多個介面 |
+
+```java
+// Record 是密封類別子類別的最佳拍檔（因為它天生 final）
+public sealed interface Result permits Success, Failure { }
+
+public record Success(String data) implements Result { }
+public record Failure(String error) implements Result { }
 ```
 
 ---
@@ -271,6 +330,8 @@ class: flex flex-col justify-center items-center text-center
 
 # 重新定義 Override
 
+---
+layout: default
 ---
 
 # Override 最簡範例
@@ -343,6 +404,8 @@ class: flex flex-col justify-center items-center text-center
 # 多重定義 Overload
 
 ---
+layout: default
+---
 
 # Overload 父類別方法
 
@@ -370,6 +433,8 @@ class: flex flex-col justify-center items-center text-center
 
 # 多形 Polymorphism
 
+---
+layout: default
 ---
 
 # 兩種多形
@@ -437,6 +502,25 @@ a2.move(); // Bird 飛翔
 
 ---
 
+# Sealed Classes 與 Pattern Matching
+
+密封類別最先進的用法是搭配 `switch` (JDK 17 預覽/後續正式)，編譯器會檢查**窮舉性**。
+
+```java
+// 如果 Shape 是 sealed，編譯器知道只有 Circle 和 Square
+return switch (shape) {
+    case Circle c -> c.radius() * c.radius() * Math.PI;
+    case Square s -> s.side() * s.side();
+    // 不需要 default 區塊！編譯器保證所有可能都已涵蓋
+};
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 當你新增一個 permits 子類別時，編譯器會提醒你更新所有相關的 <code>switch</code> 邏輯
+</div>
+
+---
+
 # 向上轉型 Upcasting
 
 將子類別物件指定給**父類別**型態變數，自動轉型：
@@ -468,12 +552,38 @@ dog.barking();        // 可呼叫 Dog 的 barking()
 </div>
 
 ---
+
+# Pattern Matching for instanceof
+
+JDK 16 引入了更簡潔的 **Pattern Matching**，將 `instanceof` 判斷與轉型合併。
+
+| 方式 | 語法 |
+| --- | --- |
+| 傳統方式 | `if (a instanceof Dog) { Dog d = (Dog) a; ... }` |
+| Pattern Matching | `if (a instanceof Dog d) { d.barking(); }` |
+
+```java
+Object obj = "Hello Java";
+
+// 判斷的同時宣告變數 s，若符合則自動轉型
+if (obj instanceof String s) {
+    System.out.println(s.toLowerCase()); // 直接使用 s
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 變數 <code>s</code> 的作用域僅限於 <code>if</code> 區塊內（或邏輯符合的範圍內）
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # 靜態 / 動態綁定
 
+---
+layout: default
 ---
 
 # Static Binding vs Dynamic Binding
@@ -499,6 +609,8 @@ class: flex flex-col justify-center items-center text-center
 
 # 巢狀類別 Nested Classes
 
+---
+layout: default
 ---
 
 # 巢狀類別的種類

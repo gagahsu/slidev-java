@@ -68,6 +68,8 @@ class: flex flex-col justify-center items-center text-center
 # 認識程式錯誤的類別
 
 ---
+layout: default
+---
 
 # 程式錯誤的三大類型
 
@@ -131,6 +133,24 @@ char c = s.charAt(10);
 ```
 
 ---
+
+# 更清晰的 NullPointerException
+
+| 特性 | 說明 |
+| --- | --- |
+| 具體錯誤訊息 | JVM 會詳細指出是哪個變數或方法呼叫回傳了 `null` |
+
+```java
+// 若 user 為 null，會明確指出「因為 user 是 null」
+User user = null;
+System.out.println(user.getName());
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>除錯更方便：</b> 從 Java 14 起，錯誤訊息會直接寫明：<code>Cannot invoke "User.getName()" because "user" is null</code>。
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -138,6 +158,8 @@ class: flex flex-col justify-center items-center text-center
 # 第二部分
 # 處理異常方法
 
+---
+layout: default
 ---
 
 # 傳統防呆方式 — if/else
@@ -393,6 +415,28 @@ try (Scanner scanner = new Scanner(System.in)) {
 </div>
 
 ---
+
+# try-with-resources 語法增強
+
+| 特性 | 說明 |
+| --- | --- |
+| 使用外部變數 | 若資源變數是 `final` 或「實質上是 final」，可直接放入 `try(...)` 中 |
+
+```java
+// 變數在外部宣告，不需在 try() 內重新宣告
+final Scanner scanner = new Scanner(System.in);
+try (scanner) {
+    int num1 = scanner.nextInt();
+} catch (Exception e) {
+    System.out.println(e);
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>簡化程式碼：</b> 從 Java 9 開始，不再需要寫成 <code>try (Scanner s = scanner)</code>，程式碼更為簡潔。
+</div>
+
+---
 layout: default
 ---
 
@@ -628,6 +672,8 @@ class: flex flex-col justify-center items-center text-center
 # 第三部分
 # 自定義錯誤代碼和訊息
 
+---
+layout: default
 ---
 
 # 自定義錯誤代碼 — 使用 enum

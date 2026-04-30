@@ -50,11 +50,15 @@ layout: default
 - **第一部分：Lambda 運算式**
   - 語法形式、函數式介面
   - 常用內建介面：`Predicate`、`Function`、`Consumer`、`Supplier`
+  - **JDK 11 新增**：Lambda 中的 `var` 參數
 - **第二部分：方法參考 (Method Reference)**
   - `::` 運算子的四種形式
 - **第三部分：Stream API**
-  - 中間操作：`filter`、`map`、`sorted`、`distinct`...
-  - 終端操作：`forEach`、`collect`、`reduce`、`count`...
+  - 中間操作：`filter`、`map`、`sorted`...
+  - **JDK 9 新增**：`takeWhile`、`dropWhile`
+  - 終端操作：`forEach`、`collect`、`count`...
+  - **JDK 16 新增**：簡潔的 `.toList()`
+  - **JDK 12 新增**：`teeing` 收集器
   - `Collectors` 工具
 - **實作練習**
 
@@ -66,6 +70,8 @@ class: flex flex-col justify-center items-center text-center
 # 第一部分
 # Lambda 運算式
 
+---
+layout: default
 ---
 
 # 什麼是 Lambda？
@@ -96,6 +102,32 @@ Runnable r = () -> System.out.println("Hello!");
 Consumer<Integer> dbl = x -> System.out.println(x * 2);
 Comparator<Integer> cmp = (a, b) -> a - b;
 ```
+
+---
+
+# Lambda 中的 var 參數 (JDK 11)
+
+自 Java 11 起，Lambda 參數可以使用 `var` 關鍵字，這讓語法更一致：
+
+| 範例 | 說明 |
+| --- | --- |
+| `(var x, var y) -> x + y` | 所有參數都必須使用 `var` |
+| `(@NonNull var x) -> ...` | **主要用途：** 方便在參數上加上註解（Annotation） |
+
+```java
+// 傳統寫法
+(String s) -> s.toLowerCase()
+
+// JDK 11 使用 var
+(var s) -> s.toLowerCase()
+
+// 搭配註解（必須使用類型或 var）
+(@Nonnull var s) -> s.toLowerCase()
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>規則：</b> 不能混用，例如 <code>(var x, y) -> ...</code> 是不允許的。
+</div>
 
 ---
 
@@ -179,6 +211,8 @@ class: flex flex-col justify-center items-center text-center
 # Method Reference
 
 ---
+layout: default
+---
 
 # 方法參考語法
 
@@ -205,6 +239,8 @@ class: flex flex-col justify-center items-center text-center
 # 第三部分
 # Stream API
 
+---
+layout: default
 ---
 
 # 什麼是 Stream？
@@ -262,6 +298,31 @@ IntStream s2 = Arrays.stream(arr);
 
 ---
 
+# 有序串流的斷句處理 (JDK 9)
+
+JDK 9 新增了兩個處理有序（Sorted）串流的強大工具：
+
+| 方法 | 說明 |
+| --- | --- |
+| `takeWhile(Predicate)` | 從頭開始取，直到條件**不成立**就停止 |
+| `dropWhile(Predicate)` | 從頭開始丟，直到條件**不成立**才開始取 |
+
+```java
+List<Integer> nums = List.of(1, 2, 3, 4, 5, 4, 3, 2, 1);
+
+// takeWhile: 取出 < 4 的元素（遇到 4 即停止）
+nums.stream().takeWhile(n -> n < 4); // [1, 2, 3]
+
+// dropWhile: 丟掉 < 4 的元素（遇到 4 才開始取）
+nums.stream().dropWhile(n -> n < 4); // [4, 5, 4, 3, 2, 1]
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>與 filter 的不同：</b> filter 會檢查「所有」元素；takeWhile 只要條件一失敗就立刻收工。
+</div>
+
+---
+
 # 中間操作 — 範例
 
 ```java
@@ -316,6 +377,42 @@ System.out.println(top); // [85, 88, 91, 95]
 
 ---
 
+# Stream 轉 List 的捷徑 (JDK 16)
+
+以往將 Stream 轉回 List 需要寫一段冗長的語法，JDK 16 提供了優雅的捷徑：
+
+| 版本 | 語法 | 備註 |
+| --- | --- | --- |
+| Java 8+ | `.collect(Collectors.toList())` | 回傳的可變性視實作而定 |
+| **Java 16+** | **`.toList()`** | 回傳一個**不可變** (Unmodifiable) 的 List |
+
+```java
+List<String> list = Stream.of("A", "B", "C").toList();
+// 等同於舊版的 .collect(Collectors.toList()) 但更簡潔！
+```
+
+---
+
+# 技巧：快速反轉條件 (JDK 11)
+
+使用 `Predicate.not()` 讓過濾邏輯讀起來更像英文，提升程式碼可讀性：
+
+```java
+List<String> lines = List.of("A", " ", "B", "");
+
+// 傳統寫法：過濾掉空白（邏輯較不明確）
+lines.stream().filter(s -> !s.isBlank());
+
+// JDK 11 寫法：過濾「不是空白」的字串
+lines.stream().filter(Predicate.not(String::isBlank));
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>搭配方法參考：</b> 這種寫法特別適合與 <code>ClassName::methodName</code> 結合使用。
+</div>
+
+---
+
 # Collectors 常用工具
 
 | 方法 | 說明 |
@@ -332,6 +429,27 @@ System.out.println(joined); // 炭治郎、善逸、伊之助
 Map<Integer, List<String>> byLen = names.stream()
     .collect(Collectors.groupingBy(String::length));
 ```
+
+---
+
+# 雙向收集器：teeing (JDK 12)
+
+`Collectors.teeing` 允許你將同一個串流分流給兩個收集器，最後再將結果合併：
+
+```java
+// 範例：同時計算「及格人數」與「平均分數」
+var result = Stream.of(85, 45, 90, 62)
+    .collect(Collectors.teeing(
+        Collectors.filtering(s -> s >= 60, Collectors.count()), // 收集器 1
+        Collectors.averagingInt(s -> s),                         // 收集器 2
+        (count, avg) -> "及格人數：" + count + "，平均：" + avg   // 合併邏輯
+    ));
+System.out.println(result); // 及格人數：3，平均：70.5
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>設計目的：</b> 避免為了得到多個統計結果而對同一個集合進行多次 Stream 操作。
+</div>
 
 ---
 

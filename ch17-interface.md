@@ -55,8 +55,9 @@ layout: default
 - **介面的成員變數** — `public static final`
 - **Java 8 新增介面內容** — Default 方法、Static 方法
 - **Java 9 新增介面內容** — Private 方法
+- **功能介面** — Functional Interface 概念
 - **介面的繼承** — 基本繼承、多重繼承
-- **進階主題** — 名稱衝突、Diamond 問題
+- **進階主題** — 名稱衝突、Diamond 問題、密封介面 (Sealed)
 - **課堂練習**
 
 ---
@@ -67,6 +68,8 @@ class: flex flex-col justify-center items-center text-center
 # 認識介面
 # Interface
 
+---
+layout: default
 ---
 
 # 什麼是介面？
@@ -149,6 +152,8 @@ class: flex flex-col justify-center items-center text-center
 # Interface Member Variables
 
 ---
+layout: default
+---
 
 # 介面的成員變數
 
@@ -196,6 +201,8 @@ class: flex flex-col justify-center items-center text-center
 # Java 8 新增介面內容
 # Default & Static Methods
 
+---
+layout: default
 ---
 
 # Java 8 新增介面內容 — 概覽
@@ -298,6 +305,8 @@ class: flex flex-col justify-center items-center text-center
 # Private Methods
 
 ---
+layout: default
+---
 
 # Java 9 新增介面內容 — 概覽
 
@@ -343,6 +352,27 @@ interface LearnJava {
 ```
 
 ---
+
+# 功能介面 (Functional Interface)
+
+| 特性 | 說明 |
+| --- | --- |
+| 定義 | 只有**一個**抽象方法的介面（又稱 SAM - Single Abstract Method） |
+| 註解 | `@FunctionalInterface`（選用，但建議加上以利檢查） |
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+    // 可以有 default 或 static 方法，但只能有一個 abstract 方法
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>主要用途：</b> 作為 Lambda 運算式的目標類型，簡化匿名內部類別的撰寫。
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -350,6 +380,8 @@ class: flex flex-col justify-center items-center text-center
 # 介面的繼承
 # Interface Inheritance
 
+---
+layout: default
 ---
 
 # 繼承的三種關係
@@ -388,6 +420,8 @@ class: flex flex-col justify-center items-center text-center
 # 介面多重繼承
 # Multiple Inheritance
 
+---
+layout: default
 ---
 
 # 介面多重繼承 — 概念
@@ -464,6 +498,8 @@ class: flex flex-col justify-center items-center text-center
 # 進階主題
 # Advanced Topics
 
+---
+layout: default
 ---
 
 # 實作時成員變數名稱衝突
@@ -594,6 +630,66 @@ class D implements B, C {
     }
 }
 ```
+
+---
+
+# 密封介面 (Sealed Interfaces)
+
+| 特性 | 說明 |
+| --- | --- |
+| 關鍵字 | `sealed` |
+| 控制權 | 使用 `permits` 指定哪些類別或介面可以實作它 |
+
+```java
+public sealed interface Shape permits Circle, Rectangle {
+    double area();
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>JDK 17 正式特性：</b> 讓開發者能精確限制介面的擴充權限，增強系統安全性。
+</div>
+
+---
+
+# 密封介面的實作規則
+
+實作 `sealed` 介面的子類別必須明確宣告以下三種狀態之一：
+
+| 狀態 | 說明 |
+| --- | --- |
+| `final` | 禁止再被繼承 |
+| `sealed` | 繼續密封，並指定自己的子類別 |
+| `non-sealed` | 解除密封，回歸傳統的開放繼承 |
+
+```java
+public final class Circle implements Shape { 
+    public double area() { return 0; } 
+}
+public non-sealed class Rectangle implements Shape { 
+    public double area() { return 0; } 
+}
+```
+
+---
+
+# 密封介面與 Switch 窮舉性
+
+當介面是 `sealed` 時，`switch` 可以檢查是否涵蓋所有可能的情況：
+
+```java
+public double getArea(Shape shape) {
+    return switch (shape) {
+        case Circle c    -> c.area();
+        case Rectangle r -> r.area();
+        // 不需要 default，因為 Shape 是 sealed 且已窮舉所有子類別
+    };
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>優勢：</b> 漏掉實作類別時，編譯器會報錯，比傳統 <code>instanceof</code> 更安全。
+</div>
 
 ---
 layout: section

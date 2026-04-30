@@ -68,6 +68,8 @@ class: flex flex-col justify-center items-center text-center
 # 集合框架概覽
 
 ---
+layout: default
+---
 
 # 什麼是集合框架？
 
@@ -143,6 +145,51 @@ System.out.println(fruits.isEmpty());         // true
 ```
 
 ---
+
+# 不可變集合工廠方法 (Immutable Collections)
+
+Java 9 引入了更簡潔的方式來建立**不可變** (Immutable) 的集合。
+- 這些集合一旦建立，**不能新增、修改或刪除**元素 (會拋出 `UnsupportedOperationException`)。
+- **不允許 null 元素** (會拋出 `NullPointerException`)。
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `List.of(E... elements)` | 建立不可變的 List |
+| `Set.of(E... elements)` | 建立不可變的 Set |
+| `Map.of(K k1, V v1, ...)` | 建立不可變的 Map (最多 10 組鍵值) |
+
+```java
+List<String> fruits = List.of("蘋果", "橘子", "香蕉");
+Set<Integer> numbers = Set.of(1, 2, 3);
+Map<String, Integer> scores = Map.of("炭治郎", 95, "善逸", 70);
+
+// fruits.add("葡萄"); // 執行期會拋出例外！
+```
+
+---
+
+# 複製為不可變集合
+
+Java 10 新增了 `copyOf()` 方法，可以將現有的集合**複製**成不可變集合。
+- 如果來源已經是不可變集合 (例如用 `List.of` 建立)，則直接回傳原物件，不會浪費記憶體。
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `List.copyOf(Collection)` | 將集合複製為不可變 List |
+| `Set.copyOf(Collection)` | 將集合複製為不可變 Set |
+| `Map.copyOf(Map)` | 將 Map 複製為不可變 Map |
+
+```java
+List<String> mutableList = new ArrayList<>();
+mutableList.add("A");
+mutableList.add("B");
+
+// 複製一份不可變的 List
+List<String> immutableList = List.copyOf(mutableList);
+// immutableList.add("C"); // 拋出 UnsupportedOperationException
+```
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -150,6 +197,8 @@ class: flex flex-col justify-center items-center text-center
 # 第二部分
 # List 介面
 
+---
+layout: default
 ---
 
 # List 介面特性
@@ -246,6 +295,8 @@ class: flex flex-col justify-center items-center text-center
 # Set 介面
 
 ---
+layout: default
+---
 
 # Set 介面特性
 
@@ -309,6 +360,8 @@ class: flex flex-col justify-center items-center text-center
 # 第四部分
 # Map 介面
 
+---
+layout: default
 ---
 
 # Map 介面特性

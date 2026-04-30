@@ -72,6 +72,8 @@ class: flex flex-col justify-center items-center text-center
 # 正規表達式基礎
 
 ---
+layout: default
+---
 
 # 什麼是正規表達式？
 
@@ -158,6 +160,66 @@ System.out.println("0912-345-678".matches("\\d{4}-\\d{3}-\\d{3}")); // true
 // 兩種寫法等效
 System.out.println("0912-345-678".matches("\\d{4}-\\d{3}-\\d{3}"));  // true
 System.out.println("0912-345-678".matches("\\d{4}(-\\d{3}){2}"));    // true
+```
+
+---
+
+# `\\n` — 反向引用 (Backreferences)
+
+反向引用允許你在表達式中**重複引用前面分組比對到的內容**
+
+| 表達式 | 說明 |
+| --- | --- |
+| `\\1` | 引用第 1 個分組的比對結果 |
+| `(\\w)\\1` | 比對連續兩個相同的字元（如 aa, 11） |
+
+```java
+// 比對重複的單字
+String text = "hello hello world";
+System.out.println(text.matches("(\\w+) \\1 .*")); // true (引用了第1個分組 hello)
+
+// 比對 HTML 標籤是否對稱
+String html = "<div>content</div>";
+System.out.println(html.matches("<(\\w+)>.*</\\1>")); // true
+```
+
+---
+
+# 具名分組 (Named Capturing Groups)
+
+除了用編號 `\\1`，也可以為分組**取名字**，提高可讀性
+
+| 語法 | 說明 |
+| --- | --- |
+| `(?<name>...)` | 定義具名分組 |
+| `\\k<name>` | 在表達式中引用具名分組 |
+
+```java
+// 使用具名分組比對日期
+String dateRegex = "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})";
+String input = "2024-05-20";
+
+System.out.println(input.matches(dateRegex)); // true
+
+// Matcher 也可以透過名字取得內容
+// matcher.group("year") -> "2024"
+```
+
+---
+
+# `(?:...)` — 非擷取分組
+
+有時我們只需要分組的**邏輯功能**（例如套用量詞），但不需要記錄比對內容（節省效能）
+
+| 語法 | 說明 |
+| --- | --- |
+| `(?:...)` | 純分組，不計入編號，不可被引用 |
+
+```java
+// 我們只想比對是否包含 .com 或 .org，但不需要擷取它
+String regex = ".*\\.(?:com|org)";
+System.out.println("google.com".matches(regex)); // true
+// 此時沒有 group(1)，因為它是非擷取分組
 ```
 
 ---
@@ -261,6 +323,30 @@ System.out.println("02-12345678".matches("0\\d{1,3}-\\d{7,8}")); // true
 </div>
 
 ---
+
+# 貪婪 vs 懶惰 vs 佔有量詞
+
+預設的量詞是**貪婪的**（Greedy），會盡可能比對最長的字串。
+
+| 類型 | 範例 | 比對行為 |
+| --- | --- | --- |
+| 貪婪 (Greedy) | `.*` | 比對到最末尾，再往回找 |
+| 懶惰 (Reluctant) | `.*?` | 比對到最少符合的字元就停止 |
+| 佔有 (Possessive) | `.*+` | 比對到最長且**不回溯**（效能最高） |
+
+```java
+String html = "<div>A</div><div>B</div>";
+
+// 貪婪：比對到最後一個 </div>
+System.out.println(html.replaceAll("<div>.*</div>", "TEXT")); 
+// TEXT
+
+// 懶惰：比對到第一個 </div> 就停止
+System.out.println(html.replaceAll("<div>.*?</div>", "TEXT")); 
+// TEXTTEXT
+```
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -268,6 +354,8 @@ class: flex flex-col justify-center items-center text-center
 # 第二部分
 # String 類別常用方法
 
+---
+layout: default
 ---
 
 # String 類別相關方法
@@ -327,6 +415,8 @@ class: flex flex-col justify-center items-center text-center
 # 第三部分
 # 正規表達式的特殊字元
 
+---
+layout: default
 ---
 
 # `(?i)` 與 `\b` — 旗標與單字邊界
@@ -427,6 +517,26 @@ System.out.println("a".matches("[A-Za-z]"));  // true
 
 ---
 
+# 字元類別交集與減法
+
+可以在中括號內使用 `&&` 來縮小比對範圍
+
+| 表達式 | 說明 |
+| --- | --- |
+| `[a-z&&[def]]` | 交集：同時符合 a-z 且是 d, e, f (即 d, e, f) |
+| `[a-z&&[^aeiou]]` | 減法：符合 a-z 且**不是**母音 (即所有小寫輔音) |
+
+```java
+// 比對非母音的小寫字母
+System.out.println("b".matches("[a-z&&[^aeiou]]")); // true
+System.out.println("e".matches("[a-z&&[^aeiou]]")); // false
+
+// 比對 1~9 之間的偶數
+System.out.println("4".matches("[1-9&&[2468]]"));   // true
+```
+
+---
+
 # `[^]` — 否定字元分類
 
 在中括號**最開頭**加 `^` 表示**不包含**括號內的字元
@@ -469,6 +579,29 @@ System.out.println(Pattern.compile("Java$").matcher(s2).find()); // true
 
 ---
 
+# 環視斷言 (Lookaround)
+
+比對一個**位置**，判斷該位置的前後是否符合條件，但**不消耗**字元
+
+| 表達式 | 說明 |
+| --- | --- |
+| `(?=pattern)` | 正向先行：右邊必須符合 pattern |
+| `(?!pattern)` | 負向先行：右邊必須不符合 pattern |
+| `(?<=pattern)` | 正向後行：左邊必須符合 pattern |
+| `(?<!pattern)` | 負向後行：左邊必須不符合 pattern |
+
+```java
+// 密碼強度：必須包含數字 (但不消耗字串)
+String passRegex = "^(?=.*\\d).{8,}$"; 
+System.out.println("password123".matches(passRegex)); // true
+
+// 擷取貨幣金額 (只找前面有 $ 的數字)
+String text = "Price: $100, Cost: 50";
+// 用 (?<=\\$) 找到 $ 後面的位置
+```
+
+---
+
 # `.*` — 所有字元萬用字元
 
 `.*` 組合可比對**任意長度的任意字串**（換行除外）
@@ -496,6 +629,8 @@ class: flex flex-col justify-center items-center text-center
 # 正規表達式套件
 # `java.util.regex`
 
+---
+layout: default
 ---
 
 # `java.util.regex` 套件介紹
@@ -529,6 +664,28 @@ while (matcher.find()) {
 | `Pattern.matches(regex, input)` | 靜態方法，比對整個字串 |
 | `p.matcher(input)` | 以此 Pattern 建立 Matcher 物件 |
 | `p.split(input)` | 用此 Pattern 分割字串 |
+
+---
+
+# Predicate 整合 (JDK 11+)
+
+`Pattern` 可以直接轉為 `Predicate`，方便與 Stream API 結合使用
+
+| 方法 | 說明 |
+| --- | --- |
+| `asPredicate()` | 判斷**子字串**是否存在 |
+| `asMatchPredicate()` | 判斷**整個字串**是否完全符合 |
+
+```java
+List<String> list = List.of("apple", "banana", "123", "456");
+
+// 篩選出純數字的字串
+var isNumeric = Pattern.compile("\\d+").asMatchPredicate();
+
+list.stream()
+    .filter(isNumeric)
+    .forEach(System.out::println); // 123, 456
+```
 
 ---
 
@@ -571,6 +728,29 @@ String[] parts = Pattern.compile(",\\s*").split("a, b,c,  d");
 | `end()` | 回傳比對子字串的結束索引（不含） |
 | `replaceFirst(str)` | 取代第一個符合的子字串 |
 | `replaceAll(str)` | 取代所有符合的子字串 |
+
+---
+
+# 動態取代與 Stream 整合 (JDK 9+)
+
+`Matcher` 在 JDK 9 之後提供了更強大的處理能力
+
+| 方法 | 說明 |
+| --- | --- |
+| `replaceAll(Function)` | 使用 Lambda 動態決定取代內容 |
+| `results()` | 將所有比對結果轉為 `Stream<MatchResult>` |
+
+```java
+// 動態將比對到的數字加倍
+String input = "10 plus 20";
+Matcher m = Pattern.compile("\\d+").matcher(input);
+String result = m.replaceAll(res -> 
+    String.valueOf(Integer.parseInt(res.group()) * 2));
+// result: "20 plus 40"
+
+// 使用 Stream 統計
+long count = Pattern.compile("\\w+").matcher("A B C").results().count(); // 3
+```
 
 ---
 
