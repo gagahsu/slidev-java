@@ -41,7 +41,9 @@
       "WebFetch(domain:stackify.com)",
       "WebFetch(domain:dev.java)",
       "WebFetch(domain:www.baeldung.com)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(Get-Content \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\ch12-char-string.md\")",
+      "Bash(dir \"C:\\\\\\\\Users\\\\\\\\yunch\\\\\\\\Documents\\\\\\\\Work\\\\\\\\my-clas\\\\\\\\\")"
     ]
   }
 }

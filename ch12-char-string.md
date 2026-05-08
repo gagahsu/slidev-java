@@ -97,6 +97,23 @@ System.out.println(Character.isLetterOrDigit(c1)); // true
 
 ---
 
+# 字元類別方法補充：isAlphabetic / isWhitespace
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `isAlphabetic(char ch)` | 是否為 Unicode 字母字元（比 `isLetter` 涵蓋更廣）|
+| `isWhitespace(char ch)` | 是否為 Java 定義的空白（含 `\t`、`\n`、`\r` 等控制字元）|
+| `isSpaceChar(char ch)` | 是否為 Unicode 空格字元（**不含** Tab、換行等控制字元）|
+
+```java
+System.out.println(Character.isAlphabetic('A'));   // true
+System.out.println(Character.isAlphabetic('炭'));  // true
+System.out.println(Character.isWhitespace('\t'));  // true
+System.out.println(Character.isSpaceChar('\t'));   // false
+```
+
+---
+
 # 字元類別方法 (二)
 ### 轉換與特殊判斷
 
@@ -122,8 +139,8 @@ System.out.println(Character.isSpaceChar(fullWidthSpace)); // true
 控制字元（如換行、標籤）可以使用 `isISOControl()` 測試：
 
 ```java
-char ch1 = '\n'; 
-char ch2 = '\t'; 
+char ch1 = '\n'; // 換行符號（Enter 鍵效果）
+char ch2 = '\t'; // 水平 Tab 符號（Tab 鍵效果）
 
 System.out.println("\\n 是控制字元：" + Character.isISOControl(ch1)); 
 System.out.println("\\t 是控制字元：" + Character.isISOControl(ch2));
@@ -168,6 +185,19 @@ String hero = "炭治郎"; // hero 是字串變數
 
 ---
 
+# 建構方法 — 範例
+
+```java
+String s1 = new String();                      // 空字串 ""
+char[] chars = {'炭', '治', '郎'};
+String s2 = new String(chars);                 // "炭治郎"
+String s3 = new String("炭治郎");              // 建立副本（新位址）
+StringBuffer sb = new StringBuffer("炭治郎");
+String s4 = new String(sb);                    // "炭治郎"
+```
+
+---
+
 # Text Blocks（多行字串）
 
 以三個雙引號 `"""` 開頭並**換行**，結尾加 `"""`，省去字串拼接與跳脫：
@@ -187,6 +217,23 @@ String tb = """
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 Text Blocks 的型別仍是 <code>String</code>，所有 String 方法都可使用。結尾的 <code>"""</code> 與內容對齊時，公共縮排會被自動移除。
 </div>
+
+---
+
+# indent( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `indent(int n)` | n > 0 每行開頭加 n 個空白；n < 0 移除每行開頭最多 \|n\| 個空白；自動補上換行 |
+
+```java
+String text = """
+        炭治郎
+        禰豆子
+        """;
+System.out.print(text.indent(4));  // n > 0：加縮排
+System.out.print(text.indent(-4)); // n < 0：移除縮排
+```
 
 ---
 
@@ -281,6 +328,13 @@ layout: default
 | `boolean isEmpty()` | `length()` 為 0 時傳回 true |
 | `boolean isBlank()` | `length()` 為 0 或**內容純空白**時傳回 true |
 
+```java
+String s1 = "炭治郎";
+String s2 = "";
+System.out.println(s1.length()); // 3
+System.out.println(s2.length()); // 0
+```
+
 ---
 
 # isEmpty vs isBlank 實戰
@@ -323,6 +377,26 @@ String hero = null;
 
 ---
 
+# 原生 null 安全寫法
+
+```java
+String s = null;
+
+// 手動 null 檢查（最常用）
+boolean hasText = s != null && !s.isBlank();
+System.out.println(hasText); // false
+
+// Objects 工具轉換 null → 空字串
+String safe = Objects.requireNonNullElse(s, "");
+System.out.println(safe.isBlank()); // true
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 使用 <code>Objects.requireNonNullElse()</code> 需要 <code>import java.util.Objects;</code>
+</div>
+
+---
+
 # 安全處理：StringUtils 類別
 
 為了避免崩潰，開發中常使用 `StringUtils` 工具 (可同時判斷 `null`)：
@@ -331,6 +405,10 @@ String hero = null;
 | --- | --- | --- |
 | `StringUtils.hasLength(str)` | 不為 `null` 且長度 > 0 | `true` (空白算長度) |
 | `StringUtils.hasText(str)` | 不為 `null` 且有非空白內容 | `false` |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>需要 Spring 依賴：</b> <code>org.springframework.util.StringUtils</code>，非 JDK 標準函式庫
+</div>
 
 ---
 
@@ -345,6 +423,10 @@ System.out.println(StringUtils.hasText(name));   // false
 name = "Nezuko";
 System.out.println(StringUtils.hasText(name));   // true
 ```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>需要 Spring 依賴：</b> <code>org.springframework.util.StringUtils</code>，非 JDK 標準函式庫
+</div>
 
 ---
 
@@ -403,6 +485,13 @@ System.out.println(str.lastIndexOf('e', 5)); // 1
 | `lastIndexOf(String str)` | 子字串最後一次出現的位置 |
 | `contains(CharSequence s)`| 是否包含該子字串 |
 
+```java
+String str = "炭治郎與禰豆子";
+System.out.println(str.indexOf("禰豆子"));    // 4
+System.out.println(str.lastIndexOf("炭"));    // 0
+System.out.println(str.contains("禰豆子"));   // true
+```
+
 ---
 
 # startsWith( ) 與 endsWith( )
@@ -421,6 +510,26 @@ System.out.println(hero.startsWith("禰豆子")); // false
 
 ---
 
+# matches( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `matches(String regex)` | 字串整體是否符合正規表達式，回傳 boolean |
+
+```java
+String email = "tanjiro@kimetsu.jp";
+System.out.println(email.matches(".*@.*\\..*")); // true
+String code = "ABC123";
+System.out.println(code.matches("[A-Z]+\\d+"));  // true
+System.out.println(code.matches("\\d+"));        // false
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>注意：</b> <code>matches()</code> 要求整個字串完整符合，等同 regex 前後加上 <code>^...$</code>
+</div>
+
+---
+
 # 子字串搜尋進階：lastIndexOf
 
 從指定的 `index` 開始**向左**搜尋：
@@ -430,28 +539,6 @@ String str = "炭治郎與禰豆子，還有禰豆子";
 // 從 index 10 開始往左找 "禰豆子"
 int pos = str.lastIndexOf("禰豆子", 10); // 4
 ```
-
----
-layout: default
----
-
-# 練習一：出現次數計算
-### 任務說明
-
-宣告一段長字串：
-「鬼滅之刃是炭治郎與禰豆子的故事，我不喜歡禰豆子的那田蜘蛛山，雖然禰豆子在炭治郎眼中是清新脫俗」
-
-**請計算「禰豆子」在上述字串中出現了幾次？**
-
----
-
-# 練習一：解題邏輯
-### 提示說明
-
-1. 使用 `indexOf("禰豆子")` 找到第一次出現位置。
-2. 計算次數 `count++`。
-3. **關鍵：** 下一次搜尋的起點為 `目前索引 + "禰豆子".length()`。
-4. 重複搜尋直到回傳 `-1` 為止。
 
 ---
 
@@ -488,6 +575,44 @@ String str = "鬼滅之刃是炭治郎的故事";
 </div>
 
 ---
+
+# getChars( ) 方法應用
+
+當需要將字串內容複製到現有的字元陣列時：
+
+```java
+String str = "鬼滅之刃與禰豆子的故事";
+char[] ch = new char[15];
+
+// 參數：(字串起, 字串終, 目標陣列, 陣列起)
+str.getChars(5, 8, ch, 0); 
+
+System.out.println(ch); // 禰豆子
+```
+
+---
+layout: default
+---
+
+# 練習一：出現次數計算
+### 任務說明
+
+宣告一段長字串：
+「鬼滅之刃是炭治郎與禰豆子的故事，我不喜歡禰豆子的那田蜘蛛山，雖然禰豆子在炭治郎眼中是清新脫俗」
+
+**請計算「禰豆子」在上述字串中出現了幾次？**
+
+---
+
+# 練習一：解題邏輯
+### 提示說明
+
+1. 使用 `indexOf("禰豆子")` 找到第一次出現位置。
+2. 計算次數 `count++`。
+3. **關鍵：** 下一次搜尋的起點為 `目前索引 + "禰豆子".length()`。
+4. 重複搜尋直到回傳 `-1` 為止。
+
+---
 layout: default
 ---
 
@@ -509,20 +634,16 @@ layout: default
 3. 重新拼接：`前半段 + "竹筒" + 後半段`。
 
 ---
+layout: default
+---
 
-# getChars( ) 方法應用
+# 練習三：字母頻率統計
+### 任務說明
 
-當需要將字串內容複製到現有的字元陣列時：
+宣告字串：「AABCBDCDACBDA」
 
-```java
-String str = "鬼滅之刃與禰豆子的故事";
-char[] ch = new char[15];
-
-// 參數：(字串起, 字串終, 目標陣列, 陣列起)
-str.getChars(5, 8, ch, 0); 
-
-System.out.println(ch); // 禰豆子
-```
+**1. 請計算 A、B、C、D 分別出現幾次？**
+**2. 挑戰：若輸入為任意字串，該如何統計次數？**
 
 ---
 
@@ -539,6 +660,25 @@ String str = "炭治郎炭治郎";
 System.out.println(str.replace('炭', '火'));        // "火治郎火治郎"
 System.out.println(str.replace("炭治郎", "禰豆子")); // "禰豆子禰豆子"
 ```
+
+---
+
+# replaceAll( ) / replaceFirst( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `replaceAll(String regex, String rep)` | 取代全部符合正規表達式的部分 |
+| `replaceFirst(String regex, String rep)` | 只取代第一個符合的部分 |
+
+```java
+String s = "炭123治郎456";
+System.out.println(s.replaceAll("\\d+", "#"));   // "炭#治郎#"
+System.out.println(s.replaceFirst("\\d+", "#")); // "炭#治郎456"
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>vs replace()：</b> <code>replace()</code> 接受純字串；<code>replaceAll()</code> 接受正規表達式，適合複雜條件取代
+</div>
 
 ---
 
@@ -704,6 +844,25 @@ System.out.println(s); // 姓名：炭治郎 分數：95 勝率：98.8%
 
 ---
 
+# formatted( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `formatted(Object... args)` | 以當前字串為格式樣板帶入參數，等同 `String.format()` 的實例方法版本 |
+
+```java
+String name = "炭治郎";
+int score = 95;
+String s = "姓名：%s 分數：%d".formatted(name, score);
+System.out.println(s); // 姓名：炭治郎 分數：95
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>vs String.format()：</b> <code>"樣板".formatted(參數)</code> 比 <code>String.format("樣板", 參數)</code> 更直觀，格式樣板即呼叫者
+</div>
+
+---
+
 # 分割成字串陣列 split( )
 
 `split()` 依據正規表達式分割字串：
@@ -771,6 +930,25 @@ System.out.println(result); // "炭-治-郎"
 
 ---
 
+# transform( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `transform(Function<? super String, R> f)` | 將函式套用在字串上並回傳結果，型別由函式決定 |
+
+```java
+String name = "  炭治郎  ";
+String result = name.transform(String::strip)
+                    .transform(s -> s + "！");
+System.out.println(result); // "炭治郎！"
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 可將多個字串轉換串成一條呼叫鏈，比巢狀靜態方法更易讀
+</div>
+
+---
+
 # lines( )
 
 | 方法名稱 | 說明 |
@@ -789,18 +967,6 @@ System.out.println(text.lines().count()); // 3
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 與 <code>split("\n")</code> 不同，<code>lines()</code> 同時支援三種換行符，且回傳 Stream 可直接串接後續操作
 </div>
-
----
-layout: default
----
-
-# 練習三：字母頻率統計
-### 任務說明
-
-宣告字串：「AABCBDCDACBDA」
-
-**1. 請計算 A、B、C、D 分別出現幾次？**
-**2. 挑戰：若輸入為任意字串，該如何統計次數？**
 
 ---
 layout: section

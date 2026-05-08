@@ -207,6 +207,26 @@ System.out.println(input.matches(dateRegex)); // true
 
 ---
 
+# 具名分組提取 — Matcher 完整範例
+
+```java
+import java.util.regex.*;
+String dateRegex = "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})";
+Matcher m = Pattern.compile(dateRegex).matcher("2024-05-20");
+
+if (m.matches()) {
+    System.out.println(m.group("year"));  // 2024
+    System.out.println(m.group("month")); // 05
+    System.out.println(m.group("day"));   // 20
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>m.group("year")</code> 比 <code>m.group(1)</code> 更清楚，不受分組順序變動影響
+</div>
+
+---
+
 # `(?:...)` — 非擷取分組
 
 有時我們只需要分組的**邏輯功能**（例如套用量詞），但不需要記錄比對內容（節省效能）
@@ -667,6 +687,26 @@ while (matcher.find()) {
 
 ---
 
+# Pattern.quote( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `Pattern.quote(String s)` | 將字串的所有 regex 特殊字元轉為字面值，回傳可安全嵌入正規表達式的字串 |
+
+```java
+String userInput = "3.14";
+System.out.println("3.14".matches(Pattern.quote(userInput)));  // true
+System.out.println("3X14".matches(Pattern.quote(userInput)));  // false
+// 不用 quote 時，. 是萬用字元
+System.out.println("3X14".matches(userInput));                 // true
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 接受使用者輸入作為搜尋關鍵字時，用 <code>Pattern.quote()</code> 防止特殊字元破壞 regex
+</div>
+
+---
+
 # Predicate 整合 (JDK 11+)
 
 `Pattern` 可以直接轉為 `Predicate`，方便與 Stream API 結合使用
@@ -689,6 +729,26 @@ list.stream()
 
 ---
 
+# Pattern.splitAsStream( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `splitAsStream(CharSequence input)` | 依此 Pattern 切割字串，回傳 `Stream<String>`（可直接串接 Stream 操作） |
+
+```java
+String csv = "apple,orange,banana";
+Pattern.compile(",")
+    .splitAsStream(csv)
+    .map(String::toUpperCase)
+    .forEach(System.out::println); // APPLE ORANGE BANANA
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>vs split()：</b> <code>split()</code> 回傳 <code>String[]</code>；<code>splitAsStream()</code> 回傳 <code>Stream</code>，可直接使用 filter / map / collect
+</div>
+
+---
+
 # `Pattern` 類別 — 範例
 
 ```java
@@ -708,6 +768,26 @@ String[] parts = Pattern.compile(",\\s*").split("a, b,c,  d");
 
 ---
 
+# Pattern.MULTILINE / DOTALL 旗標
+
+| 旗標 | 內嵌語法 | 說明 |
+| --- | --- | --- |
+| `MULTILINE` | `(?m)` | `^` `$` 改為比對每行開頭/結尾（而非整個輸入的開頭/結尾） |
+| `DOTALL` | `(?s)` | `.` 涵蓋換行符號（預設不涵蓋） |
+
+```java
+String text = "apple\nbanana\ncherry";
+long lines = Pattern.compile("^\\w+$", Pattern.MULTILINE)
+    .matcher(text).results().count();
+System.out.println(lines); // 3
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>DOTALL 使用時機：</b> HTML/XML 標籤跨行時，<code>(?s)&lt;div&gt;.*&lt;/div&gt;</code> 才能正確比對多行內容
+</div>
+
+---
+
 # `Matcher` 類別常用方法（一）
 
 | 方法 | 說明 |
@@ -717,6 +797,24 @@ String[] parts = Pattern.compile(",\\s*").split("a, b,c,  d");
 | `matches()` | 比對**整個**輸入字串 |
 | `group()` | 回傳目前找到的子字串 |
 | `group(n)` | 回傳第 n 個 `()` 分組所比對到的子字串 |
+
+---
+
+# Matcher.lookingAt( ) — 三種比對方式對比
+
+| 方法 | 說明 |
+| --- | --- |
+| `matches()` | 整個字串必須完整符合 |
+| `lookingAt()` | 從**開頭**開始符合，但不要求整個字串都符合 |
+| `find()` | 在字串的**任意位置**搜尋子字串 |
+
+```java
+String input = "123abc";
+Pattern p = Pattern.compile("\\d{3}");
+System.out.println(p.matcher(input).matches());    // false（abc 不符合）
+System.out.println(p.matcher(input).lookingAt());  // true（開頭 123 符合）
+System.out.println(p.matcher(input).find());       // true（任意位置找到）
+```
 
 ---
 
