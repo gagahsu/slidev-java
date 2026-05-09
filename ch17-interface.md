@@ -373,6 +373,60 @@ interface Calculator {
 </div>
 
 ---
+
+# 內建功能介面 (一) — 基本型別
+
+`java.util.function` 套件提供常用的功能介面，可直接搭配 Lambda 使用：
+
+| 介面 | 抽象方法 | 說明 |
+| --- | --- | --- |
+| `Predicate<T>` | `boolean test(T t)` | 傳入一個值，回傳 true/false 判斷 |
+| `Function<T,R>` | `R apply(T t)` | 傳入 T，轉換為 R 回傳 |
+| `Consumer<T>` | `void accept(T t)` | 傳入一個值，執行動作不回傳 |
+| `Supplier<T>` | `T get()` | 不傳入參數，產生一個 T |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 這四個介面皆標有 <code>@FunctionalInterface</code>，可直接用 Lambda 或方法參考（Method Reference）傳入
+</div>
+
+---
+
+# 內建功能介面 (一) — 範例
+
+```java
+Predicate<String> isLong = s -> s.length() > 5;
+System.out.println(isLong.test("炭治郎"));         // false
+System.out.println(isLong.test("Kamado Tanjiro")); // true
+
+Function<String, Integer> toLen = String::length;
+System.out.println(toLen.apply("鬼滅之刃")); // 4
+
+Consumer<String> print = System.out::println;
+print.accept("禰豆子"); // 禰豆子
+
+Supplier<String> hero = () -> "炭治郎";
+System.out.println(hero.get()); // 炭治郎
+```
+
+---
+
+# 內建功能介面 (二) — Bi 系列與 Operator
+
+| 介面 | 抽象方法 | 說明 |
+| --- | --- | --- |
+| `BiFunction<T,U,R>` | `R apply(T t, U u)` | 兩個不同型別輸入，一個輸出 |
+| `UnaryOperator<T>` | `T apply(T t)` | 繼承 Function，輸入輸出型別相同 |
+| `BinaryOperator<T>` | `T apply(T t1, T t2)` | 繼承 BiFunction，兩輸入同型別 |
+
+```java
+BiFunction<String, Integer, String> repeat = (s, n) -> s.repeat(n);
+System.out.println(repeat.apply("鬼", 3)); // 鬼鬼鬼
+
+UnaryOperator<String> upper = String::toUpperCase;
+System.out.println(upper.apply("tanjiro")); // TANJIRO
+```
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -670,6 +724,28 @@ public non-sealed class Rectangle implements Shape {
     public double area() { return 0; } 
 }
 ```
+
+---
+
+# Records 實作介面 (Java 16)
+
+Records 是隱式 `final`，天然符合 Sealed Interface `permits` 的要求，且自動生成 constructor 與 accessor：
+
+```java
+sealed interface Shape permits Circle, Rectangle {
+    double area();
+}
+record Circle(double radius) implements Shape {
+    public double area() { return Math.PI * radius * radius; }
+}
+record Rectangle(double w, double h) implements Shape {
+    public double area() { return w * h; }
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 Record 比 <code>final class</code> 更簡潔：不需手動寫 constructor、getter、equals()、hashCode()、toString()
+</div>
 
 ---
 

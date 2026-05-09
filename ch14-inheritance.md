@@ -230,6 +230,63 @@ public non-sealed class Circle extends Shape { } // 任何人都能繼承 Circle
 ```
 
 ---
+
+# final 修飾符與繼承
+
+| 用途 | 說明 |
+| --- | --- |
+| `final class` | 類別不能被繼承 |
+| `final` 方法 | 子類別無法 Override 此方法 |
+| 靜態綁定 | `final` 方法在編譯期決定，效能較佳 |
+
+```java
+final class MathUtil { }          // 無法被繼承
+class Animal {
+    public final void breathe() { }  // 子類別無法 Override
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>Java 內建範例：</b><code>String</code>、<code>Integer</code> 等 Wrapper 類別都宣告為 <code>final class</code>
+</div>
+
+---
+
+# abstract 類別與方法
+
+| 概念 | 說明 |
+| --- | --- |
+| `abstract class` | 不可直接實例化，只能被繼承 |
+| `abstract` 方法 | 無方法本體，子類別**必須** Override |
+| 具體方法 | `abstract class` 中可混用有本體的具體方法 |
+
+```java
+abstract class Shape {
+    abstract double area();  // 子類別必須實作
+    void printArea() { System.out.println("面積：" + area()); }
+}
+```
+
+---
+
+# abstract 類別繼承範例
+
+```java
+class Circle extends Shape {
+    double radius;
+    Circle(double r) { this.radius = r; }
+    @Override
+    double area() { return Math.PI * radius * radius; }
+}
+Shape s = new Circle(5);  // 向上轉型，合法
+s.printArea();            // 面積：78.53...
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>new Shape()</code> 直接報錯；必須透過子類別實例化再向上轉型使用
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -275,6 +332,41 @@ public sealed interface Result permits Success, Failure { }
 public record Success(String data) implements Result { }
 public record Failure(String error) implements Result { }
 ```
+
+---
+
+# Object 類別 — 所有類別的根父類別
+
+Java 中每個類別都**隱含繼承** `java.lang.Object`，自動擁有以下常用方法：
+
+| 方法 | 說明 |
+| --- | --- |
+| `toString()` | 回傳物件的字串表示，預設為 `類別名@hashCode` |
+| `equals(Object)` | 判斷兩物件是否相等，預設比較記憶體位址 |
+| `hashCode()` | 回傳雜湊碼；覆寫 `equals()` 時必須一併覆寫 |
+| `getClass()` | 回傳執行時期的 Class 物件，無法被 Override |
+
+---
+
+# Override Object 方法範例
+
+```java
+class Point {
+    int x, y;
+    Point(int x, int y) { this.x = x; this.y = y; }
+    @Override
+    public String toString() { return "(" + x + ", " + y + ")"; }
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Point p)) return false;
+        return x == p.x && y == p.y;
+    }
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 覆寫 <code>equals()</code> 必須一併覆寫 <code>hashCode()</code>，否則放入 <code>HashMap</code> / <code>HashSet</code> 會出錯
+</div>
 
 ---
 
@@ -359,6 +451,44 @@ class Dog extends Animal {
 | 回傳型態 | 必須**相同**（或子型態） |
 | 存取權限 | 只能**放寬**，不能縮減 |
 | 不可覆寫 | `static`、`final`、`private` 方法 |
+
+---
+
+# 方法隱藏 (Method Hiding) vs Override
+
+| 比較項目 | Override | 方法隱藏 |
+| --- | --- | --- |
+| 適用對象 | 實例方法 | `static` 方法 |
+| 決定時機 | 執行時期（動態綁定） | 編譯時期（靜態綁定） |
+| 呼叫依據 | 物件的**實際型態** | 變數的**宣告型態** |
+
+```java
+class Animal { static void sound() { System.out.println("Animal"); } }
+class Dog extends Animal { static void sound() { System.out.println("Dog"); } }
+
+Animal a = new Dog();
+a.sound(); // 輸出：Animal（由宣告型態 Animal 決定）
+```
+
+---
+
+# 協變回傳型態 (Covariant Return Type)
+
+Override 時，子類別可以回傳比父類別**更具體的子型態**：
+
+| 父類別方法 | 子類別 Override | 合法？ |
+| --- | --- | --- |
+| `Animal produce()` | `Dog produce()` | ✅ Dog IS-A Animal |
+| `Object clone()` | `Dog clone()` | ✅ |
+| `int get()` | `double get()` | ❌ 基本型態不適用 |
+
+```java
+class Animal { Animal produce() { return new Animal(); } }
+class Dog extends Animal {
+    @Override
+    Dog produce() { return new Dog(); }
+}
+```
 
 ---
 

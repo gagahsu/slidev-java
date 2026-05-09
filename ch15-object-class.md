@@ -150,6 +150,39 @@ System.out.println(Objects.equals(s1, s2)); // false
 ```
 
 ---
+
+# Objects.isNull() 與 nonNull()
+
+| 方法 | 說明 |
+| --- | --- |
+| `Objects.isNull(obj)` | 回傳 `true` 若 `obj == null`，適合作為 Stream 的 predicate |
+| `Objects.nonNull(obj)` | 回傳 `true` 若 `obj != null`，適合作為 Stream 的 predicate |
+
+```java
+List<String> list = Arrays.asList("Java", null, "Python");
+list.stream().filter(Objects::nonNull)
+    .forEach(System.out::println); // Java, Python
+System.out.println(Objects.isNull(null)); // true
+```
+
+---
+
+# Objects.requireNonNullElse()
+
+| 方法 | 說明 |
+| --- | --- |
+| `requireNonNullElse(obj, default)` | 若 `obj` 為 null 則回傳 `default` |
+| `requireNonNullElseGet(obj, supplier)` | 若 `obj` 為 null 則呼叫 `supplier`（延遲求值） |
+
+```java
+String name = Objects.requireNonNullElse(input, "訪客");
+// input 若為 null 則 name = "訪客"
+
+String v = Objects.requireNonNullElseGet(
+    cached, () -> loadFromDB()); // 只在 null 時才呼叫
+```
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -249,6 +282,26 @@ class: flex flex-col justify-center items-center text-center
 # equals() 方法
 
 ---
+
+# `==` 與 `equals()` 的差異
+
+| 比較方式 | 說明 |
+| --- | --- |
+| `==` 運算子 | 比較**參照**是否指向同一物件 |
+| `equals()` 方法 | 比較物件**內容**是否相同（可 Override） |
+
+```java
+String s1 = new String("Java");
+String s2 = new String("Java");
+System.out.println(s1 == s2);      // false（不同物件）
+System.out.println(s1.equals(s2)); // true（內容相同）
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 字串比對請務必用 <code>equals()</code>；<code>==</code> 只判斷是否為同一個物件
+</div>
+
+---
 layout: default
 ---
 
@@ -309,6 +362,24 @@ public boolean equals(Object o) {
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>重要：</b> 若 Override 了 <code>equals()</code>，<b>必須</b>同時 Override <code>hashCode()</code>！
 </div>
+
+---
+
+# equals() 與 hashCode() 的合約
+
+| 規則 | 說明 |
+| --- | --- |
+| 相等必須相同 hash | `a.equals(b)` 為 `true` → `a.hashCode() == b.hashCode()` |
+| 相同 hash 不必相等 | 允許碰撞（hash 相同但 `equals()` 不一定為 true） |
+| Override 連動 | 覆寫 `equals()` **必須**同時覆寫 `hashCode()` |
+
+```java
+User u1 = new User("alice"), u2 = new User("alice");
+System.out.println(u1.equals(u2));    // true
+Set<User> set = new HashSet<>();
+set.add(u1);
+System.out.println(set.contains(u2)); // false！hashCode 未 Override
+```
 
 ---
 layout: section
@@ -411,6 +482,44 @@ MyClass obj = new MyClass();
 System.out.println(obj.getClass());
 System.out.println(obj.getClass().getName());
 ```
+
+---
+
+# clone() 方法與 Cloneable 介面
+
+| 概念 | 說明 |
+| --- | --- |
+| `Cloneable` | 標記介面（無方法），表示允許複製 |
+| 淺層複製 | 基本型態欄位複製值；物件欄位複製**參照** |
+| 深層複製 | 連物件欄位也複製，兩份完全獨立 |
+
+```java
+class Point implements Cloneable {
+    int x, y;
+    public Point clone() throws CloneNotSupportedException {
+        return (Point) super.clone();
+    }
+}
+```
+
+---
+
+# clone() — 淺層複製的陷阱
+
+```java
+// Owner 有 pet 欄位（物件型態）
+Owner o1 = new Owner(); o1.pet = new Pet("旺財");
+Owner o2 = o1.clone();  // 淺層：pet 欄位仍共用
+System.out.println(o1.pet == o2.pet); // true
+o2.pet.name = "小白";
+System.out.println(o1.pet.name); // 小白（o1 也被改了！）
+// 深層：手動重建物件欄位
+o2.pet = new Pet("旺財"); // 現在 o1, o2 的 pet 各自獨立
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 物件欄位較多時，建議改用<b>複製建構子</b> (<code>new Owner(other)</code>) 取代 <code>clone()</code>
+</div>
 
 ---
 

@@ -321,6 +321,43 @@ public static void main(String[] args) {
 
 ---
 
+# 抽象類別的屬性宣告
+
+| 概念 | 說明 |
+| --- | --- |
+| `protected` 屬性 | 子類別可直接存取，外部無法存取 |
+| `super(參數)` | 子類別透過 `super()` 初始化父類別屬性 |
+
+```java
+abstract class Car {
+    protected String brand;
+    Car(String brand) { this.brand = brand; }
+    abstract void run();
+}
+```
+
+---
+
+# 抽象類別屬性 — 子類別使用範例
+
+```java
+class Bmw extends Car {
+    Bmw() { super("BMW"); }
+    @Override
+    public void run() {
+        System.out.println(brand + " 行駛中");
+    }
+}
+Car bmw = new Bmw();    // Upcasting
+bmw.run();              // BMW 行駛中
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 子類別直接使用 <code>brand</code>，無需重複宣告，因為 <code>protected</code> 屬性可由子類別繼承
+</div>
+
+---
+
 # 使用 Upcasting 宣告抽象類別的物件
 
 - 抽象類別**無法實例化**，但可以用 **Upcasting（向上轉型）** 宣告物件
@@ -357,6 +394,29 @@ layout: default
 | 子類別繼承/實作 | `extends` 一個抽象類別 | `implements` 多個介面 |
 | 方法 | 可包含非抽象方法 | 只能是抽象方法（Java 8 以前） |
 | 必定為 | 父類別 | 可視為抽象類別的特例 |
+
+---
+
+# 介面的演進 — JDK 8 新增
+
+Java 8 起介面支援帶有實作的方法，與抽象類別的差異縮小：
+
+| 新增特性 | 關鍵字 | 說明 |
+| --- | --- | --- |
+| 預設方法 | `default` | 介面中提供預設實作，子類別可 Override |
+| 靜態方法 | `static` | 屬於介面的工具方法，不被繼承 |
+| 私有方法 (JDK 9) | `private` | 供 `default` 方法共用的輔助邏輯 |
+
+```java
+interface Flyable {
+    void fly();
+    default void glide() { System.out.println("滑翔中"); }
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 即使有 <code>default</code> 方法，介面仍<b>無法儲存狀態</b>（無實例欄位）；需要共用屬性時仍應使用抽象類別
+</div>
 
 ---
 
@@ -409,6 +469,43 @@ public final class Circle extends Shape { /*...*/ }
 // Square 重新開放繼承體系
 public non-sealed class Square extends Shape { /*...*/ }
 ```
+
+---
+
+# Template Method Pattern
+
+| 方法角色 | 宣告方式 | 說明 |
+| --- | --- | --- |
+| 骨架方法 | `final` 普通方法 | 定義固定流程，子類別不可 Override |
+| 可變步驟 | `abstract` 方法 | 子類別各自實作細節 |
+
+```java
+abstract class Game {
+    abstract void start();    // 可變步驟
+    abstract void end();      // 可變步驟
+    final void play() { start(); end(); }  // 骨架固定
+}
+```
+
+---
+
+# Template Method Pattern — 子類別實作
+
+```java
+// Game 的子類別只需填入 start() 和 end()
+class Chess extends Game {
+    @Override void start() { System.out.println("走棋"); }
+    @Override void end()   { System.out.println("將軍"); }
+}
+class Soccer extends Game {
+    @Override void start() { System.out.println("踢球"); }
+    @Override void end()   { System.out.println("進球"); }
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>new Chess().play()</code> → 走棋 → 將軍；新增遊戲只需新增子類別，骨架流程不需修改
+</div>
 
 ---
 layout: section
