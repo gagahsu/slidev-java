@@ -43,7 +43,10 @@
       "WebFetch(domain:www.baeldung.com)",
       "Bash(python3 *)",
       "Bash(Get-Content \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\ch12-char-string.md\")",
-      "Bash(dir \"C:\\\\\\\\Users\\\\\\\\yunch\\\\\\\\Documents\\\\\\\\Work\\\\\\\\my-clas\\\\\\\\\")"
+      "Bash(dir \"C:\\\\\\\\Users\\\\\\\\yunch\\\\\\\\Documents\\\\\\\\Work\\\\\\\\my-clas\\\\\\\\\")",
+      "WebFetch(domain:www.anthropic.com)",
+      "WebFetch(domain:developers.openai.com)",
+      "Bash(git add *)"
     ]
   }
 }

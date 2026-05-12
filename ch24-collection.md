@@ -55,7 +55,7 @@ layout: default
 - **第三部分：Set 介面**
   - HashSet、LinkedHashSet、TreeSet 比較
 - **第四部分：Map 介面**
-  - HashMap、TreeMap 方法與遍歷
+  - HashMap、LinkedHashMap、TreeMap 比較與遍歷
 - **選用指南與 Collections 工具類別**
 - **實作練習**
 
@@ -142,6 +142,26 @@ fruits.remove("橘子");
 System.out.println(fruits.size());            // 2
 fruits.clear();
 System.out.println(fruits.isEmpty());         // true
+```
+
+---
+
+# Iterator — 迭代器遍歷
+
+`iterator()` 回傳一個 `Iterator` 物件，可逐一取出元素，並在遍歷中安全地移除：
+
+| 方法 | 說明 |
+| --- | --- |
+| `hasNext()` | 是否還有下一個元素 |
+| `next()` | 取出下一個元素並前進 |
+| `remove()` | 移除 `next()` 最後回傳的元素 |
+
+```java
+List<String> fruits = new ArrayList<>(List.of("蘋果", "橘子", "香蕉"));
+Iterator<String> it = fruits.iterator();
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
 ```
 
 ---
@@ -396,6 +416,7 @@ System.out.println(scores.get("炭治郎")); // 99
 | `size()` | 鍵值對數量 |
 | `keySet()` | 取得所有鍵（回傳 `Set`) |
 | `values()` | 取得所有值（回傳 `Collection`） |
+| `entrySet()` | 取得所有鍵值對（回傳 `Set<Map.Entry<K,V>>`）|
 
 ---
 
@@ -416,21 +437,29 @@ System.out.println(map.values());              // [99, 20]
 
 ---
 
-# HashMap vs TreeMap
+# HashMap vs LinkedHashMap vs TreeMap
 
-| 特性 | HashMap | TreeMap |
-| --- | --- | --- |
-| 鍵的順序 | 不保證 | 依**鍵升序排列** |
-| 允許 Null 鍵 | 允許一個 | 不允許 |
-| 存取效能 | O(1) | O(log n) |
-| 適用場景 | 快速查詢 | 需要按鍵排序輸出 |
+| 特性 | HashMap | LinkedHashMap | TreeMap |
+| --- | --- | --- | --- |
+| 鍵的順序 | 不保證 | 維持**插入順序** | 依**鍵升序排列** |
+| 允許 Null 鍵 | 允許一個 | 允許一個 | 不允許 |
+| 存取效能 | O(1) | O(1) | O(log n) |
+| 適用場景 | 快速查詢 | 需維持插入順序 | 需依鍵排序輸出 |
+
+---
+
+# HashMap vs LinkedHashMap vs TreeMap — 範例
 
 ```java
+Map<String, Integer> hm = new HashMap<>();
+hm.put("banana", 2); hm.put("apple", 5);
+System.out.println(hm);  // 不保證順序
+Map<String, Integer> lhm = new LinkedHashMap<>();
+lhm.put("banana", 2); lhm.put("apple", 5);
+System.out.println(lhm); // {banana=2, apple=5}（插入順序）
 Map<String, Integer> tm = new TreeMap<>();
-tm.put("banana", 2);
-tm.put("apple", 5);
-tm.put("cherry", 1);
-System.out.println(tm); // {apple=5, banana=2, cherry=1}
+tm.put("banana", 2); tm.put("apple", 5);
+System.out.println(tm);  // {apple=5, banana=2}（鍵升序）
 ```
 
 ---
@@ -454,6 +483,15 @@ for (String key : scores.keySet()) {
 ```
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 選用指南與工具類別
+
+---
+layout: default
+---
 
 # 如何選擇集合類別
 
@@ -465,6 +503,7 @@ for (String key : scores.keySet()) {
 | 無重複、需維持插入順序 | `LinkedHashSet` |
 | 無重複、需排序 | `TreeSet` |
 | 鍵值對應、快速查詢 | `HashMap` |
+| 鍵值對應、需維持插入順序 | `LinkedHashMap` |
 | 鍵值對應、需依鍵排序 | `TreeMap` |
 
 ---

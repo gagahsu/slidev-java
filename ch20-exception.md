@@ -276,6 +276,32 @@ public static String myDiv(int x, int y) {
 
 ---
 
+# Throwable 類別的方法
+
+| 方法 | 說明 |
+| --- | --- |
+| `String getMessage()` | 傳回異常的說明字串 |
+| `String toString()` | 傳回異常的完整訊息（含類別名稱） |
+| `void printStackTrace()` | 回溯顯示程式呼叫的執行過程 |
+
+---
+
+# Throwable 方法 — 範例
+
+```java
+try {
+    return Integer.toString(x / y);
+} catch (ArithmeticException e) {
+    System.out.println("異常：" + e);
+    System.out.println("toString：" + e.toString());
+    System.out.println("getMessage：" + e.getMessage());
+    e.printStackTrace();
+    return "執行除法運算時須避開除數為0的";
+}
+```
+
+---
+
 # 多個 catch 區塊
 
 | 寫法 | 說明 |
@@ -459,32 +485,6 @@ layout: default
 
 ---
 
-# Throwable 類別的方法
-
-| 方法 | 說明 |
-| --- | --- |
-| `String getMessage()` | 傳回異常的說明字串 |
-| `String toString()` | 傳回異常的完整訊息（含類別名稱） |
-| `void printStackTrace()` | 回溯顯示程式呼叫的執行過程 |
-
----
-
-# Throwable 方法 — 範例
-
-```java
-try {
-    return Integer.toString(x / y);
-} catch (ArithmeticException e) {
-    System.out.println("異常：" + e);
-    System.out.println("toString：" + e.toString());
-    System.out.println("getMessage：" + e.getMessage());
-    e.printStackTrace();
-    return "執行除法運算時須避開除數為0的";
-}
-```
-
----
-
 # 自行拋出異常 — throw
 
 允許程式設計師自行定義異常發生的條件，然後主動拋出。
@@ -591,6 +591,24 @@ public static void myMethod()
     x1 = scanner.nextInt();
     x2 = scanner.nextInt();
     System.out.println("結果：" + (x1 / x2));
+}
+```
+
+---
+
+# throw vs throws — 對比
+
+| 比較項目 | `throw` | `throws` |
+| --- | --- | --- |
+| 位置 | 方法**內部** | 方法**宣告**處 |
+| 用途 | 主動拋出一個異常物件 | 宣告此方法可能拋出的異常 |
+| 語法 | `throw new XxxException()` | `void m() throws XxxException` |
+| 後面接 | 異常**物件**（一次一個）| 異常**類別**（逗號分隔多個）|
+
+```java
+void withdraw(int amt) throws NotEnoughException {
+    if (amt > balance)
+        throw new NotEnoughException("餘額不足");
 }
 ```
 
@@ -742,6 +760,13 @@ layout: default
 3. 方法內：不符合時拋出異常並傳入「年齡不符規定」訊息
 4. 主程式用迴圈搭配 try-catch，依結果輸出對應訊息
 5. catch 中印出 `e.getMessage()` 顯示錯誤原因
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# Q & A
 
 ---
 layout: end

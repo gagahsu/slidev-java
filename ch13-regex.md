@@ -51,15 +51,15 @@ layout: default
 
 # Outline
 
-- **第一部分：正規表達式基礎**
-  - 數字符號 `\d`、大括號 `{}`、分組 `()`、跳脫符號
-  - 量次修飾詞 `?`、`*`、`+`、`{n,m}`
-- **第二部分：String 類別常用方法**
+- **第一部分：基礎字元符號**
+  - `\d`、`\w`、`\s`、`.`、`[]`、`[^]`、跳脫符號、`|`
+- **第二部分：量次與分組**
+  - `?`、`*`、`+`、`{}`、量次總表、貪婪/懶惰、`()`、反向引用、具名分組
+- **第三部分：位置與進階符號**
+  - `^`、`$`、`\b`、`(?i)`、環視斷言
+- **第四部分：String 類別常用方法**
   - `matches()`、`split()`、`replaceFirst()`、`replaceAll()`
-- **第三部分：正規表達式的特殊字元**
-  - 忽略大小寫 `(?i)`、單字邊界 `\b`
-  - 字元類別 `\w`、`\d`、`\s`、`.`、`[]`、`^`、`$`
-- **第四部分：正規表達式套件**
+- **第五部分：正規表達式套件**
   - `java.util.regex` — `Pattern` 與 `Matcher`
 - **實作練習**
 
@@ -69,7 +69,7 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 第一部分
-# 正規表達式基礎
+# 基礎字元符號
 
 ---
 layout: default
@@ -124,346 +124,6 @@ System.out.println("a".matches("\\d"));  // false
 System.out.println("0912".matches("\\d\\d\\d\\d")); // true
 System.out.println("O912".matches("\\d\\d\\d\\d")); // false（O 是字母）
 ```
-
----
-
-# `{}` — 設定重複次數
-
-大括號 `{n}` 表示前面的表達式**恰好重複 n 次**，避免重複寫相同符號
-
-| 表達式 | 說明 |
-| --- | --- |
-| `\\d{4}` | 4 個連續數字 |
-| `\\d{3}` | 3 個連續數字 |
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>{}</code> 內的數字與逗號之間不能有空格，<code>{3, 5}</code> 是錯誤寫法
-</div>
-
-```java
-// \d\d\d\d 和 \d{4} 等效，後者更簡潔
-System.out.println("0912-345-678".matches("\\d{4}-\\d{3}-\\d{3}")); // true
-```
-
----
-
-# `()` — 分組
-
-小括號 `()` 用於**將多個字元組成一個群組**，方便對群組套用量次修飾詞
-
-| 概念 | 說明 |
-| --- | --- |
-| `()` | 建立一個群組 |
-| `(-\\d{3}){2}` | 群組 `-\\d{3}` 重複 2 次 |
-
-```java
-// 兩種寫法等效
-System.out.println("0912-345-678".matches("\\d{4}-\\d{3}-\\d{3}"));  // true
-System.out.println("0912-345-678".matches("\\d{4}(-\\d{3}){2}"));    // true
-```
-
----
-
-# `\\n` — 反向引用 (Backreferences)
-
-反向引用允許你在表達式中**重複引用前面分組比對到的內容**
-
-| 表達式 | 說明 |
-| --- | --- |
-| `\\1` | 引用第 1 個分組的比對結果 |
-| `(\\w)\\1` | 比對連續兩個相同的字元（如 aa, 11） |
-
-```java
-// 比對重複的單字
-String text = "hello hello world";
-System.out.println(text.matches("(\\w+) \\1 .*")); // true (引用了第1個分組 hello)
-
-// 比對 HTML 標籤是否對稱
-String html = "<div>content</div>";
-System.out.println(html.matches("<(\\w+)>.*</\\1>")); // true
-```
-
----
-
-# 具名分組 (Named Capturing Groups)
-
-除了用編號 `\\1`，也可以為分組**取名字**，提高可讀性
-
-| 語法 | 說明 |
-| --- | --- |
-| `(?<name>...)` | 定義具名分組 |
-| `\\k<name>` | 在表達式中引用具名分組 |
-
-```java
-// 使用具名分組比對日期
-String dateRegex = "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})";
-String input = "2024-05-20";
-
-System.out.println(input.matches(dateRegex)); // true
-
-// Matcher 也可以透過名字取得內容
-// matcher.group("year") -> "2024"
-```
-
----
-
-# 具名分組提取 — Matcher 完整範例
-
-```java
-import java.util.regex.*;
-String dateRegex = "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})";
-Matcher m = Pattern.compile(dateRegex).matcher("2024-05-20");
-
-if (m.matches()) {
-    System.out.println(m.group("year"));  // 2024
-    System.out.println(m.group("month")); // 05
-    System.out.println(m.group("day"));   // 20
-}
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>m.group("year")</code> 比 <code>m.group(1)</code> 更清楚，不受分組順序變動影響
-</div>
-
----
-
-# `(?:...)` — 非擷取分組
-
-有時我們只需要分組的**邏輯功能**（例如套用量詞），但不需要記錄比對內容（節省效能）
-
-| 語法 | 說明 |
-| --- | --- |
-| `(?:...)` | 純分組，不計入編號，不可被引用 |
-
-```java
-// 我們只想比對是否包含 .com 或 .org，但不需要擷取它
-String regex = ".*\\.(?:com|org)";
-System.out.println("google.com".matches(regex)); // true
-// 此時沒有 group(1)，因為它是非擷取分組
-```
-
----
-
-# 跳脫符號 — 特殊字元表
-
-當字串本身**包含**正規表達式的特殊符號時，需在前面加 `\\` 使其變成字面值
-
-| 原始符號 | Java 寫法 | 說明 |
-| --- | --- | --- |
-| `(` | `\\(` | 字面左括號 |
-| `)` | `\\)` | 字面右括號 |
-| `{` | `\\{` | 字面左大括號 |
-| `.` | `\\.` | 字面句點 |
-| `*` | `\\*` | 字面星號 |
-| `|` | `\\|` | 字面管道符號 |
-
----
-
-# 跳脫符號 — 範例
-
-```java
-// 字串 (02)-26669999 含有字面括號，比對時需跳脫
-String phone = "(02)-26669999";
-System.out.println(phone.matches("\\(\\d{2}\\)-\\d{8}")); // true
-System.out.println(phone.matches("(\\d{2})-\\d{8}"));     // false，() 被視為分組
-```
-
----
-
-# `|` — 管道（OR 運算）
-
-管道 `|` 可以**同時比對多個模式**，相當於 Java 的 OR 運算
-
-| 表達式 | 說明 |
-| --- | --- |
-| `A\|B` | 符合 A 或符合 B |
-| `Mary\|Tom` | 符合其中一個名字 |
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 需要 AND 條件時用 <code>&&</code>（兩個 &），單個 <code>&</code> 無效果
-</div>
-
-```java
-System.out.println("Mary".matches("Mary|Tom")); // true
-System.out.println("Tom".matches("Mary|Tom"));  // true
-System.out.println("John".matches("Mary|Tom")); // false
-```
-
----
-
-# 量次修飾詞 — `?`、`*`、`+`
-
-| 符號 | 說明 | 出現次數 |
-| --- | --- | --- |
-| `?` | 可有可無，最多一次 | 0 ~ 1 次 |
-| `*` | 可無可有，不限次數 | 0 ~ 多次 |
-| `+` | 至少一次，不限次數 | 1 ~ 多次 |
-
-```java
-System.out.println("Johnson".matches("John(na)?son"));     // true  (na: 0次)
-System.out.println("Johnnason".matches("John(na)?son"));   // true  (na: 1次)
-System.out.println("Johnnanason".matches("John(na)?son")); // false (na: 2次)
-System.out.println("Johnnanason".matches("John(na)*son")); // true  (* 允許多次)
-System.out.println("Johnson".matches("John(na)+son"));     // false (+ 至少1次)
-```
-
----
-
-# `{n,m}` — 設定比對次數區間
-
-大括號除了設定固定次數，也可以設定**次數範圍**
-
-| 表達式 | 說明 |
-| --- | --- |
-| `{n}` | 恰好 n 次 |
-| `{n,}` | 至少 n 次 |
-| `{n,m}` | n 到 m 次（含首尾） |
-
-```java
-System.out.println("sonsonson".matches("(son){3,5}"));       // true (3次)
-System.out.println("sonson".matches("(son){3,5}"));          // false (2次)
-System.out.println("02-12345678".matches("0\\d{1,3}-\\d{7,8}")); // true
-```
-
----
-
-# 量次修飾詞總表
-
-| 表達式 | 說明 | 等同表達式 |
-| --- | --- | --- |
-| `?` | 0 或 1 次 | `{0,1}` |
-| `*` | 0 或多次 | `{0,}` |
-| `+` | 1 或多次 | `{1,}` |
-| `{n}` | 恰好 n 次 | — |
-| `{n,}` | 至少 n 次 | — |
-| `{n,m}` | n 到 m 次 | — |
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>記憶口訣：</b> <code>?</code> 有點猶豫（0或1）、<code>*</code> 什麼都行（0或多）、<code>+</code> 至少要有（1或多）
-</div>
-
----
-
-# 貪婪 vs 懶惰 vs 佔有量詞
-
-預設的量詞是**貪婪的**（Greedy），會盡可能比對最長的字串。
-
-| 類型 | 範例 | 比對行為 |
-| --- | --- | --- |
-| 貪婪 (Greedy) | `.*` | 比對到最末尾，再往回找 |
-| 懶惰 (Reluctant) | `.*?` | 比對到最少符合的字元就停止 |
-| 佔有 (Possessive) | `.*+` | 比對到最長且**不回溯**（效能最高） |
-
-```java
-String html = "<div>A</div><div>B</div>";
-
-// 貪婪：比對到最後一個 </div>
-System.out.println(html.replaceAll("<div>.*</div>", "TEXT")); 
-// TEXT
-
-// 懶惰：比對到第一個 </div> 就停止
-System.out.println(html.replaceAll("<div>.*?</div>", "TEXT")); 
-// TEXTTEXT
-```
-
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 第二部分
-# String 類別常用方法
-
----
-layout: default
----
-
-# String 類別相關方法
-
-| 方法 | 說明 |
-| --- | --- |
-| `matches(regex)` | 判斷**整個字串**是否符合正規表達式 |
-| `split(regex)` | 用正規表達式分割字串，回傳 `String[]` |
-| `replaceFirst(regex, str)` | 取代**第一個**符合正規表達式的子字串 |
-| `replaceAll(regex, str)` | 取代**所有**符合正規表達式的子字串 |
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>matches()</code> 必須比對整個字串；若要搜尋子字串，需使用第四部分的 <code>Pattern</code>/<code>Matcher</code>
-</div>
-
----
-
-# `matches()` 與 `split()` — 範例
-
-```java
-// matches()：整個字串符合格式才回傳 true
-String phone = "0912-345-678";
-System.out.println(phone.matches("\\d{4}-\\d{3}-\\d{3}")); // true
-System.out.println(phone.matches("\\d{3}-\\d{3}-\\d{3}")); // false
-
-// split()：用正規表達式作為分隔符
-String csv = "apple,orange,,banana";
-String[] parts = csv.split(",+"); // 一個以上的逗號都視為分隔符
-System.out.println(parts[0]); // apple
-System.out.println(parts[1]); // orange
-System.out.println(parts[2]); // banana
-```
-
----
-
-# `replaceFirst()` 與 `replaceAll()` — 範例
-
-```java
-String text = "cat bat sat";
-
-// replaceFirst()：只取代第一個符合的
-System.out.println(text.replaceFirst("[a-z]at", "***")); // *** bat sat
-
-// replaceAll()：取代所有符合的
-System.out.println(text.replaceAll("[a-z]at", "***"));   // *** *** ***
-
-// 遮蔽電話號碼中的數字
-String data = "phone: 0912-345-678";
-System.out.println(data.replaceAll("\\d", "*")); // phone: ****-***-***
-```
-
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 第三部分
-# 正規表達式的特殊字元
-
----
-layout: default
----
-
-# `(?i)` 與 `\b` — 旗標與單字邊界
-
-| 表達式 | 說明 |
-| --- | --- |
-| `(?i)` | 忽略大小寫，置於表達式開頭 |
-| `\\b` | 單字邊界：匹配一個**位置**，用於比對完整單字 |
-| `\\bJava\\b` | 只比對完整單字 Java（不含 JavaScript） |
-
----
-
-# `(?i)` 與 `\b` — 範例
-
-```java
-// (?i) 忽略大小寫
-System.out.println("JAVA".matches("(?i)java")); // true
-System.out.println("jAvA".matches("(?i)java")); // true
-
-// \b 單字邊界（在 matches() 中比對整個字串）
-System.out.println("Java".matches("\\bJava\\b"));       // true
-System.out.println("JavaScript".matches("\\bJava\\b")); // false
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>\\b</code> 在子字串搜尋時更常用，搭配第四部分的 <code>Pattern.find()</code> 效果更明顯
-</div>
 
 ---
 
@@ -579,45 +239,156 @@ System.out.println("5".matches("[0-9&&[^67]]")); // true（是數字且非6或7�
 
 ---
 
-# `^` 和 `$` — 比對開頭與結尾
+# 跳脫符號 — 特殊字元表
 
-當 `^` 和 `$` **不在**中括號內時，表示字串的**開頭**和**結尾**位置
+當字串本身**包含**正規表達式的特殊符號時，需在前面加 `\\` 使其變成字面值
 
-| 表達式 | 說明 |
-| --- | --- |
-| `^Java` | 字串以 Java 開頭 |
-| `Java$` | 字串以 Java 結尾 |
-| `^Java$` | 字串恰好等於 Java |
+| 原始符號 | Java 寫法 | 說明 |
+| --- | --- | --- |
+| `(` | `\\(` | 字面左括號 |
+| `)` | `\\)` | 字面右括號 |
+| `{` | `\\{` | 字面左大括號 |
+| `.` | `\\.` | 字面句點 |
+| `*` | `\\*` | 字面星號 |
+| `|` | `\\|` | 字面管道符號 |
+
+---
+
+# 跳脫符號 — 範例
 
 ```java
-import java.util.regex.*;
-String s1 = "Java is fun";
-String s2 = "I love Java";
-System.out.println(Pattern.compile("^Java").matcher(s1).find()); // true
-System.out.println(Pattern.compile("Java$").matcher(s2).find()); // true
+// 字串 (02)-26669999 含有字面括號，比對時需跳脫
+String phone = "(02)-26669999";
+System.out.println(phone.matches("\\(\\d{2}\\)-\\d{8}")); // true
+System.out.println(phone.matches("(\\d{2})-\\d{8}"));     // false，() 被視為分組
 ```
 
 ---
 
-# 環視斷言 (Lookaround)
+# `|` — 管道（OR 運算）
 
-比對一個**位置**，判斷該位置的前後是否符合條件，但**不消耗**字元
+管道 `|` 可以**同時比對多個模式**，相當於 Java 的 OR 運算
 
 | 表達式 | 說明 |
 | --- | --- |
-| `(?=pattern)` | 正向先行：右邊必須符合 pattern |
-| `(?!pattern)` | 負向先行：右邊必須不符合 pattern |
-| `(?<=pattern)` | 正向後行：左邊必須符合 pattern |
-| `(?<!pattern)` | 負向後行：左邊必須不符合 pattern |
+| `A\|B` | 符合 A 或符合 B |
+| `Mary\|Tom` | 符合其中一個名字 |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 需要 AND 條件時用 <code>&&</code>（兩個 &），單個 <code>&</code> 無效果
+</div>
 
 ```java
-// 密碼強度：必須包含數字 (但不消耗字串)
-String passRegex = "^(?=.*\\d).{8,}$"; 
-System.out.println("password123".matches(passRegex)); // true
+System.out.println("Mary".matches("Mary|Tom")); // true
+System.out.println("Tom".matches("Mary|Tom"));  // true
+System.out.println("John".matches("Mary|Tom")); // false
+```
 
-// 擷取貨幣金額 (只找前面有 $ 的數字)
-String text = "Price: $100, Cost: 50";
-// 用 (?<=\\$) 找到 $ 後面的位置
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 第二部分
+# 量次與分組
+
+---
+layout: default
+---
+
+# `{}` — 設定重複次數
+
+大括號 `{n}` 表示前面的表達式**恰好重複 n 次**，避免重複寫相同符號
+
+| 表達式 | 說明 |
+| --- | --- |
+| `\\d{4}` | 4 個連續數字 |
+| `\\d{3}` | 3 個連續數字 |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>{}</code> 內的數字與逗號之間不能有空格，<code>{3, 5}</code> 是錯誤寫法
+</div>
+
+```java
+// \d\d\d\d 和 \d{4} 等效，後者更簡潔
+System.out.println("0912-345-678".matches("\\d{4}-\\d{3}-\\d{3}")); // true
+```
+
+---
+
+# 量次修飾詞 — `?`、`*`、`+`
+
+| 符號 | 說明 | 出現次數 |
+| --- | --- | --- |
+| `?` | 可有可無，最多一次 | 0 ~ 1 次 |
+| `*` | 可無可有，不限次數 | 0 ~ 多次 |
+| `+` | 至少一次，不限次數 | 1 ~ 多次 |
+
+```java
+System.out.println("Johnson".matches("John(na)?son"));     // true  (na: 0次)
+System.out.println("Johnnason".matches("John(na)?son"));   // true  (na: 1次)
+System.out.println("Johnnanason".matches("John(na)?son")); // false (na: 2次)
+System.out.println("Johnnanason".matches("John(na)*son")); // true  (* 允許多次)
+System.out.println("Johnson".matches("John(na)+son"));     // false (+ 至少1次)
+```
+
+---
+
+# `{n,m}` — 設定比對次數區間
+
+大括號除了設定固定次數，也可以設定**次數範圍**
+
+| 表達式 | 說明 |
+| --- | --- |
+| `{n}` | 恰好 n 次 |
+| `{n,}` | 至少 n 次 |
+| `{n,m}` | n 到 m 次（含首尾） |
+
+```java
+System.out.println("sonsonson".matches("(son){3,5}"));       // true (3次)
+System.out.println("sonson".matches("(son){3,5}"));          // false (2次)
+System.out.println("02-12345678".matches("0\\d{1,3}-\\d{7,8}")); // true
+```
+
+---
+
+# 量次修飾詞總表
+
+| 表達式 | 說明 | 等同表達式 |
+| --- | --- | --- |
+| `?` | 0 或 1 次 | `{0,1}` |
+| `*` | 0 或多次 | `{0,}` |
+| `+` | 1 或多次 | `{1,}` |
+| `{n}` | 恰好 n 次 | — |
+| `{n,}` | 至少 n 次 | — |
+| `{n,m}` | n 到 m 次 | — |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>記憶口訣：</b> <code>?</code> 有點猶豫（0或1）、<code>*</code> 什麼都行（0或多）、<code>+</code> 至少要有（1或多）
+</div>
+
+---
+
+# 貪婪 vs 懶惰 vs 佔有量詞
+
+預設的量詞是**貪婪的**（Greedy），會盡可能比對最長的字串。
+
+| 類型 | 範例 | 比對行為 |
+| --- | --- | --- |
+| 貪婪 (Greedy) | `.*` | 比對到最末尾，再往回找 |
+| 懶惰 (Reluctant) | `.*?` | 比對到最少符合的字元就停止 |
+| 佔有 (Possessive) | `.*+` | 比對到最長且**不回溯**（效能最高） |
+
+```java
+String html = "<div>A</div><div>B</div>";
+
+// 貪婪：比對到最後一個 </div>
+System.out.println(html.replaceAll("<div>.*</div>", "TEXT")); 
+// TEXT
+
+// 懶惰：比對到第一個 </div> 就停止
+System.out.println(html.replaceAll("<div>.*?</div>", "TEXT")); 
+// TEXTTEXT
 ```
 
 ---
@@ -641,11 +412,283 @@ System.out.println(s.matches(".*Python.*")); // false
 ```
 
 ---
+
+# `()` — 分組
+
+小括號 `()` 用於**將多個字元組成一個群組**，方便對群組套用量次修飾詞
+
+| 概念 | 說明 |
+| --- | --- |
+| `()` | 建立一個群組 |
+| `(-\\d{3}){2}` | 群組 `-\\d{3}` 重複 2 次 |
+
+```java
+// 兩種寫法等效
+System.out.println("0912-345-678".matches("\\d{4}-\\d{3}-\\d{3}"));  // true
+System.out.println("0912-345-678".matches("\\d{4}(-\\d{3}){2}"));    // true
+```
+
+---
+
+# `\\n` — 反向引用 (Backreferences)
+
+反向引用允許你在表達式中**重複引用前面分組比對到的內容**
+
+| 表達式 | 說明 |
+| --- | --- |
+| `\\1` | 引用第 1 個分組的比對結果 |
+| `(\\w)\\1` | 比對連續兩個相同的字元（如 aa, 11） |
+
+```java
+// 比對重複的單字
+String text = "hello hello world";
+System.out.println(text.matches("(\\w+) \\1 .*")); // true (引用了第1個分組 hello)
+
+// 比對 HTML 標籤是否對稱
+String html = "<div>content</div>";
+System.out.println(html.matches("<(\\w+)>.*</\\1>")); // true
+```
+
+---
+
+# 反向引用拆解：`(\\w+) \\1 .*`
+
+以字串 `"hello hello world"` 為例：
+
+| 片段 | 說明 | 比對到的內容 |
+| --- | --- | --- |
+| `(\\w+)` | **第 1 組**：一個以上的字母或數字 | `hello` |
+| ` ` | 字面空格 | ` `（空格）|
+| `\\1` | 反向引用：必須與第 1 組**完全相同的文字** | `hello`（重複）|
+| ` ` | 字面空格 | ` `（空格）|
+| `.*` | 任意字元，0 個以上 | `world` |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>關鍵：</b><code>\\1</code> 不是「再比對一個單字」，而是「必須與第 1 組抓到的內容一模一樣」。<br>
+所以 <code>"hello world world"</code> 不符合，因為 <code>\\1</code> 要求的是 <code>hello</code>，不是 <code>world</code>。
+</div>
+
+---
+
+# 具名分組 (Named Capturing Groups)
+
+除了用編號 `\\1`，也可以為分組**取名字**，提高可讀性
+
+| 語法 | 說明 |
+| --- | --- |
+| `(?<name>...)` | 定義具名分組 |
+| `\\k<name>` | 在表達式中引用具名分組 |
+
+```java
+// 使用具名分組比對日期
+String dateRegex = "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})";
+String input = "2024-05-20";
+
+System.out.println(input.matches(dateRegex)); // true
+
+// Matcher 也可以透過名字取得內容
+// matcher.group("year") -> "2024"
+```
+
+---
+
+# 具名分組提取 — Matcher 完整範例
+
+```java
+import java.util.regex.*;
+String dateRegex = "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})";
+Matcher m = Pattern.compile(dateRegex).matcher("2024-05-20");
+
+if (m.matches()) {
+    System.out.println(m.group("year"));  // 2024
+    System.out.println(m.group("month")); // 05
+    System.out.println(m.group("day"));   // 20
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>m.group("year")</code> 比 <code>m.group(1)</code> 更清楚，不受分組順序變動影響
+</div>
+
+---
+
+# `(?:...)` — 非擷取分組
+
+有時我們只需要分組的**邏輯功能**（例如套用量詞），但不需要記錄比對內容（節省效能）
+
+| 語法 | 說明 |
+| --- | --- |
+| `(?:...)` | 純分組，不計入編號，不可被引用 |
+
+```java
+// 我們只想比對是否包含 .com 或 .org，但不需要擷取它
+String regex = ".*\\.(?:com|org)";
+System.out.println("google.com".matches(regex)); // true
+// 此時沒有 group(1)，因為它是非擷取分組
+```
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 第三部分
+# 位置與進階符號
+
+---
+layout: default
+---
+
+# `^` 和 `$` — 比對開頭與結尾
+
+當 `^` 和 `$` **不在**中括號內時，表示字串的**開頭**和**結尾**位置
+
+| 表達式 | 說明 |
+| --- | --- |
+| `^Java` | 字串以 Java 開頭 |
+| `Java$` | 字串以 Java 結尾 |
+| `^Java$` | 字串恰好等於 Java |
+
+```java
+import java.util.regex.*;
+String s1 = "Java is fun";
+String s2 = "I love Java";
+System.out.println(Pattern.compile("^Java").matcher(s1).find()); // true
+System.out.println(Pattern.compile("Java$").matcher(s2).find()); // true
+```
+
+---
+
+# `(?i)` 與 `\b` — 旗標與單字邊界
+
+| 表達式 | 說明 |
+| --- | --- |
+| `(?i)` | 忽略大小寫，置於表達式開頭 |
+| `\\b` | 單字邊界：匹配一個**位置**，用於比對完整單字 |
+| `\\bJava\\b` | 只比對完整單字 Java（不含 JavaScript） |
+
+---
+
+# `(?i)` 與 `\b` — 範例
+
+```java
+// (?i) 忽略大小寫
+System.out.println("JAVA".matches("(?i)java")); // true
+System.out.println("jAvA".matches("(?i)java")); // true
+
+// \b 單字邊界（在 matches() 中比對整個字串）
+System.out.println("Java".matches("\\bJava\\b"));       // true
+System.out.println("JavaScript".matches("\\bJava\\b")); // false
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>\\b</code> 在子字串搜尋時更常用，搭配第五部分的 <code>Pattern.find()</code> 效果更明顯
+</div>
+
+---
+
+# 環視斷言 (Lookaround)
+
+在目前位置「偷看」前後是否符合條件，**確認後位置不動**，後面的 pattern 仍從同一位置繼續比對
+
+| 表達式 | 說明 |
+| --- | --- |
+| `(?=pattern)` | 正向先行：右邊必須符合 pattern |
+| `(?!pattern)` | 負向先行：右邊必須不符合 pattern |
+| `(?<=pattern)` | 正向後行：左邊必須符合 pattern |
+| `(?<!pattern)` | 負向後行：左邊必須不符合 pattern |
+
+---
+
+# 環視斷言 — 範例
+
+```java
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+```
+```java
+// 密碼強度：含數字且長度 >= 8
+String passRegex = "^(?=.*\\d).{8,}$";
+System.out.println("password123".matches(passRegex)); // true
+// 只擷取 $ 後面的數字（50 前面沒有 $，不符合）
+Matcher m = Pattern.compile("(?<=\\$)\\d+").matcher("Price: $100, Cost: 50");
+while (m.find()) {
+    System.out.println(m.group()); // 100
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>「不消耗字元」：</b> 一般 pattern 比對到字元後，那些字元就「被用掉」，位置往後移。環視斷言只是偷看、不移動位置。<br>
+以 <code>^(?=.*\\d).{8,}$</code> 為例：<code>(?=.*\\d)</code> 從開頭確認「字串含有數字」，確認完後位置還在開頭，接著 <code>.{8,}</code> 再從開頭量長度——兩個條件都從同一起點出發，互不干擾。
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # 第四部分
+# String 類別常用方法
+
+---
+layout: default
+---
+
+# String 類別相關方法
+
+| 方法 | 說明 |
+| --- | --- |
+| `matches(regex)` | 判斷**整個字串**是否符合正規表達式 |
+| `split(regex)` | 用正規表達式分割字串，回傳 `String[]` |
+| `replaceFirst(regex, str)` | 取代**第一個**符合正規表達式的子字串 |
+| `replaceAll(regex, str)` | 取代**所有**符合正規表達式的子字串 |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>matches()</code> 必須比對整個字串；若要搜尋子字串，需使用第五部分的 <code>Pattern</code>/<code>Matcher</code>
+</div>
+
+---
+
+# `matches()` 與 `split()` — 範例
+
+```java
+// matches()：整個字串符合格式才回傳 true
+String phone = "0912-345-678";
+System.out.println(phone.matches("\\d{4}-\\d{3}-\\d{3}")); // true
+System.out.println(phone.matches("\\d{3}-\\d{3}-\\d{3}")); // false
+
+// split()：用正規表達式作為分隔符
+String csv = "apple,orange,,banana";
+String[] parts = csv.split(",+"); // 一個以上的逗號都視為分隔符
+System.out.println(parts[0]); // apple
+System.out.println(parts[1]); // orange
+System.out.println(parts[2]); // banana
+```
+
+---
+
+# `replaceFirst()` 與 `replaceAll()` — 範例
+
+```java
+String text = "cat bat sat";
+
+// replaceFirst()：只取代第一個符合的
+System.out.println(text.replaceFirst("[a-z]at", "***")); // *** bat sat
+
+// replaceAll()：取代所有符合的
+System.out.println(text.replaceAll("[a-z]at", "***"));   // *** *** ***
+
+// 遮蔽電話號碼中的數字
+String data = "phone: 0912-345-678";
+System.out.println(data.replaceAll("\\d", "*")); // phone: ****-***-***
+```
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 第五部分
 # 正規表達式套件
 # `java.util.regex`
 
@@ -684,6 +727,25 @@ while (matcher.find()) {
 | `Pattern.matches(regex, input)` | 靜態方法，比對整個字串 |
 | `p.matcher(input)` | 以此 Pattern 建立 Matcher 物件 |
 | `p.split(input)` | 用此 Pattern 分割字串 |
+
+---
+
+# `Pattern` 類別 — 範例
+
+```java
+import java.util.regex.*;
+
+// 忽略大小寫旗標
+Pattern p = Pattern.compile("java", Pattern.CASE_INSENSITIVE);
+System.out.println(p.matcher("JAVA").find()); // true
+
+// 靜態方法 matches（等同 String.matches）
+System.out.println(Pattern.matches("\\d+", "12345")); // true
+
+// split 支援複雜分隔符
+String[] parts = Pattern.compile(",\\s*").split("a, b,c,  d");
+// parts = ["a", "b", "c", "d"]
+```
 
 ---
 
@@ -749,25 +811,6 @@ Pattern.compile(",")
 
 ---
 
-# `Pattern` 類別 — 範例
-
-```java
-import java.util.regex.*;
-
-// 忽略大小寫旗標
-Pattern p = Pattern.compile("java", Pattern.CASE_INSENSITIVE);
-System.out.println(p.matcher("JAVA").find()); // true
-
-// 靜態方法 matches（等同 String.matches）
-System.out.println(Pattern.matches("\\d+", "12345")); // true
-
-// split 支援複雜分隔符
-String[] parts = Pattern.compile(",\\s*").split("a, b,c,  d");
-// parts = ["a", "b", "c", "d"]
-```
-
----
-
 # Pattern.MULTILINE / DOTALL 旗標
 
 | 旗標 | 內嵌語法 | 說明 |
@@ -800,6 +843,22 @@ System.out.println(lines); // 3
 
 ---
 
+# `Matcher` 類別常用方法（一）— 範例
+
+```java
+String text = "Java 11 and Java 17";
+Matcher m = Pattern.compile("Java (\\d+)").matcher(text);
+
+m.find();
+System.out.println(m.group());  // "Java 11"（整個比對結果）
+System.out.println(m.group(1)); // "11"（第 1 個分組）
+
+m.find(12);                     // 從 index 12 開始搜尋
+System.out.println(m.group());  // "Java 17"
+```
+
+---
+
 # Matcher.lookingAt( ) — 三種比對方式對比
 
 | 方法 | 說明 |
@@ -826,6 +885,22 @@ System.out.println(p.matcher(input).find());       // true（任意位置找到�
 | `end()` | 回傳比對子字串的結束索引（不含） |
 | `replaceFirst(str)` | 取代第一個符合的子字串 |
 | `replaceAll(str)` | 取代所有符合的子字串 |
+
+---
+
+# `Matcher` 類別常用方法（二）— 範例
+
+```java
+String text = "Java 11 and Java 17";
+Matcher m = Pattern.compile("\\d+").matcher(text);
+
+m.find();
+System.out.println(m.start()); // 5（"11" 的起始索引）
+System.out.println(m.end());   // 7（"11" 的結束索引，不含）
+System.out.println(m.group()); // "11"
+
+System.out.println(m.replaceAll("X")); // "Java X and Java X"
+```
 
 ---
 
@@ -961,8 +1036,8 @@ System.out.println(id.matches("(?i)[^abdefh][12]\\d{8}"));
 </div>
 
 ---
-layout: end
+layout: section
+class: flex flex-col justify-center items-center text-center
 ---
 
-# 課程結束
-### 感謝聆聽！
+# Q & A

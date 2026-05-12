@@ -54,7 +54,7 @@ layout: default
 - **抽象類別 (Abstract Class)**
 - **抽象方法 (Abstract Method)**
 - **觀念整理**
-- **進階應用：建構方法與 Upcasting**
+- **進階應用** — 建構方法、Upcasting、Sealed Classes、Template Method Pattern
 - **抽象類別 vs 介面**
 - **實作練習**
 
@@ -233,13 +233,13 @@ layout: default
 
 # 抽象類別與抽象方法 — 重要規則
 
-- 抽象類別若**沒有子類別去繼承**，是沒有功能的（因為無法實例化）
-- 抽象類別的**抽象方法**必須有子類別重新定義，否則會有編譯錯誤
-- 若抽象類別的抽象方法沒有子類別重新定義，**該子類別也將是一個抽象類別**
-- 宣告了抽象方法，**一定**要為此方法宣告抽象類別
-  - 普通類別中**不存在**抽象方法
-- 宣告了抽象類別，**不一定**要在此類別內宣告抽象方法
-- **抽象類別可以有抽象方法和普通方法**
+| 規則 | 說明 |
+| --- | --- |
+| 抽象類別無法實例化 | 必須透過子類別建立物件 |
+| 含抽象方法 → 必須宣告為 `abstract class` | 普通類別中不存在抽象方法 |
+| 子類別必須 Override 所有抽象方法 | 否則子類別也必須宣告為 `abstract` |
+| 抽象類別不一定要有抽象方法 | 可以只包含普通方法 |
+| 抽象類別可以混用兩種方法 | 抽象方法 + 普通方法皆可存在 |
 
 ---
 
@@ -375,6 +375,79 @@ bmw.run();
 </div>
 
 ---
+
+# 密封抽象類別 (Sealed Abstract Class)
+
+Java 17 起，`sealed` 可搭配 `abstract` 一起使用，**精確限制**哪些類別可以繼承該抽象類別：
+
+| 關鍵字 | 說明 |
+| --- | --- |
+| `sealed` | 宣告該類別為密封類別 |
+| `permits` | 指定允許繼承的子類別清單 |
+
+```java
+// 限制只有 Circle 和 Square 可以繼承 Shape
+public abstract sealed class Shape permits Circle, Square {
+    public abstract double area();
+}
+```
+
+---
+
+# 密封子類別的修飾詞
+
+繼承密封類別的子類別，**必須**使用以下修飾詞之一：
+
+| 修飾詞 | 說明 |
+| --- | --- |
+| `final` | 終止繼承，不能再有子類別 |
+| `sealed` | 繼續密封，需指定新的 `permits` |
+| `non-sealed` | 解除限制，任何類別皆可繼承 |
+
+```java
+public final class Circle extends Shape { /*...*/ }
+public non-sealed class Square extends Shape { /*...*/ }
+```
+
+---
+
+# Template Method Pattern
+
+抽象類別的經典設計模式：用 `final` 方法固定流程骨架，用 `abstract` 方法讓子類別填入細節：
+
+| 方法角色 | 宣告方式 | 說明 |
+| --- | --- | --- |
+| 骨架方法 | `final` 普通方法 | 定義固定流程，子類別不可 Override |
+| 可變步驟 | `abstract` 方法 | 子類別各自實作細節 |
+
+```java
+abstract class Game {
+    abstract void start();    // 可變步驟
+    abstract void end();      // 可變步驟
+    final void play() { start(); end(); }  // 骨架固定
+}
+```
+
+---
+
+# Template Method Pattern — 子類別實作
+
+```java
+class Chess extends Game {
+    @Override void start() { System.out.println("走棋"); }
+    @Override void end()   { System.out.println("將軍"); }
+}
+class Soccer extends Game {
+    @Override void start() { System.out.println("踢球"); }
+    @Override void end()   { System.out.println("進球"); }
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>new Chess().play()</code> → 走棋 → 將軍；新增遊戲只需新增子類別，骨架流程不需修改
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -397,25 +470,12 @@ layout: default
 
 ---
 
-# 介面的演進 — JDK 8 新增
+# 介面的演進 (Java 8+)
 
-Java 8 起介面支援帶有實作的方法，與抽象類別的差異縮小：
-
-| 新增特性 | 關鍵字 | 說明 |
-| --- | --- | --- |
-| 預設方法 | `default` | 介面中提供預設實作，子類別可 Override |
-| 靜態方法 | `static` | 屬於介面的工具方法，不被繼承 |
-| 私有方法 (JDK 9) | `private` | 供 `default` 方法共用的輔助邏輯 |
-
-```java
-interface Flyable {
-    void fly();
-    default void glide() { System.out.println("滑翔中"); }
-}
-```
+Java 8 起，介面支援 `default` 與 `static` 方法（Java 9 加入 `private`），與抽象類別的差異縮小。但介面仍**無法儲存狀態**（無實例欄位），需要共用屬性時仍應使用抽象類別。
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 即使有 <code>default</code> 方法，介面仍<b>無法儲存狀態</b>（無實例欄位）；需要共用屬性時仍應使用抽象類別
+💡 介面 <code>default</code>、<code>static</code>、<code>private</code> 方法的詳細用法，將在 Ch17 介紹。
 </div>
 
 ---
@@ -429,83 +489,6 @@ interface Flyable {
 **應用場景比較：**
 - **抽象類別**：關係密切的類別中，如定義抽象類別 `Car`，子類別 `Benz` 及 `Audi` 繼承 `Car`
 - **介面**：定義一些功能給不相干類別使用，如定義介面 `Fly`，子類別 `AirPlane` 及 `Bird` 實作 `Fly`
-
----
-
-# 密封抽象類別 (Sealed Classes)
-
-- Java 17 正式引入的特性，用來**精確限制**哪些類別可以繼承該抽象類別
-- 確保類別階層的封閉性與安全性
-- 必須位於同一個模組 (Module) 或同一個套件 (Package) 中
-
-| 關鍵字 | 說明 |
-| --- | --- |
-| `sealed` | 宣告該類別為密封類別 |
-| `permits` | 指定允許繼承的子類別清單 |
-
-```java
-// 限制只有 Circle 和 Square 可以繼承 Shape
-public abstract sealed class Shape permits Circle, Square {
-    public abstract double area();
-}
-```
-
----
-
-# 密封子類別的修飾詞
-
-- 繼承密封類別的子類別，**必須**使用以下修飾詞之一：
-
-| 修飾詞 | 說明 |
-| --- | --- |
-| `final` | 終止繼承，不能再有子類別 |
-| `sealed` | 繼續密封，需指定新的 `permits` |
-| `non-sealed` | 解除限制，任何類別皆可繼承 |
-
-```java
-// Circle 不能再被繼承
-public final class Circle extends Shape { /*...*/ }
-
-// Square 重新開放繼承體系
-public non-sealed class Square extends Shape { /*...*/ }
-```
-
----
-
-# Template Method Pattern
-
-| 方法角色 | 宣告方式 | 說明 |
-| --- | --- | --- |
-| 骨架方法 | `final` 普通方法 | 定義固定流程，子類別不可 Override |
-| 可變步驟 | `abstract` 方法 | 子類別各自實作細節 |
-
-```java
-abstract class Game {
-    abstract void start();    // 可變步驟
-    abstract void end();      // 可變步驟
-    final void play() { start(); end(); }  // 骨架固定
-}
-```
-
----
-
-# Template Method Pattern — 子類別實作
-
-```java
-// Game 的子類別只需填入 start() 和 end()
-class Chess extends Game {
-    @Override void start() { System.out.println("走棋"); }
-    @Override void end()   { System.out.println("將軍"); }
-}
-class Soccer extends Game {
-    @Override void start() { System.out.println("踢球"); }
-    @Override void end()   { System.out.println("進球"); }
-}
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>new Chess().play()</code> → 走棋 → 將軍；新增遊戲只需新增子類別，骨架流程不需修改
-</div>
 
 ---
 layout: section
@@ -567,6 +550,13 @@ layout: default
 3. 在 `MyTest` 中實作：`add()` 回傳 `n1 + n2`，`mul()` 回傳 `n1 * n2`
 4. 在 `main` 中使用 Upcasting：`MyMath obj = new MyTest();`
 5. 呼叫 `obj.output()`、`obj.add(3, 8)`、`obj.mul(3, 8)`
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# Q & A
 
 ---
 layout: end

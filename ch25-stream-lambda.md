@@ -54,7 +54,8 @@ layout: default
 - **第二部分：方法參考 (Method Reference)**
   - `::` 運算子的四種形式
 - **第三部分：Stream API**
-  - 中間操作：`filter`、`map`、`sorted`...
+  - 中間操作：`filter`、`map`、`flatMap`、`sorted`...
+  - Primitive Stream：`mapToInt`、`mapToDouble`
   - **JDK 9 新增**：`takeWhile`、`dropWhile`
   - 終端操作：`forEach`、`collect`、`count`...
   - **JDK 16 新增**：簡潔的 `.toList()`
@@ -102,32 +103,6 @@ Runnable r = () -> System.out.println("Hello!");
 Consumer<Integer> dbl = x -> System.out.println(x * 2);
 Comparator<Integer> cmp = (a, b) -> a - b;
 ```
-
----
-
-# Lambda 中的 var 參數 (JDK 11)
-
-自 Java 11 起，Lambda 參數可以使用 `var` 關鍵字，這讓語法更一致：
-
-| 範例 | 說明 |
-| --- | --- |
-| `(var x, var y) -> x + y` | 所有參數都必須使用 `var` |
-| `(@NonNull var x) -> ...` | **主要用途：** 方便在參數上加上註解（Annotation） |
-
-```java
-// 傳統寫法
-(String s) -> s.toLowerCase()
-
-// JDK 11 使用 var
-(var s) -> s.toLowerCase()
-
-// 搭配註解（必須使用類型或 var）
-(@Nonnull var s) -> s.toLowerCase()
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>規則：</b> 不能混用，例如 <code>(var x, y) -> ...</code> 是不允許的。
-</div>
 
 ---
 
@@ -202,6 +177,32 @@ System.out.println(title.get());        // 無限列車
 ```
 
 ---
+
+# Lambda 中的 var 參數 (JDK 11)
+
+自 Java 11 起，Lambda 參數可以使用 `var` 關鍵字，這讓語法更一致：
+
+| 範例 | 說明 |
+| --- | --- |
+| `(var x, var y) -> x + y` | 所有參數都必須使用 `var` |
+| `(@NonNull var x) -> ...` | **主要用途：** 方便在參數上加上註解（Annotation） |
+
+```java
+// 傳統寫法
+(String s) -> s.toLowerCase()
+
+// JDK 11 使用 var
+(var s) -> s.toLowerCase()
+
+// 搭配註解（必須使用類型或 var）
+(@Nonnull var s) -> s.toLowerCase()
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>規則：</b> 不能混用，例如 <code>(var x, y) -> ...</code> 是不允許的。
+</div>
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -229,6 +230,21 @@ layout: default
 List<String> heroes = List.of("炭治郎", "善逸", "伊之助");
 heroes.forEach(System.out::println);      // obj::instanceMethod
 heroes.stream().map(String::length);      // ClassName::instanceMethod
+```
+
+---
+
+# 方法參考 — 四種形式範例
+
+```java
+// 1. ClassName::staticMethod
+List.of("1","2").stream().map(Integer::parseInt);
+// 2. obj::instanceMethod
+List.of("炭治郎","善逸").forEach(System.out::println);
+// 3. ClassName::instanceMethod
+List.of("炭","治郎").stream().map(String::length);
+// 4. ClassName::new
+Stream.of(1,2,3).collect(Collectors.toCollection(ArrayList::new));
 ```
 
 ---
@@ -295,6 +311,59 @@ IntStream s2 = Arrays.stream(arr);
 | `distinct()` | 移除重複元素（依 `equals`）|
 | `limit(long n)` | 取前 n 個元素 |
 | `skip(long n)` | 跳過前 n 個元素 |
+| `flatMap(Function)` | 將每個元素展開為 Stream 再合併（攤平巢狀結構）|
+
+---
+
+# 中間操作 — 範例
+
+```java
+List<Integer> nums = List.of(5, 3, 1, 4, 2, 3, 5);
+
+nums.stream()
+    .filter(n -> n > 2)   // [5, 3, 4, 3, 5]
+    .distinct()            // [5, 3, 4]
+    .sorted()              // [3, 4, 5]
+    .limit(2)              // [3, 4]
+    .forEach(System.out::println);
+// 輸出：3
+//       4
+```
+
+---
+
+# flatMap — 攤平巢狀結構
+
+將「集合中的集合」攤平為單一串流：
+
+```java
+List<List<String>> nested = List.of(
+    List.of("水柱", "炭治郎"),
+    List.of("雷柱", "善逸")
+);
+List<String> flat = nested.stream()
+    .flatMap(List::stream)
+    .toList();
+System.out.println(flat); // [水柱, 炭治郎, 雷柱, 善逸]
+```
+
+---
+
+# Primitive Stream (基本型態串流)
+
+`map()` 回傳 `Stream<T>`；若需統計數值，改用 `mapToInt`、`mapToDouble`：
+
+| 方法 | 回傳型態 | 常用終端操作 |
+| --- | --- | --- |
+| `mapToInt(ToIntFunction)` | `IntStream` | `sum()`、`average()`、`min()`、`max()` |
+| `mapToDouble(ToDoubleFunction)` | `DoubleStream` | 同上（回傳 double）|
+
+```java
+List<String> names = List.of("炭治郎", "禰豆子", "善逸");
+double avg = names.stream()
+    .mapToInt(String::length).average().getAsDouble();
+System.out.println(avg); // 2.333...
+```
 
 ---
 
@@ -320,23 +389,6 @@ nums.stream().dropWhile(n -> n < 4); // [4, 5, 4, 3, 2, 1]
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>與 filter 的不同：</b> filter 會檢查「所有」元素；takeWhile 只要條件一失敗就立刻收工。
 </div>
-
----
-
-# 中間操作 — 範例
-
-```java
-List<Integer> nums = List.of(5, 3, 1, 4, 2, 3, 5);
-
-nums.stream()
-    .filter(n -> n > 2)   // [5, 3, 4, 3, 5]
-    .distinct()            // [5, 3, 4]
-    .sorted()              // [3, 4, 5]
-    .limit(2)              // [3, 4]
-    .forEach(System.out::println);
-// 輸出：3
-//       4
-```
 
 ---
 
@@ -373,6 +425,26 @@ List<Integer> top = scores.stream()
     .sorted()
     .collect(Collectors.toList());
 System.out.println(top); // [85, 88, 91, 95]
+```
+
+---
+
+# Optional — 安全的可能空值
+
+`min()`、`max()`、`findFirst()` 回傳 `Optional<T>`，代表「可能有值、也可能沒有」：
+
+| 方法 | 說明 |
+| --- | --- |
+| `isPresent()` | 有值時回傳 `true` |
+| `get()` | 取得值（無值時拋出異常）|
+| `orElse(T default)` | 無值時回傳預設值 |
+| `orElseGet(Supplier)` | 無值時呼叫 Supplier |
+
+```java
+Optional<Integer> max = List.of(3, 1, 5).stream()
+    .max(Comparator.naturalOrder());
+System.out.println(max.isPresent()); // true
+System.out.println(max.orElse(-1));  // 5
 ```
 
 ---

@@ -55,8 +55,9 @@ layout: default
 - **Objects 工具類別** — `java.util.Objects` 的 Null 安全設計
 - **哈希碼與 `hashCode()`** — `Objects.hash()` 的現代實作
 - **`equals()` 方法** — 搭配 Pattern Matching 的現代化寫法
-- **`toString()` 方法** — 物件的字串表示與 Records 的自動實作
-- **`getClass()` 方法** — 取得物件所屬類別與 `finalize()` 的廢棄
+- **`toString()` 方法** — 物件的字串表示
+- **Records 與 Object 方法** — 自動實作 toString、equals、hashCode
+- **其他 Object 方法** — `getClass()`、`clone()`、`finalize()`
 
 ---
 layout: section
@@ -128,13 +129,17 @@ class Animal extends Object {
 
 # Objects 工具類別 (JDK 7+)
 
-自 Java 7 起，建議使用 **`java.util.Objects`** 來處理物件，它能更安全地處理 `null`。
+**`java.util.Objects`**（注意：不是 `java.lang.Object`）是 Java 7 引入的工具類別，提供靜態方法讓開發者更安全地處理 `null`。
 
 | 方法 | 說明 |
 | --- | --- |
 | `equals(a, b)` | 比較 a, b 是否相等，**自動處理 null** |
 | `hash(fields...)` | 根據傳入的欄位產生 hash 值 |
 | `requireNonNull(obj)` | 檢查是否為 null，為空則拋出異常 |
+
+---
+
+# Objects 工具類別 — 範例
 
 ```java
 import java.util.Objects;
@@ -426,6 +431,15 @@ System.out.println(a); // Name: Foo, Age: 1
 ```
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# Records 與 Object 方法
+
+---
+layout: default
+---
 
 # 紀錄類別 (Records) 與 Object 方法
 
@@ -450,7 +464,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# getClass() 方法
+# 其他 Object 方法
 
 ---
 layout: default

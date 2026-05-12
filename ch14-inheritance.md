@@ -51,11 +51,10 @@ layout: default
 
 # Outline
 
-- **繼承 (Inheritance)** — extends 語法、存取修飾符、繼承類型
+- **繼承 (Inheritance)** — extends 語法、存取修飾符、繼承類型、final、Sealed Classes、Records
 - **IS-A 與 HAS-A 關係** — instanceof、聚合、組合
-- **重新定義 (Override)** — 規則、super、@Override
-- **多重定義 (Overload)** — 父類別方法的 Overload
-- **多形 (Polymorphism)** — 編譯時期 vs 執行時期、型別轉型
+- **Override 與 Overload** — Override 規則、super、@Override、Overload 對比
+- **多形 (Polymorphism)** — 編譯時期 vs 執行時期、型別轉型、Pattern Matching
 - **靜態 / 動態綁定** — Static Binding vs Dynamic Binding
 - **巢狀類別 (Nested Classes)** — 內部類別、方法類別、匿名類別
 
@@ -181,6 +180,24 @@ class Dog extends Animal {
 
 ---
 
+# super 關鍵字用法 — 範例
+
+```java
+class Dog extends Animal {
+    String name = "狗";           // 與父類別同名屬性
+    Dog(String n) {
+        super(n);                 // ① 第一行呼叫父類別建構方法
+    }
+    @Override
+    void sound() {
+        super.sound();            // ② 呼叫父類別的 sound()
+        System.out.println(super.name); // ③ 存取父類別的 name
+    }
+}
+```
+
+---
+
 # 繼承類型
 
 | 類型 | 說明 |
@@ -192,6 +209,27 @@ class Dog extends Animal {
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 Java 不允許同時繼承 2 個以上的父類別，但介面可以繼承多個介面
+</div>
+
+---
+
+# final 修飾符與繼承
+
+| 用途 | 說明 |
+| --- | --- |
+| `final class` | 類別不能被繼承 |
+| `final` 方法 | 子類別無法 Override 此方法 |
+| 靜態綁定 | `final` 方法在編譯期決定，效能較佳 |
+
+```java
+final class MathUtil { }          // 無法被繼承
+class Animal {
+    public final void breathe() { }  // 子類別無法 Override
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>Java 內建範例：</b><code>String</code>、<code>Integer</code> 等 Wrapper 類別都宣告為 <code>final class</code>
 </div>
 
 ---
@@ -231,60 +269,56 @@ public non-sealed class Circle extends Shape { } // 任何人都能繼承 Circle
 
 ---
 
-# final 修飾符與繼承
+# Sealed Classes 與 Pattern Matching
 
-| 用途 | 說明 |
-| --- | --- |
-| `final class` | 類別不能被繼承 |
-| `final` 方法 | 子類別無法 Override 此方法 |
-| 靜態綁定 | `final` 方法在編譯期決定，效能較佳 |
+密封類別搭配 `switch`（JDK 17+），編譯器會檢查**窮舉性**：
 
 ```java
-final class MathUtil { }          // 無法被繼承
-class Animal {
-    public final void breathe() { }  // 子類別無法 Override
-}
+// 如果 Shape 是 sealed，編譯器知道只有 Circle 和 Square
+return switch (shape) {
+    case Circle c -> c.radius() * c.radius() * Math.PI;
+    case Square s -> s.side() * s.side();
+    // 不需要 default 區塊！編譯器保證所有可能都已涵蓋
+};
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>Java 內建範例：</b><code>String</code>、<code>Integer</code> 等 Wrapper 類別都宣告為 <code>final class</code>
+💡 當你新增一個 permits 子類別時，編譯器會提醒你更新所有相關的 <code>switch</code> 邏輯
 </div>
 
 ---
 
-# abstract 類別與方法
+# 紀錄類別 (Records) 簡介
 
-| 概念 | 說明 |
-| --- | --- |
-| `abstract class` | 不可直接實例化，只能被繼承 |
-| `abstract` 方法 | 無方法本體，子類別**必須** Override |
-| 具體方法 | `abstract class` 中可混用有本體的具體方法 |
+JDK 16 引入，只需宣告欄位，編譯器自動產生 constructor、getter、`equals`、`hashCode`、`toString`：
 
 ```java
-abstract class Shape {
-    abstract double area();  // 子類別必須實作
-    void printArea() { System.out.println("面積：" + area()); }
-}
+// 傳統寫法需要數十行；record 一行搞定
+record Person(String name, int age) { }
+
+Person p = new Person("炭治郎", 15);
+System.out.println(p.name()); // "炭治郎"
+System.out.println(p.age());  // 15
+System.out.println(p);        // Person[name=炭治郎, age=15]
 ```
 
 ---
 
-# abstract 類別繼承範例
+# Records 與繼承限制
+
+| 規則 | 說明 |
+| --- | --- |
+| 隱含 final | Record **無法被繼承** |
+| 固定父類別 | Record 隱含繼承 `java.lang.Record`，不能再 `extends` 其他類別 |
+| 實作介面 | Record **可以**實作多個介面 |
 
 ```java
-class Circle extends Shape {
-    double radius;
-    Circle(double r) { this.radius = r; }
-    @Override
-    double area() { return Math.PI * radius * radius; }
-}
-Shape s = new Circle(5);  // 向上轉型，合法
-s.printArea();            // 面積：78.53...
+record Point(int x, int y) { }   // ✅ 合法
+// class Sub extends Point { }    // ❌ Record 不能被繼承
+// record R extends Animal { }    // ❌ Record 不能繼承其他類別
+interface Drawable { }
+record Circle(double r) implements Drawable { } // ✅ 可實作介面
 ```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>new Shape()</code> 直接報錯；必須透過子類別實例化再向上轉型使用
-</div>
 
 ---
 layout: section
@@ -312,61 +346,6 @@ Eagle eagle = new Eagle();
 System.out.println(eagle instanceof Bird);   // true
 System.out.println(eagle instanceof Animal); // true
 ```
-
----
-
-# 紀錄類別 (Records) 與繼承
-
-JDK 16 引入的 `record` 是特殊的類別，在繼承上有嚴格限制：
-
-| 規則 | 說明 |
-| --- | --- |
-| 隱含 final | Record 無法被繼承 |
-| 單一父類別 | Record 隱含繼承 `java.lang.Record`，不能再繼承其他類別 |
-| 實作介面 | Record **可以**實作多個介面 |
-
-```java
-// Record 是密封類別子類別的最佳拍檔（因為它天生 final）
-public sealed interface Result permits Success, Failure { }
-
-public record Success(String data) implements Result { }
-public record Failure(String error) implements Result { }
-```
-
----
-
-# Object 類別 — 所有類別的根父類別
-
-Java 中每個類別都**隱含繼承** `java.lang.Object`，自動擁有以下常用方法：
-
-| 方法 | 說明 |
-| --- | --- |
-| `toString()` | 回傳物件的字串表示，預設為 `類別名@hashCode` |
-| `equals(Object)` | 判斷兩物件是否相等，預設比較記憶體位址 |
-| `hashCode()` | 回傳雜湊碼；覆寫 `equals()` 時必須一併覆寫 |
-| `getClass()` | 回傳執行時期的 Class 物件，無法被 Override |
-
----
-
-# Override Object 方法範例
-
-```java
-class Point {
-    int x, y;
-    Point(int x, int y) { this.x = x; this.y = y; }
-    @Override
-    public String toString() { return "(" + x + ", " + y + ")"; }
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Point p)) return false;
-        return x == p.x && y == p.y;
-    }
-}
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 覆寫 <code>equals()</code> 必須一併覆寫 <code>hashCode()</code>，否則放入 <code>HashMap</code> / <code>HashSet</code> 會出錯
-</div>
 
 ---
 
@@ -420,7 +399,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 重新定義 Override
+# Override 與 Overload
 
 ---
 layout: default
@@ -527,17 +506,8 @@ class Dog extends Animal {
 </div>
 
 ---
-layout: section
-class: flex flex-col justify-center items-center text-center
----
 
-# 多重定義 Overload
-
----
-layout: default
----
-
-# Overload 父類別方法
+# Overload — 多重定義
 
 方法名稱相同但**參數不同**，屬於編譯時期多形：
 
@@ -628,25 +598,6 @@ a2.move(); // Bird 飛翔
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 同一個 <code>move()</code> 呼叫，依物件實際型態執行不同行為 — 這就是多形
-</div>
-
----
-
-# Sealed Classes 與 Pattern Matching
-
-密封類別最先進的用法是搭配 `switch` (JDK 17 預覽/後續正式)，編譯器會檢查**窮舉性**。
-
-```java
-// 如果 Shape 是 sealed，編譯器知道只有 Circle 和 Square
-return switch (shape) {
-    case Circle c -> c.radius() * c.radius() * Math.PI;
-    case Square s -> s.side() * s.side();
-    // 不需要 default 區塊！編譯器保證所有可能都已涵蓋
-};
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 當你新增一個 permits 子類別時，編譯器會提醒你更新所有相關的 <code>switch</code> 邏輯
 </div>
 
 ---
@@ -862,6 +813,13 @@ obj.showAnimal(new Animal() {
    - 先確認 `Dog` 和 `Bird` 各自有 `@Override` 的 `move()`
    - 宣告 `Animal[] animals = { new Dog("旺財"), new Bird("小翠") }`
    - 用 `for` 迴圈呼叫 `animals[i].move()` 觀察多形效果
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# Q & A
 
 ---
 layout: end

@@ -53,9 +53,8 @@ layout: default
 
 - **認識介面** — 概念、語法、與抽象類別的比較
 - **介面的成員變數** — `public static final`
-- **Java 8 新增介面內容** — Default 方法、Static 方法
+- **Java 8 新增介面內容** — Default 方法、Static 方法、Functional Interface
 - **Java 9 新增介面內容** — Private 方法
-- **功能介面** — Functional Interface 概念
 - **介面的繼承** — 基本繼承、多重繼承
 - **進階主題** — 名稱衝突、Diamond 問題、密封介面 (Sealed)
 - **課堂練習**
@@ -297,61 +296,6 @@ public class Demo {
 </div>
 
 ---
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# Java 9 新增介面內容
-# Private Methods
-
----
-layout: default
----
-
-# Java 9 新增介面內容 — 概覽
-
-| 功能 | Java 版本 | 說明 |
-| --- | --- | --- |
-| Constant variable | Java 7+ | 常數成員變數 |
-| Abstract methods | Java 7+ | 抽象方法 |
-| Default methods | Java 8+ | 預設方法 |
-| Static methods | Java 8+ | 靜態方法 |
-| **Private methods** | **Java 9 新增** | 私有方法 |
-| **Private Static methods** | **Java 9 新增** | 私有靜態方法 |
-
----
-
-# Private 方法的規則
-
-| 規則 | 說明 |
-| --- | --- |
-| 只能在介面內使用 | 無法從實作類別或外部呼叫 |
-| 不能抽象化 | 必須有方法本體 |
-| `private static` 方法 | 可在 static 和 non-static 方法中使用 |
-| `private` non-static 方法 | 不能在 `private static` 方法中使用 |
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>設計目的：</b>讓介面內部程式碼可重複使用，避免在多個 Default 方法中寫重複邏輯
-</div>
-
----
-
-# Private 方法 — 範例
-
-```java
-interface LearnJava {
-    default void method2() { method4(); }
-    static void method3() { method5(); }
-    private void method4() {
-        System.out.println("這是private方法");
-    }
-    private static void method5() {
-        System.out.println("這是private static方法");
-    }
-}
-```
-
----
 
 # 功能介面 (Functional Interface)
 
@@ -431,6 +375,61 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
+# Java 9 新增介面內容
+# Private Methods
+
+---
+layout: default
+---
+
+# Java 9 新增介面內容 — 概覽
+
+| 功能 | Java 版本 | 說明 |
+| --- | --- | --- |
+| Constant variable | Java 7+ | 常數成員變數 |
+| Abstract methods | Java 7+ | 抽象方法 |
+| Default methods | Java 8+ | 預設方法 |
+| Static methods | Java 8+ | 靜態方法 |
+| **Private methods** | **Java 9 新增** | 私有方法 |
+| **Private Static methods** | **Java 9 新增** | 私有靜態方法 |
+
+---
+
+# Private 方法的規則
+
+| 規則 | 說明 |
+| --- | --- |
+| 只能在介面內使用 | 無法從實作類別或外部呼叫 |
+| 不能抽象化 | 必須有方法本體 |
+| `private static` 方法 | 可在 static 和 non-static 方法中使用 |
+| `private` non-static 方法 | 不能在 `private static` 方法中使用 |
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>設計目的：</b>讓介面內部程式碼可重複使用，避免在多個 Default 方法中寫重複邏輯
+</div>
+
+---
+
+# Private 方法 — 範例
+
+```java
+interface LearnJava {
+    default void method2() { method4(); }
+    static void method3() { method5(); }
+    private void method4() {
+        System.out.println("這是private方法");
+    }
+    private static void method5() {
+        System.out.println("這是private static方法");
+    }
+}
+```
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
 # 介面的繼承
 # Interface Inheritance
 
@@ -466,16 +465,6 @@ class Eagle implements Bird {
 }
 ```
 
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 介面多重繼承
-# Multiple Inheritance
-
----
-layout: default
 ---
 
 # 介面多重繼承 — 概念
@@ -808,6 +797,13 @@ class Human implements Runnable {
     public void run() { System.out.println("人在路上跑"); }
 }
 ```
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# Q & A
 
 ---
 layout: end
