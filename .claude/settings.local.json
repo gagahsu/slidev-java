@@ -46,7 +46,10 @@
       "Bash(dir \"C:\\\\\\\\Users\\\\\\\\yunch\\\\\\\\Documents\\\\\\\\Work\\\\\\\\my-clas\\\\\\\\\")",
       "WebFetch(domain:www.anthropic.com)",
       "WebFetch(domain:developers.openai.com)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(claude mcp *)"
     ]
   }
 }
