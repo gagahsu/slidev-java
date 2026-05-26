@@ -9,9 +9,9 @@ const outDir = join(root, 'dist')
 
 mkdirSync(outDir, { recursive: true })
 
-const filter = process.argv[2] // e.g. "ch01"
+const filter = process.argv[2] // e.g. "ch01" or "01"
 const chapters = readdirSync(root)
-  .filter(f => /^ch\d+.*\.md$/.test(f) && (!filter || f.startsWith(filter)))
+  .filter(f => /^\d+.*\.md$/.test(f) && (!filter || f.startsWith(filter)))
   .sort()
 
 console.log(`找到 ${chapters.length} 個章節：${chapters.join(', ')}\n`)
