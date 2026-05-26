@@ -3,10 +3,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "ch12":  "slidev ch12-char-string.md --port 3030",
-    "ch13":  "slidev ch13-regex.md --port 3031",
-    "ch13g": "slidev ch13-regex-gemini.md --port 3032",
-    "dev":   "slidev index.md --port 3030"
+    "ch12":  "slidev ch12-char-string.md",
+    "ch13":  "slidev ch13-regex.md",
+    "ch13g": "slidev ch13-regex-gemini.md",
+    "dev":   "slidev index.md",
+    "export:all": "node scripts/export-all.mjs"
   },
   "dependencies": {
     "@slidev/cli": "^52.14.2",
