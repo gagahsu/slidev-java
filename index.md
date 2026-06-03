@@ -162,10 +162,35 @@ style: |
       <div>介面與多重繼承</div>
       <div class="chapter-subtitle">Interface &amp; Multiple Inheritance</div>
     </Link>
+    <Link to="ch18" class="chapter-card">
+      <div class="chapter-num">Ch 18</div>
+      <div>包裝類別</div>
+      <div class="chapter-subtitle">Wrapper Classes</div>
+    </Link>
+    <Link to="ch19" class="chapter-card">
+      <div class="chapter-num">Ch 19</div>
+      <div>設計套件</div>
+      <div class="chapter-subtitle">Package Design</div>
+    </Link>
     <Link to="ch20" class="chapter-card">
       <div class="chapter-num">Ch 20</div>
       <div>程式異常的處理</div>
       <div class="chapter-subtitle">Exception Handling</div>
+    </Link>
+    <Link to="ch21" class="chapter-card">
+      <div class="chapter-num">Ch 21</div>
+      <div>多執行緒</div>
+      <div class="chapter-subtitle">Multithreading</div>
+    </Link>
+    <Link to="ch22" class="chapter-card">
+      <div class="chapter-num">Ch 22</div>
+      <div>輸入與輸出</div>
+      <div class="chapter-subtitle">Java I/O</div>
+    </Link>
+    <Link to="ch23" class="chapter-card">
+      <div class="chapter-num">Ch 23</div>
+      <div>壓縮與解壓縮</div>
+      <div class="chapter-subtitle">Zip &amp; Unzip</div>
     </Link>
     <Link to="ch24" class="chapter-card">
       <div class="chapter-num">Ch 24</div>
@@ -254,7 +279,27 @@ src: ./ch17-interface.md
 ---
 
 ---
+src: ./ch18-wrapper.md
+---
+
+---
+src: ./ch19-package.md
+---
+
+---
 src: ./ch20-exception.md
+---
+
+---
+src: ./ch21-thread.md
+---
+
+---
+src: ./ch22-io.md
+---
+
+---
+src: ./ch23-zip.md
 ---
 
 ---
@@ -268,4 +313,5 @@ src: ./ch25-stream-lambda.md
 ---
 src: ./ai-dev-tools.md
 ---
+
 

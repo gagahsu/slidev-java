@@ -1,0 +1,36 @@
+---
+theme: penguin
+class: text-center
+highlighter: shiki
+lineNumbers: true
+drawings:
+  persist: false
+transition: slide-left
+title: Java Programming Masterclass
+routeAlias: home
+style: |
+  .slidev-layout p,
+  .slidev-layout li,
+  .slidev-layout td,
+  .slidev-layout th,
+  .slidev-layout div {
+    font-size: max(16px, 1em);
+  }
+  table {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 8px !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+  .index-table td {
+    text-align: center;
+    font-family: monospace;
+  }
+  /* Fix Slidev v52+ Presenter Mode Layout Overflow */
+  .slidev-presenter .grid-container {
+    width: 100vw !important;
+  }
+---

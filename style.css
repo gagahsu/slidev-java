@@ -1,3 +1,9 @@
+/* Disable font ligatures — prevents == from merging into a single glyph */
+code, pre, .shiki, .shiki * {
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "calt" 0 !important;
+}
+
 /* Inline code only */
 :not(pre) > code {
   color: #1e3a8a !important;

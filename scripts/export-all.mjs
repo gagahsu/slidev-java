@@ -9,10 +9,31 @@ const outDir = join(root, 'dist')
 
 mkdirSync(outDir, { recursive: true })
 
-const filter = process.argv[2] // e.g. "ch01" or "01"
+const arg = process.argv[2] // e.g. "ch14", "14", "14-25"
+let rangeStart, rangeEnd, prefix
+
+if (arg) {
+  const rangeMatch = arg.match(/^(\d+)-(\d+)$/)
+  if (rangeMatch) {
+    rangeStart = parseInt(rangeMatch[1], 10)
+    rangeEnd   = parseInt(rangeMatch[2], 10)
+  } else {
+    prefix = arg.startsWith('ch') ? arg : `ch${arg}`
+  }
+}
+
 const chapters = readdirSync(root)
-  .filter(f => /^\d+.*\.md$/.test(f) && (!filter || f.startsWith(filter)))
-  .sort()
+  .filter(f => {
+    if (!/^ch\d+.*\.md$/.test(f)) return false
+    if (!arg) return true
+    const num = parseInt(f.match(/^ch(\d+)/)?.[1] ?? '0', 10)
+    if (rangeStart !== undefined) return num >= rangeStart && num <= rangeEnd
+    return f.startsWith(prefix)
+  })
+  .sort((a, b) => {
+    const n = f => parseInt(f.match(/^ch(\d+)/)?.[1] ?? '0', 10)
+    return n(a) - n(b)
+  })
 
 console.log(`找到 ${chapters.length} 個章節：${chapters.join(', ')}\n`)
 
@@ -28,7 +49,6 @@ for (const file of chapters) {
       { cwd: root, stdio: 'inherit' }
     )
 
-    // Slidev outputs PNGs into a subdirectory named after the output base
     const pngDir = pngBase
     const pngs = readdirSync(pngDir)
       .filter(f => f.endsWith('.png'))
@@ -54,8 +74,6 @@ for (const file of chapters) {
     }
 
     writeFileSync(pdfOutput, await pdf.save())
-
-    // clean up intermediate PNG directory
     rmSync(pngDir, { recursive: true })
 
     console.log(`✔ 完成 ${name}.pdf（${pngs.length} 頁）\n`)

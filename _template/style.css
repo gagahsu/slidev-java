@@ -22,3 +22,11 @@
   word-break: break-all !important;
   overflow: visible !important;
 }
+
+/* Fix double-digit line numbers wrapping (default w-4 = 1rem is too narrow) */
+.slidev-code-line-numbers .slidev-code code .line::before {
+  width: 2rem !important;
+  min-width: 2rem !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}

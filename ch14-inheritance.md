@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: Java 繼承與多形
 routeAlias: ch14
 style: |
@@ -53,7 +55,7 @@ style: |
 你有沒有寫過類似的程式碼，複製貼上改了一點點？繼承就是讓你把「共同的部分」抽出來，寫一次就好。多形則讓你的程式更靈活，新增功能時不需要修改舊程式碼。
 
 【今天學完你會能做什麼】
-學完之後你能設計有繼承關係的類別體系，用多形讓程式碼以一對多的方式運作，也能讀懂業界常見的 Spring Boot 框架程式碼。
+學完之後你就能設計有繼承關係的類別體系，用多形讓程式碼以一對多的方式運作，也能讀懂業界常見的 Spring Boot 框架程式碼。
 -->
 ---
 layout: default
@@ -123,7 +125,7 @@ Animal、Dog、Bird 三個類別大量重複程式碼：
 ```java
 class Dog extends Animal {
     public void barking() {
-        System.out.println("汪汪汪");
+        System.out.println(name + " 汪汪叫");
     }
 }
 ```
@@ -147,12 +149,17 @@ Dog 類別裡只定義了 barking()，但因為繼承了 Animal，它自動擁�
 # 繼承範例 — Animal 與 Dog
 
 ```java
+// Animal.java
 class Animal {
-    String name;
+    protected String name;
     public Animal(String name) { this.name = name; }
     public void eat()   { System.out.println(name + " 吃東西"); }
     public void sleep() { System.out.println(name + " 睡覺"); }
 }
+```
+
+```java
+// Dog.java
 class Dog extends Animal {
     public Dog(String name) { super(name); }
     public void barking() { System.out.println(name + " 汪汪叫"); }
@@ -175,23 +182,47 @@ super(name) 是關鍵！子類別不能直接設定父類別的屬性（如果�
 建立子類別物件時，**父類別的建構方法會先自動被呼叫**：
 
 ```java
+// Animal.java
 class Animal {
-    public Animal() { System.out.println("Animal 建構"); }
+    protected String name;
+    public Animal(String name) {
+        this.name = name;
+        System.out.println("Animal 建構");
+    }
+    public void eat()   { System.out.println(name + " 吃東西"); }
+    public void sleep() { System.out.println(name + " 睡覺"); }
 }
-class Dog extends Animal {
-    public Dog() { System.out.println("Dog 建構"); }
-}
-// new Dog() 的輸出：
-// Animal 建構
-// Dog 建構
 ```
 
 <!--
 【核心說明】
 建立子類別物件時，Java 會先執行父類別的建構方法，再執行子類別的建構方法。這個順序不能反過來。
+-->
+---
 
+# 父類別建構方法的啟動順序 — 執行結果
+
+```java
+// Dog.java
+class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+        System.out.println("Dog 建構");
+    }
+    public void barking() { System.out.println(name + " 汪汪叫"); }
+
+    public static void main(String[] args) {
+        new Dog("旺財");
+        // 輸出：
+        // Animal 建構
+        // Dog 建構
+    }
+}
+```
+
+<!--
 【帶讀程式碼】
-new Dog() 執行時：先印 "Animal 建構"，再印 "Dog 建構"。父先子後，像是先有父母才有小孩。
+new Dog("旺財") 執行時：先印 "Animal 建構"，再印 "Dog 建構"。父先子後，像是先有父母才有小孩。
 
 ⚠️ 學生常見誤解：
 如果父類別沒有無參建構方法（只有有參的），而子類別沒有呼叫 super(...)，編譯會報錯。Java 只會自動呼叫父類別的「無參建構方法」，有參的要自己呼叫。
@@ -229,15 +260,22 @@ private：只有自己類別內部能存取。
 # protected 屬性與 super() 範例
 
 ```java
+// Animal.java
 class Animal {
     protected String name;
     public Animal(String name) { this.name = name; }
+    public void eat()   { System.out.println(name + " 吃東西"); }
+    public void sleep() { System.out.println(name + " 睡覺"); }
 }
+```
+
+```java
+// Dog.java
 class Dog extends Animal {
     public Dog(String name) {
         super(name); // 呼叫父類別的建構方法
     }
-    public void barking() { System.out.println(name + " 汪汪"); }
+    public void barking() { System.out.println(name + " 汪汪叫"); }
 }
 ```
 
@@ -517,7 +555,9 @@ IS-A 代表「是一種」，子類別物件**也是**父類別的一種。
 class Fish extends Animal {}
 class Bird extends Animal {}
 class Eagle extends Bird {}
+```
 
+```java
 Eagle eagle = new Eagle();
 System.out.println(eagle instanceof Bird);   // true
 System.out.println(eagle instanceof Animal); // true
@@ -566,6 +606,9 @@ class Speed {
     protected int speed;
     public int getSpeed() { return speed; }
 }
+```
+
+```java
 class Car {
     private Speed s = new Speed(); // Car HAS A Speed
     public int getCarSpeed() { return s.getSpeed(); }
@@ -590,12 +633,11 @@ class BasinInfo {
     protected String id;
     protected String name;
 }
-class Employee extends BasinInfo {
-    int salary;
-}
-class Customer extends BasinInfo {
-    int balance;
-}
+```
+
+```java
+class Employee extends BasinInfo { int salary; }
+class Customer extends BasinInfo { int balance; }
 ```
 
 <!--
@@ -631,6 +673,9 @@ layout: default
 class Animal {
     public void move() { System.out.println("Animal 移動"); }
 }
+```
+
+```java
 class Dog extends Animal {
     @Override
     public void move() { System.out.println("Dog 跑步"); }
@@ -679,8 +724,13 @@ Override 有五個規則，一個都不能違反：
 
 ```java
 class Animal { static void sound() { System.out.println("Animal"); } }
-class Dog extends Animal { static void sound() { System.out.println("Dog"); } }
+```
 
+```java
+class Dog extends Animal { static void sound() { System.out.println("Dog"); } }
+```
+
+```java
 Animal a = new Dog();
 a.sound(); // 輸出：Animal（由宣告型態 Animal 決定）
 ```
@@ -711,6 +761,9 @@ Override 時，子類別可以回傳比父類別**更具體的子型態**：
 
 ```java
 class Animal { Animal produce() { return new Animal(); } }
+```
+
+```java
 class Dog extends Animal {
     @Override
     Dog produce() { return new Dog(); }
@@ -889,10 +942,16 @@ dog.move()、bird.move() 分開呼叫，看起來還好。但如果有 100 種�
 
 ```java
 class Animal { public void move() { System.out.println("Animal 移動"); } }
+```
+
+```java
 class Dog extends Animal {
     @Override
     public void move() { System.out.println("Dog 跑步"); }
 }
+```
+
+```java
 class Bird extends Animal {
     @Override
     public void move() { System.out.println("Bird 飛翔"); }
@@ -1215,7 +1274,7 @@ obj.showAnimal(new Animal() {
 匿名類別物件直接當參數傳進去，叫做 Inline 寫法。
 
 ⚠️ 注意：
-雖然這樣寫合法，但如果 Override 的方法很長，程式碼可讀性會很差。現代 Java 偏好用 Lambda 替代——兩者效果相同但 Lambda 更簡潔，在第 25 章我們會學到。
+雖然這樣寫合法，但如果 Override 的方法很長，程式碼可讀性會極其低下。現代 Java 偏好用 Lambda 替代——兩者效果相同但 Lambda 更簡潔，在第 25 章我們會學到。
 -->
 ---
 

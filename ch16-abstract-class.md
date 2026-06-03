@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: 抽象類別 (Abstract Class)
 routeAlias: ch16
 style: |
@@ -47,13 +49,13 @@ style: |
 
 <!--
 【開場白】
-今天要學「抽象類別」——一種「定義了骨架但不實作細節」的類別。聽起來很抽象，但其實非常實用。
+歡迎來到「抽象藝術」的世界！今天我們要學「抽象類別」。聽名字好像很玄，其實它就是個「沒做完的半成品」。就像你主管跟你說「我們要做一個偉大的系統」，但細節怎麼做？他不知道，他叫你去想。這就是抽象。
 
 【為什麼要學這個？】
-在真實的程式設計裡，你常常需要「規定子類別一定要有某個方法」，但每個子類別的實作都不一樣。抽象類別就是這個規定的載體。
+在真實的程式開發中，你常常需要當那個「出一張嘴」的主管。你定義一個類別說：「所有繼承我的類別都要會某件事」，但你自己不用動手做。抽象類別就是讓你優雅地開空頭支票的工具。
 
 【今天學完你會能做什麼】
-學完之後你能設計有「強制規範」的類別架構，也能讀懂業界常見的 Template Method Pattern 設計模式。
+學完之後，你就能設計出極具架構感的程式，像個真正的架構師一樣定義規範。你還會學到 Template Method Pattern，這可是業界老鳥用來寫出漂亮程式碼的神技。
 -->
 ---
 layout: default
@@ -70,10 +72,10 @@ layout: default
 
 <!--
 【帶讀大綱】
-今天分五個部分：先認識抽象類別的語法，然後學抽象方法，整理重要規則，進入進階應用，最後比較抽象類別和介面的差異。
+大綱在這裡：我們會先從「什麼是抽象」開始，然後看連大括號都沒有的「抽象方法」。接著會聊聊它跟介面的愛恨情仇，最後帶大家實戰兩個練習。
 
 【重點預告】
-抽象類別和介面的差異是面試常考題，今天會仔細比較。Template Method Pattern 是業界常用的設計模式，學完之後能大幅提升你的程式設計思維。
+大家注意，抽象類別 vs 介面是面試官最愛問的陷阱題。如果答錯了，面試官可能就會覺得你只是個會寫 Code 的碼農，而不是有思想的工程師。
 -->
 ---
 layout: section
@@ -85,7 +87,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-先來認識什麼是抽象類別，它解決了什麼問題。
+現在，讓我們把那些虛無縹緲的概念具象化，來看看到底什麼是 Abstract Class。
 -->
 ---
 layout: default
@@ -101,13 +103,13 @@ layout: default
 
 <!--
 【核心說明】
-abstract 類別有兩個特色：一是可以包含「沒有實作的方法」（抽象方法），二是「不能 new 出物件」。
+看到 abstract 這個關鍵字，你就要把它想成是「我只管定義，不負責實作」。
 
 【生活化比喻】
-抽象類別就像一份「職位說明書」：它寫明了這個職位要做什麼（方法的簽名），但不規定你具體怎麼做（沒有方法主體）。每個實際擔任這個職位的人（子類別）自己決定怎麼做。
+抽象類別就像是百貨公司的「櫃位招租計畫」。百貨公司（抽象類別）規定這裡一定要賣吃的（定義方法），但具體是賣拉麵還是炸雞？那是進駐廠商（子類別）的事。
 
 【類比延伸】
-+號的例子很好：你知道 + 可以相加，但不需要知道 Java 內部怎麼實作整數加法和字串連接——這就是隱藏細節的概念。
+就像你用遙控器轉台，你只需要知道按鈕在那，不需要知道電視內部是怎麼接收訊號的。抽象類別就是在幫你把這些雜事藏起來。
 -->
 ---
 
@@ -125,13 +127,13 @@ abstract 類別有兩個特色：一是可以包含「沒有實作的方法」�
 
 <!--
 【帶讀場景】
-Shape 類別本身不知道怎麼畫，Circle 畫圓，Rectangle 畫矩形。Shape 只是定義「這個家族的物件都要會 draw()」，但實作由子類別決定。
+想像你在寫繪圖軟體，如果你定義一個 Shape 類別，你根本不知道怎麼畫它，因為「形狀」這個詞太抽象了。
 
 【核心概念】
-抽象類別的存在是讓程式架構更完整、語意更清楚。Shape 類別告訴所有子類別：「你是一個形狀，你必須知道怎麼畫自己。」
+但如果你定義了 Shape 說「只要是形狀都要能 draw()」，那 Circle 就可以畫圓，Rectangle 就可以畫方塊。Shape 就像是一個「家族規範」，它不幹活，它只負責管教小孩。
 
 💼 業界實務：
-Spring Boot 的很多基礎類別都是抽象類別，例如 AbstractApplicationContext，定義了 Application 的生命週期骨架，子類別負責實作細節。
+在 Spring Boot 裡，如果你看到類別名稱開頭是 Abstract，別懷疑，那通常是框架設計師留給你的「填空題」。
 -->
 ---
 
@@ -150,10 +152,10 @@ abstract class Shape {
 
 <!--
 【帶讀語法】
-只要在 class 前面加 abstract 關鍵字就是抽象類別。語法很簡單。
+語法非常直覺，就是在 class 前面加個 abstract。這就像是在類別標籤上貼了一張「開發中」的貼紙。
 
 【重點提示】
-抽象類別還是可以有普通的方法（有實作的方法），不是每個方法都要是抽象的。這點很多初學者會誤解。
+雖然它是「開發中」，但裡面還是可以放一些已經做好的普通方法喔。這點跟介面（Interface）很不一樣，它是可以帶點「乾貨」給子類別的。
 -->
 ---
 
@@ -176,13 +178,13 @@ Circle circle = new Circle(); // 子類別可以
 
 <!--
 【核心說明】
-抽象類別不能 new！這是最重要的規則之一。
+重要！重要！重要！如果你敢對著抽象類別下 new，Java 會直接把編譯錯誤甩在你臉上。
 
 【帶讀程式碼】
-new Shape() 直接報編譯錯誤。因為 Shape 本身是「概念」，不是「具體的形狀」。你只能 new Circle() 或 new Rectangle()。
+你看這行 new Shape()。這是不可能的，因為 Shape 是個概念。
 
 【生活化比喻】
-你可以有一個「動物」的概念，但你不能在現實中建立一個「純粹的動物」——任何動物都是狗、貓、鳥之類的具體動物。
+你去餐廳不能跟服務生說：「給我來一份食物。」服務生會問你：「你要什麼食物？」因為「食物」是抽象的，你只能點具體的「排骨飯」或是「牛肉麵」。抽象類別就是那個你點不到的「食物」。
 -->
 ---
 
@@ -205,9 +207,10 @@ class Circle extends Shape {
 
 <!--
 【帶讀程式碼】
-Shape 定義了 draw() 但方法主體是空的（只有 {} 沒有內容），Circle 繼承後 Override 成自己的版本。
+Shape 裡的 draw() 有大括號 {}，但裡面空空如也。這叫「空實作」。Circle 繼承後就很熱心地把內容填上了。
 
-⚠️ 這裡的 draw() 不是抽象方法，只是一個空的普通方法。下一部分會講到真正的抽象方法（用 abstract 關鍵字，連 {} 都沒有）。
+⚠️ 這裡要小心：
+雖然這樣寫也能動，但這樣並不能「強制」子類別去實作。如果 Circle 忘了寫 draw()，它就會執行父類別那個「什麼都不做」的版本。這往往不是我們要的。
 -->
 ---
 
@@ -227,10 +230,10 @@ class Square extends Shape {
 
 <!--
 【帶讀程式碼】
-Square 也 Override draw()，輸出「繪製矩形！」。
+現在我們有 Circle 也有 Square 了。它們都乖乖地聽 Shape 的話，各自實現了 draw()。
 
 【多形效果】
-Shape 類別的 draw() 讓多形成為可能：可以宣告 Shape 型態的變數，裝 Circle 或 Square，呼叫 draw() 時各自執行自己的版本。
+這就是多形的基礎！你可以用一個 List<Shape> 同時裝圓形跟方形，然後一個迴圈下去，大家都各自畫出自己的樣子。這程式碼寫起來多爽啊！
 -->
 ---
 layout: section
@@ -242,7 +245,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-剛才的 Shape 的 draw() 是一般方法。現在來看「抽象方法」——連方法主體都沒有，強制要求子類別實作。
+剛才那是「沒效率」的監督方式。現在我們要來看更高壓的手段：抽象方法。
 -->
 ---
 layout: default
@@ -259,13 +262,14 @@ layout: default
 
 <!--
 【帶讀表格】
-抽象方法四個特性：
-沒有 {}（方法主體）——只有宣告，用分號結尾。
-子類別必須 Override——不 Override 就報編譯錯誤。
-含有抽象方法的類別必須宣告為 abstract。
+抽象方法就像是軍令：
+1. 它沒有廢話（沒有大括號）。
+2. 它以分號結尾，乾脆利落。
+3. 接到命令的部下（子類別）一定要執行，不然就軍法處置（編譯錯誤）。
+4. 只有抽象類別才有資格發號施令。
 
 【生活化比喻】
-就像合約裡的「必填條款」：「承包方必須提供技術支援方案（細節自行規定）」。抽象方法就是這個必填條款，子類別必須填上。
+這就像是你要跟建築商簽約，合約裡寫：「這裡要蓋一個廁所（分號）」。你不需要教他怎麼拉水管，但他如果不蓋，你就告到他破產。
 -->
 ---
 
@@ -289,14 +293,10 @@ class Circle extends Shape {
 
 <!--
 【帶讀程式碼】
-public abstract void draw(); 注意：沒有 {}，直接分號結束。
-
-Circle 繼承後必須 Override draw()，否則編譯報錯。
+你看這行 public abstract void draw(); 連大括號都省了，直接一個分號。這就是在說：「我不管你怎麼畫，反正你一定要給我畫出個東西來！」
 
 ⚠️ 學生常見誤解：
-抽象方法和空方法的差別！
-空方法：public void draw() {}——有 {}，只是裡面沒有程式碼，可以不 Override。
-抽象方法：public abstract void draw();——沒有 {}，子類別必須 Override。
+很多同學會忘記加分號，或是加了 abstract 又想寫大括號。記住：abstract 和 {} 是「王不見王」，有我就沒它。
 -->
 ---
 
@@ -317,12 +317,13 @@ class Bmw extends Car {
 
 <!--
 【帶讀程式碼】
-Bmw 繼承 Car 但沒有 Override run()，編譯就報錯了。
+Bmw 想要繼承 Car，但它竟然不想實作 run()？那它還叫車嗎？這時候 Java 的編譯器就會跳出來噴你。
 
-⚠️ 這個錯誤訊息你以後會常看到，記住了：Class 'XXX' must implement abstract method 'YYY' in 'ZZZ'——意思是「你繼承了 ZZZ 但沒有實作 YYY 抽象方法」。
+⚠️ 看到這個錯誤訊息別慌：
+Class 'Bmw' must implement abstract method...。這就是在提醒你：「債還沒還清喔！」
 
 【解法】
-如果你就是不想在這個子類別實作，可以把 Bmw 也宣告成 abstract，把責任再往下傳給 Bmw 的子類別。
+如果你真的不想在 Bmw 裡寫實作，那你就得承認 Bmw 也是「抽象」的（加 abstract），然後把這個爛攤子丟給 Bmw 的子類別。這招叫「債留子孫」。
 -->
 ---
 layout: section
@@ -334,7 +335,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-來整理一下抽象類別的重要規則，確認大家沒有遺漏。
+好了，牛吹完了，我們來冷靜整理一下這些規矩，免得大家被 abstract 搞到頭暈。
 -->
 ---
 layout: default
@@ -352,12 +353,11 @@ layout: default
 
 <!--
 【帶讀表格】
-五個規則，特別強調最後兩個容易被忽略的：
-「抽象類別不一定要有抽象方法」：可以只是一個不能被 new 的普通類別。
-「抽象類別可以混用兩種方法」：普通方法提供共用實作，抽象方法強制子類別實作。
+這張表就是你的「避坑指南」。
+特別注意最後兩條：你可以定義一個抽象類別，裡面一個抽象方法都沒有。這通常是用來「防止別人 new 我」。
 
 【互動引導】
-大家猜猜：如果一個類別有 abstract 方法，但忘記在類別宣告加 abstract，會怎樣？（答：編譯錯誤，系統會提醒你）
+大家想想，一個完全沒有抽象方法的抽象類別有什麼用？（答：單純用來當作父類別，強迫別人一定要繼承才能用）。
 -->
 ---
 
@@ -376,11 +376,12 @@ abstract class Car {
 
 <!--
 【帶讀程式碼】
-Car 有兩種方法：run() 是抽象方法，子類別必須實作；refuel() 是普通方法，所有子類別共用。
+這就是抽象類別的魅力：
+run() 是抽象的，因為每台車跑法不同（有些吃油，有些吃電，有些吃信仰）。
+refuel() 是普通的，因為管你什麼車，沒能量就動不了，大家加油的邏輯都差不多。
 
 【設計意圖】
-run() 每台車跑法不同（電動車、燃油車），所以抽象化讓子類別自己實作。
-refuel() 所有車加油的概念相同，抽象類別直接實作，子類別繼承就好。
+這叫「求同存異」。把大家都一樣的寫在父類別（refuel），不一樣的留給子類別去客製化（run）。
 -->
 ---
 
@@ -400,12 +401,10 @@ class Bmw extends Car {
 
 <!--
 【帶讀程式碼】
-Bmw 只需要 Override run()，refuel() 直接繼承父類別的版本。
-
-bmw.refuel() 呼叫的是 Car 定義的版本，bmw.run() 呼叫的是 Bmw 自己的版本。
+Bmw 只需要關心怎麼 run()，refuel() 則是直接「白嫖」父類別的。
 
 💼 業界實務：
-這個模式到處都是！父類別提供「共用行為」，子類別提供「各自特有行為」。讓你不重複寫 refuel()，卻又能客製化 run()。
+這種「白嫖」行為在業界被稱為「程式碼重用」。這也是為什麼我們喜歡用抽象類別，因為它能幫我們少寫很多廢話。
 -->
 ---
 layout: section
@@ -417,7 +416,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-基礎概念搞定，來看進階應用。這部分包含幾個你在業界常會遇到的用法。
+接下來要講一些稍微硬一點的東西，準備好你的強心針。
 -->
 ---
 layout: default
@@ -442,10 +441,13 @@ abstract class Car {
 
 <!--
 【核心說明】
-抽象類別雖然不能 new，但可以有建構方法。子類別 new 的時候，父類別建構方法會先執行。
+很多人以為抽象類別不能 new，所以就沒有建構子。大錯特錯！
 
 【重點提醒】
-這和之前學的「父類別建構方法先執行」完全一樣，只是父類別是抽象類別而已。
+抽象類別當然有建構子，只是它不是給外部 new 用的，而是給它的子類別在出生（new）的時候呼叫的。
+
+【生活化比喻】
+這就像你買新家（子類別），雖然你不需要親手去打地基（父類別建構子），但地基一定得先打好，你的房子才蓋得起來。
 -->
 ---
 
@@ -467,12 +469,10 @@ public static void main(String[] args) {
 
 <!--
 【帶讀程式碼】
-new Bmw() 時：先執行 Car() 印出「有車子了」，再執行 Bmw 的初始化。
-
-輸出順序：有車子了 → 汽車加油 → 安全駕駛中。
+你看輸出結果。雖然你 new 的是 Bmw，但父類別 Car 的建構子會先跳出來大喊：「有車子了！」這就是繼承的順序性。
 
 ⚠️ 學生常見誤解：
-「抽象類別有建構方法但不能 new，這不矛盾嗎？」——建構方法是讓子類別透過 super() 呼叫的，不是讓外部 new 的。
+「如果父類別沒有無參建構子怎麼辦？」孩子，那你就要在子類別用 super() 去手動呼叫，這跟普通繼承一模一樣，別把它想得太難。
 -->
 ---
 
@@ -493,7 +493,7 @@ abstract class Car {
 
 <!--
 【帶讀表格】
-和一般類別一樣，抽象類別可以有屬性，通常用 protected 讓子類別直接存取。子類別透過 super() 初始化父類別屬性。
+抽象類別也可以有自己的「私房錢」（屬性）。通常我們用 protected，這意思是：「這是我留給孩子們的，外人別碰。」
 -->
 ---
 
@@ -517,9 +517,10 @@ bmw.run();              // BMW 行駛中
 
 <!--
 【帶讀程式碼】
-Bmw 的建構方法呼叫 super("BMW") 初始化 brand，run() 裡直接用 brand 印出品牌名稱。
+這裡展示了 super("BMW") 把品牌名字傳給老爸。然後在 run() 裡面直接拿來用。
 
-Car bmw = new Bmw()——這行用了 Upcasting！Car 是抽象類別型態，new Bmw() 是子類別物件。這是合法的。
+💡 注意這行：Car bmw = new Bmw();
+這就是 Upcasting。雖然 Car 是抽象的，但它還是可以用來當作變數的型態，去承接它的子類別。這在多形裡是至關重要的概念。
 -->
 ---
 
@@ -541,13 +542,13 @@ bmw.run();
 
 <!--
 【核心說明】
-抽象類別不能直接 new，但可以用 Upcasting 把子類別物件賦值給抽象類別型態的變數。
+這招叫「指鹿為馬」...不對，是「指 BMW 為車」。
 
 【帶讀程式碼】
-Car bmw = new Bmw() 合法，Car car = new Car() 編譯錯誤。
+雖然我們宣告變數型態是 Car，但實際跑的是 Bmw。這樣做的好處是，以後如果你想把 Bmw 換成 Audi，你的程式碼其他部分幾乎不用動。
 
 💼 業界實務：
-這個 Upcasting 用法非常常見！宣告抽象類別型態，實際存放不同子類別，就能用多形呼叫 run()，不管底層是 Bmw 還是 Audi。
+老鳥都喜歡寫 Car car = getCar(); 而不是 Bmw car = getBmw();。因為我們追求的是「彈性」，而不是死板板的型別。
 -->
 ---
 
@@ -569,13 +570,13 @@ public abstract sealed class Shape permits Circle, Square {
 
 <!--
 【核心說明】
-sealed + abstract 組合：既是抽象類別（不能 new），又是密封類別（限制哪些子類別可以繼承）。
+這是 Java 17 的新玩意兒，叫「密封類別」。
 
 【帶讀程式碼】
-sealed abstract class Shape permits Circle, Square：只有 Circle 和 Square 可以繼承 Shape，而且兩者都必須實作 area() 方法。
+這就像是：「我這份遺產，只准 Circle 和 Square 來繼承，隔壁老王（其他類別）門都沒有！」
 
 💼 業界實務：
-設計嚴格的類型體系時很有用，確保 Shape 家族的完整性，配合 switch Pattern Matching 可以讓編譯器幫你檢查是否處理了所有情況。
+如果你在寫一個金融系統，你可能只希望「信用卡」和「轉帳」能繼承「支付方式」，不希望有人莫名其妙寫個「冥幣支付」來搞破壞。這時候 sealed 就非常好用。
 -->
 ---
 
@@ -596,9 +597,12 @@ public non-sealed class Square extends Shape { /*...*/ }
 
 <!--
 【帶讀表格】
-密封子類別的三種選擇和上一章相同：final（不再繼承）、sealed（繼續密封）、non-sealed（開放繼承）。
+用了 sealed 之後，你的子類別就得做出選擇：
+1. final：到我為止，我不生了。
+2. sealed：我也要挑孩子，繼續密封。
+3. non-sealed：算了，我大方點，誰都可以繼承我。
 
-Circle 宣告 final 代表沒有人可以繼承 Circle；Square 宣告 non-sealed 代表任何人可以繼承 Square。
+這就像是家族企業的傳承機制，非常有條理。
 -->
 ---
 
@@ -621,16 +625,13 @@ abstract class Game {
 
 <!--
 【核心說明】
-Template Method Pattern（模板方法模式）是使用抽象類別的經典設計模式。
+敲黑板！這是今天最有價值的知識點：Template Method Pattern（模板方法模式）。
 
 【核心概念】
-定義一個「流程框架」用 final 方法固定住，流程裡的每個「步驟」用 abstract 方法讓子類別自己填入。
+父類別先把流程定死（play() 用 final），誰也別想動。但流程裡面的步驟（start, end）則是抽象的。
 
-【帶讀程式碼】
-Game 類別定義了 play() 流程（先 start 再 end），這個流程是 final 不能改。但 start() 和 end() 是 abstract，每種遊戲自己決定怎麼開始和結束。
-
-💼 業界實務：
-Spring 框架的 AbstractApplicationContext.refresh() 就是典型的 Template Method——流程固定，但每個步驟交由子類別實作。
+【生活化比喻】
+就像你去吃泡麵。步驟一定是：1.撕開蓋子 2.加熱水 3.等三分鐘 4.開吃。這流程是死的一定要照做。但「泡哪種麵」？那就是子類別決定的事。
 -->
 ---
 
@@ -653,13 +654,10 @@ class Soccer extends Game {
 
 <!--
 【帶讀程式碼】
-Chess 和 Soccer 各自實作 start() 和 end()。
+你看，不論是西洋棋還是足球，呼叫 play() 的時候，流程都是一樣的。但輸出的細節卻大不相同。
 
-new Chess().play() 執行：走棋 → 將軍
-new Soccer().play() 執行：踢球 → 進球
-
-【互動引導】
-如果現在要加入一個籃球遊戲，只需要新增 Basketball extends Game，實作 start() 和 end()，不需要改 Game 類別——這就是「開放封閉原則」（Open/Closed Principle）的體現。
+💼 業界實務：
+如果你能把這套模式用在你的專案裡，你的主管一定會覺得你最近是不是偷偷去報名了什麼高級架構師課程。這就是程式碼的高級感。
 -->
 ---
 layout: section
@@ -671,7 +669,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-抽象類別和介面（Interface）是 Java 中兩種「定義行為規範」的方式，很多學生會搞混它們。來仔細比較一下。
+現在我們來解決那個讓無數學生想撞牆的問題：抽象類別跟介面到底差在哪？
 -->
 ---
 layout: default
@@ -688,12 +686,12 @@ layout: default
 
 <!--
 【帶讀表格】
-關鍵差異：
-繼承：子類別只能 extends 一個抽象類別，但可以 implements 多個介面。
-方法：抽象類別可以有普通方法（有實作），Java 8 以前介面只能有抽象方法。
+這裡有一份清單。最簡單的記法：
+抽象類別是「出生（IS-A）」，你只能有一個老爸。
+介面是「證照（CAN-DO）」，你可以考一堆證照。
 
-⚠️ 學生常見誤解：
-「有普通方法就用抽象類別，沒有就用介面？」——Java 8 之後介面也能有 default 方法（有實作），所以這個分界不那麼清楚了，但抽象類別還是有「只能單繼承」和「可以有狀態（欄位）」的差異。
+⚠️ 現代 Java 的模糊地帶：
+Java 8 之後介面也能寫 default 方法了，這讓兩者的界線變得很模糊。但記住，抽象類別還是能存「狀態（變數）」，而介面不行。
 -->
 ---
 
@@ -707,11 +705,12 @@ Java 8 起，介面支援 `default` 與 `static` 方法（Java 9 加入 `private
 
 <!--
 【核心說明】
-Java 8 之後介面可以有 default 方法（有實作），和抽象類別的差異縮小了。但還是有兩個關鍵差異：
-1. 介面不能有實例欄位（不能存狀態）
-2. 一個類別可以 implements 多個介面
+別被 Java 8 給騙了，介面變強了沒錯，但它依然不是類別。
 
-💡 下一章 Ch17 會深入介紹介面，現在先有個印象。
+【核心概念】
+介面就像是「外掛」，你可以掛一堆。而抽象類別是你的「核心」，你只能有一個。如果你需要存一些變數（例如：年齡、姓名），你還是得乖乖用抽象類別。
+
+💡 下一章我們會專門講介面，現在先別糾結，先把抽象類別搞定。
 -->
 ---
 
@@ -727,14 +726,12 @@ Java 8 之後介面可以有 default 方法（有實作），和抽象類別的�
 
 <!--
 【帶讀說明】
-相同點：兩者都不能直接 new，子類別都必須實作抽象方法。
-
-選擇哪個？
-如果是「密切相關的類別」，有共用屬性和部分共用方法 → 用抽象類別（Car/Benz/Audi）
-如果是「不相干類別但有共同行為」 → 用介面（AirPlane 和 Bird 都能飛，但關係不密切）
+這是一個很好的準則：
+如果是「親兄弟」，大家都有同樣的基因（Car）→ 用抽象類別。
+如果是「跨界合作」，一個是鳥一個是飛機，大家都想飛（Fly）→ 用介面。
 
 💼 業界實務：
-「有狀態用抽象類別，純行為規範用介面」是常見準則。
+如果你看到有人用繼承來實作「飛行能力」，導致飛機繼承了鳥類，那這程式碼基本上已經沒救了。
 -->
 ---
 layout: section
@@ -745,7 +742,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-來做兩個練習鞏固今天的概念，練習設計抽象類別和子類別。
+好了，嘴砲時間結束，大家動動手吧！沒寫過程式碼的人是不配談架構的。
 -->
 ---
 layout: default
@@ -766,13 +763,13 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-練習 1：設計形狀計算器。這是抽象類別最經典的應用場景。
+練習 1：形狀大師。這題如果你寫不出來，那你剛才那半小時可能是在冥想而不是在聽課。
 
 【問題引導】
-Shape 抽象類別要有哪些抽象方法？Rectangle 和 Circle 各需要什麼屬性？面積和周長的公式是什麼？
+Shape 類別要怎麼寫？那兩個計算的方法要加什麼關鍵字？Circle 裡面要存什麼？（小提示：半徑）。
 
 【等待與觀察】
-給大家 5 分鐘設計類別結構，想清楚 Shape、Rectangle、Circle 的關係。
+大家寫的時候注意括號跟分號。如果你被編譯器噴了，記得回頭看看投影片。
 -->
 ---
 
@@ -788,13 +785,10 @@ Shape 抽象類別要有哪些抽象方法？Rectangle 和 Circle 各需要什�
 
 <!--
 【帶讀解法】
-Shape 宣告 abstract double area() 和 abstract double perimeter()——注意回傳 double。
+解法在這裡。注意 area() 和 perimeter() 都要宣告成 abstract。
 
-Rectangle 需要 height 和 width，透過建構方法傳入。
-Circle 需要半徑 r，用 Math.PI 計算。
-
-⚠️ 注意：
-Math.PI 是 Java 內建常數，不需要 import，可以直接用。圓的面積和周長公式用 Math.PI * r * r 和 2 * Math.PI * r。
+⚠️ 小細節：
+記得用 double，不然你的圓面積可能會變成一個整數，然後你的數學老師就會想跟你談談。還有，Math.PI 是你的好朋友。
 -->
 ---
 
@@ -812,10 +806,10 @@ Math.PI 是 Java 內建常數，不需要 import，可以直接用。圓的面�
 
 <!--
 【出題前的鋪陳】
-練習 2：設計抽象數學計算器。這個練習特別讓你練習「混合使用抽象方法和普通方法」，還有 Upcasting。
+練習 2：我的計算器。這題是考你有沒有弄懂「混用方法」。
 
 【問題引導】
-output() 是普通方法，add() 和 mul() 是抽象方法。main 裡用 MyMath obj = new MyTest() 宣告（Upcasting）。
+output() 是普通方法喔，不要手癢去加 abstract。add() 跟 mul() 才是要讓子類別去頭大的。
 -->
 ---
 
@@ -830,13 +824,7 @@ output() 是普通方法，add() 和 mul() 是抽象方法。main 裡用 MyMath 
 
 <!--
 【帶讀解法】
-MyMath：abstract int add(int n1, int n2) 和 abstract int mul(int n1, int n2)，output() 直接印出「我的計算器」。
-
-MyTest：實作 add() 回傳 n1+n2，mul() 回傳 n1*n2。
-
-main 裡用 MyMath obj = new MyTest()——Upcasting！obj 可以呼叫 MyMath 定義的所有方法。
-
-💡 輸出順序：先 output() 印「我的計算器」，再印加法結果 11，最後乘法結果 24。
+重點在那行 MyMath obj = new MyTest()。這就是 Upcasting。雖然 obj 被宣告為 MyMath，但它執行的是 MyTest 裡的加法跟乘法。這就是多形的力量！
 -->
 ---
 layout: section
@@ -847,99 +835,16 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【收尾】
-今天學了抽象類別的完整體系，從基礎語法到 Template Method Pattern，以及和介面的比較。
+今天我們從「出一張嘴」的抽象類別，講到「制定規矩」的抽象方法，最後還學會了老鳥專用的「模板模式」。
 
 【核心帶走重點】
-抽象類別 = 不能 new 的類別 + 可以有抽象方法（強制子類別實作）+ 可以有普通方法（提供共用實作）。
-Template Method Pattern 是把「流程框架」和「可變細節」分離的優雅設計。
+1. 抽象類別不能 new。
+2. 抽象方法沒有大括號。
+3. 繼承抽象類別，要嘛還債（實作），要嘛繼續欠（宣告抽象）。
+4. 模板模式讓你寫出有架構感的程式碼。
 
-Q&A 時間有問題請提出！
+有問題嗎？沒問題的話我們就下課，回去好好抽象一下。
 -->
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 實戰加料
-# 為期中作業暖身 🔥
-
----
-layout: default
----
-
-# 實戰：用抽象類別設計問卷題目
-
-問卷有三種題型：單選、多選、簡答。每種題目都有「標題」和「必填」，但**驗證答案的方式各不同**——抽象類別是最自然的設計：
-
-```java
-abstract class AbstractQuestion {
-    protected String title;    // 題目文字
-    protected boolean required; // 是否必填
-
-    AbstractQuestion(String title, boolean required) {
-        this.title = title;
-        this.required = required;
-    }
-
-    // 各題型自行決定怎麼驗證
-    public abstract boolean validate(String answer);
-
-    // 共用：必填且答案空白就不合法
-    public boolean isBlankWhenRequired(String answer) {
-        return required && (answer == null || answer.isBlank());
-    }
-}
-```
-
----
-
-# 實戰：三種題型子類別
-
-```java
-// 單選題：答案必須是選項之一
-class SingleChoice extends AbstractQuestion {
-    String[] options;
-    SingleChoice(String title, boolean required, String... options) {
-        super(title, required); this.options = options;
-    }
-    @Override
-    public boolean validate(String answer) {
-        if (isBlankWhenRequired(answer)) return false;
-        for (String opt : options) if (opt.equals(answer)) return true;
-        return false;
-    }
-}
-
-// 多選題：分號分隔，每個答案都必須是合法選項
-class MultiChoice extends AbstractQuestion {
-    String[] options;
-    MultiChoice(String title, boolean required, String... options) {
-        super(title, required); this.options = options;
-    }
-    @Override
-    public boolean validate(String answer) {
-        if (isBlankWhenRequired(answer)) return false;
-        Set<String> valid = Set.of(options);
-        for (String a : answer.split(";"))
-            if (!valid.contains(a.trim())) return false;
-        return true;
-    }
-}
-
-// 簡答題：必填時不得為空
-class TextQuestion extends AbstractQuestion {
-    TextQuestion(String title, boolean required) { super(title, required); }
-    @Override
-    public boolean validate(String answer) {
-        return !isBlankWhenRequired(answer);
-    }
-}
-```
-
-<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>動態問卷連結：</b>後台設定題目時就建立對應的子類別；前台送出時對每個 <code>AbstractQuestion</code> 呼叫 <code>validate()</code>，多形讓你不需要 if/else 判斷題型。
-</div>
-
 ---
 layout: end
 ---
@@ -949,5 +854,5 @@ layout: end
 
 <!--
 [依脈絡推斷]
-本章結束。定義骨架、交由子類別實作——這就是抽象類別的精髓，記住帶走。
+下課！記住：定義骨架、交由子類別實作——這就是抽象類別的精髓。如果你沒聽懂，那你一定是太「抽象」了。我們下一章「介面」見！
 -->

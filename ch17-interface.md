@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: Java 介面 (Interface)
 routeAlias: interface
 style: |
@@ -47,13 +49,13 @@ style: |
 
 <!--
 【開場白】
-今天我們學介面（Interface）。這是 Java 物件導向的第三個支柱，前兩個是繼承和抽象類別。
+各位好！在學完了「抽象類別」那個只會出一張嘴的主管之後，今天我們要來學 Java 的靈魂——「介面（Interface）」。如果你覺得繼承一個老爸已經很累了，那介面會讓你知道，這世界上原來可以有一堆人來管你。
 
 【為什麼要學這個？】
-有些能力是「跨類別的」——鳥和飛機都能飛，但鳥是動物、飛機是機器，沒有繼承關係。介面讓你把「能飛」這個行為規範定義出來，讓不同類別都能宣稱自己具備這個能力。
+介面就像是「能力證照」。如果你想飛，你不需要把自己變成一隻鳥，你只需要去考張「飛行執照」就好。介面讓你的程式碼不再被家族血緣給綁死，實現真正的「自由戀愛」...我是說「靈活擴充」。
 
 【今天學完你會能做什麼】
-學完之後你能設計靈活的類別體系，理解 Spring Boot 框架大量使用介面做依賴注入的方式，也能解釋 Functional Interface 和 Lambda 的關係。
+學完這章，你就能設計出那種「高內聚、低耦合」的神級架構。你會明白為什麼 Spring Boot 框架裡到處都是介面，而且還能學會現代 Java 的大殺器：Lambda 表達式。
 -->
 ---
 layout: default
@@ -71,10 +73,10 @@ layout: default
 
 <!--
 【帶讀大綱】
-今天內容很豐富。先認識介面的基本概念，然後學 Java 8、9 新增的功能，再探討介面的繼承和進階主題。
+今天的大綱像是一部「介面進化史」。從最原始的、只能寫抽象方法的介面，講到 Java 8、9 之後那個快要變成「類別」的強大介面。最後我們會聊聊「鑽石問題」，這可是面試官最喜歡拿來為難新人的題目。
 
 【重點預告】
-Functional Interface 和 Lambda 是現代 Java 開發的核心，這章會打下基礎。Diamond 問題是介面常考的概念，也會仔細說明。
+重點中的重點：Java 8 的 Default 方法和 Functional Interface。這兩個東西徹底改變了我們寫 Java 的方式，不學會它們，你寫的 Code 就會有一股濃濃的「上個世紀」的味道。
 -->
 ---
 layout: section
@@ -86,7 +88,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-先來了解介面是什麼、解決什麼問題，以及和上一章抽象類別的差異。
+現在，拋開你對「類別」的刻板印象，讓我們進入「純行為規範」的世界。
 -->
 ---
 layout: default
@@ -102,21 +104,21 @@ layout: default
 - 介面**無法用 `new` 直接建立物件**
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>比較飛機與鳥：</b>兩者不是同一類，但都有「飛」的能力 → 用介面定義共同行為
+💡 <b>比較飛機與鳥：</b>兩者不是同一類時，但都有「飛」的能力 → 用介面定義共同行為
 </div>
 
 <!--
 【核心說明】
-介面描述的是「具備某種能力」，不是「是某一種東西」。
+繼承是「拼爹」，介面是「拼才華」。
 
 【帶讀說明】
-鳥是動物（IS-A），所以繼承 Animal。但鳥會飛、飛機也會飛，「飛」是一種行為能力，不是類別關係，所以用介面 Flyable 來表示。
+鳥是動物，這是它出生就註定的（繼承）。但飛機雖然不是動物，它也想飛啊！這時候「飛行」就是一種跨界的才華（介面）。
 
 【生活化比喻】
-介面就像「職業技能證照」。你有「駕照」，表示你會開車；你有「英文檢定」，表示你英文過關。這些「能力」和你是誰（人類）是分開的事。
+繼承就像是「遺傳基因」，你爸長得高，你大概也長得高。介面就像是「證照」，不論你是台灣人、美國人還是火星人，只要你考過了「多益 900」，你就具備了「英文很好」的能力。
 
 💼 業界實務：
-Spring Boot 框架大量使用介面。比如 Repository 介面定義「資料存取能力」，不同的實作（JPA、MyBatis）都實作同一個介面，Controller 不管底層換什麼。
+在業界，我們講究「針對介面編程，而非針對實作」。這意思是，我的程式只需要知道你會「飛」就好，至於你是用翅膀飛還是用引擎飛，我根本不在乎。
 -->
 ---
 
@@ -143,13 +145,13 @@ class Bird implements Flyable {
 
 <!--
 【帶讀語法】
-interface 關鍵字定義介面，implements 讓類別實作介面。
+介面的語法比類別更乾淨。看到那個 void fly() 了嗎？它其實前面隱藏了一長串的 public abstract。Java 幫你省了這些字，讓你不用寫到手痠。
 
 【重點說明】
-介面裡的方法預設是 public abstract，所以 void fly() 等同於 public abstract void fly()，可以省略那些關鍵字。
+類別用 implements 來「簽署」這份介面契約。簽了之後，你就得負責任，把 fly() 給實作出來。
 
 ⚠️ 學生常見誤解：
-implements 不是 extends！類別實作介面用 implements，類別繼承父類別用 extends，介面繼承介面用 extends。三種語法要記清楚。
+implements 是「實作」，extends 是「擴充」。如果你在 implements 後面寫類別名稱，或是 extends 後面寫介面名稱，編譯器會覺得你在跟它開玩笑。
 -->
 ---
 
@@ -169,20 +171,22 @@ class Airplane implements Flyable {
 public class Demo {
     public static void main(String[] args) {
         Flyable bird = new Bird();
-        bird.fly();
+        Flyable airplane = new Airplane();
+        bird.fly();     // 鳥兒飛翔
+        airplane.fly(); // 飛機用引擎飛
     }
 }
 ```
 
 <!--
 【帶讀程式碼】
-實作規則三個要點：必須覆寫所有抽象方法、覆寫時必須是 public、建議加 @Override。
+你看 Airplane 也來 implements Flyable 了。這就是介面的強大：不管你是鳥還是機器，在 Flyable 眼中，你們都是「會飛的東西」。
 
 【帶讀程式碼】
-Flyable bird = new Bird()——這裡用了 Upcasting！用介面型態接住實作類別的物件，和抽象類別的 Upcasting 一樣的概念。
+注意 Flyable bird = new Bird() 這行。我們宣告變數型態是介面，這就是「解耦合」的第一步。以後想換成 Airplane，這行後面的 new 換掉就好。
 
 💼 業界實務：
-Spring Boot 的 Service 層通常是這樣：UserService 介面 + UserServiceImpl 實作類別，Controller 宣告 UserService 型態注入——完全看不到 Impl 的細節。
+如果你在 Spring Boot 裡看到有人寫 UserService impl = new UserServiceImpl()，請記得提醒他：「兄弟，我們不直接 new 的，我們是用介面注入（DI）。」
 -->
 ---
 
@@ -198,14 +202,11 @@ Spring Boot 的 Service 層通常是這樣：UserService 介面 + UserServiceImp
 
 <!--
 【帶讀表格】
-這是抽象類別 vs 介面的對比，面試常考！
+這張表就是你的「面試生存手冊」。
+最核心的區別：抽象類別是「身分鑑定」，你只有一個親爹；介面是「能力鑑定」，你可以有一堆師父。
 
-關鍵差異：
-- 子類別只能 extends 一個抽象類別，但可以 implements 多個介面
-- 抽象類別可以有普通方法（有實作），介面 Java 8 前只能有抽象方法
-- 用途：抽象類別適合密切相關的類別，介面適合不相干類別的共同行為
-
-💡 選擇準則：有共用屬性或共用實作方法 → 用抽象類別；只想定義行為規範 → 用介面。
+💡 選擇準則：
+如果你想幫子類別準備一些共用的屬性（變數）或預設的方法實作，用抽象類別。如果你只是想定義「你們都要會這個功能」，那就用介面。
 -->
 ---
 layout: section
@@ -217,7 +218,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-介面可以有成員變數，但有特殊的預設修飾詞。
+介面裡也可以放變數，但它們的個性非常固執，一旦定了就不能改。
 -->
 ---
 layout: default
@@ -242,16 +243,16 @@ interface Shape {
 
 <!--
 【帶讀表格】
-介面的成員變數自動是 public static final，三個修飾詞缺一不可，含義是：
-- public：所有人都能存取
-- static：共享同一份（不是每個實作類別一份）
-- final：常數，不能改值，宣告時必須給值
+介面裡的變數自動被貼上「三標籤」：
+1. public：全世界都看得到。
+2. static：全世界都用同一份。
+3. final：誰也別想動它。
 
 【帶讀程式碼】
-double PI = 3.14159 等同於 public static final double PI = 3.14159。
+double PI = 3.14159。這就是常數。如果你試圖在實作類別裡改 PI 的值，Java 會讓你明白什麼叫「徒勞無功」。
 
 ⚠️ 學生常見誤解：
-final 的變數一定要給初始值，不能之後再賦值。
+常數命名習慣用全大寫。如果你寫 double pi = 3.14，雖然能跑，但在老鳥眼中，你就跟個剛學寫程式的國中生沒兩樣。
 -->
 ---
 
@@ -276,10 +277,10 @@ class Circle implements Shape {
 
 <!--
 【帶讀程式碼】
-Circle 的 area() 方法直接用 PI 而不是 Shape.PI——因為它 implements Shape，可以直接存取。
+看 Circle 類別。它直接用了 PI，因為它 implements 了 Shape，所以 Shape 的財產它都能直接拿來用。
 
 【設計說明】
-PI 定義在介面裡讓所有實作 Shape 的類別共用同一個常數，不需要每個類別各自宣告。
+這就是常數的統一管理。不需要每個形狀類別都自己定義一次 PI，省得有人寫 3.14，有人寫 3.14159，最後算出來的面積亂七八糟。
 -->
 ---
 layout: section
@@ -291,7 +292,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-Java 8 是 Java 歷史上最重要的版本之一，介面獲得了兩個重要新功能：Default 方法和 Static 方法。
+接下來要講的是 Java 8 的重大革新。這讓介面從「廢物主管」變成了「全能管家」。
 -->
 ---
 layout: default
@@ -312,10 +313,10 @@ layout: default
 
 <!--
 【帶讀表格】
-Java 8 之前介面只能有常數和抽象方法。Java 8 加入 Default 和 Static 方法，讓介面的能力大幅擴展。
+Java 8 之前，介面就像是個「沒實權的憲法」，只會說「你要做這做那」，但從來不提供實作。Java 8 之後，介面可以帶點「乾貨」了。
 
 💡 為什麼要加 Default 方法？
-假設你維護一個介面，全世界有 1000 個類別實作了它。你需要加一個新方法，但如果加了抽象方法，那 1000 個類別全部要修改。Default 方法解決了這個問題——加新方法但有預設實作，舊的實作類別不需要修改。
+想像你維護了一個有 100 萬人使用的介面。你今天想加個新功能，如果你加成「抽象方法」，那這 100 萬人的程式碼都會瞬間噴錯，因為他們沒實作你的新方法。這時候你一定會被這 100 萬個工程師追殺。Default 方法就是用來「救命」的。
 -->
 ---
 
@@ -339,10 +340,10 @@ interface Vehicle {
 
 <!--
 【帶讀程式碼】
-default 關鍵字讓介面提供方法的預設實作。Vehicle 介面的 alarmOn() 和 alarmOff() 有預設實作，Car 直接繼承用，不需要 Override。
+default 關鍵字一加，大括號 {} 就出來了。這代表介面說：「我已經幫你寫好了，你要是用我的就不用自己寫。」
 
 【核心說明】
-但如果 Car 想要不同的防盜行為，可以 Override——這是可選的，不是強制的。
+這招讓介面變得有點像「類別」了。它不再只是開空頭支票，而是提供了「基礎套件」。如果你對預設的防盜系統不滿意，你當然可以自己 Override 一個更猛的。
 -->
 ---
 
@@ -366,10 +367,10 @@ public class Demo {
 
 <!--
 【帶讀程式碼】
-Car 只實作了 getBrand()（唯一的抽象方法），alarmOn() 和 alarmOff() 繼承自介面的 default 實作，直接可以用。
+你看，Car 類別清清爽爽，只寫了自己必須實作的 getBrand()。那兩個 alarm 方法就像是天上掉下來的禮物，直接拿來就能用。
 
 💼 業界實務：
-Java 標準庫的 List 介面在 Java 8 加入了很多 default 方法（如 sort()、forEach()），讓 ArrayList 這些舊的實作類別不需要修改就能用這些新功能。
+這個設計徹底改變了 Java 的開發模式。現在我們可以在介面裡寫一堆共用的邏輯，而不用在那邊 extends 來 extends 去了。
 -->
 ---
 
@@ -392,10 +393,10 @@ interface MathUtils {
 
 <!--
 【帶讀程式碼】
-Static 方法直接定義在介面裡，用法和一般 static 方法一樣，但只能用「介面名稱.方法名稱()」呼叫。
+介面也能有 static 方法！這讓介面可以兼差當「工具箱」。
 
 ⚠️ 學生常見誤解：
-不能用物件呼叫！obj.add(3, 5) 是錯的，要用 MathUtils.add(3, 5)。而且子類別無法 Override static 方法（和一般類別的 static 方法一樣）。
+注意喔！你不能寫 obj.add()。你必須寫 MathUtils.add()。這跟類別的 static 方法一樣。而且，子類別也沒法 Override 它。它就是個「在那裡不動」的工具。
 -->
 ---
 
@@ -418,10 +419,10 @@ public class Demo {
 
 <!--
 【帶讀程式碼】
-MathUtils.add(3, 5) 和 MathUtils.multiply(4, 6)，直接用介面名稱呼叫。
+直接用介面名字呼叫，感覺就像是在用一個全域函數。
 
 💼 業界實務：
-工具方法（utility methods）放在介面的 static 方法裡，讓相關的常數和工具方法都集中在同一個介面，比分散在不同 Util 類別更內聚。
+以後別再隨便建一個什麼 StringUtils 類別了。如果你有一組跟某個介面相關的工具方法，直接寫在那個介面的 static 區塊裡，這叫「高度內聚」，聽起來就比一般的寫法高級很多。
 -->
 ---
 
@@ -446,13 +447,13 @@ interface Calculator {
 
 <!--
 【核心說明】
-Functional Interface（功能介面）是只有一個抽象方法的介面，是 Lambda 表達式的基礎。
+各位，請起立致敬！這是現代 Java 的基石：Functional Interface。
 
 【帶讀說明】
-@FunctionalInterface 是可選的注解，加上去讓編譯器幫你確認——如果不小心加了第二個抽象方法，編譯就報錯。
+只要介面裡只有「一個」抽象方法，它就是 Functional Interface。為什麼這麼重要？因為只有這樣，Java 才敢讓你用 Lambda（()->{}）去實作它。如果有兩個方法，Java 怎麼知道你的 Lambda 是在實作哪一個？
 
 💼 業界實務：
-你在第 25 章學到的 Stream API 的 filter()、map()、forEach() 都接收 Functional Interface 作為參數，這就是 Lambda 能用的原因。
+如果你寫了一個 Functional Interface 卻忘了加 @FunctionalInterface 註解，那就像是出門沒帶身分證一樣。雖然合法，但專業感直接扣分。
 -->
 ---
 
@@ -473,13 +474,13 @@ Functional Interface（功能介面）是只有一個抽象方法的介面，是
 
 <!--
 【帶讀表格】
-四個最常用的內建功能介面：
-- Predicate：判斷，回傳 boolean（適合 filter）
-- Function：轉換，輸入 T 輸出 R（適合 map）
-- Consumer：消費，輸入 T 不回傳（適合 forEach）
-- Supplier：供給，不輸入回傳 T（適合延遲計算）
+這四位是 Java 8 的「四大天王」：
+1. Predicate：判官。問它對不對，它回 true/false。
+2. Function：翻譯機。給它 A，它吐出 B。
+3. Consumer：消費者。給它東西它就吃掉（執行），不回報。
+4. Supplier：供應商。不拿你東西，直接吐東西給你。
 
-💡 記憶方法：Predicate 判斷、Function 轉換、Consumer 消費（用掉）、Supplier 供應（產生）。
+💡 記不住？想像一下：Predicate 是檢察官，Function 是加工廠，Consumer 是垃圾桶，Supplier 是提款機。
 -->
 ---
 
@@ -502,14 +503,10 @@ System.out.println(hero.get()); // 炭治郎
 
 <!--
 【帶讀程式碼】
-四個介面的 Lambda 使用範例：
-- isLong：s -> s.length() > 5 判斷字串是否超過 5 個字元
-- toLen：String::length 方法參考，把字串轉成長度整數
-- print：System.out::println 直接印出
-- hero：() -> "炭治郎" 不接收參數，回傳字串
+你看這程式碼，多優美！不用再寫那種囉哩八嗦的匿名類別（new Interface(){...}）了。
 
-⚠️ 學生常見誤解：
-方法參考 String::length 等同於 s -> s.length()，只是更簡潔的寫法。
+⚠️ 亮點：
+String::length 和 System.out::println。這叫「方法參考（Method Reference）」。這是在跟 Java 說：「你要的功能就在那裡，你自己去呼叫。」這讓你的程式碼簡潔到連你阿嬤都看得懂。
 -->
 ---
 
@@ -527,20 +524,18 @@ System.out.println(repeat.apply("鬼", 3)); // 鬼鬼鬼
 
 UnaryOperator<String> upper = String::toUpperCase;
 System.out.println(upper.apply("tanjiro")); // TANJIRO
+
+BinaryOperator<Integer> max = (a, b) -> a > b ? a : b;
+System.out.println(max.apply(10, 20)); // 20
 ```
 
 <!--
 【帶讀表格】
-進階功能介面：
-- BiFunction：兩個不同型別的輸入，一個輸出（Bi = 二）
-- UnaryOperator：輸入輸出相同型別（Unary = 一元）
-- BinaryOperator：兩個相同型別輸入，一個相同型別輸出
-
-【帶讀程式碼】
-(s, n) -> s.repeat(n)：把字串重複 n 次。String::toUpperCase 方法參考轉大寫。
+這些是進階版。Bi 就是「雙重」的意思。
+UnaryOperator 就是自產自銷，進去是 String，出來也是 String。
 
 💼 業界實務：
-這些介面在 Stream API 裡大量使用。當你寫 stream().map(s -> s.toUpperCase()) 時，map() 的參數就是 Function<String, String>。
+在 Stream API 裡，你會瘋狂用到這些東西。如果你不熟，那你用 Stream 就會用得非常痛苦，感覺像是在用筷子喝湯。
 -->
 ---
 layout: section
@@ -552,7 +547,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-Java 9 繼續增強介面，加入了 private 方法，讓介面的內部邏輯可以被封裝和重用。
+Java 9 也來湊熱鬧了。它給介面加了「私房話」功能。
 -->
 ---
 layout: default
@@ -571,7 +566,8 @@ layout: default
 
 <!--
 【帶讀表格】
-Java 9 的完整介面功能清單。Private 方法讓介面內部的程式碼可以被多個 default 方法重用，而不需要暴露給外部。
+Java 9 把最後的一塊拼圖補上了：private 方法。
+這代表介面現在可以有自己的秘密了。它不再需要為了重用一段程式碼，而被迫把那段程式碼暴露給全世界看。
 -->
 ---
 
@@ -590,9 +586,8 @@ Java 9 的完整介面功能清單。Private 方法讓介面內部的程式碼�
 
 <!--
 【帶讀表格】
-Private 方法的規則：只能在介面內部用、不能是抽象的（必須有實作）。
-
-設計目的：如果兩個 default 方法有共同邏輯，以前要重複寫，現在可以抽取到 private 方法裡。
+規則很簡單：私有的東西，就只有介面自己能看到。
+這解決了一個很尷尬的問題：如果你有兩個 default 方法，裡面有 10 行一模一樣的 Code，在 Java 9 之前，你只能寫兩次，或是建一個莫名其妙的工具類別。現在，你可以直接抽成一個 private 方法，乾乾淨淨。
 -->
 ---
 
@@ -613,11 +608,10 @@ interface LearnJava {
 
 <!--
 【帶讀程式碼】
-method2() 呼叫 method4()（private 方法），method3() 呼叫 method5()（private static 方法）。
+你看，method2() 呼叫了 method4()。外部的人永遠不知道 method4() 的存在，這就是「封裝」。
 
-⚠️ 規則提醒：
-private static 方法可以被 static 和 non-static 的 default 方法呼叫。
-private non-static 方法只能被 non-static 的 default 方法呼叫，不能在 static 方法裡用。
+⚠️ 注意：
+static 不能呼叫 non-static。這在 Java 裡是天條，介面也不例外。所以 method3()（static）只能呼叫 method5()（static）。
 -->
 ---
 layout: section
@@ -629,7 +623,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-介面之間也可以繼承，而且介面支援多重繼承——這是 Java 類別不能做到的事。
+介面也能繼承！而且，介面的繼承比類別還要「狂」。
 -->
 ---
 layout: default
@@ -647,13 +641,13 @@ layout: default
 
 <!--
 【帶讀表格】
-三種繼承關係，注意語法：
-類別繼承類別：extends（只能一個）
-類別實作介面：implements（可以多個）
-介面繼承介面：extends（可以多個）
+請記好這個「混亂的關係」：
+1. 類別繼承類別：單身狗（只能一個）。
+2. 類別實作介面：海王（可以一堆）。
+3. 介面繼承介面：也是海王（可以一堆）。
 
 【重要規則】
-實作子介面的類別要實作「子介面 + 所有父介面」的抽象方法，一個都不能少。
+如果你繼承了一個「很有錢（有很多抽象方法）」的介面，那你實作的時候，就得把這些債通通還清，一個都不能少。
 -->
 ---
 
@@ -675,10 +669,10 @@ class Eagle implements Bird {
 
 <!--
 【帶讀程式碼】
-Bird extends Animal，所以 Eagle implements Bird 時要同時實作 showMe()（來自 Animal）和 flying()（來自 Bird）。
+Bird extends Animal。這時候 Bird 身上就背負了 Animal 的遺產。老鷹（Eagle）說它要實作 Bird，那它就得同時會 showMe()（繼承來的）和 flying()（自帶的）。
 
 【類比說明】
-就像你拿到「高級廚師證照」，但高級廚師包含了基礎廚師的所有技能，所以你要同時具備基礎廚師和高級廚師的所有能力。
+這就像是「全才」。你不但要會基礎的（Animal），還得會進階的（Bird）。
 -->
 ---
 
@@ -700,13 +694,13 @@ class A implements B, C {
 
 <!--
 【核心說明】
-類別可以 implements 多個介面！這是 Java 類別不能多重繼承但介面可以的特殊能力。
+這就是 Java 用來彌補「不能多重繼承」的方案。你不能有兩個爸爸，但你可以有一堆師父。
 
 【帶讀程式碼】
-class A implements B, C 同時實作兩個介面，必須覆寫 b() 和 c() 兩個方法。
+class A implements B, C。這行程式碼展現了強大的擴充性。A 同時擁有了 B 和 C 的能力。
 
 💼 業界實務：
-一個 Service 類別可能同時 implements UserService、AdminService、AuditService——實作多個介面讓類別說明「我具備這些能力」。
+一個 Service 可能同時是「唯讀的（ReadOnly）」也是「可查核的（Auditable）」。這種跨維度的能力，就是用多介面實作來完成的。
 -->
 ---
 
@@ -727,10 +721,9 @@ class InfoFly implements Fly {
 
 <!--
 【帶讀程式碼】
-Fly 繼承了 Bird 和 Airplane 兩個介面，InfoFly 實作 Fly 就要實作三個方法：birdFly()、airplaneFly()、pediaFly()。
+這裡更狂了，連介面自己都在搞多重繼承。Fly 介面同時繼承了 Bird 和 Airplane。
 
-【層次清楚】
-介面繼承可以建立「能力的層次體系」，Fly 代表「更完整的飛行能力」，包含了鳥的飛法和飛機的飛法。
+💡 你看 InfoFly，它要寫三個方法。這告訴我們一件事：權力愈大（繼承愈多），責任愈大（要寫的方法愈多）。
 -->
 ---
 
@@ -755,10 +748,7 @@ class Fly implements Bird, Airplane {
 
 <!--
 【帶讀程式碼】
-Bird 和 Airplane 都有 flying() 方法。Fly 同時 implements 兩個介面，但同名方法只需覆寫一次。
-
-⚠️ 注意：
-這裡沒有衝突是因為方法是抽象的。如果是 default 方法就會有衝突，需要特別處理（下面的進階主題會講）。
+如果兩位師父教你同樣名字的招式「flying()」，你只需要學一遍就好。因為它們都是「抽象」的，只要你最後把招式使出來，師父們就不會計較你是跟誰學的。
 -->
 ---
 
@@ -774,12 +764,8 @@ Bird 和 Airplane 都有 flying() 方法。Fly 同時 implements 兩個介面，
 
 <!--
 【帶讀表格】
-重要規則摘要：
-類別 extends 只能一個，implements 可以多個。
-介面 extends 可以多個。
-語法順序：先 extends 後 implements。
-
-⚠️ 順序不能對調！class A implements B extends C 會編譯錯誤，一定要 class A extends C implements B。
+這張表要背熟，這是在 Java 森林裡行走的「交通規則」。
+特別注意那個語法順序：先拼爹（extends），再拼才華（implements）。如果你把順序寫反了，編譯器會當場讓你掛掉。
 -->
 ---
 layout: section
@@ -791,7 +777,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-進階主題來了。實際開發中會遇到各種衝突情況，我們來看 Java 是怎麼解決的。
+好了，現在我們要進入「深水區」。準備好迎接那些讓開發者抓狂的衝突問題了嗎？
 -->
 ---
 layout: default
@@ -818,10 +804,8 @@ class A implements B, C {
 
 <!--
 【帶讀程式碼】
-B.x 是 5，C.x 是 8。名字衝突時用「介面名稱.變數名稱」明確指定要用哪個介面的。
-
-【原因說明】
-介面的成員變數是 static final，所以用介面名稱存取是天然的方式，不需要先創建物件。
+如果兩個介面都有一個變數叫 x，而你都實作了。你直接用 x，Java 會生氣地問你：「你到底在說哪一個？」
+解法很簡單：報上名號。B.x 或 C.x。這就是 static 的好處，身分明確。
 -->
 ---
 
@@ -835,10 +819,8 @@ B.x 是 5，C.x 是 8。名字衝突時用「介面名稱.變數名稱」明確�
 
 <!--
 【帶讀表格】
-Default 方法衝突的三種情況：
-1. 只實作一個介面，想改行為：直接 Override。
-2. 實作多個有相同 Default 方法的介面：必須 Override，否則編譯錯誤。
-3. 想呼叫特定介面的 Default 方法：用「介面名稱.super.方法名稱()」。
+如果兩位師父不只是教招式，還各自給了你一套「內建功法（default 方法）」，而這兩套功法名字一樣...這下麻煩大了。
+Java 會逼你二選一，或是乾脆自創一套。
 -->
 ---
 
@@ -858,11 +840,8 @@ class Pet implements Dog, Cat {
 
 <!--
 【帶讀程式碼】
-Pet implements Dog, Cat，兩個介面都有 running() default 方法，衝突！所以 Pet 必須 Override running()。
-
-Override 裡用 Dog.super.running() 和 Cat.super.running() 分別呼叫兩個介面的版本，把兩個都執行一遍。
-
-💡 這個語法 Dog.super.running() 是 Java 8 特有的，專門解決這種多介面衝突問題。
+你看，Dog 說要這樣跑，Cat 說要那樣跑。Pet 同時學了兩家功夫，編譯器會卡住。
+這時候你要寫個 Override 來說清楚。你可以兩個都呼叫（Dog.super.running()），或是只選一個。這就是「調停者模式」。
 -->
 ---
 
@@ -886,12 +865,7 @@ class Pet extends Horse implements Dog {
 
 <!--
 【帶讀程式碼】
-語法：class Pet extends Horse implements Dog
-
-extends 在前，implements 在後，順序固定。
-
-💼 業界實務：
-Spring Boot 的實體類別常常是繼承一個基底類別（如 BaseEntity 包含 id、createdAt）同時實作多個介面（如 Serializable）。
+再次強調順序！老爸只有一個，必須擺第一位。證照可以有很多，往後擺。
 -->
 ---
 
@@ -912,14 +886,8 @@ class Pet extends Horse implements Dog { }
 
 <!--
 【核心說明】
-當繼承的父類別和實作的介面有相同名稱的方法，父類別優先！
-
-【優先順序】
-子類別自訂 > 繼承的父類別方法 > 介面 Default 方法
-
-【帶讀程式碼】
-Pet 繼承 Horse，Horse 有 running()。Dog 介面也有 running() default 方法。
-Pet.running() 呼叫的是 Horse 的版本，因為父類別優先於介面 Default 方法。
+這叫「血濃於水」。
+如果親爹（父類別）跟師父（介面）教了同名的招式，Java 預設聽親爹的。這讓程式碼的行為變得比較好預測，不會因為加個介面就讓原本的類別行為大變。
 -->
 ---
 
@@ -940,36 +908,50 @@ class Pet implements Dog { }
 
 <!--
 【核心說明】
-父子介面都有同名 Default 方法時，子介面的版本覆蓋父介面。
-
-【帶讀程式碼】
-Dog extends Animal，兩者都有 running() default。Pet implements Dog，所以 Pet.running() 執行 Dog 的版本（子介面優先）。
-
-【優先規則】
-更具體（更下層）的介面優先。
+這叫「江山代有才人出」。
+越具體的（子介面）通常越有用，所以它會覆蓋掉那個太籠統的（父介面）。
 -->
 ---
 
 # 鑽石 (Diamond) 問題
 
-- 介面 B 與介面 C 同時繼承介面 A
-- 三個介面都有同名的 Default 方法
-- 類別 D 同時實作介面 B 與介面 C
-- → 編譯器無法決定執行哪個版本，**類別 D 必須強制 Override**
+- 介面 B 與介面 C 同時繼承介面 A，三者都有同名的 Default 方法
+- 類別 D 同時實作 B 與 C → 編譯器無法決定執行哪個版本，**必須強制 Override**
 
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+<div class="flex flex-col items-center my-3 text-xs font-mono gap-1">
+  <div class="border border-blue-400 bg-blue-50 rounded px-4 py-1">
+    interface A — <span class="text-blue-600">default</span> void running()
+  </div>
+  <div class="text-gray-400 text-base" style="display:flex; width:280px; justify-content:space-between;">
+    <span>↙</span><span>↘</span>
+  </div>
+  <div class="flex gap-4">
+    <div class="border border-green-500 bg-green-50 rounded px-3 py-1 text-center">
+      interface B<br><span class="text-gray-500">extends A, override running()</span>
+    </div>
+    <div class="border border-green-500 bg-green-50 rounded px-3 py-1 text-center">
+      interface C<br><span class="text-gray-500">extends A, override running()</span>
+    </div>
+  </div>
+  <div class="text-gray-400 text-base" style="display:flex; width:280px; justify-content:space-between;">
+    <span>↘</span><span>↙</span>
+  </div>
+  <div class="border border-red-400 bg-red-50 rounded px-4 py-1 text-red-700">
+    class D implements B, C — ⚠️ 必須 Override
+  </div>
+</div>
+
+<div class="p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 因繼承圖形的箭頭流向類似鑽石形狀，稱為<b>鑽石問題（Diamond Problem）</b>
 </div>
 
 <!--
 【核心說明】
-Diamond 問題（鑽石問題）：B 和 C 都繼承 A，D 同時 implements B 和 C。
-
-【問題所在】
-A、B、C 都有 running() default 方法。D 呼叫 running() 時，該用哪個版本？B 的還是 C 的？編譯器無法決定，所以強制要求 D 覆寫。
+這就是大名鼎鼎的「鑽石問題」。聽起來很美，但對工程師來說是噩夢。
 
 【類比說明】
-你同時繼承了兩位師父的武功，兩個師父都有「出劍」這個招式但版本不同——你必須自己決定你的版本是什麼，不能讓系統猜。
+B 和 C 是兩位師兄，它們都改寫了師父 A 的招式。現在你同時跟兩位師兄學藝...你到底要聽誰的？
+這時候你就得自己站出來，寫一個 Override 來解決這個家族紛爭。
 -->
 ---
 
@@ -990,9 +972,7 @@ class D implements B, C {
 
 <!--
 【帶讀程式碼】
-D 必須 Override running()，在裡面用 B.super.running() 和 C.super.running() 明確指定呼叫哪個版本。
-
-⚠️ 如果 D 不 Override，直接編譯錯誤：B 和 C 都有 running() default 方法，編譯器不知道用哪個。
+你看 D 的做法。它很貪心，兩個都想要。這就是解決鑽石問題的標準流程：你自己手動把冲突的地方給補上。
 -->
 ---
 
@@ -1015,13 +995,13 @@ public sealed interface Shape permits Circle, Rectangle {
 
 <!--
 【核心說明】
-介面也可以是 sealed，精確控制哪些類別可以實作它。
+這是 Java 17 的「保險箱」功能。
 
 【帶讀程式碼】
-sealed interface Shape permits Circle, Rectangle：只有 Circle 和 Rectangle 可以 implements Shape。
+sealed interface Shape permits Circle, Rectangle。這行就是在說：「這張執照，我只發給圓形跟矩形。其他阿貓阿狗別想來拿。」
 
 💼 業界實務：
-和 sealed abstract class 一樣，適合設計「封閉的型別體系」，配合 switch Pattern Matching 讓編譯器幫你檢查完整性。
+在設計複雜的商業邏輯時，這能防止別人亂入你的架構。
 -->
 ---
 
@@ -1046,10 +1026,7 @@ public non-sealed class Rectangle implements Shape {
 
 <!--
 【帶讀表格】
-實作 sealed 介面的子類別同樣要明確宣告 final、sealed 或 non-sealed 三者之一。
-
-Circle 宣告 final：不能再被繼承。
-Rectangle 宣告 non-sealed：開放繼承，回歸傳統。
+和類別一樣，子類別得選邊站。你要嘛斷子絕孫（final），要嘛繼續玩密封（sealed），要嘛乾脆大解放（non-sealed）。
 -->
 ---
 
@@ -1075,13 +1052,10 @@ record Rectangle(double w, double h) implements Shape {
 
 <!--
 【核心說明】
-Records 可以 implements 介面，而且 Records 隱含 final，天然符合 sealed 介面的要求。
+如果你已經用了 Java 16+，那這簡直是「神組合」。
 
 【帶讀程式碼】
-record Circle(double radius) implements Shape，一行宣告，自動有建構方法、accessor，還實作了 area()。比傳統 final class 省很多程式碼。
-
-💼 業界實務：
-Result 型別（成功/失敗）、事件類型這類「封閉集合」用 sealed interface + records 是現代 Java 的最佳實踐。
+用 Record 來實作介面。一行搞定所有屬性跟方法。這程式碼寫起來真的有一種「我是在寫程式還是在寫詩」的錯覺。
 -->
 ---
 
@@ -1105,10 +1079,7 @@ public double getArea(Shape shape) {
 
 <!--
 【帶讀程式碼】
-switch(shape) 有兩個 case：Circle 和 Rectangle。因為 Shape 是 sealed 只有這兩種，所以不需要 default，編譯器保證所有情況都處理了。
-
-💡 好處：
-新增一個 permits 子類別時，所有相關 switch 都會報編譯錯誤，提醒你更新邏輯。這比傳統 instanceof 的 if-else 安全太多了。
+你看這個 switch。它沒有寫 default。為什麼？因為 Shape 是密封的，它保證只有 Circle 跟 Rectangle。如果你以後加了第三個形狀，編譯器會立刻報警說你沒處理。這就是「安全性」。
 -->
 ---
 layout: section
@@ -1120,7 +1091,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【段落轉換】
-來做練習，把今天學的介面概念實際應用一下。
+好了，別光聽我講笑話，動手寫個「跑路」程式吧。
 -->
 ---
 layout: default
@@ -1137,14 +1108,15 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-這個練習設計一個介面階層來模擬「跑」的行為，練習介面實作、類別繼承+介面實作的組合，還有 Override。
+練習時間！我們來模擬一下怎麼跑。
+人會跑，車也會跑。我們用介面來統一這兩者的行為。
 
 【問題引導】
-Runnable 介面定義 run()，Human 和 Car 各自實作。Person extends Human 並重新定義 run()。
-三個類別的跑法各不相同，這就是多形的體現。
+Runnable 介面要怎麼寫？那三個類別的關係搞清楚了嗎？
+記得，Person 繼承 Human 的同時，其實也就繼承了它的 Runnable 身分。
 
 【等待與觀察】
-給大家 5 分鐘設計類別結構。
+給大家 5 分鐘。寫不出來的人，待會可能得跑著回家。
 -->
 ---
 layout: default
@@ -1169,14 +1141,10 @@ class Human implements Runnable {
 
 <!--
 【帶讀解法】
-Runnable 介面只有一個方法 run()。
-Human.run() 印「人在路上跑」，Car.run() 印「車在路上跑」。
-Person extends Human，Override run() 印「Person 在快跑」（或任何你喜歡的字串）。
+解法就在這裡。簡單明瞭。
 
-可以用 Runnable 型態宣告這三個物件（Upcasting），然後呼叫 run() 觀察多形效果。
-
-⚠️ 注意：
-Java 標準庫有一個 java.lang.Runnable 介面（用在執行緒），和練習裡自訂的 Runnable 不同，別搞混了！
+⚠️ 小彩蛋：
+如果你在實作的時候發現有個東西叫 java.lang.Runnable...沒錯，那是 Java 內建用來跑 Thread 的。這告訴我們，名字取太好，也是會撞衫的。
 -->
 ---
 layout: section
@@ -1187,13 +1155,16 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【收尾】
-今天學了介面的完整體系：基本語法、成員變數、Java 8/9 新增功能、繼承、進階衝突處理、密封介面。
+今天我們從最基本的「行為契約」講到 Java 17 的「密封保險箱」。
+介面不再是那個只會開空頭支票的主管，它現在是有實作、有靜態工具、甚至能做 Lambda 運算的強大武器。
 
 【核心帶走重點】
-介面 = 行為契約。不同類別通過 implements 宣稱自己具備某種能力。
-類別可以 implements 多個介面，但 extends 只能一個父類別——這是介面最大的優勢。
+1. 介面是「證照」，類別可以拿很多張。
+2. Java 8 之後介面可以有 default 方法。
+3. Functional Interface 是 Lambda 的靈魂。
+4. 針對介面編程，是成為高手的必經之路。
 
-Q&A 時間，有任何問題請提出！
+有問題嗎？沒問題的話，大家可以「implements 下課」了。
 -->
 ---
 layout: end
@@ -1204,5 +1175,5 @@ layout: end
 
 <!--
 [依脈絡推斷]
-本章結束。介面定義行為契約，多重繼承讓設計更靈活——這就是今天最重要的概念。
+下課！記住：介面是你的合約。如果你不遵守合約，Java 就會讓你違約金賠不完（Bug 修不完）。我們下章見！
 -->

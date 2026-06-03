@@ -49,7 +49,18 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(git push *)",
-      "Bash(claude mcp *)"
+      "Bash(claude mcp *)",
+      "Bash(Select-String -Path \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\ch01-java-intro.md\" -Pattern \"^---$\")",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -ExpandProperty Count)",
+      "PowerShell(Select-String *)",
+      "PowerShell(pnpm slidev *)",
+      "PowerShell(Get-Content *)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\Angular-Allen\\\\scripts\")",
+      "Bash(cp \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\scripts\\\\export-all.mjs\" \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\Angular-Allen\\\\scripts\\\\export-all.mjs\")",
+      "Bash(pnpm add *)",
+      "Bash(Select-Object -ExpandProperty Name)",
+      "Bash(Sort-Object)"
     ]
   }
 }

@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: 類別與物件
 routeAlias: ch08
 style: |

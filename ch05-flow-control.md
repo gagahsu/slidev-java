@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: 程式流程控制
 routeAlias: ch05
 style: |
@@ -39,6 +41,17 @@ style: |
   <Link to="home" style="color: #9dc4c4; font-size: 0.85rem; margin-top: 2rem; text-decoration: none; letter-spacing: 0.05em;">← 返回目錄</Link>
 </div>
 
+<!--
+【開場白】
+嘿！各位未來的建築師們，大家好。上一章我們學會了加減乘除，但程式如果只會算術，那跟算盤沒兩樣。今天我們要教程式「思考」。這章的主題是「流程控制」，也就是讓你的程式知道，什麼時候該轉彎，什麼時候該直走，什麼時候該報警（誤）。
+
+【為什麼要學這個？】
+這就像是在玩《大富翁》。如果你走到「機會」格，你要抽一張牌；如果你走到「監獄」格，你要坐牢。程式也是一樣，我們得設定好各種規矩，它才不會像個無頭蒼蠅一樣亂撞。
+
+【今天學完你會能做什麼】
+學完這章，你就能寫出一個會自動打分數、會看生肖，甚至還能幫你決定今天要不要加班的「人生導師」程式。
+-->
+
 ---
 layout: default
 ---
@@ -50,6 +63,14 @@ layout: default
 - **5-3 專題實作**：BMI 計算、生肖判斷、火箭升空倒數
 - **練習題**：2 題（任務說明 + 解題提示各一張）
 
+<!--
+【核心說明】
+這章的重點就是兩個字：「分支」。
+
+【生活化比喻】
+想像你站在人生的十字路口。往左是去當工程師，往右是去送外送（誤）。if 就像是那個紅綠燈，switch 就像是那個圓環，有多個出口讓你挑。我們還會帶到 Java 17 那些酷酷的新語法。
+-->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -57,6 +78,11 @@ class: flex flex-col justify-center items-center text-center
 
 # 第一部分
 # 5-1 if 敘述
+
+<!--
+【開場白】
+讓我們先從最簡單、最常用，也最容易讓工程師加班的 if 開始講起。
+-->
 
 ---
 layout: default
@@ -73,6 +99,17 @@ layout: default
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>執行規則：</b>if-else if-else 鏈中，一旦某個條件為 true，其餘條件全部跳過，即使後面也可能成立。
 </div>
+
+<!--
+【核心說明】
+if 系列就像是你的保險條款。
+
+【生活化比喻】
+單純 if：如果你有保險，住院就給錢。if-else：如果你及格就過暑假，不及格就去重修。if-else if-else：如果你有 100 萬就買賓士，有 50 萬買豐田，都沒錢就騎腳踏車。
+
+⚠️ 學生常見誤解：
+注意！在 if-else if 鏈裡，Java 是一個「懶惰的判官」。只要第一個條件成立了，後面的它連看都不看。所以順序很重要！
+-->
 
 ---
 
@@ -92,6 +129,14 @@ if (score >= 60) {
     System.out.println("不及格");
 }
 ```
+
+<!--
+【逐步解說】
+看這段程式碼。if 後面的括號裡一定要放「布林值」（true/false）。如果 score >= 60 是真的，它就會印出「及格」。
+
+⚠️ 學生常見誤解：
+大括號 {} 雖然在只有一行時可以省略，但我強烈建議你「永遠寫上大括號」。不然等你以後加了一行程式碼卻發現它不聽話時，你會想把電腦砸了。
+-->
 
 ---
 
@@ -115,6 +160,14 @@ if (score >= 90) {
 💡 <b>建議：</b>條件由「最嚴格」到「最寬鬆」排列，避免邏輯被提前攔截。
 </div>
 
+<!--
+【核心說明】
+這叫「分級制度」。
+
+💼 業界實務：
+條件要從「最嚴格」的開始寫。如果你把 score >= 60 放在最上面，那 95 分的人也會被判定為「及格」然後直接結束，他應得的「優秀」就飛了。這就像是面試，如果第一關門檻太低，後面的人才就沒機會展現了。
+-->
+
 ---
 
 # 三元運算子 `? :`
@@ -136,6 +189,17 @@ String result = (a > b) ? "a 較大" : "b 較大";
 System.out.println(result); // b 較大
 ```
 
+<!--
+【核心說明】
+這是 if-else 的「精簡版」，適合那些喜歡把程式碼寫得像詩一樣短的工程師。
+
+【生活化比喻】
+這就像是問答比賽。題目？答案 A：答案 B。a > b ? "a 較大" : "b 較大"。
+
+💼 業界實務：
+這在做簡單的賦值或字串拼接時超好用。但別用它來寫超長、超複雜的邏輯，不然你的同事會在你背後貼紙條罵你。
+-->
+
 ---
 
 # 三元運算子 vs if-else 對比
@@ -151,6 +215,14 @@ System.out.println(result); // b 較大
 💡 <b>使用原則：</b>邏輯簡單、單行可表達時用三元運算子；邏輯複雜或有多個步驟時用 if-else。
 </div>
 
+<!--
+【核心說明】
+這是一場「美學與邏輯」的對決。
+
+【生活化比喻】
+三元運算子就像是「快顯視窗」，一眼看完。if-else 就像是「長篇報告」，寫得清清楚楚。邏輯簡單就用三元，邏輯複雜請務必用 if-else。記住，程式碼是寫給人看的，不是寫來炫耀。
+-->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -158,6 +230,11 @@ class: flex flex-col justify-center items-center text-center
 
 # 第二部分
 # 5-2 switch 敘述
+
+<!--
+【開場白】
+接下來講 switch。如果 if 是二選一，那 switch 就是「選單模式」。適合用在當一個變數有多種可能固定值的時候。
+-->
 
 ---
 layout: default
@@ -181,6 +258,14 @@ switch (day) {
     default: System.out.println("其他天");
 }
 ```
+
+<!--
+【核心說明】
+switch 就像是一個「分選機」。
+
+⚠️ 學生常見誤解：
+那個 break！它是 switch 的靈魂。少了 break，程式會像煞車失靈的火車一樣，衝過第一站、第二站，直到撞到最後一個車站為止。這叫 fall-through（貫穿）。
+-->
 
 ---
 
@@ -207,6 +292,14 @@ switch (day) {
 💡 <b>善用 fall-through：</b>多個 case 共用同一段邏輯時，可以省略中間的 break，讓程式自然貫穿。
 </div>
 
+<!--
+【核心說明】
+雖然忘記寫 break 通常是 Bug，但有時候我們會故意不寫。
+
+【生活化比喻】
+這就像是你要判斷「工作日」。不論是週一到週五，結果都一樣。這時候我們就讓它一路「貫穿」下去，最後再放一個 break 攔住它。這樣程式碼會簡潔很多。
+-->
+
 ---
 
 # switch 搭配字串
@@ -229,6 +322,17 @@ switch (season) {
 💡 <b>注意大小寫：</b>字串比較區分大小寫。若輸入來自使用者，建議先呼叫 <code>.toLowerCase()</code> 或 <code>.toUpperCase()</code> 統一格式。
 </div>
 
+<!--
+【核心說明】
+Java 7 之後，switch 終於學會看文字了。
+
+⚠️ 學生常見誤解：
+字串比較是「大小寫敏感」的。如果你輸入 "SPRING" 但 case 是 "spring"，它會跑去 default。
+
+💼 業界實務：
+為了安全，我們通常會先用 .toLowerCase() 統一格式，免得使用者亂打大小寫讓你程式報錯。
+-->
+
 ---
 
 # Java 14+ Switch Expression 語法對比
@@ -240,6 +344,14 @@ switch (season) {
 | 回傳值 | 不能直接賦值 | 可直接賦值給變數 |
 | 多值 case | 需連寫多個 case | `case A, B, C ->` 逗號分隔 |
 | 強制完整性 | 不強制（無 default 也行） | 必須涵蓋所有可能值 |
+
+<!--
+【核心說明】
+這是 Java 的「現代化改造」。
+
+【生活化比喻】
+傳統 switch 就像是老舊的機械開關，得自己加保險絲（break）。現代 switch（用 -> 箭頭）就像是數位觸控面板，點一下就到位，不用擔心煞車失靈，還能直接把結果丟給你。
+-->
 
 ---
 
@@ -259,6 +371,11 @@ String dayName = switch (day) {
 };
 System.out.println(dayName); // 星期三
 ```
+
+<!--
+【逐步解說】
+看這段程式碼，多乾淨！沒有討厭的 break，也沒有一堆冒號。String dayName = switch (day) { ... };。這代表 switch 現在「有價值」了，它可以直接回傳一個字串給變數。
+-->
 
 ---
 
@@ -284,6 +401,14 @@ System.out.println(month + " 月有 " + days + " 天");
 💡 <b>yield：</b>在 switch expression 的 block（大括號）中，用 <code>yield</code> 代替 <code>return</code> 回傳值。
 </div>
 
+<!--
+【核心說明】
+現代 switch 能讓你一行抵五行。看到 case 1, 3, 5... -> 31 了嗎？這太優雅了！
+
+【逐步解說】
+如果你的邏輯很複雜，需要在大括號裡運算，最後請用 yield 把結果「吐」出來。注意：yield 只有在這種賦值模式下才有用喔。
+-->
+
 ---
 
 # Java 17 Pattern Matching for switch（預覽特性）
@@ -296,6 +421,14 @@ Java 17 引入 switch 型別模式比對（JEP 406，預覽功能）：
 | `case String s ->` | 比對型別並自動綁定變數 `s` |
 | `case String s when s.length() > 0 ->` | 加條件守衛（guarded pattern）|
 | `case null ->` | 明確處理 null 值，不再拋 NPE |
+
+<!--
+【核心說明】
+這是 Java 17 的「大絕招」，它讓 switch 變成了「超能力者」。
+
+【生活化比喻】
+以前 switch 只能比數字或字串，現在它能看透物件的本質。「你是一個整數嗎？」、「你是一個空字串嗎？」。這讓程式碼看起來像是在跟電腦直接對話。
+-->
 
 ---
 
@@ -316,6 +449,11 @@ static String describe(Object o) {
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>Java 版本說明：</b>Pattern Matching for switch 在 Java 17 為預覽版，Java 21 起成為正式標準。課程以 JDK 17 為主，使用時需加上 <code>--enable-preview</code> 編譯旗標。
 </div>
+
+<!--
+【逐步解說】
+case Integer i ->。這行不但判斷它是整數，還順便幫它取了名字叫 i。還有那個 when 條件守衛，就像是門口的保全不但看證件，還要檢查你有沒有戴口罩。
+-->
 
 ---
 
@@ -340,6 +478,14 @@ static double area(Shape s) {
 💡 <b>優點：</b>編譯器知道 sealed 類別的所有子型別，能在編譯期檢查是否漏掉某個 case，不需要 default。
 </div>
 
+<!--
+【核心說明】
+這是 Java 為了追求「安全」而設計的。
+
+【生活化比喻】
+如果你有一間只准進「圓形」和「方形」的房間，那 switch 就只需要處理這兩種可能。如果你漏寫了，編譯器會咆哮：「那個三角形怎麼辦？」。這讓你的程式碼像鋼鐵一樣堅固。
+-->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -347,6 +493,11 @@ class: flex flex-col justify-center items-center text-center
 
 # 第三部分
 # 5-3 專題實作
+
+<!--
+【開場白】
+學了這麼多神功，如果不拿來實戰，那就只是在耍嘴皮子。讓我們來看看剛才學的流程控制，在現實世界怎麼用。
+-->
 
 ---
 layout: default
@@ -362,6 +513,11 @@ BMI（身體質量指數）= 體重（kg）÷ 身高²（m²）
 | 18.5 ≤ BMI < 24 | 體重正常 |
 | 24 ≤ BMI < 27 | 體重過重 |
 | BMI ≥ 27 | 肥胖 |
+
+<!--
+【核心說明】
+這是一個結合 if-else if 的經典應用。算完 BMI 後，我們要根據範圍給出評價。記住，身高要先換算成公尺喔！
+-->
 
 ---
 
@@ -385,6 +541,11 @@ if (bmi < 18.5) {
 }
 ```
 
+<!--
+【逐步解說】
+看這段邏輯。我們先檢查 < 18.5，再檢查 < 24。因為我們用 else if，所以如果成立了第一個條件就會結束，不會跑到後面去。順序一定要對！
+-->
+
 ---
 
 # 專題二：生肖判斷
@@ -394,6 +555,11 @@ if (bmi < 18.5) {
 | 餘數 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 生肖 | 猴 | 雞 | 狗 | 豬 | 鼠 | 牛 | 虎 | 兔 | 龍 | 蛇 | 馬 | 羊 |
+
+<!--
+【核心說明】
+利用除以 12 的餘數來算出你是哪種動物。這裡最適合用 switch 了，因為情況是固定的 12 種。
+-->
 
 ---
 
@@ -420,6 +586,11 @@ String zodiac = switch (r) {
 System.out.println(year + " 年是 " + zodiac + " 年");
 ```
 
+<!--
+【逐步解說】
+這裡用了 switch expression。2024 年除以 12 餘 8，對應到「龍」。不但寫起來快，讀起來也很清楚，不需要擔心忘記寫 break。
+-->
+
 ---
 
 # 專題三：火箭升空倒數
@@ -442,6 +613,14 @@ for (int i = 10; i >= 0; i--) {
 💡 <b>觀念複習：</b>for 迴圈中的 if-else if-else 鏈，每次迭代都會根據 <code>i</code> 的值選擇對應的分支執行。
 </div>
 
+<!--
+【核心說明】
+這是一個結合迴圈與判斷的範例。倒數到 3 秒時要特別提醒，0 秒時點火。
+
+【逐步解說】
+這就是流程控制的魅力：在對的時間，做對的事情。每次迴圈都會重新跑一次 if 判斷，直到任務完成。
+-->
+
 ---
 layout: default
 ---
@@ -461,6 +640,14 @@ layout: default
 
 **輸入範例：** `score = 83`  
 **輸出範例：** `等第：B`
+
+<!--
+【出題前的鋪陳】
+各位，又到了練習時間。想像你是個冷酷無情的助教，你要把分數轉成 A、B、C。
+
+【問題引導】
+記得，順序很重要！如果你先判斷 score >= 0，那全班都會拿到 A...然後你就會被教授開除。
+-->
 
 ---
 layout: default
@@ -486,6 +673,11 @@ if (score >= 90) {
 System.out.println("等第：" + grade);
 ```
 
+<!--
+【逐步解說】
+從高分段開始寫起就對了。試著寫完它，感受一下那個邏輯鏈的運作。最後那個 else 是所有人的「保底」等第。
+-->
+
 ---
 layout: default
 ---
@@ -502,6 +694,14 @@ layout: default
 
 **輸入範例：** `day = 6`  
 **輸出範例：** `假日`
+
+<!--
+【出題前的鋪陳】
+再來一個，練習最新的 switch expression。
+
+【問題引導】
+不要用舊的 case 1: ... break; 了，試著用箭頭 -> 和多值 case 1, 2, 3, 4, 5。這會讓你的程式碼看起來像是 2024 年的產物。
+-->
 
 ---
 layout: default
@@ -526,6 +726,11 @@ String type = switch (day) {
 System.out.println(type);
 ```
 
+<!--
+【逐步解說】
+case 1, 2, 3, 4, 5 -> "工作日";。就這一行，搞定週一到週五。這就是現代 Java 的力量！
+-->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -533,4 +738,9 @@ class: flex flex-col justify-center items-center text-center
 
 # Q & A
 
-有任何問題歡迎提出！
+<!--
+【開場白】
+今天我們教了程式怎麼「選擇」。從簡單的 if-else 到強大的 switch 模式比對。大家有什麼想問的嗎？
+
+或者是有人想問，如果我的 if 條件是「老闆心情好」，這該怎麼宣告成布林值？（提示：那個變數通常永遠是 false...開玩笑的！）
+-->

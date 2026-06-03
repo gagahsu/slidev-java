@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: 集合框架 Collection Framework
 routeAlias: ch24
 style: |
@@ -43,15 +45,13 @@ style: |
 
 <!--
 【開場白】
-大家好，今天我們要學的是「集合框架」。
+大家好，今天我們要學的是「集合框架」。這可是 Java 的重頭戲，寫程式如果不會用這個，就像是用雙手搬家卻不用紙箱一樣。
 
 【為什麼要學這個？】
-以前我們學過陣列，但陣列有個大問題：大小固定，功能有限。
-集合框架就是 Java 為你準備好的一整組「彈性容器」，自動擴充大小、附送排序、搜尋等豐富功能。
+以前我們學過陣列，但陣列有個大問題：大小固定，功能有限。你買了一個 10 吋的披薩盒，結果來了 12 吋的披薩，你就傻眼了。集合框架就是 Java 為你準備好的一整組「彈性容器」，會自動長大，還附送各種神奇功能。
 
 【今天學完你會能做什麼】
-學完之後你能用 List 儲存一排資料、用 Set 自動去重複、用 Map 做鍵值查詢。
-這三個工具在任何 Java 專案裡幾乎每天都用得到，是非常核心的技能。
+學完之後，你就能用 List 儲存一排資料、用 Set 自動過濾重複的東西（比如討厭的重複帳號）、用 Map 像查字典一樣秒找資料。這三個工具在任何 Java 專案裡幾乎每天都用得到，是你的吃飯傢伙。
 -->
 
 ---
@@ -77,9 +77,9 @@ layout: default
 這堂課分成四大部分：集合框架概覽、List、Set 和 Map，最後有選用指南。
 
 【學習建議】
-不用現在就把每個方法都背起來。先抓大方向：
+不用現在就把每個方法都背起來。身為資深工程師，我也不會全背。你只要抓大方向：
 什麼情況用 List？什麼情況用 Set？什麼情況用 Map？
-這個判斷力比背 API 更重要，課程結尾的「選用指南」會幫你整理。
+這個判斷力比背 API 更重要。
 -->
 
 ---
@@ -92,7 +92,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-第一部分，我們先用 10 分鐘了解集合框架的全貌，看看它包含哪些東西，再分區介紹。
+第一部分，我們先用 10 分鐘了解集合框架的全貌。這就像是先看超市的地圖，知道哪裡買菜、哪裡買肉。
 -->
 
 ---
@@ -113,18 +113,17 @@ layout: default
 
 <!--
 【核心說明】
-集合框架（Collection Framework）是 Java 標準函式庫裡一組設計好的資料結構。
-簡單說，就是 Java 官方幫你寫好的「各種收納盒」，你不用自己從零開始寫。
+集合框架（Collection Framework）就是 Java 官方幫你寫好的「各種收納盒」，你不用自己從零開始鋸木頭釘箱子。
 
 【生活化比喻】
-你去 IKEA 買東西，不需要自己設計抽屜，直接挑現成的用就好。
-集合框架也一樣：Java 已經幫你設計好了 List（有順序的盒子）、Set（不重複的盒子）、Map（貼標籤的盒子），你直接選來用。
+你去 IKEA 買收納組，不需要自己設計抽屜，直接挑現成的用就好。
+集合框架也一樣：Java 已經幫你設計好了 List（排隊用的盒子）、Set（防重複的盒子）、Map（貼標籤的盒子），你直接選來用。
 
 ⚠️ 學生常見誤解：
-陣列和集合不能互換。陣列大小固定、功能少；集合框架功能豐富、大小彈性，是現代 Java 的主流選擇。
+陣列和集合不能互換。陣列是「硬殼箱」，大小死了就不能改；集合框架是「高級彈性布袋」，裝越多它就長越大。
 
 💼 業界實務：
-業界的 Java 程式幾乎不直接用陣列（除非跟底層 API 打交道），全部都用集合框架。
+在業界，我們 99% 的時間都在用集合框架。如果你在專案裡還在手刻動態陣列，你的同事會覺得你是不是太閒了。
 -->
 
 ---
@@ -156,18 +155,16 @@ graph TD
 
 <!--
 【看圖前的引導】
-這張圖是集合框架的「家族樹」，看起來複雜，但只要抓住幾個關鍵節點就夠了。
+這張圖是集合框架的「家族樹」。看起來很嚇人，但其實只要記住幾個大長輩。
 
 【逐步帶著看】
-最頂端是 Iterable（可被遍歷的東西）。Collection 繼承它，是所有集合的共同祖先。
-Collection 往下分三條路：List（有序可重複）、Set（無重複）、Queue（佇列）。
-Map 是獨立的體系，不繼承 Collection，但同屬集合框架。
-
-【類比整體流程】
-把這棵樹想成超市分區：Collection 是整個超市，List 是冷凍區，Set 是熟食區，Map 是倉儲區。每個區有自己的規則，但都屬於同一個「超市」體系。
+最頂端是 Iterable（代表可以被一個一個數過一遍）。
+Collection 繼承它，是所有集合的共同祖先。
+Collection 往下分三條路：List（有序）、Set（唯一）、Queue（排隊）。
+Map 是隔壁棚的表哥，它雖然不繼承 Collection，但大家還是把它當一家人。
 
 💼 業界實務：
-業界通常不需要記這個繼承關係，但理解它有助於看懂框架文件，以及遇到型別問題時不會傻眼。
+面試時常會問「Map 有沒有繼承 Collection？」，答案是「沒有」。記住這一點，你就贏了一半的人。
 -->
 
 ---
@@ -186,18 +183,17 @@ Map 是獨立的體系，不繼承 Collection，但同屬集合框架。
 
 <!--
 【核心說明】
-這張表列出了所有 List、Set 都有的共同方法，因為它們都繼承自 Collection 介面。
-學好這些基本方法，三種集合你都能用。
+這張表是所有 Collection 家族成員（List, Set）都會的「基本功」。
 
 【生活化比喻】
-Collection 介面就像所有收納盒都有的「通用功能」：放進去（add）、拿出來（remove）、看看有沒有（contains）、數一數（size）。不管用哪種盒子，這些基本功都有。
+這就像是所有收納盒都有的功能：放進去（add）、拿出來（remove）、數一數裡面有幾個（size）。不管你買的是哪種盒子，這些基本動作都一樣。
 
 ⚠️ 學生常見誤解：
-`remove(Object o)` 是移除「指定的元素值」，不是「指定索引的位置」。
-List 額外有 `remove(int index)` 是按索引刪，注意不要搞混！
+`remove(Object o)` 是移除「內容物」，不是「第幾個」。
+如果你想刪掉「第三個」，那是 List 才有的小撇步，普通 Collection 不一定知道什麼是「第三個」。
 
 💼 業界實務：
-`clear()` 在資源回收或重置狀態時很常用，但要小心別誤清了不該清的集合。
+我們常會用 `isEmpty()` 來檢查有沒有資料，而不會去寫 `size() == 0`。雖然結果一樣，但 `isEmpty()` 看起來更有高級感，而且效能有時候會好那麼一點點。
 -->
 
 ---
@@ -222,19 +218,17 @@ System.out.println(fruits.isEmpty());         // true
 
 <!--
 【帶讀程式碼前的鋪陳】
-這段程式碼示範基本集合操作：建立水果清單，然後用各種方法操作它。
+我們來玩一下這個水果攤程式。
 
 【逐步解說】
-`new ArrayList<>()` 建立空串列，三次 `add` 加入三個水果。
-`size()` 問「有幾個？」回傳 3。`contains("橘子")` 問「有橘子嗎？」回傳 true。
-`remove("橘子")` 拿走橘子，`size()` 變 2。
-`clear()` 清空，`isEmpty()` 確認空了，回傳 true。
+1. 先 `new` 出一個 ArrayList，這是最受歡迎的盒子。
+2. `add` 三次，現在肚子裡有三個水果。
+3. `size()` 告訴你現在有 3 筆資料。
+4. `remove("橘子")` 橘子就被踢出去了。
+5. `clear()` 則是大掃除，全部清空。
 
 ⚠️ 學生常見誤解：
-`remove` 傳的是「字串值」，不是索引。這是 `remove(Object o)` 的用法。
-
-💼 業界實務：
-這種「建立 → 操作 → 確認」的流程在寫單元測試時非常常見。
+如果你在 `remove` 裡寫一個不存在的東西（比如 "榴槤"），程式不會噴錯，它只會假裝沒這回事地回傳 `false`。
 -->
 
 ---
@@ -259,21 +253,16 @@ while (it.hasNext()) {
 
 <!--
 【核心說明】
-Iterator（迭代器）是「逐一讀取集合元素」的工具。
-你可以把它想成一個機器人，每次問它「還有沒有下一個？」（hasNext），有的話就「拿出來」（next）。
+Iterator（迭代器）是遍歷集合的「保險寫法」。
 
 【生活化比喻】
-像在等公車，一輛一輛來。問「還有車嗎？」（hasNext()），有的話就「上車」（next()），沒有就結束。
+這就像是在迴轉壽司店。`hasNext()` 就是看輸送帶上還有沒有盤子，`next()` 就是把盤子拿過來吃掉。
 
 【程式世界怎麼用】
-Iterator 最重要的優勢：可以在遍歷過程中**安全地刪除元素**，用 `it.remove()`。
-普通 for 迴圈做不到這件事，會報 ConcurrentModificationException。
-
-⚠️ 學生常見誤解：
-不要在普通 for 迴圈裡用 `list.remove(element)` 刪元素，一定要用 Iterator 的 `remove()`。
+如果你想在「一邊看一邊刪除」元素，**一定要用 Iterator**。如果你用普通的 for 迴圈一邊跑一邊刪，Java 會覺得你在玩它，直接噴出 `ConcurrentModificationException` 給你。
 
 💼 業界實務：
-現代 Java 通常用 for-each 或 Stream 遍歷，但「邊遍歷邊刪除」的場景還是需要 Iterator。
+雖然現在我們大多用 `for-each` 或 `Stream`，但如果你需要「邊走邊刪」，Iterator 依然是唯一的真理。
 -->
 
 ---
@@ -300,17 +289,16 @@ Map<String, Integer> scores = Map.of("炭治郎", 95, "善逸", 70);
 
 <!--
 【核心說明】
-Java 9 新增了 `List.of()`、`Set.of()`、`Map.of()`，一行程式碼就能建立裝好資料的集合，而且建好之後**不能修改**。
+這是 Java 提供的「防呆模式」。
 
 【生活化比喻】
-這就像密封包裝的禮盒：你可以看裡面有什麼，但不能打開再加東西或拿走東西。
+`List.of` 就像是「密封包裝」。你可以看裡面有什麼，但你沒辦法再塞東西進去。
 
 ⚠️ 學生常見誤解：
-用 `List.of()` 建立的集合，呼叫 `add()` 或 `remove()` 在**執行時**才會報錯（不是編譯時），很容易忽略。
-另外 `List.of()` **不允許放 null**，放了會拋 NullPointerException。
+注意！這是不可變的。如果你試圖對 `List.of` 出來的東西 `add`，編譯時不會報錯（它是躲在介面後面的），但在跑程式時會直接炸掉。這就是所謂的「運行時驚喜」。
 
 💼 業界實務：
-業界常用 `List.of()` 定義常數集合（允許的類型列表、方向常數），放在 `static final` 欄位。
+當你確定這份資料永遠不會變（比如一週的天數、方向常數），就用 `List.of`。這能保護你的資料不被別的工程師手賤改掉。
 -->
 
 ---
@@ -338,16 +326,13 @@ List<String> immutableList = List.copyOf(mutableList);
 
 <!--
 【核心說明】
-Java 10 的 `copyOf()` 讓你把一個可修改的集合「複製」成不可變的版本。
+這是一個「快照」的概念。
 
 【生活化比喻】
-像把可以塗改的筆記「影印」成唯讀 PDF，原版可以繼續改，影印版只能看。
-
-⚠️ 學生常見誤解：
-`copyOf()` 是複製資料。如果來源本身已經是不可變集合（例如 `List.of` 建立的），Java 不會再複製一份，直接回傳原物件（省記憶體）。
+你有一本可以隨便塗鴉的筆記本（mutableList），現在你把它「影印」了一份（copyOf），這份影印件就是不可更改的 PDF 了。
 
 💼 業界實務：
-API 設計中，回傳給外部的集合通常用 `List.copyOf()` 包裝，防止外部意外修改內部狀態，這叫做「防禦性複製」（Defensive Copying）。
+資深開發者在寫 Method 時，如果不想讓外部的人改動我的內部資料，我會回傳一個 `List.copyOf(internalData)`。這叫「防禦性編程」，不信任任何人！
 -->
 
 ---
@@ -360,7 +345,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-進入第二部分，我們來聚焦 List。List 是你最常用到的集合類型，幾乎在每個 Java 程式裡都會看到它。
+第二部分，我們來聊聊最受歡迎的 `List`。它就像是排隊，有順序、有號碼，大家都能重複排。
 -->
 
 ---
@@ -387,17 +372,16 @@ System.out.println(list.size()); // 3
 
 <!--
 【核心說明】
-List 最重要的兩個特性：有順序、允許重複。
-有順序代表第一個放進去的永遠是第一個；允許重複代表可以放兩個一樣的值，各自算一筆資料。
+List 就是「有序」且「可重複」。
 
 【生活化比喻】
-List 就像排隊的隊伍：先到的站前面，後到的站後面，同一個人可以排兩次（允許重複）。
+List 就像是排隊買演唱會門票。誰先來誰站前面（有序），而且同一個人可以排兩次隊（允許重複）。
 
 ⚠️ 學生常見誤解：
-很多初學者直接寫 `ArrayList<String> list = new ArrayList<>()`。業界習慣是左邊用介面型別 `List`，右邊才是實作 `ArrayList`，方便之後換實作。
+記住索引（Index）是從 0 開始的。如果你有 3 個元素，最大的索引是 2。如果你去存取 `get(3)`，Java 會噴出一個 `IndexOutOfBoundsException`，翻譯成人話就是：「沒這格，別亂摸」。
 
 💼 業界實務：
-用介面型別宣告（`List` 而非 `ArrayList`）是業界標準，讓方法簽名更靈活，也方便替換實作。
+宣告時用 `List`（大長輩介面），實例化用 `ArrayList`（具體實作）。這叫「向上轉型」，讓你的程式更有彈性。
 -->
 
 ---
@@ -415,17 +399,17 @@ List 就像排隊的隊伍：先到的站前面，後到的站後面，同一個
 
 <!--
 【核心說明】
-除了 Collection 繼承來的方法，List 還有「依索引操作」的方法，這是 List 的獨特能力。
+List 讓你像操作陣列一樣，用索引來指定位置。
 
 【生活化比喻】
-Collection 的方法像操作一個袋子；List 的方法更像操作有格子的盒子，可以說「第三格放什麼、換什麼、拿出什麼」。
+`set(1, "B")` 就像是把排在第二個的人趕走，換成 B 站進去。
+`add(1, "C")` 則是讓 C 插入到第二個位置，後面的所有人都得乖乖往後退一步。
 
 ⚠️ 學生常見誤解：
-`subList(from, to)` 的範圍是 `[from, to)`，from 包含、to 不包含。
-例如 `subList(0, 2)` 取索引 0 和 1，不包含索引 2。
+`subList(0, 2)` 的範圍是「包含頭，不包含尾」。所以它會拿索引 0 和 1 的元素。這是 Java 的老傳統了。
 
 💼 業界實務：
-`subList()` 回傳的是原串列的「視圖」，不是複製品！修改子串列會影響原串列。若要獨立使用，需要 `new ArrayList<>(list.subList(...))` 包一層。
+`indexOf` 很常用來找某個東西在不在、在哪裡。如果回傳 -1，代表「查無此人」。
 -->
 
 ---
@@ -448,20 +432,19 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 
 <!--
 【帶讀程式碼前的鋪陳】
-這段程式碼對鬼殺隊成員清單做各種操作，跟著我一行一行看。
+我們來看看這段鬼殺隊的排隊邏輯。
 
 【逐步解說】
-先加入炭治郎、禰豆子、善逸。
-`set(1, "伊之助")` 把索引 1（禰豆子）換成伊之助。
-`add(0, "煉獄")` 在最前面插入煉獄，其他人全部往後移一格。
-現在是 [煉獄, 炭治郎, 伊之助, 善逸]。
-`get(0)` 取第一個「煉獄」；`indexOf("善逸")` 回傳 3；`subList(0, 2)` 取 [煉獄, 炭治郎]。
+1. 一開始是 炭治郎、禰豆子、善逸。
+2. `set(1, "伊之助")`：禰豆子（索引 1）被換成了伊之助。
+3. `add(0, "煉獄")`：大哥（煉獄）空降到第一位，其他人全部後移。
+4. 現在善逸被擠到了第 4 位（索引 3）。
 
-⚠️ 學生常見誤解：
-`add(index, e)` 會讓後面的元素往後移，插入後「善逸」的索引從 2 變成 3，索引會跟著變動。
+【類比說明】
+這就像是捷運排隊。有人插隊（add），後面的人就要往後退；有人被警察帶走（remove），後面的人就要往前補。
 
 💼 業界實務：
-「在特定位置插入」或「動態找最後一個元素」是常用技巧，掌握好 index 的計算邏輯很重要。
+`subList` 出來的東西不是一個全新的 List，它是原 List 的「分身」。改了 subList，原來的 List 也會跟著變。想玩真的？記得 `new ArrayList<>(subList)`。
 -->
 
 ---
@@ -482,20 +465,17 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 
 <!--
 【核心說明】
-List 有兩種主要實作：ArrayList 和 LinkedList。功能一樣，但底層結構不同，效能特性差異很大。
+這是在面試中被問到爛掉的經典題。
 
 【生活化比喻】
-ArrayList 像有編號的停車格：你知道「第 5 格」在哪，馬上就能開過去（隨機存取快）。
-但中間加一格，後面所有車都要往後挪（插入慢）。
-
-LinkedList 像人鏈：每個人只知道前後兩個人。要找「第 5 個」，必須從頭一個一個數（隨機存取慢），
-但在中間插人只要改一下前後的手（插入快）。
+`ArrayList` 像是一排有編號的置物櫃。你要開第 100 個，眼睛一掃就知道在哪（快）。但要在中間塞一個新櫃子，你得搬動後面所有的櫃子（慢）。
+`LinkedList` 像是一排牽著手的人。你要找第 100 個，你得從頭一個一個數過去（慢）。但在中間插一個人，只要兩個人把手放開再牽一個新的人就好（快）。
 
 ⚠️ 學生常見誤解：
-很多人以為 LinkedList「插入快」所以更好，但實際上隨機存取的場景多太多了，ArrayList 綜合效能往往更佳。
+雖然 LinkedList 插入快，但在真實世界中，**ArrayList 幾乎在所有情況下都贏**。因為現代 CPU 很聰明，它讀陣列這種連續的東西特別快。
 
 💼 業界實務：
-業界 99% 的情況用 ArrayList。LinkedList 主要作為 Deque（雙端佇列）使用，不作為一般 List。
+除非你在做什麼超高頻率的中間插入（比如寫個文字編輯器），否則無腦選 `ArrayList`。
 -->
 
 ---
@@ -520,21 +500,13 @@ System.out.println(queue.removeFirst()); // "任務A"
 
 <!--
 【核心說明】
-LinkedList 除了是 List，它同時也實作了 Deque（雙端佇列）介面，可以從「頭」或「尾」兩個方向操作元素。
+LinkedList 不只是 List，它還能從兩頭操作。
 
 【生活化比喻】
-就像雙向排隊系統：從後門排進去，從前門取出，先進先出（FIFO）；也可以從後門取出，後進先出（LIFO）。
-
-【程式世界怎麼用】
-`addLast("任務A")` — 加到尾端；`removeFirst()` — 從頭取出。
-這個組合就能實作簡單的「任務佇列」。
-
-⚠️ 學生常見誤解：
-`removeFirst()` 如果串列是空的會拋出 NoSuchElementException，
-要先呼叫 `isEmpty()` 確認，或用 `pollFirst()`（空的時候回傳 null，不拋例外）。
+它就像是一根透明的水管。你可以從左邊塞東西、右邊拿東西，或者反過來。
 
 💼 業界實務：
-簡單的任務佇列、事件佇列，可以用 LinkedList 當 Deque 來實作。
+當你需要一個「任務排隊系統」（FIFO，先進先出）時，用 LinkedList 實作 Deque 是個很不錯的選擇。
 -->
 
 ---
@@ -547,7 +519,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-第三部分，Set。Set 只有一個核心特性，但非常有用：**裡面的元素不會重複**。
+第三部分，`Set`。它的口號只有一個：**我拒絕重複**。
 -->
 
 ---
@@ -574,22 +546,16 @@ System.out.println(names.contains("炭治郎")); // true
 
 <!--
 【核心說明】
-Set 最大特點就是「無重複」——加入相同的元素，會被自動忽略，不會報錯。
+Set 是個有潔癖的收納盒。
 
 【生活化比喻】
-Set 就像名冊：同一個人的名字不能出現兩次。
-你說「加入禰豆子」，如果已經在名冊上了，就直接略過，不做任何事。
-
-【程式世界怎麼用】
-注意：Set 沒有 `get(index)` 方法！不能說「給我第三個元素」，
-因為 HashSet 不保證順序，「第幾個」這個概念對它沒意義。遍歷用 for-each 或 Iterator。
+這就像是「簽到表」。一個人只能簽名一次。你第二次跑來簽名，班長會直接翻白眼無視你。
 
 ⚠️ 學生常見誤解：
-`add()` 回傳 `boolean`：加入成功回傳 true，已存在（被忽略）回傳 false。
-這個回傳值常被忽略，但可以用來確認是否真的加入。
+Set 是「無序」的。你放進去順序是 A, B, C，拿出來可能是 C, A, B。如果你追求順序，Set 會讓你很失望。而且它沒有 `get(0)` 這種東西，因為它根本不知道誰是第一。
 
 💼 業界實務：
-Set 最常見用途：去除重複資料（例如去重 userId 清單），以及「快速判斷某值是否存在」（O(1) 比 List 的 O(n) 快得多）。
+Set 最好用的地方就是「去重」。如果你有一萬個使用者 ID，想知道裡面有幾個不重複的人，丟進 `HashSet` 就對了。
 -->
 
 ---
@@ -611,19 +577,18 @@ System.out.println(ts); // [1, 2, 3]（一定升序）
 
 <!--
 【核心說明】
-Set 有三種常用實作，差別在於「元素的排列順序」。
+Set 家族的三兄弟。
 
 【生活化比喻】
-HashSet 像無序的抽籤袋：放進去之後不知道拿出來的順序。
-LinkedHashSet 像按照進場順序排列的座位區：先進來的永遠坐前面。
-TreeSet 像按字母順序排列的書架：不管什麼時候放進去，自動幫你排好序。
+`HashSet`: 抽籤袋。隨便摸，沒順序。
+`LinkedHashSet`: 像排隊的人。記得誰先來、誰後到，但還是不准重複。
+`TreeSet`: 自動排序器。放進去是 3, 1, 2，印出來自動變成 1, 2, 3。
 
 ⚠️ 學生常見誤解：
-TreeSet **不允許放 null**！放了會拋出 NullPointerException，
-因為 TreeSet 需要比較元素大小，null 沒有大小可比。
+`TreeSet` 不准放 `null`。因為它要幫大家排隊，它不知道 `null` 應該站哪裡（是第 0 個還是最後一個？），所以索性不讓你放。
 
 💼 業界實務：
-HashSet 是最常用的 Set。TreeSet 用在需要「輸出有順序」的場景，例如報表、排行榜。
+除非你需要排序，否則一律用 `HashSet`。它的效能是王者。
 -->
 
 ---
@@ -647,22 +612,13 @@ System.out.println(inter); // [B, C]
 
 <!--
 【核心說明】
-Set 支援集合的數學操作：聯集（合在一起）和交集（共有的元素）。
+這就是國中數學學的集合運算。
 
 【生活化比喻】
-你有「選修課 A 的學生名單」和「選修課 B 的學生名單」。
-聯集：把兩份名單合在一起（去重複）。交集：找同時選修兩門課的學生。
-
-【程式世界怎麼用】
-- `addAll()` — 聯集（把另一個集合的元素全加進來）
-- `retainAll()` — 交集（只保留兩個集合都有的元素）
-
-⚠️ 學生常見誤解：
-`addAll()` 和 `retainAll()` 會**修改原來的集合**，不是建立新的。
-要先 `new HashSet<>(setA)` 複製一份，再對複製品操作，才不會動到原始資料。
+`addAll` 是「我們兩班合併」；`retainAll` 是「只有我們兩班都認識的人才能留下」。
 
 💼 業界實務：
-「標籤篩選」（找同時有兩個標籤的文章）或「權限比對」，Set 的交集操作非常實用。
+這在「過濾權限」或「找共同好友」時超好用。比如你想找「同時喜歡寫程式又喜歡打電動」的人，就用兩個 Set 的交集（retainAll）。
 -->
 
 ---
@@ -675,8 +631,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-第四部分，Map。Map 跟 List 和 Set 很不一樣，它儲存的不是「一個值」，
-而是「一對資料」——一個「鍵」對應一個「值」，就像一本字典。
+第四部分，大魔王 `Map` 出場。它不是一格一格的，它是一對一對的。
 -->
 
 ---
@@ -702,19 +657,17 @@ System.out.println(scores.get("炭治郎")); // 99
 
 <!--
 【核心說明】
-Map 儲存「鍵值對」（Key-Value Pair）。每個 Key 是唯一的，對應一個 Value。
-你用 Key 查詢，就能找到對應的 Value。
+Map 就是「對應關係」。
 
 【生活化比喻】
-Map 就像字典：每個詞（Key）對應一個解釋（Value）。
-同一個詞不能出現兩次（Key 唯一），但你可以用任何詞快速查詢（快速存取）。
+Map 就像是「字典」或者「置物櫃編號」。鍵（Key）是置物櫃號碼，值（Value）是裡面的東西。
+號碼不能重複（一個號碼對一格），但你可以隨時把裡面的東西換掉。
 
 ⚠️ 學生常見誤解：
-很多初學者以為用相同 Key 再 `put()` 一次會讓 Map 有兩筆資料，
-其實是**直接覆蓋**舊值。如果想「只有不存在才新增」，要用 `putIfAbsent()`。
+Key 是唯一的，但 Value 可以重複。你可以讓「炭治郎」跟「善逸」都得 99 分（不同的 Key 对应相同的 Value），但你不能有兩個「炭治郎」各自得不同的分。
 
 💼 業界實務：
-Map 在業界非常常見：快取（Cache）、設定檔讀取、統計計票……幾乎到處都是 Map 的應用。
+HashMap 是快取（Cache）的靈魂。想快速找到 User 物件？把 ID 當 Key 存進 HashMap 吧。
 -->
 
 ---
@@ -736,20 +689,16 @@ Map 在業界非常常見：快取（Cache）、設定檔讀取、統計計票�
 
 <!--
 【核心說明】
-Map 的方法比 Collection 多一些，因為它是鍵值對的結構。
-最重要的幾個：`put`、`get`、`getOrDefault`、`containsKey`、`entrySet`。
+Map 的方法稍微複雜一點，因為它有兩面。
 
 【生活化比喻】
-Map 的方法就像管理通訊錄：
-put — 新增或更新聯絡人；get — 查電話；getOrDefault — 查不到給預設值；
-remove — 刪聯絡人；keySet — 列出所有人名；entrySet — 列出所有「名字+電話」配對。
+`getOrDefault` 是個非常有修養的方法。你去櫃檯找人，如果這人不在，它會給你一個預設的禮物（而不是直接讓你噴錯崩潰）。
 
 ⚠️ 學生常見誤解：
-`get(key)` 找不到時回傳 `null`，如果沒有處理 null 就繼續操作，會發生 NullPointerException。
-**習慣用 `getOrDefault(key, 預設值)` 來避免 NPE。**
+`get(key)` 如果找不到會回傳 `null`。如果你拿這個 `null` 去做運算（比如 +1），你的程式就會發生震撼全場的 `NullPointerException`。**記得一定要判斷 null 或用 `getOrDefault`**。
 
 💼 業界實務：
-`containsKey()` 用在「先確認 key 存在再操作」的防禦性寫法，但更現代的做法是直接用 `getOrDefault()` 或 `computeIfAbsent()`。
+`entrySet()` 是遍歷 Map 的正確姿勢。別再先拿 keySet 再一個一個 get 了，那樣慢到同事會想殺你。
 -->
 
 ---
@@ -771,18 +720,16 @@ System.out.println(map.values());              // [99, 20]
 
 <!--
 【帶讀程式碼前的鋪陳】
-這段程式碼示範 Map 的基本操作，我們一行一行來看。
+我們來看看這個 Map 是怎麼運作的。
 
 【逐步解說】
-先 `put("A", 10)` 和 `put("B", 20)` 加入兩筆資料。
-`put("A", 99)` — Key "A" 已存在，這是「覆蓋」，不是新增。
-`get("A")` 現在回傳 99（已被覆蓋）。
-`getOrDefault("C", 0)` — "C" 不在 Map，回傳預設值 0，不會 NPE。
-`containsKey("B")` — "B" 存在，回傳 true。
-`keySet()` 取得所有 Key；`values()` 取得所有 Value。
+1. 把 A 存為 10，B 存為 20。
+2. 再次 `put` A，10 就被 99 擠走了。
+3. `get("A")` 拿到的就是 99。
+4. `getOrDefault("C", 0)`：沒有 C 耶，那就回傳 0 吧。
 
-💼 業界實務：
-用 `getOrDefault()` 取代 `get()` 加 null 判斷是現代 Java 的好習慣。
+【老鳥筆記】
+Map 的 `put` 方法如果覆蓋了舊值，其實它會回傳那個「被擠走的舊值」。有時候我們會用到這個特性來做某些判斷。
 -->
 
 ---
@@ -798,19 +745,18 @@ System.out.println(map.values());              // [99, 20]
 
 <!--
 【核心說明】
-和 Set 一樣，Map 也有三種常用實作，差別在於 Key 的排列順序。
+這也是順序三兄弟在 Map 棚的表現。
 
 【生活化比喻】
-HashMap 像無固定格位的停車場：停進去後下次位置可能不一樣。
-LinkedHashMap 像記錄進場順序的停車場：按照進來的順序排列。
-TreeMap 像按車牌號碼排序的停車場：永遠都是字母順序排好的。
+`HashMap`: 把東西亂塞進櫃子，查起來最快。
+`LinkedHashMap`: 按照你放東西的順序排好。
+`TreeMap`: 按照檔名標籤（Key）自動幫你排好序。
 
 ⚠️ 學生常見誤解：
-HashMap 的順序是不保證的，每次程式執行可能都不一樣。
-如果你的程式依賴 Map 的順序，一定要用 LinkedHashMap 或 TreeMap。
+HashMap 的順序真的不可預測。如果你想把 Map 轉成 JSON 給前端看，且希望順序固定，請用 `LinkedHashMap`。
 
 💼 業界實務：
-LinkedHashMap 可以用來實作 LRU Cache（最近最少使用快取），是業界面試常考題目。
+TreeMap 的查詢速度稍微慢一點點，但如果你需要「列出所有以 A 開頭的 Key」，它可是最強的。
 -->
 
 ---
@@ -830,20 +776,14 @@ System.out.println(tm);  // {apple=5, banana=2}（鍵升序）
 ```
 
 <!--
-【帶讀程式碼前的鋪陳】
-這段程式碼直接比較三種 Map 的輸出差異，是最直觀的理解方式。
-
 【逐步解說】
-三個 Map 都放入相同的資料：banana 和 apple。
-HashMap 輸出順序不保證，每次可能不同。
-LinkedHashMap 輸出 `{banana=2, apple=5}`，維持插入順序（banana 先放）。
-TreeMap 輸出 `{apple=5, banana=2}`，依鍵的字母升序（a 在 b 前面）。
+看到了嗎？這三種 Map 的輸出結果截然不同。
+HashMap 可能會讓你驚訝（怎麼變 apple 在前？那是它的內部 Hash 算法決定的）。
+LinkedHashMap 最老實。
+TreeMap 則是最優雅的排版者（a 排在 b 前面）。
 
-⚠️ 學生常見誤解：
-HashMap 的輸出可能看起來「剛好有序」，但那只是巧合，絕對不能依賴 HashMap 的順序！
-
-💼 業界實務：
-API 回應的 JSON 希望有固定順序時（方便閱讀和測試），用 LinkedHashMap 或 TreeMap 序列化比較好。
+【笑話時間】
+如果你想讓你的強迫症同事抓狂，就把所有的 Map 通通換成 HashMap，保證他每次重整頁面看到的資料順序都不一樣。
 -->
 
 ---
@@ -867,21 +807,19 @@ for (String key : scores.keySet()) {
 ```
 
 <!--
-【帶讀程式碼前的鋪陳】
-遍歷 Map 有幾種方式，這裡介紹最常用的兩種，兩種都要學會。
+【核心說明】
+如何「巡視」你的 Map。
 
-【逐步解說】
-方式一：`entrySet()` 遍歷 — 取出每一個「鍵值對」（Entry），同時拿到 Key 和 Value，業界最常用。
-
-方式二：`keySet()` 遍歷 — 先取所有 Key，再用 Key 查 Value。
-寫法直觀，但多做了一次 `get` 查詢，效能略遜。
+【老鳥筆記】
+方式一（entrySet）是「一次拿一對」。
+方式二（keySet）是「先拿名字，再拿著名字去櫃檯查」。
+明顯方式一有效率得多，因為你不用跑櫃檯跑兩次。
 
 ⚠️ 學生常見誤解：
-有同學用 `values()` 遍歷，但這樣只能拿到值，拿不到對應的 Key。
-如果兩個都需要，一定要用 `entrySet()`。
+那個 `Map.Entry<String, Integer>` 看起來很長很討厭對吧？如果你是用 Java 10 以上，可以直接用 `var entry`，Java 就會幫你搞定。
 
 💼 業界實務：
-`entrySet()` 遍歷是業界標準寫法，也是 Stream API 處理 Map 的基礎。
+如果你只需要 Key，用 `keySet()`；如果你兩個都要，**請死記 `entrySet()`**。
 -->
 
 ---
@@ -893,7 +831,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-學了這麼多集合類型，現在來整理：到底什麼情況用什麼容器？
+好了，東西教完了，我知道你們現在腦子裡一團亂。我們來做個簡單的總整理，告訴你什麼時候該翻哪張牌。
 -->
 
 ---
@@ -915,18 +853,17 @@ layout: default
 
 <!--
 【核心說明】
-這張表是你的「集合選用地圖」。面對一個需求，對照表格就能快速決定。
+這張是你的「生存地圖」。
 
 【帶著讀這張表】
-先問：你需要「鍵值對應」嗎？→ 是 → 選 Map；否 → 你需要允許重複嗎？→ 是 → 選 List；否 → 選 Set。
-選好大類後再看第二層：需不需要特定順序？需要排序嗎？需要快速隨機存取嗎？
+先問：要不要一對一（Key-Value）？
+- 要：去 Map 區挑。
+- 不要：去 Collection 區挑。
+  - 需要順序（第 0, 1, 2）？→ List (ArrayList)。
+  - 需要唯一、去重？→ Set (HashSet)。
 
-⚠️ 學生常見誤解：
-很多初學者什麼都用 ArrayList，不管需不需要重複、需不需要順序。
-花時間理解這張表，程式效能會明顯提升。
-
-💼 業界實務：
-遇到「要做什麼 → 選什麼集合」的問題，業界開發者先考慮使用場景，再選資料結構。這個思維很重要。
+【資深工程師的直覺】
+通常我的選擇流程是：ArrayList → HashMap → HashSet。如果這三樣不能解決，我才會考慮其他的。這三種是 Java 開發者的黃金鐵三角。
 -->
 
 ---
@@ -945,19 +882,16 @@ layout: default
 
 <!--
 【核心說明】
-`java.util.Collections`（注意有 s！）是一個工具類別，裡面全是靜態方法，
-讓你對集合做各種常用操作：排序、反轉、打亂、找最大最小值。
+這就是集合的「瑞士刀」。
 
 【生活化比喻】
-Collections 就像集合的「瑞士刀」：各種常用功能都有，而且全部是現成的，不用自己寫。
+`shuffle`（洗牌）是我最喜歡的功能。如果你要做一個抽獎程式，把名字丟進 List 裡跑一次 `shuffle`，第一個就是得獎者，超省事！
 
 ⚠️ 學生常見誤解：
-注意 `Collections`（複數，工具類別）和 `Collection`（單數，介面）是**完全不同的東西**。
-初學者非常容易搞混，多注意那個 s。
+注意結尾有沒有 `s`。`Collection` 是長輩介面，`Collections` 是帶滿工具的方法箱。別弄錯了，不然編譯器會把你當成拼錯字的菜鳥。
 
 💼 業界實務：
-`Collections.sort()` 在 Java 8 之後可以用 List 的 `sort()` 方法取代，或用 Stream 的 `sorted()`。
-但 `shuffle()` 和 `reverse()` 至今還是用 Collections 類別最直觀。
+想讓 List 變成「唯讀」？用 `Collections.unmodifiableList(list)`。這在老專案裡很常見。
 -->
 
 ---
@@ -980,21 +914,11 @@ System.out.println(Collections.min(nums)); // 1
 ```
 
 <!--
-【帶讀程式碼前的鋪陳】
-我們來跑一遍 Collections 工具類別的主要操作，每行做了什麼事。
-
 【逐步解說】
-建立 `[3, 1, 4, 1, 5]` 的串列（用 `new ArrayList<>()` 包住才能修改）。
-`Collections.sort(nums)` — 升序排序，結果 `[1, 1, 3, 4, 5]`。
-`Collections.reverse(nums)` — 反轉，結果 `[5, 4, 3, 1, 1]`。
-`Collections.max(nums)` 找最大值 5；`Collections.min(nums)` 找最小值 1。
+看到沒？不需要自己寫冒泡排序法。Java 已經幫你寫好了，而且效能比你自己寫的強一百倍。
 
-⚠️ 學生常見誤解：
-`List.of()` 建立的串列是不可變的，傳給 `Collections.sort()` 會拋例外。
-要用 `new ArrayList<>(List.of(...))` 建立可修改的串列。
-
-💼 業界實務：
-排序底層是 TimSort（結合 merge sort 和 insertion sort），效能非常好，不需要自己實作。
+【老鳥悄悄話】
+`Collections.sort` 其實用的是一種叫 TimSort 的演算法，它非常聰明，能應對各種奇葩的資料。所以，**請相信官方工具，別自己手刻排序**，除非你想在面試中炫耀你背過排序演算法。
 -->
 
 ---
@@ -1014,20 +938,13 @@ layout: default
 4. 用 `Collections.sort()` 依字典順序排序後印出
 
 <!--
-【出題前的鋪陳】
-第一個練習，綜合運用剛才學到的 ArrayList 操作方法。
-這題會用到 add、set、remove 和 Collections.sort，都是剛才講過的。
+【練習導引】
+來，動手做做看。這題是在考你對索引（Index）的掌握。
 
-【問題引導】
-「在善逸前面插入甘露寺」，你們覺得要用 `add(index, e)` 的哪個 index？
-先看看善逸現在在第幾格。
-
-【等待與觀察】
-給大家 1-2 分鐘試試看，寫在紙上或腦中跑過一遍。
-
-【解說要點】
-關鍵是每次操作後 index 會變化。插入甘露寺後，後面的元素都往後移了一格，
-所以要注意替換禰豆子時她的 index 有沒有變。
+【關鍵提示】
+1. 加甘露寺時，先算一下善逸原本在第幾格。
+2. 刪除最後一個，記得用 `size() - 1`，這是最安全的寫法。
+3. 如果你在這題算錯索引，你的英雄名單可能會出現「伊之助消失了」這種靈異事件。
 -->
 
 ---
@@ -1051,21 +968,8 @@ System.out.println(m);
 ```
 
 <!--
-【帶讀程式碼前的鋪陳】
-來一起看解法，每一行對應題目的一個步驟。
-
-【逐步解說】
-`List.of()` 建立初始清單，用 `new ArrayList<>()` 包住才能修改。
-`m.add(2, "甘露寺")` — 善逸原本在索引 2，插入後善逸變成索引 3。
-`m.set(1, "時透無一郎")` — 禰豆子在索引 1，`set` 直接替換。
-`m.remove(m.size() - 1)` — `size() - 1` 永遠是最後一個元素的索引，不管清單多長都能用。
-`Collections.sort(m)` — 依字典順序排序。
-
-⚠️ 學生常見誤解：
-`m.remove("蜜璃")` 也可以（按值刪除），但用 `m.size() - 1` 更通用，適用於不確定最後一個元素是什麼的情況。
-
-💼 業界實務：
-「動態找最後一個元素的索引」是很實用的技巧，寫業務邏輯時很常用。
+【解說要點】
+注意那個 `List.of`。如果你直接拿 `List.of` 的結果去 `add`，程式會原地爆炸。一定要 `new ArrayList<>(...)` 把資料搬進去一個可以動的盒子裡。這是我看過初學者最常犯的錯！
 -->
 
 ---
@@ -1085,19 +989,13 @@ layout: default
 4. 印出所有成績 ≥ 85 的學生姓名
 
 <!--
-【出題前的鋪陳】
-第二題操作 Map。這題模擬真實的成績系統情境，用到 put、values()、entrySet()。
+【練習導引】
+這次玩 Map。這題很有實戰感。
 
-【問題引導】
-計算平均分數時，你覺得要先做什麼？
-怎麼取得所有分數？取得後怎麼加總？
-
-【等待與觀察】
-先用自然語言說說步驟：取得所有分數 → 加總 → 除以人數。
-
-【解說要點】
-第四步「找出成績 ≥ 85 的學生」，要遍歷 Map 的 entrySet，
-判斷每個 entry 的 Value 是否 ≥ 85，是的話印出 Key（姓名）。
+【關鍵提示】
+1. 計算總分時，可以用 `for (int s : scores.values())`，不需要拿 Key。
+2. 找高分名單時，你得用 `entrySet()`，因為你最後要印出名字（Key）。
+3. 善逸的成績更新，就是再 `put` 一次。Map 會很無情地把舊分數覆蓋掉。
 -->
 
 ---
@@ -1120,227 +1018,8 @@ for (var e : scores.entrySet())
 ```
 
 <!--
-【帶讀程式碼前的鋪陳】
-解法分兩段：計算平均 和 找出高分學生。
-
-【逐步解說】
-計算平均：`for` 遍歷 `scores.values()`（所有分數），累加到 `total`，最後除以 `scores.size()`。
-找高分學生：`var e` 遍歷 `entrySet()`，`e.getKey()` 取姓名，`e.getValue()` 取分數，≥ 85 就印出。
-
-⚠️ 學生常見誤解：
-整數除法 `total / scores.size()` 會捨去小數。如果想要浮點數平均，要用 `(double) total / scores.size()`。
-
-💼 業界實務：
-`var` 是 Java 10 的型別推斷語法，`var e` 等同於 `Map.Entry<String, Integer> e`，讓程式碼更簡潔。
--->
-
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 實戰加料
-# 為期中作業暖身 🔥
-
-<!--
-【章節開場】
-最後這個部分，我們來連結期中作業。
-剛才學的集合框架，在問卷系統的前後台都有直接的應用，我來示範幾個真實的例子。
--->
-
----
-layout: default
----
-
-# 實戰：用 Enum 管理問卷狀態
-
-問卷有三種狀態，用字串容易打錯字；用 `enum` 讓編譯器幫你把關：
-
-```java
-enum QuizStatus {
-    NOT_STARTED("尚未開始"),
-    ACTIVE("進行中"),
-    ENDED("已結束");
-
-    private final String label;
-    QuizStatus(String label) { this.label = label; }
-    public String getLabel() { return label; }
-}
-```
-
-```java
-QuizStatus status = QuizStatus.ACTIVE;
-System.out.println(status.getLabel()); // 進行中
-
-// 搭配 switch 更清晰
-switch (status) {
-    case NOT_STARTED -> System.out.println("問卷連結停用");
-    case ACTIVE      -> System.out.println("可以填寫問卷！");
-    case ENDED       -> System.out.println("問卷已截止，可查看統計");
-}
-```
-
-<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>動態問卷連結：</b>前台列表頁的「連結是否啟用」、「能否查看統計」都由這個狀態決定。
-</div>
-
-<!--
-【帶讀程式碼前的鋪陳】
-這個例子示範用 Enum（列舉）管理問卷狀態，搭配 switch 做不同處理。
-Enum 不是集合，但在這裡作為集合操作的配套知識一起介紹。
-
-【逐步解說】
-`enum QuizStatus` 定義三種狀態：NOT_STARTED、ACTIVE、ENDED。
-每個狀態帶一個中文標籤（`label`），透過建構子存起來，用 `getLabel()` 取得。
-下半部的 `switch` 根據狀態做不同的事：未開始停用連結、進行中啟用、結束後只能看統計。
-
-⚠️ 學生常見誤解：
-如果用 String 管理狀態（例如 "active"），打錯字就出 bug，而且 IDE 不會提示你。
-用 Enum，IDE 自動補全，不可能拼錯。
-
-💼 業界實務：
-問卷狀態、訂單狀態、審核狀態……有限選項一定用 Enum 而不是魔法字串（Magic String）。
--->
-
----
-
-# 實戰：List 分頁查詢
-
-前台列表「每頁 10 筆」的分頁邏輯，`subList()` 一行搞定：
-
-```java
-List<String> allQuizzes = new ArrayList<>(
-    List.of("問卷A","問卷B","問卷C","問卷D","問卷E",
-            "問卷F","問卷G","問卷H","問卷I","問卷J","問卷K"));
-
-int pageSize = 10;
-int page = 1;  // 目前第幾頁（從 1 開始）
-
-int from = (page - 1) * pageSize;
-int to   = Math.min(from + pageSize, allQuizzes.size());
-
-if (from >= allQuizzes.size()) {
-    System.out.println("此頁無資料");
-} else {
-    List<String> pageData = allQuizzes.subList(from, to);
-    System.out.println("第 " + page + " 頁：" + pageData);
-}
-// 第 1 頁：[問卷A, 問卷B, ..., 問卷J]
-```
-
-<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>關鍵：</b><code>Math.min()</code> 防止最後一頁筆數不足時發生 <code>IndexOutOfBoundsException</code>。
-</div>
-
-<!--
-【帶讀程式碼前的鋪陳】
-前台列表「每頁 10 筆」是非常常見的需求。這段示範用 `subList()` 實作分頁邏輯。
-
-【逐步解說】
-`pageSize = 10`，`page = 1`（第一頁）。
-`from = (page - 1) * pageSize` → 第一頁 from = 0。
-`to = Math.min(from + pageSize, allQuizzes.size())` — 防止最後一頁資料不足時發生越界。
-`subList(from, to)` 取出這一頁的資料。
-
-【類比說明】
-像翻書：page 是第幾頁，pageSize 是每頁幾行，from 是從第幾行開始，to 是到第幾行結束。
-
-⚠️ 學生常見誤解：
-不加 `Math.min()` 的話，最後一頁如果不足 10 筆，`to` 會超過 `size()`，拋出 IndexOutOfBoundsException。
-
-💼 業界實務：
-真實後端分頁通常用 Spring Data 的 `Pageable`，但底層原理就是這個邏輯，理解後你就懂分頁的本質了。
--->
-
----
-
-# 實戰：Map 統計選項票數
-
-問卷統計頁要顯示每個選項的得票數，`Map + getOrDefault()` 是最直覺的解法：
-
-```java
-// 模擬從資料庫撈出的所有作答（單選題）
-List<String> answers = List.of("A", "B", "A", "C", "A", "B", "C", "C");
-
-// Step 1：計票
-Map<String, Integer> tally = new HashMap<>();
-for (String ans : answers) {
-    tally.put(ans, tally.getOrDefault(ans, 0) + 1);
-}
-System.out.println(tally); // {A=3, B=2, C=3}
-
-// Step 2：依票數降序輸出（統計頁面排列用）
-tally.entrySet().stream()
-    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-    .forEach(e ->
-        System.out.printf("選項 %s：%d 票 (%.1f%%)%n",
-            e.getKey(), e.getValue(),
-            e.getValue() * 100.0 / answers.size()));
-```
-
-<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>動態問卷連結：</b>後台統計頁面的長條圖 / 圓餅圖就是根據這份票數 Map 的資料來繪製的。
-</div>
-
-<!--
-【帶讀程式碼前的鋪陳】
-問卷統計頁要算每個選項幾票，這段是核心邏輯，分兩步：計票、排序輸出。
-
-【逐步解說】
-Step 1 計票：對每個答案 `ans`，用 `getOrDefault(ans, 0) + 1` 累加。
-「如果 ans 還沒出現過，預設是 0；有的話把現有數字 +1 後放回去。」這是計票的經典寫法，要記住。
-
-Step 2 排序輸出：用 Stream API（下堂課詳細講），依票數降序排列，格式化輸出。
-
-⚠️ 學生常見誤解：
-`getOrDefault(ans, 0) + 1` 只是計算新值，還需要 `put(ans, ...)` 才會真的更新 Map。
-不要忘記把結果 put 回去！
-
-💼 業界實務：
-「用 Map 計票」的模式在業界超常見：統計 Log 錯誤類型、分析用戶行為等，都是這個邏輯。
--->
-
----
-
-# 實戰：多選題的拆解與統計
-
-多選題答案用分號 `;` 串接存入資料庫，統計時要先拆開再計票：
-
-```java
-// 從資料庫撈出的多選答案（每筆是一個受訪者的作答）
-List<String> rawAnswers = List.of("A;B", "B;C", "A;C", "A;B;C", "B");
-
-Map<String, Integer> tally = new HashMap<>();
-for (String raw : rawAnswers) {
-    String[] options = raw.split(";"); // ← 依分號拆解
-    for (String opt : options) {
-        tally.put(opt, tally.getOrDefault(opt, 0) + 1);
-    }
-}
-System.out.println(tally); // {A=3, B=4, C=3}
-```
-
-<div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
-⚠️ <b>注意：</b>存入時用 <code>String.join(";", selectedOptions)</code> 串接；讀出時用 <code>split(";")</code> 還原。<br>
-記得兩端統一格式，不然 <code>" A;B"</code> 和 <code>"A;B"</code> 會被視為不同選項！
-</div>
-
-<!--
-【帶讀程式碼前的鋪陳】
-多選題比單選題多一個步驟：先把答案字串拆開，再計票。
-
-【逐步解說】
-原始資料是像 `"A;B"` 這樣的字串，多個選項用分號串接。
-對每筆答案 `raw`，用 `split(";")` 拆成陣列 `options`。
-然後對每個選項 `opt` 做和上一張投影片一樣的計票操作。
-外層迴圈是「每個受訪者」，內層迴圈是「這個受訪者的每個選項」，雙層迴圈。
-
-⚠️ 學生常見誤解：
-存入時和讀出時的格式要一致。如果存入是 `"A; B"`（分號後有空格），
-拆出來的 " B" 和 "B" 會被視為不同選項，計票就錯了。記得用 `trim()` 或確保格式一致。
-
-💼 業界實務：
-多選題答案的儲存方式有很多種（JSON 陣列、逗號分隔等），分號分隔是常見的簡單方案。
+【解說要點】
+看到 `var e` 了嗎？這就是剛才說的偷懶小技巧。如果你不寫 `var`，你就得寫那一長串 `Map.Entry<String, Integer>`，寫完手都酸了。平均值部分，因為是整數除法，小數點會不見，如果你想要精準一點，記得轉 `double`。
 -->
 
 ---
@@ -1351,11 +1030,17 @@ class: flex flex-col justify-center items-center text-center
 # Q & A
 
 <!--
-【開放問題】
-好，今天我們把 Collection Framework 的主要內容都講完了。
+【總結回顧】
+今天我們一口氣橫跨了 List、Set、Map，還聊了 Enum 跟分頁。
 
-有沒有對哪個部分還有疑問？
-List、Set、Map 這三個，有沒有哪個概念還不太清楚的？
+【最後叮嚀】
+別被這麼多類別搞瘋了。絕大多數時候，你只需要 `ArrayList`、`HashSet` 跟 `HashMap`。
+記住：
+- 想排隊？找 List。
+- 想唯一？找 Set。
+- 想查表？找 Map。
+
+有沒有哪種資料結構讓你覺得像是在聽外星語的？現在問，我還在線上！
 -->
 
 ---
@@ -1365,13 +1050,3 @@ layout: end
 # 課程結束
 ### 掌握集合框架，資料管理更有效率！
 如有課後疑問，歡迎來信討論。
-
-<!--
-【收尾說明】
-今天的課程到這裡結束。我們學了 Java 的核心資料結構工具——集合框架。
-
-記住一個原則：先想「我要儲存什麼樣的資料」，再選對應的集合類型。
-有序可重複 → List；無重複 → Set；鍵值對應 → Map。
-
-課後如有任何問題，歡迎來信討論。
--->

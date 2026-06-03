@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: 程式異常的處理
 routeAlias: ch20
 style: |
@@ -47,10 +49,13 @@ style: |
 
 <!--
 【開場白】
-今天學程式異常的處理——這是每個 Java 工程師每天都會用到的技術。你的程式不可能永遠執行在「完美的條件」下，使用者會輸入奇怪的東西，檔案可能不存在，網路可能斷掉。今天學的就是「出了問題，程式怎麼優雅地處理，而不是直接崩潰」。
+嘿各位，歡迎來到 Java 的「事後菸」時間——我是說，程式異常處理。
+
+【為什麼要學這個？】
+你的程式在你的電腦跑得很順，不代表在使用者手上不會爆炸。使用者就像是沒拿駕照的賽車手，他們會把車開進海裡（輸入亂七八糟的東西）、會把引擎拔掉（斷網）。今天我們要學的，就是怎麼在車子快爆炸時，還能優雅地踩下煞車，而不是直接原地往生。
 
 【今天學完你會能做什麼】
-學完之後你能寫出不會因為意外輸入或意外狀況就崩潰的程式，能正確使用 try-catch，還能自訂異常類別，這是業界 Java 開發的日常。
+學完這堂課，你就不會再看到那種「程式已停止運作」的尷尬視窗了。你會學會怎麼捕捉那些不乖的異常、怎麼關閉那些浪費錢的資源，甚至還能自己定義專屬的「爆炸訊息」。
 -->
 ---
 layout: default
@@ -68,10 +73,7 @@ layout: default
 
 <!--
 【帶讀大綱】
-三個部分：先認識錯誤類型，再學各種處理方式（這是主要內容），最後看業界的錯誤代碼設計模式。
-
-【學習重點】
-throw 和 throws 是容易搞混的兩個關鍵字，今天會仔細比較。try-with-resources 是現代 Java 必用語法，也要學熟。
+今天的行程：先分清楚什麼是「你笨」造成的錯誤，什麼是「意外」造成的異常。接著學各種捕捉技巧，最後教你怎麼像個專業工程師一樣定義錯誤代碼。
 -->
 ---
 layout: section
@@ -103,12 +105,10 @@ layout: default
 
 <!--
 【帶讀表格】
-三種錯誤：
-語法錯誤：打錯字、少分號，IDE 馬上紅線提示，編譯就報錯。
-語意錯誤：語法正確但邏輯錯，例如加法寫成減法，程式跑起來但結果不對。
-執行期間錯誤：語法邏輯都對，但執行時遇到意外狀況，程式崩潰。
+錯誤分三種：語法錯誤是你連門都還沒出就跌倒了（IDE 會笑你）；語意錯誤是你出門想去台北結果開到墾丁（邏輯壞掉）；執行期間錯誤則是你開得好好的，結果路被外星人搬走了（這就是異常）。
 
-今天的主角是第三種——執行期間錯誤，Java 把它稱為「異常（Exception）」。
+【本章重點】
+我們要對付的就是「執行期間錯誤」。在 Java 裡，我們叫它 Exception。
 -->
 ---
 
@@ -134,9 +134,10 @@ public static void main(String args[]) {
 
 <!--
 【帶讀程式碼】
-myDiv(8, 0) 發生除以零的錯誤，Java 拋出 ArithmeticException，程式直接中止。後面的 myDiv(9, 4) 不會執行到。
+除數為 0，這在數學老師眼裡是死罪，在 Java 眼裡則是 ArithmeticException。
 
-⚠️ 這就是「不處理異常」的後果——程式直接停掉。在真實的應用程式裡（像是 Web API），一個請求出錯就把整個服務停掉是不可接受的。
+⚠️ 警告：
+你看，當 myDiv(8, 0) 爆炸時，後面的程式碼就像是看到了鬼，連跑都不敢跑，直接原地蒸發。如果你的 API 這樣寫，你可能明天就不用來上班了。
 -->
 ---
 
@@ -152,12 +153,10 @@ myDiv(8, 0) 發生除以零的錯誤，Java 拋出 ArithmeticException，程式�
 
 <!--
 【帶讀表格】
-五個最常見的異常，業界工程師每天都會看到這些：
-NullPointerException：空指針，最常見的 bug 之一。
-NumberFormatException：把 "abc" 轉 int，字串格式不對。
-StringIndexOutOfBoundsException：字串取字元時索引超出。
-ArrayIndexOutOfBoundsException：陣列存取超出邊界。
-InputMismatchException：Scanner 接收到錯誤類型的輸入。
+這幾位是 Java 界的「常客」，也就是你加班的元兇。
+
+【重點解析】
+NullPointerException (NPE) 是我們的老對手。它就像是你試著跟空氣說話，結果發現對方根本不在場。NumberFormatException 則是你想把 "台北" 轉成數字，電腦會覺得你在開玩笑。
 -->
 ---
 
@@ -176,10 +175,10 @@ char c = s.charAt(10);
 
 <!--
 【帶讀程式碼】
-三個範例：str 是 null，呼叫 length() 就 NullPointerException；"Taipei" 無法轉成整數就 NumberFormatException；charAt(10) 超出字串長度就 StringIndexOutOfBoundsException。
+範例就在這裡。str.length() 對一個空靈（null）呼叫，直接爆炸。
 
 【互動引導】
-大家猜猜，下面哪個最難 debug？（通常是 NullPointerException，因為很多時候不知道哪個變數是 null）
+大家覺得哪個最難抓？通常是 NPE，因為它總是發生在最想不到的地方，就像你的前任，總是在你最幸福的時候出現來搞破壞。
 -->
 ---
 
@@ -201,10 +200,10 @@ System.out.println(user.getName());
 
 <!--
 【帶讀說明】
-Java 14 之後，NullPointerException 的錯誤訊息更清楚了，直接告訴你是哪個變數是 null，而不是只說「發生了 NullPointerException」。
+謝天謝地，Java 14 之後，NPE 變得溫柔了一點。
 
-💼 業界實務：
-在 Java 14 之前，遇到 NullPointerException 經常要加很多 debug log 才能找到哪裡是 null。新版本省了很多時間。
+【除錯更方便】
+以前它只會冷冷地說「這裡錯了」，現在它會指著你的鼻子說：「因為 user 是 null 啦，蠢貨！」這讓我們省下很多通靈的時間，可以早點回家洗澡。
 -->
 ---
 layout: section
@@ -243,12 +242,10 @@ public static int myDiv(int x, int y) {
 
 <!--
 【帶讀程式碼】
-用 if/else 防呆：在可能出問題的地方先檢查。
+用 if 來防護，這就像是你在路上每走一步都要檢查地板會不會裂開。
 
-⚠️ 問題：
-如果每個可能出問題的地方都要寫 if/else，程式碼會變得很複雜，真正的業務邏輯和防呆邏輯混在一起，很難維護。
-
-💡 Java 的 try-catch 把「正常邏輯」和「錯誤處理」分開，讓程式碼更清晰。
+⚠️ 缺點：
+如果你有一百個地方要檢查，你的程式碼就會長得像一張亂七八糟的蜘蛛網。真正的功能被埋在無窮無盡的 if 裡面，你連自己到底在寫什麼都不知道。
 -->
 ---
 
@@ -264,13 +261,10 @@ public static int myDiv(int x, int y) {
 
 <!--
 【核心說明】
-Java 的異常處理流程：
-1. 發生異常時，Java 建立一個異常物件
-2. 在當前執行緒尋找有沒有 try-catch 能處理它
-3. 有就交給 catch 處理，沒有就往呼叫者的方向找
-4. 一路找到 main 都沒有，程式崩潰並印出 stack trace
+Java 處理異常的方式像是在玩「傳聲筒」。
 
-💡 stack trace 就是錯誤發生時印出的那一大堆文字，告訴你哪個方法呼叫了哪個方法，最後在哪行出了問題。
+【運作流程】
+當出事時，Java 會打包一個「異常物件」丟出來。它會問：「誰能處理這坨爛攤子？」如果沒人理它，它就一直往上丟，最後丟到 main 面前。如果 main 也擺爛，OK，那程式就直接死給你看。
 -->
 ---
 
@@ -294,13 +288,13 @@ Throwable
 
 <!--
 【帶讀階層圖】
-Throwable 是所有異常的頂層父類別，分兩大支：
-Error：嚴重的系統錯誤，通常程式無法處理（OutOfMemoryError、StackOverflowError），只能讓程式崩潰。
-Exception：程式可以處理的異常，是今天的重點。
+Throwable 是所有災難的祖先。
 
-Exception 又分：
-RuntimeException（非檢查異常）：NullPointerException、ArithmeticException 等，編譯器不強制你處理。
-其他 Exception（檢查異常）：IOException 等，編譯器強制你處理。
+【Error vs Exception】
+Error 是天崩地裂（記憶體爆了、硬碟壞了），你處理不了，只能等死。Exception 則是你可以補救的小車禍。
+
+【RuntimeException】
+這裡面住著 NPE 這種「不需要事先打招呼」的異常。
 -->
 ---
 
@@ -317,10 +311,10 @@ RuntimeException（非檢查異常）：NullPointerException、ArithmeticExcepti
 
 <!--
 【帶讀表格】
-非檢查異常（Unchecked）：RuntimeException 的子類別。編譯器不強制你處理，但如果不處理，執行時可能崩潰。
-檢查異常（Checked）：IOException、SQLException 等。編譯器強制要求你要麼 try-catch，要麼在方法宣告加 throws，不處理就不給你通過編譯。
+這點超重要！
 
-⚠️ 這個區分很重要！業界開發中，讀檔案、連資料庫都是 Checked Exception，一定要處理。
+【Checked Exception】
+這類異常就像是你去銀行開戶，行員一定要你帶印章。你不帶（不寫 try-catch），他就不讓你辦理（編譯不通過）。IOException 就是這類型的魔王。
 -->
 ---
 
@@ -343,12 +337,10 @@ try {
 
 <!--
 【帶讀語法】
-try-catch 結構：
-try {}：放可能出問題的程式碼
-catch (異常類別 e) {}：出問題了來這裡處理
+try 是「我試試看」，catch 是「如果搞砸了，我該怎麼辦」。
 
 ⚠️ 重點：
-try 裡只要有一行拋出異常，後面的程式碼就不會執行，直接跳到 catch。
+一旦 try 裡面出事了，它會立刻尖叫著逃跑，直接跳進 catch 溫暖的懷幫。後面的程式碼？想都別想，它們已經被拋棄了。
 -->
 ---
 
@@ -366,12 +358,10 @@ try 裡只要有一行拋出異常，後面的程式碼就不會執行，直接�
 
 <!--
 【帶讀說明】
-進入 catch 要兩個條件：有發生異常，而且 catch 的類別能配對到。
-
-配對規則：catch 的類別是發生異常的類別，或是其父類別。例如 catch (Exception e) 可以抓到幾乎所有異常，因為 Exception 是大多數異常的父類別。
+進入 catch 的門檻：第一，真的有出事；第二，你要抓的人是對的。
 
 ⚠️ 學生常見誤解：
-「用 catch (Exception e) 最安全？」——不，這是最糟糕的寫法！catch 得太廣，你無法針對不同類型的異常做不同處理，也可能把不應該忽略的錯誤偷偷吃掉。業界通常要求 catch 盡可能精確。
+別在那邊給我寫 catch (Exception e) 這種大絕招。這就像是你報警說「有人出事了」，但警察問是誰，你說「反正就是有人」。這對解決問題一點幫助都沒有，反而會隱藏真正的凶手。
 -->
 ---
 
@@ -390,10 +380,10 @@ public static String myDiv(int x, int y) {
 
 <!--
 【帶讀程式碼】
-try 裡面做除法，ArithmeticException 被 catch 到，印出錯誤訊息，然後方法回傳字串說明。
+除法運算的自動駕駛模式。出事了就印一句「避開除數為 0」，程式還能繼續活著。
 
 【類比說明】
-就像飛機的自動駕駛——平常自動飛，遇到亂流（異常）觸發保護機制（catch），處理完再繼續飛，而不是直接墜機。
+這就像是飛機遇到氣流，系統自動調整，乘客（使用者）頂多覺得震了一下，但飛機不會摔下來。
 -->
 ---
 
@@ -407,13 +397,10 @@ try 裡面做除法，ArithmeticException 被 catch 到，印出錯誤訊息，�
 
 <!--
 【帶讀表格】
-三個取得異常資訊的方法：
-getMessage()：只取訊息字串。
-toString()：類別名稱 + 訊息。
-printStackTrace()：完整的呼叫堆疊，除錯時最有用。
+這幾個方法是你的「偵探工具」。
 
 💼 業界實務：
-業界用 Log4j 或 SLF4J 記錄異常，不用 System.out.println。logger.error("發生錯誤", e) 會記錄完整的 stack trace 到 log 檔案。
+別在 catch 裡只寫 System.out.println。在公司裡，我們用 Log 系統把這些資訊記錄下來。如果你只會 print，那你只是在幫自己的控制台增加垃圾訊息。
 -->
 ---
 
@@ -433,10 +420,10 @@ try {
 
 <!--
 【帶讀程式碼】
-四種方式印出異常資訊，業界主要用 getMessage() 取得訊息，e 本身或 toString() 取得完整格式，printStackTrace() 在除錯時使用。
+一堆印錯誤訊息的方式。printStackTrace() 最詳細，但也最醜。
 
 ⚠️ 學生常見誤解：
-e.printStackTrace() 不是「處理異常」！只是把資訊印出來，業界不接受這樣就算處理了。
+printStackTrace() 不是「處理異常」！只是把資訊印出來，業界不接受這樣就算處理了。如果你只印訊息但不解決問題，那就像是你家失火了，你只是站在門口大喊「失火啦」然後不救火，最後房子還是會燒光。
 -->
 ---
 
@@ -456,10 +443,10 @@ catch (IOException | ArithmeticException e) { ... }
 
 <!--
 【帶讀說明】
-多個異常類型可以有多個 catch 分別處理，也可以用 | 合併到一個 catch 裡。
+如果你的程式可能發生各種車禍，你就需要多個 catch。
 
 ⚠️ 重要規則：
-多個 catch 時，順序很重要！越具體（子類別）的放前面，越廣泛（父類別）的放後面。如果父類別 catch 放在前面，子類別的 catch 永遠不會執行到（編譯就報警告）。
+就像收納箱，小的要放前面。如果你先用一個超大的箱子（Exception）接，後面那些精美的專屬箱子就派不上用場了。編譯器會覺得你在耍它。
 -->
 ---
 
@@ -479,12 +466,9 @@ try {
 
 <!--
 【帶讀程式碼】
-FileInputStream 可能拋出 IOException，5/0 拋出 ArithmeticException。兩個 catch 分別處理。
+這裡有讀檔案的錯誤，也有除法的錯誤。
 
-注意：catch (IOException e) 裡有 return，代表 IO 錯誤時直接結束方法；ArithmeticException 只印訊息繼續執行。
-
-💼 業界實務：
-不同類型的異常通常需要不同的處理策略——IO 錯誤可能需要重試，計算錯誤可能只需要記錄。
+注意：如果你連檔案都找不到（IOException），後面那個除法根本不會發生。
 -->
 ---
 layout: default
@@ -501,13 +485,10 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-練習 1：設計一個接受兩個整數輸入做除法的程式，同時處理除數為零和輸入不是數字兩種異常。
+來吧，小工程師們，該是你們當「保全」的時候了！
 
 【問題引導】
-用 Scanner 讀兩個整數，做除法。這會遇到哪兩種異常？catch 怎麼寫？
-
-【等待與觀察】
-給大家 5 分鐘，先想好 try 裡放什麼，catch 要處理哪兩種異常。
+寫一個除法器。如果有人輸入 "雞蛋糕"（不是數字），或是輸入 "0"（除數），你的程式要能優雅地抓到他們，而不是直接噴紅字死掉。
 -->
 ---
 layout: default
@@ -524,13 +505,9 @@ layout: default
 
 <!--
 【帶讀解法】
-try 裡：Scanner 讀兩個 int，做除法印結果。
-catch (ArithmeticException e)：除數為零。
-catch (InputMismatchException e)：輸入不是整數。
+用 Scanner 讀兩個整數，做除法。這會遇到哪兩種異常？catch 怎麼寫？
 
 進階：用 catch (ArithmeticException | InputMismatchException e) 合併成一個 catch。
-
-💡 記得測試各種情況：正常輸入、輸入 0 當除數、輸入字母。
 -->
 ---
 
@@ -550,10 +527,10 @@ catch (InputMismatchException e)：輸入不是整數。
 
 <!--
 【帶讀表格】
-catch 的類別可以是父類別，這樣就能「廣泛捕捉」。
+如果你想「一網打盡」，可以用父類別。
 
-⚠️ 排序規則：
-多個 catch 時，具體的（子類別）放前面，廣泛的（父類別）放後面。如果 IndexOutOfBoundsException 放在 ArrayIndexOutOfBoundsException 前面，後者的 catch 永遠不會執行到。
+⚠️ 警告：
+這是一把雙面刃。好處是方便，壞處是你根本不知道是哪一種類型的錯誤。除非你真的不在乎，否則還是建議寫得具體一點。
 -->
 ---
 
@@ -573,10 +550,7 @@ try {
 
 <!--
 【帶讀程式碼】
-charAt(10) 超出字串長度，拋出 StringIndexOutOfBoundsException。catch (IndexOutOfBoundsException e) 可以捕捉到，因為 StringIndexOutOfBoundsException 是 IndexOutOfBoundsException 的子類別。
-
-【設計原則】
-這個範例展示了「捕捉父類別異常」的用法。當你不確定是哪個子類別異常，或者所有子類別都用同一種方式處理，就捕捉父類別。
+IndexOutOfBoundsException 可以同時抓到陣列和字串的索引錯誤。這就像是你雇了一個「保全」，不管是偷錢的還是偷車的，他通通抓起來。
 -->
 ---
 
@@ -600,13 +574,10 @@ try {
 
 <!--
 【核心說明】
-finally 區塊：不管有沒有異常，finally 裡的程式碼一定會執行。
-
-【用途】
-主要用來確保資源被釋放——資料庫連線、檔案、網路串流都需要在用完後關閉，不管有沒有出錯。
+finally 就是「不管怎樣我都要做」。
 
 【生活化比喻】
-就像出門一定要關燈，不管今天出門是去上班還是看醫生，關燈這件事（finally）一定要做。
+就像你在家裡大吵大鬧（try），或是被警察抓走（catch），最後你媽還是會叫你把碗洗乾淨（finally）。
 -->
 ---
 
@@ -620,15 +591,7 @@ finally 區塊：不管有沒有異常，finally 裡的程式碼一定會執行�
 
 <!--
 【帶讀說明】
-finally 的五個特性：
-- try 必須在前面
-- 不管有沒有異常都執行
-- 異常被捕捉：catch 完再 finally
-- 異常未捕捉：finally 還是執行，然後程式崩潰
-- try 或 catch 裡有 return：finally 也還是會執行！（這個最讓人驚訝）
-
-⚠️ 學生常見誤解：
-「有 return 就出去了，finally 不會執行？」——不對！finally 一定執行，return 只是在 finally 執行完「之後」才真正返回。
+finally 是非常霸道的。就算你在 try 裡面寫了 return 想跑，它還是會把你抓回來，執行完 finally 才放你走。它就是那個一定要陪你走到最後的恐怖情人。
 -->
 ---
 
@@ -652,13 +615,10 @@ try (Scanner scanner = new Scanner(System.in)) {
 
 <!--
 【核心說明】
-try-with-resources 是 Java 7 引入的語法糖，把資源宣告在 try 括號裡，try 結束時自動呼叫 close()，不需要手寫 finally {scanner.close();}。
+這是我最愛的 Java 魔法。
 
 【帶讀程式碼】
-try (Scanner scanner = new Scanner(System.in)) {}：Scanner 在 try 結束時自動關閉。
-
-💼 業界實務：
-現代 Java 開發，讀檔案、資料庫連線等都用 try-with-resources，這是標準做法。你幾乎不會在業界看到有人還在 finally 裡手動關資源。
+以前關資源要寫三行，現在只要把它丟進 try 的括號裡，它用完就會「自我了斷」。這不僅省力，還能防止你的記憶體被那些沒關的資源塞爆。
 -->
 ---
 
@@ -685,9 +645,6 @@ try (scanner) {
 <!--
 【帶讀說明】
 Java 9 的增強：如果資源變數是 final 或實質上是 final（只賦值一次），可以直接把已宣告的變數放進 try() 裡，不需要重新宣告。
-
-【帶讀程式碼】
-final Scanner scanner = new Scanner(...)，然後 try (scanner) {}——更簡潔。
 -->
 ---
 layout: default
@@ -700,10 +657,10 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-練習 2：把練習 1 改用 try-with-resources 語法。主要的改變是把 Scanner 的宣告移到 try() 括號裡。
+把練習 1 升級成 2.0 版！
 
 【關鍵點】
-改完後不需要 finally {scanner.close()}，但程式行為完全一樣。
+學會用 try-with-resources。別再手寫 close() 了，那太老派了，讓我們用點現代人的方法。
 -->
 ---
 layout: default
@@ -722,8 +679,6 @@ layout: default
 把 new Scanner(System.in) 移到 try 括號裡：try (Scanner scanner = new Scanner(System.in)) {}。
 移除任何手動 close() 的程式碼。
 catch 維持不變。
-
-💡 觀察對比：try-with-resources 版本比 finally 版本短幾行，但功能完全相同，而且更安全（不會忘記關閉）。
 -->
 ---
 
@@ -744,12 +699,10 @@ throw new exception_class("exception message");
 
 <!--
 【核心說明】
-throw 讓你「主動」在程式裡某個條件下拋出異常，而不是等 Java 自動拋出。
-
-語法：throw new 異常類別("錯誤訊息")
+throw 是你「主動出擊」。
 
 【使用場景】
-業務規則驗證：密碼長度不符、年齡不夠、餘額不足——這些不是 Java 內建的異常，你需要主動拋出。
+有時候 Java 覺得沒問題，但你覺得有問題。比如使用者輸入年齡為 -5 歲，Java 覺得 -5 是整數啊，沒事！但你要大喊：「這不科學！」然後主動把異常丟出去。
 -->
 ---
 
@@ -768,12 +721,9 @@ private static void pwdCheck(String pwdStr) throws Exception {
 
 <!--
 【帶讀程式碼】
-pwdCheck() 方法：密碼長度 5-8 個字元才算通過，不符合就 throw new Exception("密碼長度不符規定")。
+密碼長度驗證。不符合 5-8 個字？直接丟出一個 Exception 讓他知道誰才是老大。
 
-注意：方法宣告加了 throws Exception，告訴呼叫方「這個方法可能拋出 Exception，你要處理」。
-
-【類比說明】
-就像海關人員驗護照，護照過期就直接攔下來（throw），讓後面的流程（呼叫方）處理這個問題。
+注意：方法上面要寫 throws（有 s 的那個），像是在警告別人：「我這招很毒，要接好喔！」
 -->
 ---
 
@@ -796,10 +746,7 @@ public static void main(String[] args) throws IOException {
 
 <!--
 【帶讀程式碼】
-catch 裡的 throw e——在 catch 捕捉到異常後，可以再次拋出，讓更外層的方法處理。
-
-【使用場景】
-當你在 catch 裡只想做部分處理（比如 log 記錄），但還是想讓上層知道有異常發生，就再次 throw。
+這叫「接力賽」。我在 catch 抓到了，但我不想處理，我再把它丟給上司（呼叫方）去煩惱。這在公司裡很常見，把問題往上呈報就對了。
 -->
 ---
 layout: default
@@ -816,10 +763,10 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-練習 3：用 throw 主動拋出異常。密碼長度不符時拋出，主程式用 try-catch 捕捉。
+來做一個嚴格的密碼守門員。
 
 【問題引導】
-方法宣告要加 throws，方法裡條件不符就 throw。主程式怎麼呼叫並捕捉？
+如果密碼太長或太短，請豪邁地 throw 出一個異常。讓呼叫你的主程式去處理這堆爛攤子。
 -->
 ---
 layout: default
@@ -835,11 +782,7 @@ layout: default
 
 <!--
 【帶讀解法】
-pwdCheck(String pwdStr) throws StringIndexOutOfBoundsException：
-- 長度符合：印成功
-- 不符合：throw new StringIndexOutOfBoundsException("密碼長度不符規定")
-
-主程式：字串陣列 + 迴圈，每次呼叫 pwdCheck 都在 try-catch 裡，catch 印出 e.getMessage()。
+方法宣告要加 throws，方法裡條件不符就 throw。主程式怎麼呼叫並捕捉？
 -->
 ---
 
@@ -862,33 +805,10 @@ public void myMethod() throws 異常類別1, 異常類別2 {
 
 <!--
 【核心說明】
-throws（注意有 s）是宣告在方法簽名上，表示「這個方法可能會拋出這些異常，呼叫我的人要負責處理」。
+throws 是在方法門口貼告示牌。
 
 【類比說明】
-throw 是「我現在拋出異常」（動作），throws 是「我聲明可能會拋出」（宣告）。
--->
----
-
-# throws — 範例
-
-```java
-public static void myMethod()
-        throws ArithmeticException, InputMismatchException {
-    Scanner scanner = new Scanner(System.in);
-    int x1, x2;
-    System.out.println("請輸入2個整數（空白隔開）：");
-    x1 = scanner.nextInt();
-    x2 = scanner.nextInt();
-    System.out.println("結果：" + (x1 / x2));
-}
-```
-
-<!--
-【帶讀程式碼】
-myMethod() throws ArithmeticException, InputMismatchException：宣告可能拋出兩種異常。呼叫 myMethod() 的地方必須有 try-catch，否則編譯報錯。
-
-💼 業界實務：
-Checked Exception（如 IOException）必須處理——要麼 try-catch，要麼在方法宣告加 throws 往上傳。RuntimeException 雖然不強制，但業界仍建議文件化潛在的異常。
+「內有惡犬，進來前請準備好醫療保險（try-catch）」。如果你不宣告 throws，你的上層根本不知道你這方法會爆炸。
 -->
 ---
 
@@ -910,12 +830,10 @@ void withdraw(int amt) throws NotEnoughException {
 
 <!--
 【帶讀表格】
-throw 和 throws 的對比，面試常考題！
-throw：在方法「內部」，拋出一個異常「物件」，後面接 new XxxException()。
-throws：在方法「宣告」，聲明可能拋出的異常「類別」，後面接類別名稱。
+這題面試沒考的話，我請你喝飲料！
 
-【帶讀程式碼】
-withdraw() throws NotEnoughException（宣告），throw new NotEnoughException()（動作），兩者搭配使用。
+【記憶口訣】
+throw 是丟手榴彈（動作），一次一顆（一個物件）。throws 是宣告我有手榴彈（聲明），可以有很多種（多個類別）。
 -->
 ---
 
@@ -934,10 +852,10 @@ class 自訂異常類別名稱 extends Exception {
 
 <!--
 【核心說明】
-自訂異常類別：繼承 Exception（或其子類別），加入你需要的額外資訊。
+當 Java 內建的異常不夠用的時候，就自己寫一個！
 
 【使用場景】
-業界大型專案通常有自己的異常類別體系，比如 UserNotFoundException、OrderNotFoundException、PaymentFailedException，讓不同錯誤有不同的代碼和訊息格式。
+比如「錢不夠異常」、「女朋友生氣異常」——這些 Java 沒寫，你自己寫一個類別繼承 Exception 就搞定了。
 -->
 ---
 
@@ -956,10 +874,7 @@ class MyException extends Exception {
 
 <!--
 【帶讀程式碼】
-MyException extends Exception，加入 str 欄位存放訊息，Override toString() 顯示自訂格式。
-
-💼 業界實務：
-業界的自訂異常通常還會加入 errorCode（錯誤代碼）欄位，方便 API 回傳結構化的錯誤資訊給前端。
+定義一個 MyException。記得 Override toString()，這樣印出來的訊息才會像你寫的。
 -->
 ---
 
@@ -978,10 +893,7 @@ try {
 
 <!--
 【帶讀程式碼】
-throw new MyException("異常訊息") 拋出自訂異常，catch (MyException e) 捕捉，e.printStackTrace() 印出追蹤。
-
-【輸出說明】
-因為 Override 了 toString()，印出的格式是「我定義的 MyException 發生了...」。
+拋出你自己寫的異常。現在你有了專屬的爆炸按鈕了，開心嗎？
 -->
 ---
 layout: default
@@ -998,10 +910,10 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-練習 4：銀行提款情境，這是業界最典型的自訂異常應用場景。
+我們來寫一個銀行系統。錢不夠提款時，要讓使用者知道「差多少錢」。
 
 【問題引導】
-NotEnoughException 需要記錄差額。MyBank 的 withdraw() 判斷餘額不足時拋出異常，傳入差額。main 捕捉後印出差額。
+自訂一個 NotEnoughException，裡面存一個「差額」。當提款金額太誇張時，把它丟出去！
 -->
 ---
 layout: default
@@ -1011,7 +923,7 @@ layout: default
 ### 提示說明
 
 1. `NotEnoughException` 加入 `private int shortAmount` 成員與 `getShortAmount()` 方法
-2. `MyBank.withdraw()` 判斷 `cashout > balance` 時計算差額
+2. `MyBank.withdraw()` 判斷 `cashout > balance`時計算差額
 3. `throw new NotEnoughException(差額)`，並在方法宣告加上 `throws NotEnoughException`
 4. `main` 中用 try-catch 捕捉，用 `e.getShortAmount()` 列印差額
 
@@ -1020,9 +932,6 @@ layout: default
 NotEnoughException：加入 shortAmount 欄位和 getShortAmount() 方法。
 MyBank.withdraw()：cashout > balance 時，計算差額 = cashout - balance，throw new NotEnoughException(差額)，方法宣告加 throws NotEnoughException。
 main：try-catch 捕捉，用 e.getShortAmount() 取得差額印出。
-
-💼 業界實務：
-銀行、電商系統每天都有這類業務異常——不是程式 bug，是業務規則不滿足。自訂異常讓這些情況可以被精確識別和處理。
 -->
 ---
 layout: section
@@ -1058,13 +967,10 @@ public enum RtnCode {
 
 <!--
 【核心說明】
-用 enum 定義固定的錯誤代碼和訊息，確保整個系統用一致的代碼格式。
-
-【帶讀程式碼】
-RtnCode.SUCCESS 代碼 200，RtnCode.SAVE_ERROR 代碼 400。每個錯誤都有固定的代碼和預設訊息。
+這是業界的大絕招：用 enum 來管理錯誤。
 
 💼 業界實務：
-Spring Boot 的 REST API 標準做法：成功回傳 200 + 資料，失敗回傳 4xx/5xx + 錯誤訊息。用 enum 集中管理這些代碼，不會有人在這裡寫 200、那裡寫 "success" 的不一致問題。
+別再寫死什麼 200、404 了。用 enum 把所有的狀態碼和訊息定義好。這樣不管是前端、後端，大家都看同一份規格，這才叫專業。
 -->
 ---
 
@@ -1077,9 +983,7 @@ Spring Boot 的 REST API 標準做法：成功回傳 200 + 資料，失敗回傳
 
 <!--
 【帶讀表格】
-兩種模式：
-固定代碼 + 固定訊息：用 RtnCode.SUCCESS.getMessage()。
-固定代碼 + 動態訊息：error code 固定，但訊息是 e.getMessage() 取得的動態內容。
+兩種模式：固定代碼 + 固定訊息，或是固定代碼 + 動態訊息。
 -->
 ---
 
@@ -1100,9 +1004,6 @@ public BaseRes objMapper(String str) {
 <!--
 【帶讀程式碼】
 objMapper() 方法：try 正常執行後回傳成功的 RtnCode；catch 到任何異常時回傳錯誤代碼 400 加上異常的動態訊息。
-
-【結構說明】
-BaseRes 是回應物件，包含 code 和 message。這個模式在 Spring Boot REST API 裡幾乎是標配。
 -->
 ---
 layout: default
@@ -1119,10 +1020,10 @@ layout: default
 
 <!--
 【出題前的鋪陳】
-練習 5：綜合練習，把這章學的概念都用上——自訂異常、throw、throws、try-catch。
+最後的期末考！綜合大雜燴。
 
 【問題引導】
-年齡驗證：滿 18 歲歡迎投票，未滿 18 歲拋出自訂異常。迴圈處理三個年齡，各自顯示對應訊息。
+年齡投票系統。不滿 18 歲的給我滾（拋出異常），滿 18 歲的請進。這題會用到這章學的所有技巧，加油！
 -->
 ---
 layout: default
@@ -1142,8 +1043,6 @@ layout: default
 1. 自訂異常（繼承 StringIndexOutOfBoundsException）。
 2. ageCheck(int age) throws 自訂異常：< 18 時 throw。
 3. 主程式：int[] ages = {12, 19, 67}，for 迴圈，每次 try-catch，成功印「xx 歲歡迎投票」，catch 印「xx 歲太輕」。
-
-💡 注意：getMessage() 取出「年齡不符規定」的訊息，自訂異常的字串在 throw 時傳入。
 -->
 ---
 layout: section
@@ -1154,12 +1053,10 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【收尾】
-今天學了 Java 異常處理的完整體系：三種錯誤類型、try-catch-finally、try-with-resources、throw vs throws、自訂異常類別，以及業界的錯誤代碼設計。
+今天我們學會了怎麼跟災難共存。
 
 【核心帶走重點】
-catch 要精確、不要全部 catch Exception；一定要關資源，用 try-with-resources；自訂異常讓業務邏輯錯誤有清楚的語意。
-
-Q&A 時間！
+記住：try 嘗試，catch 救援，finally 收尾。別讓你的程式像顆不定時炸彈。有問題快問，沒問題就趕快回家寫作業吧！
 -->
 ---
 layout: end
@@ -1169,6 +1066,6 @@ layout: end
 ### 掌握異常，讓程式更健壯
 
 <!--
-[依脈絡推斷]
-本章結束。掌握異常，讓程式更健壯——這是每天都會用到的技術，多練習！
+【結束語】
+掌控異常，你就是程式碼的上帝。下課！
 -->

@@ -5,7 +5,9 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+
+fonts:
+  provider: none
 title: 正規表達式 (Regular Expression)
 routeAlias: ch13
 style: |
@@ -142,7 +144,7 @@ System.out.println("a".matches("\\d"));  // false
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 在 Java 中，反斜線需要跳脫：正規表達式的 <code>\d</code> 寫成字串要寫 <code>"\\d"</code>
+💡 在 Java 中，反斜線需跳脫：正規表達式的 <code>\d</code> 寫成字串要寫 <code>"\\d"</code>
 </div>
 
 <!--
