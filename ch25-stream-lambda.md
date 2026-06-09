@@ -217,6 +217,8 @@ Function<String, String> f = s -> s.toLowerCase();
 
 只要介面**只有一個抽象方法**，lambda 就能直接實作它，這種介面就叫**函數式介面**。
 
+想像你去便利商店打工，老闆說：「你今天只有**一個任務**——幫客人結帳。」因為任務只有一個，所以當客人走過來，你就知道要做什麼，不會搞錯。這就是函數式介面——只有一個「任務定義」，lambda 塞進去就知道自己要做什麼。
+
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 你不需要每次都自己定義介面 — Java 已經幫你把最常見的幾種形狀都定義好了，下一頁就是這些現成介面。
 </div>
@@ -268,10 +270,16 @@ Java 把最常見的四種 lambda 形狀幫你取好名字、定義好介面，�
 
 # 常用內建函數式介面 — 範例
 
+| 介面 | 呼叫方法 | 範例 |
+| --- | --- | --- |
+| `Predicate<T>` | `.test(值)` | `isAdult.test(20)` → `true` |
+| `Function<T,R>` | `.apply(值)` | `len.apply("炭治郎")` → `3` |
+| `Consumer<T>` | `.accept(值)` | `print.accept("鬼殺隊")` |
+| `Supplier<T>` | `.get()` | `title.get()` → `"無限列車"` |
+
 ```java
 Predicate<Integer> isAdult = age -> age >= 18;
-System.out.println(isAdult.test(20));  // true
-System.out.println(isAdult.test(15));  // false
+System.out.println(isAdult.test(20));     // true
 
 Function<String, Integer> len = s -> s.length();
 System.out.println(len.apply("炭治郎")); // 3
@@ -280,7 +288,7 @@ Consumer<String> print = s -> System.out.println("★ " + s);
 print.accept("鬼殺隊");                  // ★ 鬼殺隊
 
 Supplier<String> title = () -> "無限列車";
-System.out.println(title.get());        // 無限列車
+System.out.println(title.get());         // 無限列車
 ```
 
 <!--
