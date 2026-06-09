@@ -20,6 +20,5 @@
 /* Fix Slidev v52+ Presenter Mode Layout Overflow */
 .grid-container {
   width: 100vw !important;
-  grid-template-columns: 1fr 1fr 360px !important;
 }
 </style>
