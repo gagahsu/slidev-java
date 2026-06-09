@@ -268,6 +268,21 @@ Java 把最常見的四種 lambda 形狀幫你取好名字、定義好介面，�
 
 ---
 
+# 常用內建函數式介面 — 呼叫方法
+
+| 介面 | 呼叫方法 | 說明 |
+| --- | --- | --- |
+| `Predicate<T>` | `.test(值)` | 回傳 `boolean` |
+| `Function<T,R>` | `.apply(值)` | 回傳轉換後的值 |
+| `Consumer<T>` | `.accept(值)` | 無回傳值 |
+| `Supplier<T>` | `.get()` | 不傳入值，產出結果 |
+
+<!--
+每台機器的啟動按鈕長得不一樣，別按錯了。Predicate 用 `test`，Function 用 `apply`，Consumer 用 `accept`，Supplier 用 `get`。
+-->
+
+---
+
 # 常用內建函數式介面 — 範例
 
 ```java
