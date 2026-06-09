@@ -301,7 +301,7 @@ System.out.println(title.get());        // 無限列車
 | 範例 | 說明 |
 | --- | --- |
 | `(var x, var y) -> x + y` | 所有參數都必須使用 `var` |
-| `(@NonNull var x) -> ...` | **主要用途：** 方便在參數上加上註解（Annotation） |
+| `(@SuppressWarnings("unused") var x) -> ...` | **主要用途：** 方便在參數上加上註解（Annotation） |
 
 ```java
 // 傳統寫法
@@ -310,8 +310,8 @@ System.out.println(title.get());        // 無限列車
 // JDK 11 使用 var
 (var s) -> s.toLowerCase()
 
-// 搭配註解（必須使用類型或 var）
-(@Nonnull var s) -> s.toLowerCase()
+// 搭配註解（必須使用類型或 var，不能直接省略）
+(@SuppressWarnings("unused") var s) -> s.toLowerCase()
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
@@ -323,7 +323,7 @@ System.out.println(title.get());        // 無限列車
 JDK 11 之後，Lambda 也可以用 `var` 了。這純粹是為了讓語法看起來更統一。
 
 【程式世界怎麼用】
-其實大部分時候我們都直接省略型別。會用到 `var`，通常是因為你需要在參數上面加一些「標籤」（註解），像是 `@Nonnull`。
+其實大部分時候我們都直接省略型別。會用到 `var`，通常是因為你需要在參數上面加一些「標籤」（註解），像是 `@SuppressWarnings` 或 Spring 的 `@Nullable`。
 
 💼 業界實務：
 如果你沒打算加註解，就別裝忙寫 `var` 了，直接 `s ->` 才是真正的簡潔大師。
