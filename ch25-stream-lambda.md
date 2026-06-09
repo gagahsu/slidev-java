@@ -203,52 +203,53 @@ Collections.sort(heroes, (a, b) -> a.compareTo(b));
 
 ---
 
-# 函數式介面 (Functional Interface)
+# Lambda 需要型別：函數式介面
 
-Lambda 實際上是**函數式介面的匿名實作**。函數式介面只含一個抽象方法。
+`s -> s.toLowerCase()` 本身沒有型別。Java 是強型別語言，**lambda 必須指派給某個介面**，Java 才知道它「是什麼」。
 
 ```java
-@FunctionalInterface
-interface Greeting {
-    String greet(String name);
-}
+// ❌ 無法編譯：Java 不知道這是什麼型別
+var f = s -> s.toLowerCase();
 
-// Lambda 直接實作介面
-Greeting g = name -> "哈囉，" + name;
-System.out.println(g.greet("炭治郎")); // 哈囉，炭治郎
+// ✅ 告訴 Java：這是「吃 String、吐 String」的函數
+Function<String, String> f = s -> s.toLowerCase();
 ```
 
+只要介面**只有一個抽象方法**，lambda 就能直接實作它，這種介面就叫**函數式介面**。
+
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>@FunctionalInterface</code> 是可選的注解，但加上後若介面超過一個抽象方法，編譯器會立即報錯
+💡 你不需要每次都自己定義介面 — Java 已經幫你把最常見的幾種形狀都定義好了，下一頁就是這些現成介面。
 </div>
 
 <!--
 【核心說明】
-Lambda 雖然厲害，但它不是隨便哪裡都能插的。它必須插在「只有一個洞」的插座上，這個插座就叫「函數式介面」。
+很多人誤以為 lambda 就是語法糖，可以隨便用。其實不行——Java 是強型別，每個 lambda 都必須有一個對應的介面型別，編譯器才知道它要扮演什麼角色。
 
-【生活化比喻】
-這就像是那種「一人座」的電梯。因為只有一個位子，所以電梯知道進來的那個人（Lambda）就是要去做那個唯一的任務。
+`s -> s.toLowerCase()` 到底是什麼？是「判斷條件」？是「轉換函數」？還是「執行動作」？光看 lambda 本身你不知道。
+要靠左邊的型別（`Function<String, String>`）來確定。
 
 ⚠️ 學生常見誤解：
-如果介面有兩個以上的抽象方法，Lambda 就會直接罷工，因為它不知道自己該扮演哪個角色。
+Lambda 不能單獨存在，它一定要配合函數式介面才能使用。
 -->
 
 ---
 
-# 常用內建函數式介面
+# Java 內建函數式介面：四大天王
 
-| 介面 | 方法簽名 | 說明 |
+Java 幫你預先定義了最常用的四種「lambda 形狀」，直接用就好：
+
+| 介面 | Lambda 形狀 | 用途 |
 | --- | --- | --- |
-| `Predicate<T>` | `T -> boolean` | 判斷條件，回傳 true/false |
-| `Function<T, R>` | `T -> R` | 輸入一個值，轉換後回傳 |
-| `Consumer<T>` | `T -> void` | 接受一個值，執行操作（無回傳）|
-| `Supplier<T>` | `() -> T` | 不接受參數，提供一個值 |
-| `Comparator<T>` | `(T, T) -> int` | 比較兩個物件的大小 |
-| `BiFunction<T,U,R>` | `(T, U) -> R` | 接受兩個參數，回傳結果 |
+| `Predicate<T>` | `T -> boolean` | 判斷條件（裁判：只回 Yes/No）|
+| `Function<T, R>` | `T -> R` | 輸入轉輸出（加工機：蘋果進、果汁出）|
+| `Consumer<T>` | `T -> void` | 只執行不回傳（大胃王：吃了沒有下文）|
+| `Supplier<T>` | `() -> T` | 不輸入只產出（自動販賣機：按一下自己吐東西）|
+
+這四個也正是 **Stream API 每個方法背後要求的 lambda 形狀**：`filter` 要 `Predicate`、`map` 要 `Function`、`forEach` 要 `Consumer`。
 
 <!--
 【核心說明】
-Java 很貼心，幫我們準備了一堆常用的「標準插座」。
+Java 把最常見的四種 lambda 形狀幫你取好名字、定義好介面，你直接用就行，不用自己再寫 @FunctionalInterface。
 
 【帶著讀這張表】
 `Predicate`：就是「裁判」。問它對不對，它只會回你 Yes 或 No。
@@ -256,8 +257,11 @@ Java 很貼心，幫我們準備了一堆常用的「標準插座」。
 `Consumer`：就是「大胃王」。丟東西給它吃，它就吃了，不回傳任何東西。
 `Supplier`：就是「自動販賣機」。你不用丟東西給它，它自己就吐東西出來。
 
+【連接 Stream 的橋梁】
+最後一行很重要！學生學完這頁再看 Stream，就會知道為什麼 filter 後面接的 lambda 長那樣——因為 filter 的參數型別就是 Predicate，所以 lambda 一定要是「傳入一個值、回傳 boolean」的形狀。
+
 💼 業界實務：
-這四個是四大天王，一定要記住。Stream 裡面幾乎所有的操作都是圍繞著這四個轉的。
+這四個一定要記住。Stream 裡面幾乎所有的操作都是圍繞著這四個轉的。
 -->
 
 ---
