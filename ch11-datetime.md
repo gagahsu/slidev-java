@@ -362,7 +362,7 @@ layout: default
 ```java
 import java.time.LocalTime;
 
-now = LocalTime.now();
+LocalTime now = LocalTime.now();
 LocalTime meeting = LocalTime.of(14, 30);
 LocalTime end = meeting.plusHours(2);
 
@@ -409,7 +409,7 @@ layout: default
 ```java
 import java.time.LocalDateTime;
 
-now = LocalDateTime.now();
+LocalDateTime now = LocalDateTime.now();
 LocalDateTime dt = LocalDateTime.of(2024, 5, 13, 10, 30, 0);
 
 LocalDate d = LocalDate.of(2024, 5, 13);

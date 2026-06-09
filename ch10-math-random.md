@@ -306,7 +306,7 @@ layout: default
 | `2.5` | `3` | `2.0` (偶數) | `3.0` | `2.0` |
 | `3.5` | `4` | `4.0` (偶數) | `4.0` | `3.0` |
 | `-2.5` | `-2` | `-2.0` (偶數) | `-2.0` | `-3.0` |
-| `3.7` | `4` | `4.0` | `4.0" | `3.0` |
+| `3.7` | `4` | `4.0` | `4.0` | `3.0` |
 
 ```java
 System.out.println(Math.round(2.5));  // 3  (long)
@@ -649,7 +649,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 七部分
+# 第七部分
 # 專題：地球兩點距離
 
 <!--

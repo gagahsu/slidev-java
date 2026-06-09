@@ -1,0 +1,91 @@
+/* 全域重置與字型 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+  background-color: #f0f9f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+}
+
+h1 {
+  color: #1a5c5c;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #5eada0;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 16px rgba(94, 173, 160, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 320px;
+}
+
+label {
+  color: #4a7c7c;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+input#name-input {
+  border: 2px solid #a7d9d0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input#name-input:focus {
+  border-color: #5eada0;
+}
+
+/* 按鈕：背景色使用課程主色 #5eada0 */
+#greet-btn {
+  background-color: #5eada0;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* hover 效果：略暗並放大 */
+#greet-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+#greet-btn:active {
+  transform: scale(0.98);
+}
+
+#message {
+  min-height: 1.5rem;
+  color: #1a5c5c;
+  font-size: 1.05rem;
+  font-weight: 600;
+}

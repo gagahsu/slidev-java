@@ -397,6 +397,78 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
+# 實作練習
+
+<!--
+【開場白】
+看完 Demo，換你們親自試試。
+-->
+
+---
+layout: default
+---
+
+# 練習一：建立自訂 Skill
+### 任務說明
+
+在你的專案根目錄建立一個名為 `pr-summary` 的 Skill，當執行 `/pr-summary` 時，能自動產生 Pull Request 的摘要說明。
+
+**需求：**
+1. 在 `.codex/skills/pr-summary/` 目錄下建立 `SKILL.md`
+2. Skill 名稱：`pr-summary`，說明：「自動產生 PR 摘要」
+3. 允許工具：`Bash`、`Read`、`Grep`
+4. 指令內容：執行 `git diff main...HEAD` 並整理為條列式摘要
+
+**預期呼叫方式：**
+```
+/pr-summary
+```
+
+<!--
+【關鍵提示】
+1. SKILL.md 的 YAML front-matter 格式要正確，name、description、allowed-tools 都要填。
+2. 指令內容用自然語言描述 AI 應該做的事，不需要寫 shell script。
+3. 建立後重啟 Codex CLI 才能載入新 Skill。
+-->
+
+---
+
+# 練習一：解題提示
+
+**目錄結構：**
+```
+.codex/
+└── skills/
+    └── pr-summary/
+        └── SKILL.md
+```
+
+**SKILL.md 內容：**
+```markdown
+---
+name: pr-summary
+description: 自動產生 Pull Request 摘要說明
+allowed-tools: Bash, Read, Grep
+---
+請執行 `git diff main...HEAD` 取得本分支的所有變更，
+整理為以下格式的 PR 摘要：
+## 變更摘要
+- （條列主要變更）
+
+## 影響範圍
+- （條列受影響的模組或檔案）
+```
+
+<!--
+【解說要點】
+這就是一個完整可用的 Skill。name 就是 /pr-summary 裡的名字，allowed-tools 決定 AI 能用哪些工具，指令內容就是你對 AI 下的指示。
+-->
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
 # Q & A
 
 ---

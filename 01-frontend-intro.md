@@ -404,6 +404,84 @@ class: flex flex-col justify-center items-center text-center
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作練習
+# Lab
+
+<!--
+【開場白】
+看了這麼多投影片，現在是時候親手做做看了！
+-->
+
+---
+layout: default
+---
+
+# 練習：打招呼頁面
+### 任務說明
+
+建立一個由三個檔案組成的簡單網頁：`index.html`、`style.css`、`main.js`
+
+**需求：**
+1. HTML：包含一個輸入框（`<input>`）、一個按鈕（`<button>`）和一個顯示訊息的段落（`<p>`）
+2. CSS：為按鈕加上背景色（`#5eada0`）、圓角、white 文字顏色與 hover 效果
+3. JavaScript：點擊按鈕後，讀取輸入框的值，在段落顯示 `"你好，[名字]！歡迎來到前端世界！"`
+
+**預期效果：**
+- 輸入「小明」→ 按鈕 → 顯示「你好，小明！歡迎來到前端世界！」
+- 若輸入框為空，顯示「請輸入你的名字！」
+
+<!--
+【練習導引】
+這是你的第一個完整前端作品！把 HTML、CSS、JS 三個檔案放在同一個資料夾，用瀏覽器開啟 index.html 就能看到結果。
+
+【關鍵提示】
+1. 記得在 HTML 裡用 `<link>` 引入 CSS，用 `<script>` 引入 JS。
+2. JS 裡用 `document.getElementById('id名稱')` 抓到元素。
+3. 用 `.value` 讀取 input 的值，用 `.textContent` 設定 p 的文字。
+-->
+
+---
+
+# 練習：解題提示
+
+**index.html 骨架：**
+```html
+<input id="name-input" placeholder="請輸入你的名字">
+<button id="greet-btn">打招呼</button>
+<p id="message"></p>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+```
+
+**style.css 重點：**
+```css
+#greet-btn:hover { opacity: 0.85; transform: scale(1.02); }
+```
+
+**main.js 重點：**
+```javascript
+const btn   = document.getElementById('greet-btn');
+const input = document.getElementById('name-input');
+const msg   = document.getElementById('message');
+btn.addEventListener('click', () => {
+  const name = input.value.trim();
+  msg.textContent = name
+    ? `你好，${name}！歡迎來到前端世界！`
+    : '請輸入你的名字！';
+});
+```
+
+<!--
+【解說要點】
+注意 input.value.trim() 去除前後空白，這是很好的習慣。
+三個反引號（template literal）讓字串拼接更清晰。
+-->
+
+---
 layout: end
 ---
 

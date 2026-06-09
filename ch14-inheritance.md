@@ -1282,13 +1282,13 @@ obj.showAnimal(new Animal() {
 ### 任務說明
 
 1. **繼承練習**：建立父類別 `Father`，子類別 `Son` 和 `Daughter`
-   - `Father`：`name(String)`、`walk()` 印出 `name is walking!!!`
-   - `Son`：Override `walk()` 印 `name is walking~~~`，加上 `playBall()`
-   - `Daughter`：Override `walk()` 印 `name is walking@@@`，加上 `shopping()`
+   - `Father`：有 `protected String name` 欄位（透過建構方法傳入）、`walk()` 印出 `name is walking!!!`
+   - `Son`：建構方法呼叫 `super(name)`，Override `walk()` 印 `name is walking~~~`，加上 `playBall()`
+   - `Daughter`：建構方法呼叫 `super(name)`，Override `walk()` 印 `name is walking@@@`，加上 `shopping()`
 
 2. **多形練習**：建立 `Animal`、`Dog`、`Bird`
    - 各自 Override `move()` 方法
-   - 用 `Animal[] animals = { new Dog(), new Bird() }` 搭配迴圈呼叫 `move()`
+   - 用 `Animal[] animals = { new Dog("旺財"), new Bird("小翠") }` 搭配迴圈呼叫 `move()`
 
 <!--
 【出題前的鋪陳】

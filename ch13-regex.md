@@ -1690,11 +1690,11 @@ layout: default
 4. 頂級網域（可重複）：`(\.[\w-]{2,})+`
 
 <div class="mt-2 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
-⚠️ <b>注意：</b> <code>\w</code> 在 Java 字串中要寫成 <code>"\\w"</code>；直接寫在 <code>matches()</code> 的參數裡則是 <code>"\w"</code>
+⚠️ <b>注意：</b> <code>\w</code> 是正規表達式的字元縮寫，但在 Java 字串中必須用雙反斜線 <code>\\w</code> 才能表示一個反斜線，否則 Java 編譯器會報錯
 </div>
 
 ```java
-String emailRegex = "[\w.+-]+@[\w-]+(\.[\w-]{2,})+";
+String emailRegex = "[\\w.+-]+@[\\w-]+(\\.([\\w-]{2,}))+";
 
 String[] tests = {
     "user@example.com",    // ✅
