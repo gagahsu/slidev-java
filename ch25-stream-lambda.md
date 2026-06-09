@@ -305,13 +305,13 @@ System.out.println(title.get());        // 無限列車
 
 ```java
 // 傳統寫法
-(String s) -> s.toLowerCase()
+Function<String, String> f1 = (String s) -> s.toLowerCase();
 
 // JDK 11 使用 var
-(var s) -> s.toLowerCase()
+Function<String, String> f2 = (var s) -> s.toLowerCase();
 
 // 搭配註解（必須使用類型或 var，不能直接省略）
-(@SuppressWarnings("unused") var s) -> s.toLowerCase()
+Function<String, String> f3 = (@SuppressWarnings("unused") var s) -> s.toLowerCase();
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
