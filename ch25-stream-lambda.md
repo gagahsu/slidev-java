@@ -268,6 +268,21 @@ Java 把最常見的四種 lambda 形狀幫你取好名字、定義好介面，�
 
 ---
 
+# 常用內建函數式介面 — 呼叫方法
+
+| 介面 | 呼叫方法 | 範例 |
+| --- | --- | --- |
+| `Predicate<T>` | `.test(值)` | `isAdult.test(20)` → `true` |
+| `Function<T,R>` | `.apply(值)` | `len.apply("炭治郎")` → `3` |
+| `Consumer<T>` | `.accept(值)` | `print.accept("鬼殺隊")` |
+| `Supplier<T>` | `.get()` | `title.get()` → `"無限列車"` |
+
+<!--
+每台機器的啟動按鈕長得不一樣，別按錯了。Predicate 用 `test`，Function 用 `apply`，Consumer 用 `accept`，Supplier 用 `get`。
+-->
+
+---
+
 # 常用內建函數式介面 — 範例
 
 | 介面 | 呼叫方法 | 範例 |
@@ -299,9 +314,6 @@ System.out.println(title.get());         // 無限列車
 `isAdult`：裁判判定 20 歲是成年，回傳 `true`。
 `len`：加工機把「炭治郎」轉成長度數字 3。
 `print`：大胃王把字串吃掉，然後印出來。
-
-⚠️ 學生常見誤解：
-注意呼叫的方法名都不一樣！Predicate 用 `test`，Function 用 `apply`。這像每台機器的啟動按鈕長得不一樣，別按錯了。
 -->
 
 ---
