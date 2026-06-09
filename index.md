@@ -202,11 +202,6 @@ style: |
       <div>Stream 與 Lambda</div>
       <div class="chapter-subtitle">Modern Java API</div>
     </Link>
-    <Link to="aitools" class="chapter-card">
-      <div class="chapter-num" style="font-size: 1rem;">AI Tools</div>
-      <div>Codex CLI、MCP 與 Skills</div>
-      <div class="chapter-subtitle">AI Developer Tools</div>
-    </Link>
   </div>
 </div>
 
@@ -308,10 +303,6 @@ src: ./ch24-collection.md
 
 ---
 src: ./ch25-stream-lambda.md
----
-
----
-src: ./ai-dev-tools.md
 ---
 
 

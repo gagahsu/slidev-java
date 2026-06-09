@@ -60,20 +60,12 @@ layout: default
 
 # Outline
 
-- **第一部分：Lambda 運算式**
-  - 語法形式、函數式介面
-  - 常用內建介面：`Predicate`、`Function`、`Consumer`、`Supplier`
-  - **JDK 11 新增**：Lambda 中的 `var` 參數
-- **第二部分：方法參考 (Method Reference)**
-  - `::` 運算子的四種形式
-- **第三部分：Stream API**
-  - 中間操作：`filter`、`map`、`flatMap`、`sorted`...
-  - Primitive Stream：`mapToInt`、`mapToDouble`
-  - **JDK 9 新增**：`takeWhile`、`dropWhile`
-  - 終端操作：`forEach`、`collect`、`count`...
-  - **JDK 16 新增**：簡潔的 `.toList()`
-  - **JDK 12 新增**：`teeing` 收集器
-  - `Collectors` 工具
+- **Lambda 運算式**：語法、函數式介面（`Predicate`、`Function`、`Consumer`、`Supplier`）
+- **方法參考**：`::` 運算子的四種形式
+- **Stream API**
+  - 中間操作：`filter`、`map`、`flatMap`、`sorted`、`takeWhile`、`dropWhile`...
+  - 終端操作：`forEach`、`collect`、`count`、`toList()`...
+  - Collectors 工具與 `teeing` 收集器
 - **實作練習**
 
 <!--
