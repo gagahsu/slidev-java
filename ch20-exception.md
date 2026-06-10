@@ -206,6 +206,98 @@ System.out.println(user.getName());
 以前它只會冷冷地說「這裡錯了」，現在它會指著你的鼻子說：「因為 user 是 null 啦，蠢貨！」這讓我們省下很多通靈的時間，可以早點回家洗澡。
 -->
 ---
+layout: default
+---
+
+# 練習 1-1：觸發並觀察例外
+### 任務說明
+
+分別撰寫程式碼，刻意觸發以下三種例外，並執行觀察錯誤訊息：
+
+1. `NullPointerException` — 對 `null` 的字串呼叫 `length()`
+2. `ArrayIndexOutOfBoundsException` — 存取陣列不存在的索引
+3. `NumberFormatException` — 將非數字字串轉成整數
+
+每段程式一次只執行一種（其餘用註解隱藏），記錄輸出的錯誤訊息。
+
+<!--
+【出題前的鋪陳】
+在學會怎麼「接招」之前，我們先來「練拳」——讓這些例外真的發生一次，看看它們長什麼樣子。
+
+【問題引導】
+這三個是 Java 的「老朋友」，以後你會常常見到他們。先讓他們出來打個招呼。
+-->
+---
+layout: default
+---
+
+# 練習 1-1：解題提示
+### 提示說明
+
+```java
+String s = null;
+System.out.println(s.length());      // NullPointerException
+
+int[] arr = new int[3];
+System.out.println(arr[5]);           // ArrayIndexOutOfBoundsException
+
+int n = Integer.parseInt("Java");     // NumberFormatException
+```
+
+- 觀察 Java 14+ 的 NPE 訊息是否會指出是哪個變數為 `null`
+- 三種例外發生後，程式都會立即中止，後面的程式碼不會執行
+
+<!--
+【帶讀解法】
+三段程式碼，三種例外，三種不同的死法。
+重點是看訊息：NPE 現在會說「因為 s 是 null」；陣列越界會告訴你陣列長度跟你存取的索引；NumberFormatException 則會把那個讓它崩潰的字串原文奉還給你。
+-->
+---
+layout: default
+---
+
+# 練習 1-2：除法計算機與錯誤分類
+### 任務說明
+
+撰寫 `divide(int a, int b)` 方法，回傳 `a / b` 的結果（**先不要**加任何例外處理）：
+
+1. 呼叫 `divide(10, 2)` 與 `divide(10, 0)`，觀察輸出與程式中止情形
+2. 對照「程式錯誤的三大類型」表格，分別寫出一行範例程式碼：
+   - 語法錯誤（編譯不會過）
+   - 語意錯誤（能執行，但結果不符預期）
+   - 執行期錯誤（編譯與邏輯都正確，執行時才出包）
+
+<!--
+【出題前的鋪陳】
+這題不急著解決問題，而是要你先搞清楚「問題是什麼」。
+醫生看病前要先確診，工程師除錯前也要先分清楚是哪一種錯。
+-->
+---
+layout: default
+---
+
+# 練習 1-2：解題提示
+### 提示說明
+
+```java
+static int divide(int a, int b) {
+    return a / b;
+}
+```
+
+- `divide(10, 0)` 會拋出 `ArithmeticException`，程式立即中止
+- 語法錯誤範例：`int x = 5` （少了分號，編譯失敗）
+- 語意錯誤範例：想算總和卻寫成 `total = a - b`（能跑，但答案錯）
+- 執行期錯誤範例：`divide(10, 0)`（除以 0）
+
+<!--
+【帶讀解法】
+語法錯誤：你連話都說不清楚（編譯器聽不懂）。
+語意錯誤：你說得很順，但意思是錯的（邏輯壞掉）。
+執行期錯誤：話說對了、意思也對，但講到一半電話斷線（執行時炸裂）。
+本章接下來要對付的，就是第三種。
+-->
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -474,7 +566,7 @@ try {
 layout: default
 ---
 
-# 練習 1：多 catch 實作
+# 練習 2-1：多 catch 實作
 ### 任務說明
 
 設計一個程式，讀取使用者輸入的 2 個整數，計算除法結果。
@@ -494,7 +586,7 @@ layout: default
 layout: default
 ---
 
-# 練習 1：解題提示
+# 練習 2-1：解題提示
 ### 提示說明
 
 1. 宣告 `Scanner` 讀取使用者輸入
@@ -650,14 +742,14 @@ Java 9 的增強：如果資源變數是 final 或實質上是 final（只賦值
 layout: default
 ---
 
-# 練習 2：try-with-resources
+# 練習 2-2：try-with-resources
 ### 任務說明
 
-改寫練習 1，使用 try-with-resources 語法管理 `Scanner` 資源，確保程式結束後 Scanner 自動關閉。不再需要在 `finally` 中手動呼叫 `scanner.close()`。
+改寫練習 2-1，使用 try-with-resources 語法管理 `Scanner` 資源，確保程式結束後 Scanner 自動關閉。不再需要在 `finally` 中手動呼叫 `scanner.close()`。
 
 <!--
 【出題前的鋪陳】
-把練習 1 升級成 2.0 版！
+把練習 2-1 升級成 2.0 版！
 
 【關鍵點】
 學會用 try-with-resources。別再手寫 close() 了，那太老派了，讓我們用點現代人的方法。
@@ -666,7 +758,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2：解題提示
+# 練習 2-2：解題提示
 ### 提示說明
 
 1. 將 `new Scanner(System.in)` 移入 `try(...)` 括號內宣告
@@ -752,7 +844,7 @@ public static void main(String[] args) throws IOException {
 layout: default
 ---
 
-# 練習 3：throw 實作
+# 練習 2-3：throw 實作
 ### 任務說明
 
 設計一個密碼檢查程式：
@@ -772,7 +864,7 @@ layout: default
 layout: default
 ---
 
-# 練習 3：解題提示
+# 練習 2-3：解題提示
 ### 提示說明
 
 1. 建立方法 `pwdCheck(String pwdStr)`，宣告 `throws StringIndexOutOfBoundsException`
@@ -899,7 +991,7 @@ try {
 layout: default
 ---
 
-# 練習 4：自訂異常類別
+# 練習 2-4：自訂異常類別
 ### 任務說明
 
 設計一個銀行存提款程式：
@@ -919,7 +1011,7 @@ layout: default
 layout: default
 ---
 
-# 練習 4：解題提示
+# 練習 2-4：解題提示
 ### 提示說明
 
 1. `NotEnoughException` 加入 `private int shortAmount` 成員與 `getShortAmount()` 方法
@@ -1009,40 +1101,173 @@ objMapper() 方法：try 正常執行後回傳成功的 RtnCode；catch 到任�
 layout: default
 ---
 
-# 練習 5：綜合練習
+# 練習 3-1：訂單狀態 enum
 ### 任務說明
 
-設計一個年齡投票資格檢查系統：
+設計 `enum OrderStatus`，包含三組代碼與訊息：
 
-- 準備年齡陣列 `{12, 19, 67}`，逐一取出
-- **滿 18 歲**：輸出「xx 歲的年齡歡迎投票」
-- **未滿 18 歲**：拋出自訂異常，訊息為「年齡不符規定」，並輸出「xx 歲的年齡太輕」
+- `SUCCESS(200, "訂單成立")`
+- `OUT_OF_STOCK(400, "庫存不足")`
+- `INVALID_AMOUNT(401, "訂購數量不正確")`
+
+撰寫 `placeOrder(int stock, int amount)` 方法：
+
+- `amount <= 0` → 回傳 `INVALID_AMOUNT`
+- `amount > stock` → 回傳 `OUT_OF_STOCK`
+- 其餘情況 → 回傳 `SUCCESS`
+
+在 `main` 中測試至少 3 組 `(stock, amount)`，印出對應的 `code` 與 `message`
 
 <!--
 【出題前的鋪陳】
-最後的期末考！綜合大雜燴。
+還記得 RtnCode 那個 enum 嗎？現在換你自己設計一組「訂單狀態碼」。
 
 【問題引導】
-年齡投票系統。不滿 18 歲的給我滾（拋出異常），滿 18 歲的請進。這題會用到這章學的所有技巧，加油！
+網購下單時，庫存不夠、數量亂打，後台都要回應對應的代碼給前端。這就是你今天的工作。
 -->
 ---
 layout: default
 ---
 
-# 練習 5：解題提示
+# 練習 3-1：解題提示
 ### 提示說明
 
-1. 建立自訂異常類別，繼承 `StringIndexOutOfBoundsException`
-2. 建立 `ageCheck(int age)` 方法，宣告 `throws` 自訂異常類別
-3. 方法內：不符合時拋出異常並傳入「年齡不符規定」訊息
-4. 主程式用迴圈搭配 try-catch，依結果輸出對應訊息
-5. catch 中印出 `e.getMessage()` 顯示錯誤原因
+```java
+enum OrderStatus {
+    SUCCESS(200, "訂單成立"),
+    OUT_OF_STOCK(400, "庫存不足"),
+    INVALID_AMOUNT(401, "訂購數量不正確");
+
+    private final int code;
+    private final String message;
+    OrderStatus(int code, String message) {
+        this.code = code; this.message = message;
+    }
+    public int getCode() { return code; }
+    public String getMessage() { return message; }
+}
+```
+
+- `placeOrder` 回傳型別宣告為 `OrderStatus`
+- 測資建議：`(10, 0)`、`(10, 20)`、`(10, 5)` 分別對應三種結果
 
 <!--
 【帶讀解法】
-1. 自訂異常（繼承 StringIndexOutOfBoundsException）。
-2. ageCheck(int age) throws 自訂異常：< 18 時 throw。
-3. 主程式：int[] ages = {12, 19, 67}，for 迴圈，每次 try-catch，成功印「xx 歲歡迎投票」，catch 印「xx 歲太輕」。
+enum 的寫法跟本章 RtnCode 一模一樣，建構子接 code 跟 message，再各自寫一個 getter。
+placeOrder 裡面就是用 if-else 依序判斷，回傳對應的 enum 值。
+-->
+---
+layout: default
+---
+
+# 練習 3-2：固定代碼 + 動態訊息
+### 任務說明
+
+設計 `BaseRes` 類別，包含 `int code` 與 `String message` 兩個欄位（與對應建構子、getter）。
+
+撰寫 `parseAge(String input)` 方法：
+
+- 嘗試用 `Integer.parseInt(input)` 將字串轉為年齡
+- 成功 → 回傳 `new BaseRes(200, "解析成功，年齡為：" + age)`
+- 失敗（`NumberFormatException`）→ 回傳 `new BaseRes(400, e.getMessage())`
+
+在 `main` 中分別測試輸入 `"25"` 與 `"twenty"`，印出回傳的 `code` 與 `message`
+
+<!--
+【出題前的鋪陳】
+這題就是本章「固定代碼 + 動態訊息」的真實應用，幾乎所有 Web API 都長這樣。
+
+【問題引導】
+使用者的輸入永遠不可信。你要包一層 try-catch，讓不管輸入什麼，程式都能優雅地回個 BaseRes，而不是當場暴斃。
+-->
+---
+layout: default
+---
+
+# 練習 3-2：解題提示
+### 提示說明
+
+```java
+public static final int ERROR_CODE = 400;
+
+static BaseRes parseAge(String input) {
+    try {
+        int age = Integer.parseInt(input);
+        return new BaseRes(200, "解析成功，年齡為：" + age);
+    } catch (NumberFormatException e) {
+        return new BaseRes(ERROR_CODE, e.getMessage());
+    }
+}
+```
+
+- `BaseRes` 只需要簡單的欄位 + 建構子 + getter，不必繼承任何例外類別
+- 兩種輸入都不會讓程式中止，都能拿到一個 `BaseRes` 物件
+
+<!--
+【帶讀解法】
+跟本章「objMapper」範例幾乎一樣的結構：try 裡做有風險的事，成功回傳 200，catch 裡用 e.getMessage() 當作動態訊息塞進固定的 400 代碼。
+這就是業界最常見的「統一錯誤格式」寫法。
+-->
+---
+layout: default
+---
+
+# 綜合練習：圖書借閱系統
+### 任務說明
+
+整合本章所學，設計一個簡易圖書借閱系統：
+
+- 書籍資料：`String[] bookIds = {"B001","B002","B003"}`，`boolean[] available = {true, false, true}`
+- 自訂例外 `BookNotAvailableException extends Exception`
+- `enum BorrowResult`：`SUCCESS(200,"借閱成功")`、`NOT_FOUND(404,"查無此書")`、`NOT_AVAILABLE(409,"書籍已被借出")`
+- `borrowBook(String[] ids, boolean[] available, String bookId)` 方法，宣告 `throws BookNotAvailableException`：
+  - 找不到 `bookId` → 拋出例外，訊息為 `NOT_FOUND.getMessage()`
+  - 該書 `available == false` → 拋出例外，訊息為 `NOT_AVAILABLE.getMessage()`
+  - 否則將該書 `available` 設為 `false`，回傳 `BorrowResult.SUCCESS`
+- `main` 中使用 `try-with-resources` 搭配 `Scanner` 讓使用者輸入書籍編號（輸入 `exit` 結束）
+- 用 `try-catch-finally` 呼叫 `borrowBook`：catch 印出例外訊息，finally 印出「本次查詢結束」
+
+<!--
+【出題前的鋪陳】
+期末總驗收！這題會用到：自訂例外、throw/throws、try-catch-finally、try-with-resources，還有 enum 錯誤代碼。能寫完這題，這章就算過關了。
+
+【問題引導】
+想像你在寫一個圖書館借閱系統的後台。使用者輸入書號，系統要判斷：書存在嗎？借得到嗎？借完要更新狀態。每一種情況都要給出明確訊息，而且程式絕對不能因為使用者亂打就崩潰。
+-->
+---
+layout: default
+---
+
+# 綜合練習：解題提示
+### 提示說明
+
+```java
+class BookNotAvailableException extends Exception {
+    BookNotAvailableException(String message) { super(message); }
+}
+
+enum BorrowResult {
+    SUCCESS(200, "借閱成功"),
+    NOT_FOUND(404, "查無此書"),
+    NOT_AVAILABLE(409, "書籍已被借出");
+    // ...省略建構子與 getter（同練習 3-1）
+}
+```
+
+- `borrowBook` 先用迴圈找出 `bookId` 在陣列中的索引；找不到就 `throw new BookNotAvailableException(BorrowResult.NOT_FOUND.getMessage())`
+- `try (Scanner sc = new Scanner(System.in)) { while (...) {...} }`，讀到 `"exit"` 就 `break`
+- 每次借閱都包一層 `try { borrowBook(...); System.out.println("借閱成功"); } catch (BookNotAvailableException e) { System.out.println(e.getMessage()); } finally { System.out.println("本次查詢結束"); }`
+
+<!--
+【帶讀解法】
+這題其實是把整章的積木組裝起來：
+1. 自訂例外（第二部分）－ BookNotAvailableException
+2. throw/throws（第二部分）－ borrowBook 拋出例外
+3. try-with-resources（第二部分）－ 管理 Scanner
+4. enum 錯誤代碼（第三部分）－ BorrowResult
+
+【最後叮嚀】
+如果這題你能獨立寫完，代表你已經具備「寫出不會輕易崩潰的程式」的能力。這是業界最基本，也是最重要的素質之一。
 -->
 ---
 layout: section
