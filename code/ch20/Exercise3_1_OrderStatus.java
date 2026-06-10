@@ -2,7 +2,6 @@
 // 設計 OrderStatus，依庫存與訂購數量回傳對應的狀態代碼與訊息
 
 public class Exercise3_1_OrderStatus {
-
     enum OrderStatus {
         SUCCESS(200, "訂單成立"),
         OUT_OF_STOCK(400, "庫存不足"),
@@ -37,13 +36,11 @@ public class Exercise3_1_OrderStatus {
 
     public static void main(String[] args) {
         int[][] orders = {{10, 0}, {10, 20}, {10, 5}};
-
         for (int[] order : orders) {
             int stock = order[0];
             int amount = order[1];
             OrderStatus result = placeOrder(stock, amount);
-            System.out.println("庫存:" + stock + ", 訂購:" + amount
-                + " -> [" + result.getCode() + "] " + result.getMessage());
+            System.out.println("庫存:" + stock + ", 訂購:" + amount + " -> [" + result.getCode() + "] " + result.getMessage());
         }
     }
 }

@@ -29,3 +29,6 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# --- Eclipse Java build output ---
+code/bin/

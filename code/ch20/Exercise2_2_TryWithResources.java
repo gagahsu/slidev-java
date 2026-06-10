@@ -7,7 +7,13 @@ import java.util.Scanner;
 
 public class Exercise2_2_TryWithResources {
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
+    	Scanner s1 = new Scanner(System.in);
+    	s1.close(); // 這同時也會關閉底層的 System.in ！
+
+    	Scanner s2 = new Scanner(System.in); // new 得了
+    	s2.nextInt(); // 💥 NoSuchElementException — System.in 已經被關掉了
+    	
+    	try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("請輸入第一個整數：");
             int num1 = scanner.nextInt();
             System.out.print("請輸入第二個整數（除數）：");

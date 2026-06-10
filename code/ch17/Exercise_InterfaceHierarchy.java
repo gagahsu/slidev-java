@@ -1,20 +1,20 @@
 // Ch17 練習：設計介面階層
-// 自訂 Runnable 介面（注意：名稱與 java.lang.Runnable 相同但此處為獨立宣告）
+// 自訂 MyRunnable 介面（提醒：若直接命名為 Runnable，會與 java.lang.Runnable 撞名
 // 投影片提示：「如果你在實作時發現有個東西叫 java.lang.Runnable，
-// 那是 Java 內建用來跑 Thread 的。名字取太好，也是會撞衫的。」
+// 那是 Java 內建用來跑 Thread 的。名字取太好，也是會撞衫的。」）
 
-interface Runnable {
+interface MyRunnable {
     void run();
 }
 
-class Human implements Runnable {
+class Human implements MyRunnable {
     @Override
     public void run() {
         System.out.println("人在路上跑");
     }
 }
 
-class Car implements Runnable {
+class Car implements MyRunnable {
     @Override
     public void run() {
         System.out.println("車在公路上跑");

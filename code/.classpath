@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ch02" output="bin/ch02"/>
+	<classpathentry kind="src" path="ch03" output="bin/ch03"/>
+	<classpathentry kind="src" path="ch04" output="bin/ch04"/>
+	<classpathentry kind="src" path="ch05" output="bin/ch05"/>
+	<classpathentry kind="src" path="ch06" output="bin/ch06"/>
+	<classpathentry kind="src" path="ch07" output="bin/ch07"/>
+	<classpathentry kind="src" path="ch08" output="bin/ch08"/>
+	<classpathentry kind="src" path="ch09" output="bin/ch09"/>
+	<classpathentry kind="src" path="ch10" output="bin/ch10"/>
+	<classpathentry kind="src" path="ch11" output="bin/ch11"/>
+	<classpathentry kind="src" path="ch12" output="bin/ch12"/>
+	<classpathentry kind="src" path="ch13" output="bin/ch13"/>
+	<classpathentry kind="src" path="ch14" output="bin/ch14"/>
+	<classpathentry kind="src" path="ch15" output="bin/ch15"/>
+	<classpathentry kind="src" path="ch16" output="bin/ch16"/>
+	<classpathentry kind="src" path="ch17" output="bin/ch17"/>
+	<classpathentry kind="src" path="ch18" output="bin/ch18"/>
+	<classpathentry kind="src" path="ch19" output="bin/ch19"/>
+	<classpathentry kind="src" path="ch20" output="bin/ch20"/>
+	<classpathentry kind="src" path="ch21" output="bin/ch21"/>
+	<classpathentry kind="src" path="ch22" output="bin/ch22"/>
+	<classpathentry kind="src" path="ch23" output="bin/ch23"/>
+	<classpathentry kind="src" path="ch24" output="bin/ch24"/>
+	<classpathentry kind="src" path="ch25" output="bin/ch25"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

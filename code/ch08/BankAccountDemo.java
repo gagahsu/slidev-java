@@ -1,4 +1,4 @@
-class BankAccount {
+class Account {
     String owner;
     double balance;
 
@@ -21,14 +21,14 @@ class BankAccount {
 
 public class BankAccountDemo {
     public static void main(String[] args) {
-        BankAccount a1 = new BankAccount();
+        Account a1 = new Account();
         a1.owner = "小明";
         a1.balance = 1000;
         a1.deposit(500);
         a1.withdraw(300);
         a1.displayInfo(); // 小明 餘額：1200.0
 
-        BankAccount a2 = new BankAccount();
+        Account a2 = new Account();
         a2.owner = "小華";
         a2.balance = 200;
         a2.deposit(100);
