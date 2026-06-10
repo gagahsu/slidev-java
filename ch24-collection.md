@@ -772,6 +772,44 @@ Set 最好用的地方就是「去重」。如果你有一萬個使用者 ID，�
 
 ---
 
+# Set 常用方法
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `add(E e)` | 加入元素；若元素已存在則不變，回傳 `false` |
+| `remove(Object o)` | 移除指定元素，回傳是否成功移除 |
+| `contains(Object o)` | 是否包含指定元素 |
+| `size()` / `isEmpty()` | 元素數量 / 是否為空 |
+| `addAll(Collection c)` | 聯集：加入另一個集合的所有元素 |
+| `retainAll(Collection c)` | 交集：只保留兩者都有的元素 |
+| `removeAll(Collection c)` | 差集：移除另一個集合中也有的元素 |
+| `clear()` | 清空所有元素 |
+
+```java
+Set<String> names = new HashSet<>();
+System.out.println(names.add("炭治郎")); // true，新增成功
+System.out.println(names.add("炭治郎")); // false，已存在
+System.out.println(names.contains("炭治郎")); // true
+System.out.println(names.remove("炭治郎"));   // true
+System.out.println(names.isEmpty());          // true
+```
+
+<!--
+【核心說明】
+Set 的方法跟 List 很像，但因為沒有索引，所以多了一些「靠值本身判斷」的方法。
+
+【生活化比喻】
+`add` 回傳的 `true`/`false` 就像簽到表上的小提醒：簽成功給你一個讚（true），如果你的名字已經在表上了，它就搖搖頭（false），但不會報錯。
+
+⚠️ 學生常見誤解：
+`add` 回傳 `boolean`，很多人以為它跟 List 的 `add` 一樣永遠回傳 `true` 而忽略回傳值。但在 Set 裡，這個回傳值正是判斷「剛剛加入的是不是新元素」的關鍵。
+
+💼 業界實務：
+`addAll` / `retainAll` / `removeAll` 就是數學課教的聯集、交集、差集，下一頁馬上會看到實際範例。`contains` 在 `HashSet` 是 O(1)，比 `List.contains` 的 O(n) 快非常多，是兩者最大的效能差異之一。
+-->
+
+---
+
 # HashSet / LinkedHashSet / TreeSet 比較
 
 | 類別 | 順序 | 允許 Null | 效能 |
@@ -1047,53 +1085,6 @@ System.out.println(map.values());              // [99, 20]
 
 【老鳥筆記】
 Map 的 `put` 方法如果覆蓋了舊值，其實它會回傳那個「被擠走的舊值」。有時候我們會用到這個特性來做某些判斷。
--->
-
----
-
-# Map 的批次操作：putAll / keySet().retainAll()
-
-`Map` 本身沒有 `addAll` / `retainAll` / `removeAll`，但有對應的替代方式：
-
-| 方法名稱 | 說明 |
-| --- | --- |
-| `putAll(Map<K,V> m)` | 把另一個 Map 的所有鍵值對加入（Map 版的 `addAll`） |
-| `keySet().removeAll(c)` | 移除鍵在集合 `c` 中的所有鍵值對 |
-| `keySet().retainAll(c)` | 只保留鍵在集合 `c` 中的鍵值對，其餘移除 |
-| `putIfAbsent(K key, V value)` | 鍵不存在時才放入，否則維持原值 |
-| `merge(K key, V value, BiFunction)` | 鍵不存在則放入；存在則用函式合併新舊值 |
-| `replace(K key, V value)` | 鍵存在時才更新值 |
-| `clear()` / `isEmpty()` | 清空所有鍵值對 / 是否為空 |
-
-```java
-Map<String, Integer> scores = new HashMap<>();
-scores.put("炭治郎", 95);
-scores.put("善逸", 70);
-scores.put("伊之助", 60);
-
-// retainAll：只保留指定名單中的鍵
-scores.keySet().retainAll(Set.of("炭治郎", "善逸"));
-System.out.println(scores); // {炭治郎=95, 善逸=70}
-
-// putAll：把另一個 Map 的內容全部併入
-scores.putAll(Map.of("禰豆子", 88));
-System.out.println(scores); // {炭治郎=95, 善逸=70, 禰豆子=88}
-```
-
-<!--
-【核心說明】
-List/Set 的 `addAll` / `retainAll` / `removeAll` 操作的是「一個一個的元素」，但 Map 存的是「鍵值對」，所以沒有一模一樣的方法名稱，得換個角度想。
-
-【生活化比喻】
-`putAll` 就是把另一個櫃子裡的所有標籤和物品，整批搬進現在這個櫃子（重複的標籤會被覆蓋）。
-
-`keySet()` 回傳的不是一份「複製品」，而是一個直接連到原本 Map 的「視圖（view）」。對這個視圖呼叫 `retainAll` / `removeAll`，就等於直接在原本的 Map 上做篩選 —— 鍵被移除了，整組鍵值對也跟著消失。
-
-⚠️ 學生常見誤解：
-不要以為 `keySet()` 回傳的是獨立的一份 Set，對它做增刪會「沒有作用」。實際上它跟原本的 Map 是同一份資料，動它就是動 Map 本身。
-
-💼 業界實務：
-`putIfAbsent` 跟 `merge` 是寫「計數器」「快取」時很常用的招式，可以少寫很多 `if (!map.containsKey(...))` 的判斷。
 -->
 
 ---
