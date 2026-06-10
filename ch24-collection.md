@@ -562,6 +562,7 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 | --- | --- | --- |
 | 底層結構 | 動態陣列 | 雙向鏈結串列 |
 | 隨機存取 `get(i)` | 快 O(1) | 慢 O(n) |
+| 修改元素 `set(i, e)` | 快 O(1) | 慢 O(n) |
 | 中間插入 / 刪除 | 慢 O(n) | 快 O(1) |
 | 記憶體用量 | 較少 | 較多（需儲存前後節點指標） |
 | 適用場景 | 多讀取、少插入 | 多插入 / 刪除 |
@@ -579,6 +580,8 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 `LinkedList` 像是一排牽著手的人。你要找第 100 個，你得從頭一個一個數過去（慢）。但在中間插一個人，只要兩個人把手放開再牽一個新的人就好（快）。
 
 ⚠️ 學生常見誤解：
+「修改元素」聽起來像是 O(1) 的小動作，但 `LinkedList.set(i, e)` 一樣要先沿著鏈結串列走到第 i 個節點才能換值，所以還是 O(n)；只有換值本身那一步是 O(1)。`ArrayList.set(i, e)` 因為底層是陣列，可以直接用索引定位，整體是 O(1)。
+
 雖然 LinkedList 插入快，但在真實世界中，**ArrayList 幾乎在所有情況下都贏**。因為現代 CPU 很聰明，它讀陣列這種連續的東西特別快。
 
 💼 業界實務：
@@ -1048,6 +1051,53 @@ Map 的 `put` 方法如果覆蓋了舊值，其實它會回傳那個「被擠走
 
 ---
 
+# Map 的批次操作：putAll / keySet().retainAll()
+
+`Map` 本身沒有 `addAll` / `retainAll` / `removeAll`，但有對應的替代方式：
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `putAll(Map<K,V> m)` | 把另一個 Map 的所有鍵值對加入（Map 版的 `addAll`） |
+| `keySet().removeAll(c)` | 移除鍵在集合 `c` 中的所有鍵值對 |
+| `keySet().retainAll(c)` | 只保留鍵在集合 `c` 中的鍵值對，其餘移除 |
+| `putIfAbsent(K key, V value)` | 鍵不存在時才放入，否則維持原值 |
+| `merge(K key, V value, BiFunction)` | 鍵不存在則放入；存在則用函式合併新舊值 |
+| `replace(K key, V value)` | 鍵存在時才更新值 |
+| `clear()` / `isEmpty()` | 清空所有鍵值對 / 是否為空 |
+
+```java
+Map<String, Integer> scores = new HashMap<>();
+scores.put("炭治郎", 95);
+scores.put("善逸", 70);
+scores.put("伊之助", 60);
+
+// retainAll：只保留指定名單中的鍵
+scores.keySet().retainAll(Set.of("炭治郎", "善逸"));
+System.out.println(scores); // {炭治郎=95, 善逸=70}
+
+// putAll：把另一個 Map 的內容全部併入
+scores.putAll(Map.of("禰豆子", 88));
+System.out.println(scores); // {炭治郎=95, 善逸=70, 禰豆子=88}
+```
+
+<!--
+【核心說明】
+List/Set 的 `addAll` / `retainAll` / `removeAll` 操作的是「一個一個的元素」，但 Map 存的是「鍵值對」，所以沒有一模一樣的方法名稱，得換個角度想。
+
+【生活化比喻】
+`putAll` 就是把另一個櫃子裡的所有標籤和物品，整批搬進現在這個櫃子（重複的標籤會被覆蓋）。
+
+`keySet()` 回傳的不是一份「複製品」，而是一個直接連到原本 Map 的「視圖（view）」。對這個視圖呼叫 `retainAll` / `removeAll`，就等於直接在原本的 Map 上做篩選 —— 鍵被移除了，整組鍵值對也跟著消失。
+
+⚠️ 學生常見誤解：
+不要以為 `keySet()` 回傳的是獨立的一份 Set，對它做增刪會「沒有作用」。實際上它跟原本的 Map 是同一份資料，動它就是動 Map 本身。
+
+💼 業界實務：
+`putIfAbsent` 跟 `merge` 是寫「計數器」「快取」時很常用的招式，可以少寫很多 `if (!map.containsKey(...))` 的判斷。
+-->
+
+---
+
 # HashMap vs LinkedHashMap vs TreeMap
 
 | 特性 | HashMap | LinkedHashMap | TreeMap |
@@ -1460,8 +1510,8 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
-### 提示說明
+# 綜合練習：解題提示（一）
+### enroll 方法 + 統計不重複學生數
 
 ```java
 static void enroll(Map<String, List<String>> map, String course, String student) {
@@ -1477,8 +1527,25 @@ for (List<String> students : courseEnrollment.values()) {
     allStudents.addAll(students);
 }
 System.out.println("不重複學生數：" + allStudents.size());
+```
 
-// 排序印出每門課名單 + 找出人數最多的課程
+<!--
+【帶讀解法】
+1. enroll：先檢查課程是否存在於 Map 中，不存在就先放一個空的 ArrayList 進去，再把學生加進該 List。
+2. 不重複學生數：把所有課程的名單通通 addAll 進同一個 HashSet，重複的姓名自然會被吃掉。
+
+【小提醒】
+下一頁接著看「排序印出名單」與「找出選課人數最多的課程」這兩段。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：解題提示（二）
+### 排序印出名單 + 找出選課人數最多的課程
+
+```java
 String maxCourse = null;
 int maxCount = -1;
 for (var entry : courseEnrollment.entrySet()) {
@@ -1494,8 +1561,6 @@ System.out.println("選課人數最多：" + maxCourse + "（" + maxCount + " �
 
 <!--
 【帶讀解法】
-1. enroll：先檢查課程是否存在於 Map 中，不存在就先放一個空的 ArrayList 進去，再把學生加進該 List。
-2. 不重複學生數：把所有課程的名單通通 addAll 進同一個 HashSet，重複的姓名自然會被吃掉。
 3. entrySet 遍歷時直接對 `entry.getValue()`（也就是那個 List）呼叫 sort，原地排序。
 4. 用兩個變數 maxCourse / maxCount 邊遍歷邊比較，是找最大值最直覺的寫法。
 
