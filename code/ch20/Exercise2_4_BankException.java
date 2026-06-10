@@ -1,4 +1,4 @@
-// Ch20 練習4：自訂異常類別
+// Ch20 練習2-4：自訂異常類別
 // 銀行存提款程式：提款金額大於存款時拋出 NotEnoughException，傳入差額
 
 class NotEnoughException extends Exception {
@@ -36,7 +36,7 @@ class MyBank {
     }
 }
 
-public class Exercise4_BankException {
+public class Exercise2_4_BankException {
     public static void main(String[] args) {
         MyBank bank = new MyBank(1000);
         bank.deposit(500);  // 存款 500，餘額 1500

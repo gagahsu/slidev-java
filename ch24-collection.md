@@ -336,6 +336,113 @@ List<String> immutableList = List.copyOf(mutableList);
 -->
 
 ---
+layout: default
+---
+
+# 練習 1-1：水果攤的 Collection 操作
+### 任務說明
+
+建立 `List<String> fruits`，初始內容為「蘋果、香蕉、橘子、葡萄」，完成以下操作：
+
+1. 印出 `size()`
+2. 用 `contains()` 檢查是否有「西瓜」
+3. 用 `Iterator` 遍歷整個清單，並移除「香蕉」
+4. 印出移除後的清單與 `isEmpty()` 的結果
+
+<!--
+【出題前的鋪陳】
+這題是把 Collection 介面的基本方法跟 Iterator 全部串在一起練習。
+
+【問題引導】
+重點在第 3 步：你可以用 for-each 邊跑邊刪嗎？試試看會發生什麼事，再改用 Iterator。
+-->
+---
+layout: default
+---
+
+# 練習 1-1：解題提示
+### 提示說明
+
+```java
+List<String> fruits = new ArrayList<>(List.of("蘋果", "香蕉", "橘子", "葡萄"));
+System.out.println(fruits.size());
+System.out.println(fruits.contains("西瓜"));
+
+Iterator<String> it = fruits.iterator();
+while (it.hasNext()) {
+    if (it.next().equals("香蕉")) {
+        it.remove();
+    }
+}
+System.out.println(fruits);
+System.out.println(fruits.isEmpty());
+```
+
+- 若改用 `for (String f : fruits) { if (f.equals("香蕉")) fruits.remove(f); }`，會拋出 `ConcurrentModificationException`
+- 邊遍歷邊刪除，務必使用 `Iterator.remove()`
+
+<!--
+【帶讀解法】
+先建立可修改的 ArrayList（記得包一層 `new ArrayList<>(List.of(...))`，不然 List.of 出來的東西不能改）。
+重點是 `it.remove()`：它移除的是「上一次 next() 拿到的元素」，這是唯一安全的邊走邊刪寫法。
+-->
+---
+layout: default
+---
+
+# 練習 1-2：不可變集合的應用
+### 任務說明
+
+1. 使用 `List.of()` 建立不可變清單 `weekdays`，內容為一週七天
+2. 對 `weekdays` 呼叫 `add()`，用 try-catch 捕捉並印出拋出的例外名稱
+3. 建立一個可變的 `ArrayList<String> mutable`，加入幾筆資料後，使用 `List.copyOf(mutable)` 建立 `copy`
+4. 對 `copy` 呼叫 `add()`，驗證同樣會拋出例外；但驗證 `mutable` 仍可正常新增元素
+
+<!--
+【出題前的鋪陳】
+這題在驗證「不可變」到底有多不可變，以及它跟原本的可變集合之間的關係。
+
+【問題引導】
+List.of 出來的東西是「密封包裝」，但 copyOf 出來的「影印件」跟「正本」是兩回事 —— 改正本不會影響影印件，反之亦然。
+-->
+---
+layout: default
+---
+
+# 練習 1-2：解題提示
+### 提示說明
+
+```java
+List<String> weekdays = List.of("一", "二", "三", "四", "五", "六", "日");
+try {
+    weekdays.add("補假");
+} catch (UnsupportedOperationException e) {
+    System.out.println("weekdays 不可變：" + e);
+}
+
+List<String> mutable = new ArrayList<>();
+mutable.add("A");
+mutable.add("B");
+List<String> copy = List.copyOf(mutable);
+
+try {
+    copy.add("C");
+} catch (UnsupportedOperationException e) {
+    System.out.println("copy 不可變：" + e);
+}
+
+mutable.add("C"); // 正本仍可修改
+System.out.println("mutable: " + mutable);
+System.out.println("copy: " + copy);
+```
+
+<!--
+【帶讀解法】
+兩次 add() 都會拋出 `UnsupportedOperationException`，這是 immutable collection 的正字標記。
+最後一步是關鍵：`mutable.add("C")` 完全沒問題，而 `copy` 仍然停留在複製當下的內容 `[A, B]`，兩者互不影響。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -510,6 +617,108 @@ LinkedList 不只是 List，它還能從兩頭操作。
 -->
 
 ---
+layout: default
+---
+
+# 練習 2-1：管理英雄名單
+### 任務說明
+
+請宣告一個 `ArrayList<String>`，儲存以下鬼殺隊成員：
+「炭治郎、禰豆子、善逸、伊之助、蜜璃」
+
+完成以下操作：
+1. 在「善逸」前面插入「甘露寺」
+2. 將「禰豆子」替換為「時透無一郎」
+3. 移除最後一個成員
+4. 用 `Collections.sort()` 依字典順序排序後印出
+
+<!--
+【練習導引】
+來，動手做做看。這題是在考你對索引（Index）的掌握。
+
+【關鍵提示】
+1. 加甘露寺時，先算一下善逸原本在第幾格。
+2. 刪除最後一個，記得用 `size() - 1`，這是最安全的寫法。
+3. 如果你在這題算錯索引，你的英雄名單可能會出現「伊之助消失了」這種靈異事件。
+-->
+---
+layout: default
+---
+
+# 練習 2-1：解題提示
+### 提示說明
+
+1. 善逸在索引 2，使用 `list.add(2, "甘露寺")` 插入
+2. 禰豆子在索引 1，使用 `list.set(1, "時透無一郎")` 替換
+3. `list.remove(list.size() - 1)` 移除最後一個元素
+4. `Collections.sort(list)` 排序
+
+```java
+List<String> m = new ArrayList<>(
+    List.of("炭治郎","禰豆子","善逸","伊之助","蜜璃"));
+m.add(2, "甘露寺");
+m.set(1, "時透無一郎");
+m.remove(m.size() - 1);
+Collections.sort(m);
+System.out.println(m);
+```
+
+<!--
+【解說要點】
+注意那個 `List.of`。如果你直接拿 `List.of` 的結果去 `add`，程式會原地爆炸。一定要 `new ArrayList<>(...)` 把資料搬進去一個可以動的盒子裡。這是我看過初學者最常犯的錯！
+-->
+---
+layout: default
+---
+
+# 練習 2-2：待辦事項佇列
+### 任務說明
+
+使用 `LinkedList<String>` 模擬一個「待辦事項佇列」：
+
+1. 用 `addLast()` 依序加入「買菜」、「寫作業」、「運動」
+2. 用 `addFirst()` 將「澆花」加到最前面
+3. 用 `removeFirst()` 取出並印出第一項待辦事項
+4. 印出剩餘的待辦事項
+
+完成後，請說明：若改用 `ArrayList` 實作 `addFirst`/`removeFirst`（即 `add(0, ...)`/`remove(0)`），時間複雜度會有什麼差異？
+
+<!--
+【出題前的鋪陳】
+這題練習 LinkedList 身為 Deque 的雙端操作。
+
+【問題引導】
+想像一張待辦清單，有時候會有「插隊」的緊急任務（澆花），有時候完成的任務要從最前面劃掉。
+-->
+---
+layout: default
+---
+
+# 練習 2-2：解題提示
+### 提示說明
+
+```java
+LinkedList<String> todos = new LinkedList<>();
+todos.addLast("買菜");
+todos.addLast("寫作業");
+todos.addLast("運動");
+
+todos.addFirst("澆花");
+
+System.out.println("處理：" + todos.removeFirst()); // 澆花
+System.out.println("剩餘待辦：" + todos);
+```
+
+- `ArrayList` 沒有 `addFirst`/`removeFirst`，只能用 `add(0, ...)`/`remove(0)`
+- 這兩個操作在 `ArrayList` 是 **O(n)**（要搬移其餘元素），在 `LinkedList` 則是 **O(1)**
+
+<!--
+【帶讀解法】
+LinkedList 兩端操作都很輕鬆：addFirst/addLast 加入、removeFirst/removeLast 取出。
+時間複雜度的差異就是本章「ArrayList vs LinkedList」那張表的具體應用：插隊與劃掉任務都發生在頭尾，LinkedList 完全不用搬東西。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -619,6 +828,111 @@ System.out.println(inter); // [B, C]
 
 💼 業界實務：
 這在「過濾權限」或「找共同好友」時超好用。比如你想找「同時喜歡寫程式又喜歡打電動」的人，就用兩個 Set 的交集（retainAll）。
+-->
+
+---
+layout: default
+---
+
+# 練習 3-1：去除重複的訪客名單
+### 任務說明
+
+給定 `String[] visitors = {"Alice","Bob","Alice","Charlie","Bob","Alice"}`：
+
+1. 將其放入 `HashSet<String>`，印出不重複的訪客數量與內容
+2. 再放入 `LinkedHashSet<String>`，印出內容並比較與 `HashSet` 的順序差異
+3. 再放入 `TreeSet<String>`，印出內容（應為字母順序）
+
+<!--
+【出題前的鋪陳】
+這題讓你親眼看看 Set 三兄弟（HashSet / LinkedHashSet / TreeSet）的順序差異。
+
+【問題引導】
+同一份原始資料，丟進三種不同的 Set，印出來的結果會不會一樣？先猜猜看，再動手驗證。
+-->
+---
+layout: default
+---
+
+# 練習 3-1：解題提示
+### 提示說明
+
+```java
+String[] visitors = {"Alice","Bob","Alice","Charlie","Bob","Alice"};
+
+Set<String> hs = new HashSet<>(Arrays.asList(visitors));
+System.out.println("HashSet（" + hs.size() + " 人）：" + hs);
+
+Set<String> lhs = new LinkedHashSet<>(Arrays.asList(visitors));
+System.out.println("LinkedHashSet：" + lhs);
+
+Set<String> ts = new TreeSet<>(Arrays.asList(visitors));
+System.out.println("TreeSet：" + ts);
+```
+
+- `HashSet` 不保證順序
+- `LinkedHashSet` 會維持「第一次出現」的順序：Alice, Bob, Charlie
+- `TreeSet` 會依字母排序：Alice, Bob, Charlie（剛好跟插入順序一樣，但原理不同）
+
+<!--
+【帶讀解法】
+三個 Set 的內容都一樣（重複的元素被自動忽略），但「印出來的順序」是這題的重點。
+LinkedHashSet 是「誰先來誰排前面」，TreeSet 是「不管誰先來，一律按字母排」。
+-->
+---
+layout: default
+---
+
+# 練習 3-2：社團成員聯集、交集與差集
+### 任務說明
+
+- 籃球社成員：`{"小明","小華","小美","阿強"}`
+- 桌遊社成員：`{"小華","阿強","阿傑","小芳"}`
+
+計算並印出：
+
+1. 兩社團成員聯集（總共有哪些人至少參加一個社團）
+2. 兩社團都參加的成員（交集）
+3. 只參加籃球社、沒參加桌遊社的成員（差集）
+
+<!--
+【出題前的鋪陳】
+延續上一張投影片的聯集與交集，這題多加一個「差集」。
+
+【問題引導】
+差集要用哪個方法？提示：跟交集（retainAll）是反過來的概念。
+-->
+---
+layout: default
+---
+
+# 練習 3-2：解題提示
+### 提示說明
+
+```java
+Set<String> basketball = new HashSet<>(List.of("小明","小華","小美","阿強"));
+Set<String> boardgame  = new HashSet<>(List.of("小華","阿強","阿傑","小芳"));
+
+// 聯集
+Set<String> union = new HashSet<>(basketball);
+union.addAll(boardgame);
+System.out.println("聯集：" + union);
+
+// 交集
+Set<String> inter = new HashSet<>(basketball);
+inter.retainAll(boardgame);
+System.out.println("交集：" + inter);
+
+// 差集：只在籃球社、不在桌遊社
+Set<String> diff = new HashSet<>(basketball);
+diff.removeAll(boardgame);
+System.out.println("差集：" + diff);
+```
+
+<!--
+【帶讀解法】
+三種集合運算都遵循同一個套路：先複製一份（`new HashSet<>(原集合)`），再對複製品呼叫 addAll / retainAll / removeAll，避免改到原始資料。
+差集 `removeAll`：把「兩邊都有的人」從複製品中踢掉，剩下的就是「只有我這邊有」的人。
 -->
 
 ---
@@ -823,6 +1137,109 @@ for (String key : scores.keySet()) {
 -->
 
 ---
+layout: default
+---
+
+# 練習 4-1：成績統計系統
+### 任務說明
+
+宣告一個 `HashMap<String, Integer>` 儲存以下成績：
+炭治郎：95、善逸：70、伊之助：85、蜜璃：90
+
+完成以下操作：
+1. 新增「甘露寺：88」
+2. 將「善逸」的成績更新為 80
+3. 計算全班平均分數（整數）
+4. 印出所有成績 ≥ 85 的學生姓名
+
+<!--
+【練習導引】
+這次玩 Map。這題很有實戰感。
+
+【關鍵提示】
+1. 計算總分時，可以用 `for (int s : scores.values())`，不需要拿 Key。
+2. 找高分名單時，你得用 `entrySet()`，因為你最後要印出名字（Key）。
+3. 善逸的成績更新，就是再 `put` 一次。Map 會很無情地把舊分數覆蓋掉。
+-->
+---
+layout: default
+---
+
+# 練習 4-1：解題提示
+### 提示說明
+
+1. `map.put("甘露寺", 88)` — 新增
+2. `map.put("善逸", 80)` — 覆蓋舊值即為更新
+3. 用 `values()` 取得所有分數，加總後除以 `size()`
+4. 用 `entrySet()` 遍歷，判斷 `entry.getValue() >= 85`
+
+```java
+int total = 0;
+for (int s : scores.values()) total += s;
+System.out.println("平均：" + total / scores.size());
+for (var e : scores.entrySet())
+    if (e.getValue() >= 85)
+        System.out.println(e.getKey());
+```
+
+<!--
+【解說要點】
+看到 `var e` 了嗎？這就是剛才說的偷懶小技巧。如果你不寫 `var`，你就得寫那一長串 `Map.Entry<String, Integer>`，寫完手都酸了。平均值部分，因為是整數除法，小數點會不見，如果你想要精準一點，記得轉 `double`。
+-->
+---
+layout: default
+---
+
+# 練習 4-2：單字計數器
+### 任務說明
+
+給定字串陣列 `String[] words = {"apple","banana","apple","orange","banana","apple"}`：
+
+1. 使用 `Map<String, Integer>` 統計每個單字出現的次數（使用 `getOrDefault`）
+2. 分別用 `HashMap` 與 `TreeMap` 印出統計結果，比較兩者的輸出順序差異
+3. 找出出現次數最多的單字並印出
+
+<!--
+【出題前的鋪陳】
+「計數器」是 Map 最經典的應用之一，業界叫它 word count，是大數據處理的入門範例。
+
+【問題引導】
+重點是 `getOrDefault`：第一次看到某個單字時，Map 裡還沒有它，這時候該怎麼辦？
+-->
+---
+layout: default
+---
+
+# 練習 4-2：解題提示
+### 提示說明
+
+```java
+String[] words = {"apple","banana","apple","orange","banana","apple"};
+
+Map<String, Integer> count = new TreeMap<>(); // 或 new HashMap<>()
+for (String w : words) {
+    count.put(w, count.getOrDefault(w, 0) + 1);
+}
+System.out.println(count); // TreeMap：依字母順序
+
+String maxWord = null;
+int maxCount = 0;
+for (var entry : count.entrySet()) {
+    if (entry.getValue() > maxCount) {
+        maxCount = entry.getValue();
+        maxWord = entry.getKey();
+    }
+}
+System.out.println("出現最多次：" + maxWord + "（" + maxCount + " 次）");
+```
+
+<!--
+【帶讀解法】
+`count.getOrDefault(w, 0) + 1`：第一次出現時 Map 裡沒有 w，`getOrDefault` 給你 0，加 1 後變成 1；之後每次出現就在原本的次數上 +1。
+換成 `HashMap` 結果內容相同，但順序會變得不可預期；`TreeMap` 永遠按字母排序輸出。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -925,101 +1342,165 @@ System.out.println(Collections.min(nums)); // 1
 layout: default
 ---
 
-# 練習一：管理英雄名單
+# 練習 5-1：樂透號碼產生器
 ### 任務說明
 
-請宣告一個 `ArrayList<String>`，儲存以下鬼殺隊成員：
-「炭治郎、禰豆子、善逸、伊之助、蜜璃」
-
-完成以下操作：
-1. 在「善逸」前面插入「甘露寺」
-2. 將「禰豆子」替換為「時透無一郎」
-3. 移除最後一個成員
-4. 用 `Collections.sort()` 依字典順序排序後印出
+1. 建立 `List<Integer> numbers`，依序加入 1 ~ 49
+2. 使用 `Collections.shuffle(numbers)` 打亂順序
+3. 取出前 6 個元素（`subList(0, 6)`），複製成新的 List 並用 `Collections.sort()` 排序後印出，作為本期樂透號碼
+4. 印出原始 `numbers` 的 `Collections.max()` 與 `Collections.min()`
 
 <!--
-【練習導引】
-來，動手做做看。這題是在考你對索引（Index）的掌握。
+【出題前的鋪陳】
+這題是 `Collections` 工具類別的綜合應用，順便回顧一下 `subList` 的用法。
 
-【關鍵提示】
-1. 加甘露寺時，先算一下善逸原本在第幾格。
-2. 刪除最後一個，記得用 `size() - 1`，這是最安全的寫法。
-3. 如果你在這題算錯索引，你的英雄名單可能會出現「伊之助消失了」這種靈異事件。
+【問題引導】
+洗牌、抽號、排序，三步驟做出一台簡易樂透機。
 -->
-
----
-
-# 練習一：解題提示
-### 提示說明
-
-1. 善逸在索引 2，使用 `list.add(2, "甘露寺")` 插入
-2. 禰豆子在索引 1，使用 `list.set(1, "時透無一郎")` 替換
-3. `list.remove(list.size() - 1)` 移除最後一個元素
-4. `Collections.sort(list)` 排序
-
-```java
-List<String> m = new ArrayList<>(
-    List.of("炭治郎","禰豆子","善逸","伊之助","蜜璃"));
-m.add(2, "甘露寺");
-m.set(1, "時透無一郎");
-m.remove(m.size() - 1);
-Collections.sort(m);
-System.out.println(m);
-```
-
-<!--
-【解說要點】
-注意那個 `List.of`。如果你直接拿 `List.of` 的結果去 `add`，程式會原地爆炸。一定要 `new ArrayList<>(...)` 把資料搬進去一個可以動的盒子裡。這是我看過初學者最常犯的錯！
--->
-
 ---
 layout: default
 ---
 
-# 練習二：成績統計系統
-### 任務說明
-
-宣告一個 `HashMap<String, Integer>` 儲存以下成績：
-炭治郎：95、善逸：70、伊之助：85、蜜璃：90
-
-完成以下操作：
-1. 新增「甘露寺：88」
-2. 將「善逸」的成績更新為 80
-3. 計算全班平均分數（整數）
-4. 印出所有成績 ≥ 85 的學生姓名
-
-<!--
-【練習導引】
-這次玩 Map。這題很有實戰感。
-
-【關鍵提示】
-1. 計算總分時，可以用 `for (int s : scores.values())`，不需要拿 Key。
-2. 找高分名單時，你得用 `entrySet()`，因為你最後要印出名字（Key）。
-3. 善逸的成績更新，就是再 `put` 一次。Map 會很無情地把舊分數覆蓋掉。
--->
-
----
-
-# 練習二：解題提示
+# 練習 5-1：解題提示
 ### 提示說明
 
-1. `map.put("甘露寺", 88)` — 新增
-2. `map.put("善逸", 80)` — 覆蓋舊值即為更新
-3. 用 `values()` 取得所有分數，加總後除以 `size()`
-4. 用 `entrySet()` 遍歷，判斷 `entry.getValue() >= 85`
-
 ```java
-int total = 0;
-for (int s : scores.values()) total += s;
-System.out.println("平均：" + total / scores.size());
-for (var e : scores.entrySet())
-    if (e.getValue() >= 85)
-        System.out.println(e.getKey());
+List<Integer> numbers = new ArrayList<>();
+for (int i = 1; i <= 49; i++) {
+    numbers.add(i);
+}
+
+Collections.shuffle(numbers);
+List<Integer> result = new ArrayList<>(numbers.subList(0, 6));
+Collections.sort(result);
+System.out.println("本期樂透號碼：" + result);
+
+System.out.println("最大值：" + Collections.max(numbers));
+System.out.println("最小值：" + Collections.min(numbers));
 ```
 
 <!--
-【解說要點】
-看到 `var e` 了嗎？這就是剛才說的偷懶小技巧。如果你不寫 `var`，你就得寫那一長串 `Map.Entry<String, Integer>`，寫完手都酸了。平均值部分，因為是整數除法，小數點會不見，如果你想要精準一點，記得轉 `double`。
+【帶讀解法】
+`subList(0, 6)` 拿到的是「分身」，所以要 `new ArrayList<>(...)` 複製一份再排序，否則會連帶影響到 `numbers`。
+`Collections.max/min` 不管洗牌前後都一樣，因為 1~49 這組資料的內容沒變，只是順序變了。
+-->
+---
+layout: default
+---
+
+# 練習 5-2：選擇合適的集合類別
+### 任務說明
+
+針對以下情境，選擇最合適的集合類別（`ArrayList`、`LinkedList`、`HashSet`、`LinkedHashSet`、`TreeSet`、`HashMap`、`LinkedHashMap`、`TreeMap`），寫出宣告該集合的程式碼，並簡述理由：
+
+1. 儲存瀏覽器「上一頁」紀錄，需要頻繁從前後新增 / 移除
+2. 儲存學生學號，且不可重複，需依學號排序輸出
+3. 儲存「身分證字號 → 姓名」的對照表，需要快速查詢
+4. 儲存最近瀏覽的商品名稱，不可重複，且要保留瀏覽順序
+
+<!--
+【出題前的鋪陳】
+這是本章最重要的能力：不是背 API，而是「選對工具」。
+
+【問題引導】
+回頭看「如何選擇集合類別」那張表，四個情境剛好對應四種不同的需求組合。
+-->
+---
+layout: default
+---
+
+# 練習 5-2：解題提示
+### 提示說明
+
+```java
+// 1. 頻繁前後新增/移除 -> LinkedList（實作 Deque，O(1)）
+Deque<String> history = new LinkedList<>();
+
+// 2. 不可重複 + 需排序 -> TreeSet
+Set<String> studentIds = new TreeSet<>();
+
+// 3. 鍵值對應 + 快速查詢 -> HashMap
+Map<String, String> idToName = new HashMap<>();
+
+// 4. 不可重複 + 保留插入順序 -> LinkedHashSet
+Set<String> recentProducts = new LinkedHashSet<>();
+```
+
+<!--
+【帶讀解法】
+1. LinkedList：兩端新增刪除都是 O(1)，ArrayList 在開頭操作要搬移整個陣列。
+2. TreeSet：天生不重複又自動排序，省去額外呼叫 sort 的步驟。
+3. HashMap：鍵值對應的標準解，查詢效率 O(1)。
+4. LinkedHashSet：HashSet 的去重 + List 的順序，兩個願望一次滿足。
+-->
+---
+layout: default
+---
+
+# 綜合練習：選課系統
+### 任務說明
+
+整合 List、Set、Map 與 Collections 工具類別，設計一個簡易選課系統：
+
+- 使用 `Map<String, List<String>> courseEnrollment` 儲存「課程 → 已選課學生名單」
+- 撰寫 `enroll(map, course, student)` 方法：將學生加入指定課程的名單；若該課程尚未開課，先建立一個新的 `ArrayList` 再加入
+- 使用範例資料呼叫 `enroll`，模擬多位學生選修多門課程（部分課程重複選修）
+- 統計「總共有多少不重複的學生」選了至少一門課（提示：用 `Set<String>` 收集所有學生姓名）
+- 將每門課程的學生名單用 `Collections.sort()` 排序後印出
+- 找出選課人數最多的課程名稱並印出
+
+<!--
+【出題前的鋪陳】
+這是本章的期末總驗收：List 裝名單、Map 做對應、Set 去重、Collections 排序，一次到位。
+
+【問題引導】
+想像你在做學校的選課系統後台，每門課都是一個「名單盒子」，而所有名單盒子又被放進一個用課程名稱當標籤的大櫃子裡。
+-->
+---
+layout: default
+---
+
+# 綜合練習：解題提示
+### 提示說明
+
+```java
+static void enroll(Map<String, List<String>> map, String course, String student) {
+    if (!map.containsKey(course)) {
+        map.put(course, new ArrayList<>());
+    }
+    map.get(course).add(student);
+}
+
+// 統計不重複學生數
+Set<String> allStudents = new HashSet<>();
+for (List<String> students : courseEnrollment.values()) {
+    allStudents.addAll(students);
+}
+System.out.println("不重複學生數：" + allStudents.size());
+
+// 排序印出每門課名單 + 找出人數最多的課程
+String maxCourse = null;
+int maxCount = -1;
+for (var entry : courseEnrollment.entrySet()) {
+    Collections.sort(entry.getValue());
+    System.out.println(entry.getKey() + "：" + entry.getValue());
+    if (entry.getValue().size() > maxCount) {
+        maxCount = entry.getValue().size();
+        maxCourse = entry.getKey();
+    }
+}
+System.out.println("選課人數最多：" + maxCourse + "（" + maxCount + " 人）");
+```
+
+<!--
+【帶讀解法】
+1. enroll：先檢查課程是否存在於 Map 中，不存在就先放一個空的 ArrayList 進去，再把學生加進該 List。
+2. 不重複學生數：把所有課程的名單通通 addAll 進同一個 HashSet，重複的姓名自然會被吃掉。
+3. entrySet 遍歷時直接對 `entry.getValue()`（也就是那個 List）呼叫 sort，原地排序。
+4. 用兩個變數 maxCourse / maxCount 邊遍歷邊比較，是找最大值最直覺的寫法。
+
+【最後叮嚀】
+這題用到的全部都是這一章教過的東西，沒有任何魔法。如果卡關，回去翻翻對應的小節投影片，答案都在裡面。
 -->
 
 ---

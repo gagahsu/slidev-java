@@ -1,8 +1,8 @@
-// Ch20 練習3：throw 實作
+// Ch20 練習2-3：throw 實作
 // 密碼長度必須在 5–8 個字元之間
 // 長度不符時使用 throw 拋出 StringIndexOutOfBoundsException
 
-public class Exercise3_ThrowPassword {
+public class Exercise2_3_ThrowPassword {
 
     private static void pwdCheck(String pwdStr) throws StringIndexOutOfBoundsException {
         if (pwdStr.length() >= 5 && pwdStr.length() <= 8) {

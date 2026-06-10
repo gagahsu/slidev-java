@@ -1,11 +1,11 @@
-// Ch20 練習1：多 catch 實作
+// Ch20 練習2-1：多 catch 實作
 // 讀取使用者輸入的 2 個整數，計算除法結果
 // 正確捕捉 ArithmeticException（除數為0）和 InputMismatchException（輸入非數字）
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Exercise1_MultiCatch {
+public class Exercise2_1_MultiCatch {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         try {

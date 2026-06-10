@@ -1,11 +1,11 @@
-// Ch20 練習2：try-with-resources
-// 改寫練習1，使用 try-with-resources 語法管理 Scanner 資源
+// Ch20 練習2-2：try-with-resources
+// 改寫練習2-1，使用 try-with-resources 語法管理 Scanner 資源
 // Scanner 會在 try 區塊結束後自動關閉，無需手動呼叫 close()
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Exercise2_TryWithResources {
+public class Exercise2_2_TryWithResources {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("請輸入第一個整數：");
