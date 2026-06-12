@@ -48,14 +48,11 @@ style: |
 </div>
 
 <!--
-【開場白】
-今天我們要學繼承（Inheritance）和多形（Polymorphism），這是物件導向程式設計最核心的兩個概念。
+哈囉大家，今天我們要學的是繼承（Inheritance）和多形（Polymorphism），這是物件導向程式設計最核心的兩個概念。
 
-【為什麼要學這個？】
-你有沒有寫過類似的程式碼，複製貼上改了一點點？繼承就是讓你把「共同的部分」抽出來，寫一次就好。多形則讓你的程式更靈活，新增功能時不需要修改舊程式碼。
+為什麼要學這個？我們有沒有寫過類似的程式碼，複製貼上之後只改一點點？繼承就是讓我們把「共同的部分」抽出來，寫一次就好。多形則讓我們的程式更靈活，之後新增功能時不需要修改舊的程式碼。
 
-【今天學完你會能做什麼】
-學完之後你就能設計有繼承關係的類別體系，用多形讓程式碼以一對多的方式運作，也能讀懂業界常見的 Spring Boot 框架程式碼。
+學完這章之後，我們就能設計出有繼承關係的類別體系，用多形讓程式碼以一對多的方式運作，也能讀懂業界常見的 Spring Boot 框架程式碼。準備好就開始吧！
 -->
 ---
 layout: default
@@ -63,19 +60,15 @@ layout: default
 
 # Outline
 
-- **繼承 (Inheritance)** — extends 語法、存取修飾符、繼承類型、final、Sealed Classes、Records
+- **繼承 (Inheritance)** — extends 語法、存取修飾符、繼承類型、final
 - **IS-A 與 HAS-A 關係** — instanceof、聚合、組合
 - **Override 與 Overload** — Override 規則、super、@Override、Overload 對比
-- **多形 (Polymorphism)** — 編譯時期 vs 執行時期、型別轉型、Pattern Matching
-- **靜態 / 動態綁定** — Static Binding vs Dynamic Binding
-- **巢狀類別 (Nested Classes)** — 內部類別、方法類別、匿名類別
+- **多形 (Polymorphism)** — 編譯時期 vs 執行時期、型別轉型
 
 <!--
-【帶讀大綱】
-今天內容分六大塊。先從繼承的語法和機制開始，然後討論兩種物件關係（IS-A 和 HAS-A），接著深入 Override 和 Overload 的差異，再來是多形，最後講靜態/動態綁定和巢狀類別。
+今天的內容分成四大塊：先從繼承的語法和機制開始，然後討論兩種物件關係（IS-A 和 HAS-A），接著深入 `override` 和 `overload` 的差異，最後是多形。
 
-【學習策略】
-這章的概念環環相扣，繼承是多形的基礎，多形是動態綁定的表現。跟著順序學，不要急著跳後面。
+這章的概念環環相扣，繼承是多形的基礎。跟著順序學，不要急著跳後面，每個概念都會在後面用到喔！
 -->
 ---
 layout: section
@@ -85,8 +78,9 @@ class: flex flex-col justify-center items-center text-center
 # 繼承 Inheritance
 
 <!--
-【段落轉換】
-先從繼承開始。繼承的核心概念只有一句話：讓子類別直接擁有父類別的屬性和方法，不用重寫。
+先從繼承開始。繼承的核心概念其實只有一句話：讓子類別直接擁有父類別的屬性和方法，不用重寫一遍。
+
+想像一下樂高積木——如果有一塊「基礎積木」已經做好了，後面要做的積木只要在它上面加裝飾就好，不需要從頭再做一塊一模一樣的基礎。繼承就是程式裡的這個概念，接下來我們就來看看怎麼用。
 -->
 ---
 layout: default
@@ -107,14 +101,11 @@ Animal、Dog、Bird 三個類別大量重複程式碼：
 </div>
 
 <!--
-【核心說明】
-為什麼需要繼承？看表格就知道了。Animal、Dog、Bird 三個類別裡，name、eat()、sleep() 都重複出現了三次。這代表如果 eat() 要改邏輯，你要改三個地方——這就是「程式碼重複」的問題。
+為什麼需要繼承？看這個表格就知道了。Animal、Dog、Bird 三個類別裡，`name`、`eat()`、`sleep()` 都重複出現了三次。這代表如果 `eat()` 要改邏輯，我們要改三個地方——這就是「程式碼重複」的問題。
 
-【生活化比喻】
-就像公司的員工手冊，基本規定所有人都一樣，不需要每個人的合約都寫一遍。繼承就是把「共同的規定」放在父類別，所有子類別自動適用。
+生活化比喻：就像公司的員工手冊，基本規定所有人都一樣，不需要每個人的合約都重寫一次。繼承就是把「共同的規定」放在父類別，所有子類別自動適用。
 
-💼 業界實務：
-重複程式碼是維護的惡夢，繼承是解決方案之一。原則是 DRY（Don't Repeat Yourself）——寫一次就好。
+業界實務上，重複程式碼是維護的惡夢，繼承是解決方案之一。原則就是 DRY（Don't Repeat Yourself）——寫一次就好。
 -->
 ---
 
@@ -135,14 +126,11 @@ class Dog extends Animal {
 </div>
 
 <!--
-【帶讀程式碼】
-extends 這個關鍵字就是建立繼承關係。Dog extends Animal 表示 Dog 繼承 Animal。
+帶大家看一下這段程式碼。`extends` 這個關鍵字就是建立繼承關係，`class Dog extends Animal` 表示 Dog 繼承 Animal。
 
-【逐步解說】
-Dog 類別裡只定義了 barking()，但因為繼承了 Animal，它自動擁有 name 屬性、eat() 和 sleep() 方法。
+Dog 類別裡只定義了 `barking()`，但因為繼承了 Animal，它自動擁有 `name` 屬性、`eat()` 和 `sleep()` 方法，不用再重複寫一次。
 
-⚠️ 學生常見誤解：
-繼承的是 Animal 的「定義」，不是某個 Animal 物件的資料。每個 Dog 物件都有自己的 name，不是共享同一個。
+⚠️ 易錯點：繼承的是 Animal 的「定義」，不是某個 Animal 物件的資料。每個 Dog 實例都有自己的 `name`，不是共享同一個。
 -->
 ---
 
@@ -167,13 +155,9 @@ class Dog extends Animal {
 ```
 
 <!--
-【帶讀程式碼】
-這是完整的 Animal 和 Dog 範例。注意兩個重點：
-1. Animal 的建構方法接受 name 參數，用 this.name 存起來。
-2. Dog 的建構方法呼叫 super(name)，把 name 傳給父類別的建構方法。
+這個範例的目標是：看一個完整的 Animal 和 Dog 範例。帶大家看兩個關鍵點：第一，Animal 的建構方法（constructor）接受 `name` 參數，用 `this.name` 存起來；第二，Dog 的建構方法呼叫 `super(name)`，把 `name` 傳給父類別的建構方法。
 
-【重點提示】
-super(name) 是關鍵！子類別不能直接設定父類別的屬性（如果是 private），要透過 super() 呼叫父類別的建構方法。
+⚠️ 易錯點：`super(name)` 是關鍵！子類別不能直接設定父類別的屬性（如果是 `private`），要透過 `super()` 呼叫父類別的建構方法來初始化。
 -->
 ---
 
@@ -195,8 +179,9 @@ class Animal {
 ```
 
 <!--
-【核心說明】
-建立子類別物件時，Java 會先執行父類別的建構方法，再執行子類別的建構方法。這個順序不能反過來。
+這是一個很重要的規則：建立子類別物件時，Java 會先執行父類別的建構方法，再執行子類別的建構方法。這個順序是固定的，不能反過來。
+
+生活化比喻：這就像先有父母才有小孩——蓋房子的時候，地基（父類別）一定要先打好，才能往上蓋樓層（子類別）。下一頁我們用實際輸出來驗證這個順序。
 -->
 ---
 
@@ -221,11 +206,9 @@ class Dog extends Animal {
 ```
 
 <!--
-【帶讀程式碼】
-new Dog("旺財") 執行時：先印 "Animal 建構"，再印 "Dog 建構"。父先子後，像是先有父母才有小孩。
+這個範例的目標是：驗證上一頁說的「父先子後」順序。帶大家看執行結果——`new Dog("旺財")` 執行時，會先印出 `"Animal 建構"`，再印出 `"Dog 建構"`。
 
-⚠️ 學生常見誤解：
-如果父類別沒有無參建構方法（只有有參的），而子類別沒有呼叫 super(...)，編譯會報錯。Java 只會自動呼叫父類別的「無參建構方法」，有參的要自己呼叫。
+⚠️ 易錯點：如果父類別沒有無參建構方法（只有有參數的），而子類別沒有呼叫 `super(...)`，編譯就會報錯。Java 只會自動呼叫父類別的「無參建構方法」，有參數的建構方法要我們自己呼叫。
 -->
 ---
 
@@ -243,17 +226,11 @@ new Dog("旺財") 執行時：先印 "Animal 建構"，再印 "Dog 建構"。父
 </div>
 
 <!--
-【帶讀表格】
-存取修飾符決定「誰能看到這個屬性或方法」。這張表很重要，請大家記住。
+存取修飾詞（access modifier）決定「誰能看到這個屬性或方法」，這張表很重要，建議大家記下來。
 
-【逐步解說】
-public：所有人都能存取。
-protected：同套件和子類別能存取，外部不行。
-（無修飾符）：只有同套件能存取，子類別如果在不同套件就不行。
-private：只有自己類別內部能存取。
+生活化比喻：可以把它想成一間房子的不同空間——`public` 是大門口，誰都能進來；`protected` 是家庭客廳，家人（同套件、子類別）能進，外人不行；（無修飾詞）是自家後院，只有同社區（同套件）的人能用；`private` 則是自己的私人保險箱，只有自己能開。
 
-💼 業界實務：
-父類別屬性通常設 protected，讓子類別能直接存取但外部不能亂改。方法通常設 public 或 protected，視需要決定。
+業界實務上，父類別屬性通常設為 `protected`，讓子類別能直接存取，但外部不能亂改。方法則視需要設成 `public` 或 `protected`。
 -->
 ---
 
@@ -391,144 +368,6 @@ String 類別就是 final class，所以你沒辦法 extends String。這是 Jav
 
 💼 業界實務：
 工具類別（Utility class）通常設計成 final，防止別人亂繼承改壞行為。
--->
----
-
-# 密封類別 (Sealed Classes)
-
-JDK 17 正式功能，允許父類別**精確控制**哪些子類別可以繼承它。
-
-| 關鍵字 | 說明 |
-| --- | --- |
-| `sealed` | 宣告此類別為密封類別 |
-| `permits` | 指定允許繼承的子類別清單 |
-
-```java
-// 只允許 Circle 和 Square 繼承 Shape
-public sealed class Shape permits Circle, Square { }
-
-final class Circle extends Shape { }
-final class Square extends Shape { }
-```
-
-<!--
-【核心說明】
-Sealed Classes 是 JDK 17 的新功能，讓父類別「點名」只有特定子類別可以繼承它。
-
-【帶讀程式碼】
-sealed class Shape permits Circle, Square：Shape 只允許 Circle 和 Square 繼承，其他類別繼承會編譯錯誤。
-
-💼 業界實務：
-設計 API 時，有時候你不希望使用者任意繼承你的類別（防止破壞設計意圖），Sealed Classes 就是為此而生。
--->
----
-
-# 密封子類別的修飾符限制
-
-密封類別的子類別**必須**明確宣告為以下三種狀態之一：
-
-| 修飾符 | 說明 |
-| --- | --- |
-| `final` | 禁止再被繼承（斷絕後代） |
-| `sealed` | 繼續保持密封，並指定自己的 permits |
-| `non-sealed` | 解除密封，允許任何類別繼承（回歸傳統） |
-
-```java
-public non-sealed class Circle extends Shape { } // 任何人都能繼承 Circle
-```
-
-<!--
-【帶讀表格】
-密封類別的子類別必須明確宣告自己的「開放程度」：
-final：不能再被繼承（通常用這個）。
-sealed：繼續密封，自己也指定 permits。
-non-sealed：完全開放，任何人都可以繼承這個子類別。
-
-【類比說明】
-就像加盟店的模式：總公司（sealed class）指定哪些加盟主（permits），加盟主可以選擇繼續限制（sealed）、不再開放（final）或允許所有人加盟（non-sealed）。
--->
----
-
-# Sealed Classes 與 Pattern Matching
-
-密封類別搭配 `switch`（JDK 17+），編譯器會檢查**窮舉性**：
-
-```java
-// 如果 Shape 是 sealed，編譯器知道只有 Circle 和 Square
-return switch (shape) {
-    case Circle c -> c.radius() * c.radius() * Math.PI;
-    case Square s -> s.side() * s.side();
-    // 不需要 default 區塊！編譯器保證所有可能都已涵蓋
-};
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 當你新增一個 permits 子類別時，編譯器會提醒你更新所有相關的 <code>switch</code> 邏輯
-</div>
-
-<!--
-【核心說明】
-Sealed Classes 的最大優點是可以和 switch 搭配，讓編譯器幫你檢查是否考慮到所有子類別。
-
-【帶讀程式碼】
-switch(shape) 不需要 default，因為編譯器知道 Shape 只有 Circle 和 Square 兩種子類別，兩個都處理了就完整了。
-
-💼 業界實務：
-這個特性讓「新增子類別時忘記更新 switch」的 bug 變成編譯錯誤而不是執行時才發現，大大提高程式碼安全性。
--->
----
-
-# 紀錄類別 (Records) 簡介
-
-JDK 16 引入，只需宣告欄位，編譯器自動產生 constructor、getter、`equals`、`hashCode`、`toString`：
-
-```java
-// 傳統寫法需要數十行；record 一行搞定
-record Person(String name, int age) { }
-
-Person p = new Person("炭治郎", 15);
-System.out.println(p.name()); // "炭治郎"
-System.out.println(p.age());  // 15
-System.out.println(p);        // Person[name=炭治郎, age=15]
-```
-
-<!--
-【核心說明】
-Records 是 JDK 16 的新功能，專為「純資料類別」設計。只要宣告欄位，編譯器自動產生所有你需要的方法。
-
-【帶讀程式碼】
-record Person(String name, int age) 一行，自動有建構方法、getter（name()、age()）、toString()、equals()、hashCode()。傳統寫法要幾十行。
-
-💼 業界實務：
-DTO（Data Transfer Object）——在系統之間傳遞資料的物件——用 Record 非常合適，既簡潔又不可變（immutable）。
--->
----
-
-# Records 與繼承限制
-
-| 規則 | 說明 |
-| --- | --- |
-| 隱含 final | Record **無法被繼承** |
-| 固定父類別 | Record 隱含繼承 `java.lang.Record`，不能再 `extends` 其他類別 |
-| 實作介面 | Record **可以**實作多個介面 |
-
-```java
-record Point(int x, int y) { }   // ✅ 合法
-// class Sub extends Point { }    // ❌ Record 不能被繼承
-// record R extends Animal { }    // ❌ Record 不能繼承其他類別
-interface Drawable { }
-record Circle(double r) implements Drawable { } // ✅ 可實作介面
-```
-
-<!--
-【帶讀表格】
-Records 有幾個限制要注意：
-不能被繼承（隱含 final）。
-不能繼承其他類別（隱含繼承 java.lang.Record）。
-但可以實作介面。
-
-⚠️ 學生常見誤解：
-Records 的欄位是 immutable（不可變），建立後不能修改。這是設計上的選擇，讓資料物件更安全。
 -->
 ---
 layout: section
@@ -1043,238 +882,6 @@ dog.barking();        // 可呼叫 Dog 的 barking()
 
 ⚠️ 學生常見誤解：
 強制轉型不是「讓物件變成另一種東西」，而是「告訴 Java 我知道這個物件其實是 Dog」。如果物件實際上不是 Dog，會拋出 ClassCastException，所以要先用 instanceof 確認。
--->
----
-
-# Pattern Matching for instanceof
-
-JDK 16 引入了更簡潔的 **Pattern Matching**，將 `instanceof` 判斷與轉型合併。
-
-| 方式 | 語法 |
-| --- | --- |
-| 傳統方式 | `if (a instanceof Dog) { Dog d = (Dog) a; ... }` |
-| Pattern Matching | `if (a instanceof Dog d) { d.barking(); }` |
-
-```java
-Object obj = "Hello Java";
-
-// 判斷的同時宣告變數 s，若符合則自動轉型
-if (obj instanceof String s) {
-    System.out.println(s.toLowerCase()); // 直接使用 s
-}
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 變數 <code>s</code> 的作用域僅限於 <code>if</code> 區塊內（或邏輯符合的範圍內）
-</div>
-
-<!--
-【核心說明】
-JDK 16 新語法：instanceof 判斷和轉型可以一次完成，更安全更簡潔。
-
-【帶讀表格】
-傳統：先 instanceof 判斷，再 (Dog) 轉型，兩步。
-Pattern Matching：if (a instanceof Dog d)，判斷成功同時把 d 宣告為 Dog 型態，一步搞定。
-
-【帶讀程式碼】
-if (obj instanceof String s) 中，s 在 if 區塊內直接可用，不需要再轉型。
-
-💼 業界實務：
-現代 Java 專案已大量採用 Pattern Matching 取代傳統的 instanceof + 強制轉型組合。
--->
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 靜態 / 動態綁定
-
-<!--
-【段落轉換】
-多形的底層機制是動態綁定。這個概念解釋了為什麼 Animal 變數能呼叫到 Dog 的方法。
--->
----
-layout: default
----
-
-# Static Binding vs Dynamic Binding
-
-| 類型 | 時機 | 適用 |
-| --- | --- | --- |
-| 靜態綁定 (Static Binding) | 編譯時期 (compile time) | `static`、`final`、`private` 方法 |
-| 動態綁定 (Dynamic Binding) | 執行時期 (runtime) | Override 後的一般方法 |
-
-```java
-Animal a = new Dog();
-a.move(); // 動態綁定：執行時才確定呼叫 Dog.move()
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 執行時期多形的底層就是動態綁定：JVM 根據物件的實際型態決定執行哪個方法
-</div>
-
-<!--
-【帶讀表格】
-靜態綁定：在「寫程式的時候」就決定呼叫哪個方法，適用於 static、final、private 方法。
-動態綁定：在「程式執行的時候」才決定，適用於 Override 的一般方法。
-
-【帶讀程式碼】
-a.move() 是動態綁定——編譯時 a 是 Animal 型態，但執行時 JVM 看到 a 實際上是 Dog，所以呼叫 Dog.move()。
-
-💼 業界實務：
-動態綁定是多形的基礎，也是 Spring Boot 依賴注入（DI）能運作的根本原理。
--->
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 巢狀類別 Nested Classes
-
-<!--
-【段落轉換】
-最後一個主題是巢狀類別——在類別裡定義另一個類別。這個技術在 Java 裡有幾種形式，其中匿名內部類別是最常見的，等等在 Spring Boot 或 Android 開發裡你一定會看到。
--->
----
-layout: default
----
-
-# 巢狀類別的種類
-
-| 類型 | 說明 | 使用場景 |
-| --- | --- | --- |
-| 一般內部類別 (Inner Class) | 定義在外部類別內，可存取外部所有成員 | 資料封裝、輔助類別 |
-| 方法內部類別 (Method-local) | 定義在方法內，只有該方法可使用 | 極少使用 |
-| 匿名內部類別 (Anonymous) | 宣告同時建立物件，一次性使用 | Override 介面或抽象方法 |
-
-<!--
-【帶讀表格】
-三種巢狀類別各有使用場景。最常用的是匿名內部類別，其次是一般內部類別，方法內部類別幾乎不用。
-
-💼 業界實務：
-Java 8 之前，Lambda 表達式不存在，匿名內部類別是實作「介面的臨時版本」的標準做法。Java 8 之後 Lambda 取代了大部分匿名類別的使用場景，但理解匿名類別有助於讀懂舊程式碼。
--->
----
-
-# 一般內部類別 — 宣告
-
-```java
-class OuterClass {
-    int x = 10;
-    class InnerClass {
-        void display() {
-            System.out.println("x = " + x); // 直接存取外部屬性
-        }
-    }
-}
-```
-
-<!--
-【帶讀程式碼】
-InnerClass 定義在 OuterClass 裡面，可以直接存取外部類別的屬性 x，不需要傳參數。
-
-【類比說明】
-就像公司內部的某個部門，可以直接用公司的資源，外面的人沒辦法直接存取這個部門。
--->
----
-
-# 一般內部類別 — 建立物件
-
-必須先建立外部類別物件，再建立內部類別物件：
-
-```java
-OuterClass outer = new OuterClass();
-OuterClass.InnerClass inner = outer.new InnerClass();
-inner.display(); // x = 10
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 內部類別可宣告為 <code>private</code>，限制只有外部類別能使用
-</div>
-
-<!--
-【帶讀程式碼】
-建立內部類別物件需要先有外部類別物件：outer.new InnerClass()。
-
-⚠️ 學生常見誤解：
-不能直接 new InnerClass()，因為內部類別需要依附於外部類別的實例存在。這和靜態類別（static nested class）不同。
--->
----
-
-# 方法內部類別 (Method-local Inner Class)
-
-類別宣告在方法內，只有該方法可使用此類別：
-
-```java
-class School {
-    void showRoom() {
-        class MathRoom {       // 只有 showRoom() 能使用
-            int students = 40;
-        }
-        MathRoom m = new MathRoom();
-        System.out.println("學生數：" + m.students);
-    }
-}
-```
-
-<!--
-【核心說明】
-方法內部類別定義在方法裡面，生命週期跟著方法走，方法結束就消失。
-
-【使用場景】
-這個語法很少用，了解有這個東西就好。現代 Java 通常用 Lambda 或方法參考取代。
--->
----
-
-# 匿名內部類別 — 最簡範例
-
-宣告的同時直接建立物件並 Override 方法：
-
-```java
-Animal myAnimal = new Animal() {
-    @Override
-    public void move() {
-        System.out.println("特殊移動方式");
-    }
-};
-myAnimal.move();
-```
-
-<!--
-【核心說明】
-匿名內部類別讓你在「宣告物件的同時」Override 方法，一次性使用不需要另外建立新類別。
-
-【帶讀程式碼】
-new Animal() { @Override public void move() {...} }：同時建立了一個「匿名的 Animal 子類別」的物件，覆寫了 move()。
-
-【類比說明】
-就像臨時工——你只需要他工作一次，就地招募、當場上工、用完即走，不需要正式建立一個新員工資料。
--->
----
-
-# 匿名內部類別 — 當作參數傳送
-
-Java 允許把匿名類別物件直接作為參數傳入方法：
-
-```java
-obj.showAnimal(new Animal() {
-    @Override
-    public void move() {
-        System.out.println("移動中...");
-    }
-});
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-⚠️ 雖然合法，但降低程式碼可讀性與維護性，不建議大量使用
-</div>
-
-<!--
-【帶讀程式碼】
-匿名類別物件直接當參數傳進去，叫做 Inline 寫法。
-
-⚠️ 注意：
-雖然這樣寫合法，但如果 Override 的方法很長，程式碼可讀性會極其低下。現代 Java 偏好用 Lambda 替代——兩者效果相同但 Lambda 更簡潔，在第 25 章我們會學到。
 -->
 ---
 

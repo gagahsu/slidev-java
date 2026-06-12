@@ -60,7 +60,31 @@
       "Bash(cp \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\scripts\\\\export-all.mjs\" \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\Angular-Allen\\\\scripts\\\\export-all.mjs\")",
       "Bash(pnpm add *)",
       "Bash(Select-Object -ExpandProperty Name)",
-      "Bash(Sort-Object)"
+      "Bash(Sort-Object)",
+      "Bash(git tag *)",
+      "Bash(gh release *)",
+      "PowerShell(winget install *)",
+      "Read(//c/Users/yunch/.config/gh/**)",
+      "Read(//c/Users/yunch/AppData/Roaming/GitHub CLI/**)",
+      "Bash(claude --version)",
+      "Bash(grep -c \"^---$\" ch04-operators.md)",
+      "Bash(grep -c \"^---$\" ch04-operators-adv.md)",
+      "Bash(grep -E '^[+-]\\(#|```|public|import|package|\\\\||layout|theme|class:|routeAlias|title:|<div|<Link|💡|⚠️\\)')",
+      "Bash(grep -v '^[+-]$')",
+      "Bash(grep -c '^---$' ch05-flow-control.md)",
+      "Bash(grep -c '^---$' ch05-flow-control-adv.md)",
+      "Bash(grep -n \"^---$\" \"C:/Users/yunch/Documents/Work/my-clas/ch03-java-language-basics.md\")",
+      "Bash(grep -c '^---$' \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\ch07-arrays.md\")",
+      "Bash(grep -c '^---$' \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\ch07-arrays-adv.md\")",
+      "Bash(grep -c \"^---$\" ch06-loops.md ch06-loops-adv.md)",
+      "Bash(grep -an -E \"^\\(# |---$|layout:\\)\" ch03-java-language-basics.md)",
+      "Bash(grep -an -E \"^\\(# |---$|layout:\\)\" ch03-java-language-basics-adv.md)",
+      "Bash(grep -n -A 8 \"^<!--$\" \"C:\\\\Users\\\\yunch\\\\Documents\\\\Work\\\\my-clas\\\\ch08-class-objects.md\")",
+      "Bash(grep *)",
+      "Bash(sed -n '789,848p' ch09-constructor-encapsulation.md)",
+      "Bash(sed -n '/^# Outline/,/^---$/p' ch10-math-random.md)",
+      "Bash(sed -n '660,735p' ch09-constructor-encapsulation.md)",
+      "Bash(sed -n '590,715p' ch16-abstract-class.md)"
     ]
   }
 }
