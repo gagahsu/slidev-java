@@ -84,7 +84,8 @@
       "Bash(sed -n '789,848p' ch09-constructor-encapsulation.md)",
       "Bash(sed -n '/^# Outline/,/^---$/p' ch10-math-random.md)",
       "Bash(sed -n '660,735p' ch09-constructor-encapsulation.md)",
-      "Bash(sed -n '590,715p' ch16-abstract-class.md)"
+      "Bash(sed -n '590,715p' ch16-abstract-class.md)",
+      "Bash(timeout 60 pnpm dev)"
     ]
   }
 }

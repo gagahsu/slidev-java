@@ -45,13 +45,13 @@ style: |
 
 <!--
 【開場白】
-各位熬夜寫 Code 的英雄們，大家好！今天要來聊聊 Java 8 之後最偉大的發明：Stream 與 Lambda。
+大家好！今天要來聊聊 Java 8 之後最重要的兩個工具：Lambda 跟 Stream。
 
 【為什麼要學這個？】
-如果你還在用那種老掉牙的 `for` 迴圈去過濾資料，那你真的該更新一下了。這就像是在 5G 時代還在用撥接上網一樣。Lambda 讓你的程式碼從「滿臉鬍渣的老頭」變成「清爽的型男」。
+想像一下，我們要從一堆資料裡「挑出符合條件的、轉換成另一種格式、再整理成清單」——如果用傳統的 `for` 迴圈，光是寫迴圈、判斷、暫存變數，就要一大段程式碼。Lambda 跟 Stream 讓我們可以用「描述要做什麼」的方式，把這整段邏輯壓縮成幾行，而且讀起來更接近我們講話的邏輯。
 
 【今天學完你會能做什麼】
-學完今天這堂課，你寫程式的速度會快到老闆以為你請了代打。原本要寫 20 行的邏輯，現在一行就能搞定。這就是現代 Java 的黑科技！
+學完今天這堂課，我們會學會用 Lambda 寫出簡短的「行為」，並用 Stream 把「篩選 → 轉換 → 收集」這條生產線串起來，處理清單資料會變得又快又清楚。
 -->
 
 ---
@@ -61,19 +61,19 @@ layout: default
 # Outline
 
 - **Lambda 運算式**：語法、函數式介面（`Predicate`、`Function`、`Consumer`、`Supplier`）
-- **方法參考**：`::` 運算子的四種形式
+- **方法參考**：`::` 運算子的基本形式
 - **Stream API**
-  - 中間操作：`filter`、`map`、`flatMap`、`sorted`、`takeWhile`、`dropWhile`...
-  - 終端操作：`forEach`、`collect`、`count`、`toList()`...
-  - Collectors 工具與 `teeing` 收集器
+  - 中間操作：`filter`、`map`、`sorted`、`distinct`、`limit`、`skip`
+  - 終端操作：`forEach`、`collect`、`count`、`reduce`、`toList()`...
+  - Collectors 工具與 `Optional` 簡介
 - **實作練習**
 
 <!--
 【課程預覽】
-這堂課我們會分成 Lambda 語法、方法參考，還有最重要的 Stream API。
+這堂課我們會分成三個部分：Lambda 語法、方法參考，還有最重要的 Stream API。
 
 【學習建議】
-剛開始看 Lambda 你可能會覺得：「這是什麼火星文？」別擔心，這很正常。等你用熟了，你就會發現：以前沒有它的日子到底是怎麼活過來的？
+第一次看到 Lambda 跟 `::` 這些符號，可能會覺得有點像在看密語。沒關係，我們會從最簡單的例子開始，一步一步把這些符號跟「原本熟悉的寫法」對應起來，看久了就會發現它們其實很直覺。
 -->
 
 ---
@@ -86,8 +86,8 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-第一部分，Lambda。Lambda 是一種簡化程式碼的語法，讓你不需要寫完整的類別或方法，
-直接把「行為」包成一個東西傳給別人用。
+第一部分，Lambda。這是一種簡化程式碼的語法，讓我們不需要寫完整的類別或方法，
+直接把「一個動作」包成一個東西，傳給別的方法去使用。
 -->
 
 ---
@@ -100,7 +100,7 @@ Lambda 是 Java 8 引入的**匿名函式**語法，讓你不需要宣告完整�
 
 - **精簡程式碼** — 取代冗長的匿名類別寫法
 - **搭配集合框架** — 與 `List.forEach()`、`Stream` 等方法無縫整合
-- **核心概念** — let Java support functional programming style
+- **核心概念** — 讓 Java 支援函數式（functional）程式設計風格
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>基本語法：</b> <code>(參數列) -> 運算式 或 { 程式碼區塊 }</code>
@@ -108,14 +108,14 @@ Lambda 是 Java 8 引入的**匿名函式**語法，讓你不需要宣告完整�
 
 <!--
 【核心說明】
-Lambda 其實就是「匿名函式」。白話說，就是「不用給名字的動作」。
+Lambda 其實就是「匿名函式」。白話來說，就是「一個不用取名字的動作」。
 
 【生活化比喻】
-以前你要叫工廠做事，要寫一份完整的「勞動合約」（匿名類別）。
-現在有了 Lambda，你只要說：「欸，把這個乘二」（`x -> x * 2`），工廠就開工了。不用簽名，不用蓋章，直接來！
+想像我們要請工廠幫忙做一件事，傳統做法是要先寫一份完整的「委託合約」——定義一個類別、實作一個方法，才能把這個「動作」傳出去（這就是匿名類別的寫法）。
+有了 Lambda，我們只要說一句話：「把這個數字乘以二」（`x -> x * 2`），工廠看到就直接照做，不需要簽合約、不需要正式文件。
 
 💼 業界實務：
-如果你現在去面試 Java 工程師，說你不會 Lambda，面試官可能會以為你是從 2010 年穿越過來的。這是現在的標配，一定要學會。
+現在的 Java 專案幾乎都會用到 Lambda，尤其是搭配集合框架操作資料的時候。這已經是現代 Java 開發的基本功了。
 -->
 
 ---
@@ -135,12 +135,16 @@ Lambda 其實就是「匿名函式」。白話說，就是「不用給名字的�
 
 <!--
 【核心說明】
-Lambda 的語法就像在寫簡訊。
+Lambda 的語法可以想成「箭頭左邊是輸入，箭頭右邊是要做的事」。
 
 【帶著讀這張表】
-無參數：`() ->`。像在說「預備，跑！」。
-單一參數：`x ->`。最簡潔，括號都省了。
-多行程式碼：記得要加 `{}` 跟 `return`，就像你寫封信一定要有結尾一樣。
+無參數：`() -> ...`，小括號代表「沒有輸入」，但不能省略。
+單一參數：`x -> ...`，只有一個輸入的時候，括號可以省，最簡潔。
+多個參數：`(a, b) -> ...`，超過一個輸入就一定要加括號。
+多行程式碼：如果動作不只一行，就要加 `{}`，而且要自己寫 `return` 把結果丟回去。
+
+⚠️ 學生常見誤解：
+單一參數可以省略括號，但多行程式碼一定要加大括號，這兩個規則不要搞混。
 -->
 
 ---
@@ -165,8 +169,15 @@ Runnable r2 = () -> System.out.println("Hello!");
 </div>
 
 <!--
+【帶讀程式碼前的鋪陳】
+我們來比較一下，同一件事，傳統寫法跟 Lambda 寫法差多少。
+
+【逐步解說】
+左邊的傳統寫法，為了表達「執行時要印出 Hello」，得先 `new Runnable()`、再 `@Override public void run()`，一堆樣板程式碼。
+右邊的 Lambda，直接 `() -> System.out.println("Hello!")`，意思一樣，但只剩下「真正重要」的那一句。
+
 ⚠️ 學生常見誤解：
-很多人以為 Lambda 是新的東西，其實它背後就是一個匿名類別的簡化。Java 編譯器看到 Lambda，會自動幫你補回「欠缺的部分」。
+Lambda 不是什麼魔法新發明，它背後其實就是一個匿名類別的簡化寫法，編譯器會自動幫我們把「省略的部分」補回去。
 -->
 
 ---
@@ -190,15 +201,14 @@ Collections.sort(heroes, (a, b) -> a.compareTo(b));
 
 <!--
 【帶讀程式碼前的鋪陳】
-我們來看看「大叔寫法」跟「型男寫法」的差別。
+這次我們用「排序」來看 Lambda 的威力。
 
 【逐步解說】
-左邊那個傳統寫法，光是為了排序，就寫了一堆 `new Comparator`、`compare` 之類的廢話。
-右邊的 Lambda，直接一句 `(a, b) -> a.compareTo(b)`。
-你看，這省下來的時間，拿去喝咖啡不香嗎？
+傳統寫法為了排序，得寫一整段 `new Comparator<String>() { public int compare(...) {...} }`，光看就眼花。
+Lambda 寫法直接一句 `(a, b) -> a.compareTo(b)`，意思是「a 跟 b 怎麼比，就回傳比較結果」，一行就講完了。
 
 💼 業界實務：
-這種簡潔不只是為了好看，更重要的是讓邏輯一目了然。你一眼就能看出它是要依照字母順序排，而不是被淹沒在括號海裡。
+這種簡潔不只是少打字，更重要的是「邏輯一目了然」。一看就知道是依照字母順序排序，不會被一堆樣板程式碼擋住視線。
 -->
 
 ---
@@ -225,13 +235,13 @@ Function<String, String> f = s -> s.toLowerCase();
 
 <!--
 【核心說明】
-很多人誤以為 lambda 就是語法糖，可以隨便用。其實不行——Java 是強型別，每個 lambda 都必須有一個對應的介面型別，編譯器才知道它要扮演什麼角色。
+很多人會以為 Lambda 是一種「隨便寫寫就能用」的語法糖，但其實不是——Java 是強型別語言，每個 Lambda 都必須對應到一個介面型別，編譯器才知道它要扮演什麼角色。
 
-`s -> s.toLowerCase()` 到底是什麼？是「判斷條件」？是「轉換函數」？還是「執行動作」？光看 lambda 本身你不知道。
-要靠左邊的型別（`Function<String, String>`）來確定。
+【生活化比喻】
+`s -> s.toLowerCase()` 單看這一句，它是「判斷條件」？還是「轉換函數」？還是「執行動作」？光看這句話不知道，要靠左邊宣告的型別（`Function<String, String>`）來確定它的「身份」。
 
 ⚠️ 學生常見誤解：
-Lambda 不能單獨存在，它一定要配合函數式介面才能使用。
+Lambda 不能單獨存在，它一定要搭配函數式介面才能使用，這跟一般物件可以直接用 `var` 宣告不一樣。
 -->
 
 ---
@@ -251,19 +261,19 @@ Java 幫你預先定義了最常用的四種「lambda 形狀」，直接用就�
 
 <!--
 【核心說明】
-Java 把最常見的四種 lambda 形狀幫你取好名字、定義好介面，你直接用就行，不用自己再寫 @FunctionalInterface。
+Java 把最常見的四種 lambda 形狀，事先取好名字、定義成介面，我們直接拿來用就好，不用自己寫 `@FunctionalInterface`。
 
 【帶著讀這張表】
-`Predicate`：就是「裁判」。問它對不對，它只會回你 Yes 或 No。
-`Function`：就是「加工機」。丟個蘋果進去，吐個蘋果汁出來。
-`Consumer`：就是「大胃王」。丟東西給它吃，它就吃了，不回傳任何東西。
-`Supplier`：就是「自動販賣機」。你不用丟東西給它，它自己就吐東西出來。
+`Predicate`：就像是「裁判」，問它對不對，它只會回答 Yes 或 No。
+`Function`：就像是「加工機」，丟一個蘋果進去，吐出一杯果汁。
+`Consumer`：就像是「大胃王」，丟東西給它吃，它就吃了，不回傳任何東西。
+`Supplier`：就像是「自動販賣機」，不需要丟東西進去，按一下它就自己吐東西出來。
 
 【連接 Stream 的橋梁】
-最後一行很重要！學生學完這頁再看 Stream，就會知道為什麼 filter 後面接的 lambda 長那樣——因為 filter 的參數型別就是 Predicate，所以 lambda 一定要是「傳入一個值、回傳 boolean」的形狀。
+最後一行很重要——等我們學到 Stream 的 `filter`、`map`、`forEach`，就會發現它們後面接的 lambda 長相，剛好對應這四種形狀。因為這些方法的參數型別就是 `Predicate`、`Function`、`Consumer`。
 
 💼 業界實務：
-這四個一定要記住。Stream 裡面幾乎所有的操作都是圍繞著這四個轉的。
+這四個一定要記熟，Stream 裡面幾乎所有操作都是繞著這四個介面在轉。
 -->
 
 ---
@@ -278,7 +288,14 @@ Java 把最常見的四種 lambda 形狀幫你取好名字、定義好介面，�
 | `Supplier<T>` | `.get()` | 不傳入值，產出結果 |
 
 <!--
-每台機器的啟動按鈕長得不一樣，別按錯了。Predicate 用 `test`，Function 用 `apply`，Consumer 用 `accept`，Supplier 用 `get`。
+【核心說明】
+每台機器都有自己的「啟動按鈕」，按鈕名字不一樣，別按錯了。
+
+【帶著讀這張表】
+`Predicate` 用 `.test(...)`——測試一下，回我 true 或 false。
+`Function` 用 `.apply(...)`——套用轉換，回我結果。
+`Consumer` 用 `.accept(...)`——接收這個東西去處理，不用回傳。
+`Supplier` 用 `.get()`——不用給它任何東西，它自己生一個出來。
 -->
 
 ---
@@ -301,12 +318,15 @@ System.out.println(title.get());         // 無限列車
 
 <!--
 【帶讀程式碼前的鋪陳】
-我們來實際玩一下這幾台機器。
+我們來實際操作一下這四台機器。
 
 【逐步解說】
-`isAdult`：裁判判定 20 歲是成年，回傳 `true`。
-`len`：加工機把「炭治郎」轉成長度數字 3。
-`print`：大胃王把字串吃掉，然後印出來。
+`isAdult.test(20)`：裁判判定「20 歲是成年」，回傳 `true`。
+`len.apply("炭治郎")`：加工機把「炭治郎」這個字串轉成長度數字 `3`。
+`print.accept("鬼殺隊")`：大胃王把「鬼殺隊」這個字串吃掉，順手印出來。
+`title.get()`：自動販賣機不需要任何輸入，按一下就吐出「無限列車」。
+
+每一台機器的「啟動按鈕」剛好對應上一頁學到的 `.test()`、`.apply()`、`.accept()`、`.get()`。
 -->
 
 ---
@@ -337,13 +357,13 @@ Function<String, String> f3 = (@SuppressWarnings("unused") var s) -> s.toLowerCa
 
 <!--
 【核心說明】
-JDK 11 之後，Lambda 也可以用 `var` 了。這純粹是為了讓語法看起來更統一。
+JDK 11 之後，Lambda 的參數也可以用 `var` 來宣告，主要是為了讓語法看起來更一致。
 
 【程式世界怎麼用】
-其實大部分時候我們都直接省略型別。會用到 `var`，通常是因為你需要在參數上面加一些「標籤」（註解），像是 `@SuppressWarnings` 或 Spring 的 `@Nullable`。
+大部分情況我們還是會直接省略型別（像 `s -> s.toLowerCase()`）。會用到 `var`，通常是因為要在參數上加一些「標籤」（註解），例如 `@SuppressWarnings` 或框架提供的 `@Nullable`。
 
 💼 業界實務：
-如果你沒打算加註解，就別裝忙寫 `var` 了，直接 `s ->` 才是真正的簡潔大師。
+如果不需要加註解，就不必特地寫 `var`，直接省略型別才是真正簡潔的寫法。
 -->
 
 ---
@@ -357,8 +377,8 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-第二部分，方法參考。這是 Lambda 的「進階語法糖」：
-當你的 Lambda 只是「呼叫某個現有方法」，可以用 `::` 運算子直接引用那個方法，更簡潔。
+第二部分，方法參考。當我們的 Lambda 只是「呼叫某個現有的方法」時，
+可以用 `::` 運算子直接引用那個方法，比寫 Lambda 還更簡潔。
 -->
 
 ---
@@ -384,43 +404,14 @@ heroes.stream().map(String::length);      // ClassName::instanceMethod
 
 <!--
 【核心說明】
-「方法參考」是 Lambda 的終極進化版。當你的 Lambda 只是在搬運別人的方法時，連箭頭 `->` 都可以省了。
+「方法參考」可以看成是 Lambda 的精簡升級版。當 Lambda 裡面只是在「轉達」另一個方法的呼叫時，連箭頭 `->` 都可以省了。
 
 【生活化比喻】
-Lambda 是：「你去叫那個廚師煮飯」。
-方法參考是：「那個廚師，煮飯！」（`Chef::cook`）。
-直接指名道姓，更有氣勢。
+Lambda 寫法是：「請你去叫那位廚師煮飯」（`chef -> chef.cook()`）。
+方法參考則是直接說：「那位廚師，煮飯！」（`Chef::cook`）。少了一層轉達，更直接。
 
 💼 業界實務：
-在 Code Review 時，如果你能把 Lambda 改成方法參考，你的同事會覺得你是一個有品味的開發者。
--->
-
----
-
-# 方法參考 — 四種形式範例
-
-```java
-// 1. ClassName::staticMethod
-List.of("1","2").stream().map(Integer::parseInt);
-// 2. obj::instanceMethod
-List.of("炭治郎","善逸").forEach(System.out::println);
-// 3. ClassName::instanceMethod
-List.of("炭","治郎").stream().map(String::length);
-// 4. ClassName::new
-Stream.of(1,2,3).collect(Collectors.toCollection(ArrayList::new));
-```
-
-<!--
-【帶讀程式碼前的鋪陳】
-我們來看看這四種「指名道姓」的方式。
-
-【逐步解說】
-`Integer::parseInt`：直接呼叫 Integer 類別的靜態功能。
-`System.out::println`：叫 `System.out` 這個物件去噴字。
-`String::length`：這是最特別的，叫每個字串「自己量自己多長」。
-
-⚠️ 學生常見誤解：
-很多人分不清楚第一種跟第三種。第一種是「叫類別做」，第三種是「叫每個物件自己做」。這邏輯雖然有點繞，但多看兩次就懂了。
+在 Code Review 的時候，如果能把單純轉達呼叫的 Lambda 改成方法參考，程式碼會更精簡，這是許多團隊偏好的寫法。
 -->
 
 ---
@@ -433,8 +424,8 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【章節開場】
-第三部分，Stream API。有了 Lambda 的基礎，現在來學 Stream——
-它讓你用「管道」的方式，對集合做一連串操作。
+第三部分，Stream API。有了 Lambda 的基礎，現在來看 Stream——
+它讓我們用「管道」的方式，對集合資料做一連串的操作。
 -->
 
 ---
@@ -462,18 +453,18 @@ graph LR
 
 <!--
 【核心說明】
-Stream 就是資料的「流水線」。
+Stream 可以想成是資料的「流水線」——資料一筆一筆從輸送帶的一端送進去，經過幾個加工站，最後從另一端收成果。
 
 【看圖前的引導】
-這張圖就是我們程式碼的「工廠生產線」。
+這張圖就是我們程式碼的「工廠生產線」示意圖。
 
 【逐步帶著看】
-第一站：把資料（List）放上傳送帶（`stream()`）。
-第二站：中間操作。你可以篩選（`filter`）、轉換（`map`）、排序（`sorted`）。你可以放一百個中間站都沒關係。
-第三站：終端操作。這是生產線的最後一關，這時候才會真的出貨（`collect`）。
+第一站：把資料（List）放上輸送帶，也就是呼叫 `stream()`。
+第二站：中間操作。我們可以篩選（`filter`）、轉換（`map`）、排序（`sorted`），可以放很多個加工站串接在一起。
+第三站：終端操作。這是生產線的最後一關，這時候才會真的「出貨」（例如 `collect`）。
 
 ⚠️ 學生常見誤解：
-記住，Stream 是「懶惰」的。如果你沒放最後一站（終端操作），前面那些傳送帶連動都不會動。這叫延遲執行。
+Stream 是「懶惰」的——如果沒有最後的終端操作，前面那些加工站根本不會啟動。這就是「延遲執行」。另外 Stream 不會改動原始的 List，它只是「借用」資料來加工。
 -->
 
 ---
@@ -496,14 +487,15 @@ IntStream s2 = Arrays.stream(arr);
 
 <!--
 【核心說明】
-要啟動流水線，首先要把材料放上去。
+要啟動生產線，第一步是把材料放上輸送帶。
 
 【帶著讀這張表】
-最常用的是 `list.stream()`。
-如果你是用陣列 `int[]`，記得要找 `Arrays.stream(arr)`，不然陣列是沒辦法直接變出流水線的。
+最常用的就是 `list.stream()`——手邊有一個 List，直接呼叫就能變成 Stream。
+如果資料是陣列 `int[]`，就要用 `Arrays.stream(arr)`，陣列本身沒有 `.stream()` 方法可以直接呼叫。
+如果是手邊已經知道的幾個值，可以用 `Stream.of(a, b, c)` 直接生成。
 
 💼 業界實務：
-絕大多數時候你都在用 `list.stream()`。如果你的資料來源是檔案或資料庫，也有對應的工具可以直接變出 Stream，非常方便。
+日常開發中，絕大多數情況都是 `list.stream()`。先記住這個最常用的入口就足夠應付大部分情境。
 -->
 
 ---
@@ -521,19 +513,21 @@ IntStream s2 = Arrays.stream(arr);
 | `distinct()` | 移除重複元素（依 `equals`）|
 | `limit(long n)` | 取前 n 個元素 |
 | `skip(long n)` | 跳過前 n 個元素 |
-| `flatMap(Function)` | 將每個元素展開為 Stream 再合併（攤平巢狀結構）|
 
 <!--
 【核心說明】
-中間操作就像是在傳送帶旁邊站著的工人。
+中間操作就像是站在輸送帶旁邊的工人，資料經過時，他們各自做自己的工作。
 
 【帶著讀這張表】
-`filter`：像是在挑壞掉的蘋果，不符合條件的直接扔掉。
-`map`：像是在幫產品包裝，把 A 變成 B。
-`limit`：像是生產線達到目標數量就停機。
+`filter`：像是在挑壞掉的水果，不符合條件的直接從輸送帶上拿掉。
+`map`：像是包裝站，把原本的東西換成另一種形式。
+`sorted`：把輸送帶上的東西排好順序。
+`distinct`：把重複出現的東西去掉，只留一個。
+`limit`：生產線只要做到「夠數量」就停機，後面的不再處理。
+`skip`：前面幾個直接跳過不處理。
 
 💼 業界實務：
-把 `filter` 放在最前面是工程師的職業道德。先篩掉不要的東西，後面的工人工作量就會變小，效能才會好。
+把 `filter` 放在管道最前面是常見的好習慣——先篩掉不需要的資料，後面的工人工作量就變少，整條生產線的效能也會比較好。
 -->
 
 ---
@@ -555,110 +549,90 @@ nums.stream()
 
 <!--
 【帶讀程式碼前的鋪陳】
-我們來看這條生產線是怎麼跑的。
+我們來看看這條生產線實際是怎麼跑的。
 
 【逐步解說】
-一堆數字進來。
-先過濾掉小於 2 的。
-再把重複的給踢掉（`distinct`）。
-然後排個隊（`sorted`）。
-最後只要前兩個。
-你看，原本亂七八糟的一堆數字，現在變成了乖乖聽話的 3 和 4。
--->
-
----
-
-# flatMap — 攤平巢狀結構
-
-將「集合中的集合」攤平為單一串流：
-
-```java
-List<List<String>> nested = List.of(
-    List.of("水柱", "炭治郎"),
-    List.of("雷柱", "善逸")
-);
-List<String> flat = nested.stream()
-    .flatMap(List::stream)
-    .toList();
-System.out.println(flat); // [水柱, 炭治郎, 雷柱, 善逸]
-```
-
-<!--
-【核心說明】
-`flatMap` 是用來對付「箱子裡面還有箱子」的情況。
-
-【生活化比喻】
-你有五個包裹（List），每個包裹裡面有三件衣服。如果你用 `map`，你會得到五個「打開的包裹」。如果你用 `flatMap`，你會得到十五件「平鋪的衣服」。這就是「攤平」的意思。
-
-💼 業界實務：
-當你從資料庫撈出「訂單」，每個訂單有很多「商品」，你想一次看所有訂單的所有商品時，`flatMap` 就是你的救星。
--->
-
----
-
-# Primitive Stream (基本型態串流)
-
-`map()` 回傳 `Stream<T>`；若需統計數值，改用 `mapToInt`、`mapToDouble`：
-
-| 方法 | 回傳型態 | 常用終端操作 |
-| --- | --- | --- |
-| `mapToInt(ToIntFunction)` | `IntStream` | `sum()`、`average()`、`min()`、`max()` |
-| `mapToDouble(ToDoubleFunction)` | `DoubleStream` | 同上（回傳 double）|
-
-```java
-List<String> names = List.of("炭治郎", "禰豆子", "善逸");
-double avg = names.stream()
-    .mapToInt(String::length).average().getAsDouble();
-System.out.println(avg); // 2.333...
-```
-
-<!--
-【核心說明】
-如果你在算錢或算分數，請用 `mapToInt` 或 `mapToDouble`。
-
-【生活化比喻】
-一般的 Stream 像是在搬「箱子」，你要算重量很麻煩。
-`mapToInt` 就像是把箱子裡的內容物直接換成「數字」，這時候你就能直接按計算機（`sum()`、`average()`）了。
+一堆數字進入輸送帶。
+先過濾掉 2 以下的數字。
+再把重複的數字踢掉（`distinct`）。
+然後排好順序（`sorted`）。
+最後只留前兩個（`limit(2)`）。
+原本亂七八糟的一堆數字，經過這四道工序，最後變成乖乖排好的 `3` 跟 `4`。
 
 ⚠️ 學生常見誤解：
-算平均值 `average()` 回傳的是 `OptionalDouble`，因為如果傳送帶上沒東西，平均值就是「不存在」，Java 很嚴謹，不會隨便給你一個 0。
+這幾個中間操作的順序會影響結果跟效能，例如先 `sorted` 再 `limit`，跟先 `limit` 再 `sorted`，結果可能不一樣，要依照需求安排順序。
+-->
+
+---
+layout: default
+---
+
+# 練習一：篩選與串接英雄名單
+### 任務說明
+
+宣告一個 `List<String>` 包含以下名字：
+「炭治郎、禰豆子、善逸、伊之助、蜜璃、甘露寺、時透無一郎」
+
+用 Stream 完成以下操作：
+1. 篩選出名字長度 **≥ 3** 個字的人
+2. 依字典順序排序
+3. 用 `Collectors.joining("、")` 串接後印出一行字串
+
+<!--
+【出題前的鋪陳】
+聽了這麼多關於 Lambda 跟 Stream 中間操作的說明，現在來動手寫一題，把今天前半段學到的東西串起來。
+
+【問題引導】
+想像我們是鬼殺隊的人事，要從這份名單裡挑出「名字夠長」的人。名字長度怎麼算？怎麼讓他們依字母順序排好？最後要怎麼把這些名字用一個符號串成一行？
+
+【等待與觀察】
+給大家 3 分鐘練習。如果中間某一步卡住，可以先把 Stream 拆開、一步一步印出中間結果來檢查。
 -->
 
 ---
 
-# 有序串流的斷句處理 (JDK 9)
+# 練習一：解題提示
+### 提示說明
 
-JDK 9 新增了兩個處理有序（Sorted）串流的強大工具：
-
-| 方法 | 說明 |
-| --- | --- |
-| `takeWhile(Predicate)` | 從頭開始取，直到條件**不成立**就停止 |
-| `dropWhile(Predicate)` | 從頭開始丟，直到條件**不成立**才開始取 |
+1. `filter(name -> name.length() >= 3)` 篩選
+2. `sorted()` 依字典排序
+3. `.collect(Collectors.joining("、"))` 串接為一行
 
 ```java
-List<Integer> nums = List.of(1, 2, 3, 4, 5, 4, 3, 2, 1);
-
-// takeWhile: 取出 < 4 的元素（遇到 4 即停止）
-nums.stream().takeWhile(n -> n < 4); // [1, 2, 3]
-
-// dropWhile: 丟掉 < 4 的元素（遇到 4 才開始取）
-nums.stream().dropWhile(n -> n < 4); // [4, 5, 4, 3, 2, 1]
+List<String> heroes = List.of(
+    "炭治郎","禰豆子","善逸","伊之助","蜜璃","甘露寺","時透無一郎");
+String result = heroes.stream()
+    .filter(n -> n.length() >= 3)
+    .sorted()
+    .collect(Collectors.joining("、"));
+System.out.println(result);
 ```
 
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>與 filter 的不同：</b> filter 會檢查「所有」元素；takeWhile 只要條件一失敗就立刻收工。
-</div>
-
 <!--
-【核心說明】
-JDK 9 新出的 `takeWhile` 是個「沒耐心的工頭」。
+【逐步解說】
+第一步：`filter` 篩出名字長度 3 個字以上的人。
+第二步：`sorted` 讓他們依照字典順序排好。
+第三步：`collect(Collectors.joining("、"))` 把排好的名字用「、」串成一行字串。
 
-【生活化比喻】
-`filter` 像是一個盡責的警衛，他會檢查每一個人。
-`takeWhile` 像是一個偷懶的門房，只要看到第一個不符合的人，他就不管後面的人，直接關門睡覺了。
-所以如果你的資料已經排好序，`takeWhile` 快到讓你飛起來。
+這三步串起來，就是一條完整的「篩選 → 排序 → 收集」生產線，比寫 `for` 迴圈搭配 `StringBuilder` 簡潔很多。
 -->
 
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 第四部分
+# 終端操作與 Collectors
+
+<!--
+【章節開場】
+第四部分，終端操作與 Collectors。我們已經知道怎麼「加工」資料，
+接下來要學怎麼「收成」——把加工完的資料變成最終想要的結果。
+-->
+
+---
+layout: default
 ---
 
 # 終端操作 (Terminal Operations)
@@ -677,15 +651,17 @@ JDK 9 新出的 `takeWhile` 是個「沒耐心的工頭」。
 
 <!--
 【核心說明】
-終端操作就是「收割」。沒有這一步，你前面做的所有事都是做白工。
+終端操作就是生產線的「收成站」。沒有這一站，前面所有的加工都只是白工，因為 Stream 是「懶惰」的，不會自動執行。
 
 【帶著讀這張表】
-`collect`：把結果裝進籃子（List/Map）。
-`forEach`：拿到結果直接拿去噴（印出來）。
-`findFirst`：只要第一個，其他的我不在乎。
+`collect`：把加工完的成果裝進籃子（List、Map 等）。
+`forEach`：拿到結果直接拿去用，例如印出來。
+`count`：算一算總共有幾個。
+`reduce`：把所有元素「合併」成一個值，例如全部加總。
+`findFirst`：只要排在最前面的那一個。
 
 💼 業界實務：
-百分之九十的情況你都會用 `collect(Collectors.toList())`。
+日常開發中，最常用的終端操作就是 `collect(Collectors.toList())`，幾乎九成情況都是把結果收集成一個新的清單。
 -->
 
 ---
@@ -711,15 +687,15 @@ System.out.println(top); // [85, 88, 91, 95]
 
 <!--
 【帶讀程式碼前的鋪陳】
-我們來看看三種收割方式。
+我們來看看三種不同的「收成方式」。
 
 【逐步解說】
-第一個是用 `count()` 算及格人數，簡單明瞭。
-第二個是用 `reduce` 加總。這語法有點像是在滾雪球，把大家通通加在一起。
-第三個是最標準的「篩選、排序、裝箱」三部曲。
+第一種用 `count()` 算出有幾個人 80 分以上，最直接。
+第二種用 `reduce` 把所有分數加總——可以想成是「滾雪球」，從 0 開始，把每個分數一個一個滾進去。
+第三種是最常見的「篩選、排序、裝進清單」三部曲。
 
 ⚠️ 學生常見誤解：
-`reduce` 的那個 `0` 是初始值。如果你的 Stream 是空的，結果就會是 0。別忘了這一點。
+`reduce` 的第一個參數 `0` 是「初始值」。如果 Stream 是空的，最後結果就會是這個初始值，不會報錯，但結果可能不是你預期的。
 -->
 
 ---
@@ -744,14 +720,14 @@ System.out.println(max.orElse(-1));  // 5
 
 <!--
 【核心說明】
-`Optional` 是為了消滅程式界最大的惡魔：`NullPointerException`（空指標異常）。
+`Optional` 是為了避免程式界最常見的錯誤之一：對著「不存在的東西」呼叫方法，導致 `NullPointerException`（空指標例外）。
 
 【生活化比喻】
-它就像是一個「盲盒」。裡面可能有獎品（值），也可能是空的。
-你不能直接伸手去拿，你要先問：「裡面有東西嗎？」（`isPresent()`），或者是說：「如果是空的，就給我安慰獎吧」（`orElse(-1)`）。
+可以把 `Optional` 想成一個「禮物盒」，裡面可能裝著東西（值），也可能是空的。
+我們不能直接伸手進去拿，要先問：「裡面有東西嗎？」（`isPresent()`），或者直接說：「如果是空的，就給我這個替代品」（`orElse(-1)`）。
 
 💼 業界實務：
-在公司裡，如果你直接呼叫 `.get()` 而不先判斷有沒有值，Code Review 的時候你的前輩可能會想把你掐死。用 `.orElse()` 才是專業的寫法。
+直接呼叫 `.get()` 而不先確認有沒有值，是常見的地雷——如果盒子是空的，會直接拋出例外。用 `.orElse()` 給一個合理的預設值，是比較穩妥的寫法。
 -->
 
 ---
@@ -772,14 +748,13 @@ List<String> list = Stream.of("A", "B", "C").toList();
 
 <!--
 【核心說明】
-JDK 16 終於聽到了工程師的哀嚎，把裝箱語法簡化了。
+JDK 16 把「Stream 轉 List」這個超常用的動作，從一長串語法簡化成一個短短的方法。
 
 【程式世界怎麼用】
-以前要寫長長的 `collect(Collectors.toList())`，現在只要 `.toList()`。
-省下來的字，可以讓你少得兩次肌腱炎。
+以前要寫 `.collect(Collectors.toList())`，現在只要 `.toList()`，省下不少打字。
 
 ⚠️ 學生常見誤解：
-注意！`.toList()` 回傳的是「不可變」的清單。你拿到的清單只能看，不能再往裡面塞東西。如果你還想加資料，請用回舊版的寫法。
+要注意，`.toList()` 回傳的是「不可變」的清單——拿到的清單只能讀取，不能再往裡面新增或移除元素。如果之後還要修改清單內容，請改用 `.collect(Collectors.toList())`。
 -->
 
 ---
@@ -804,11 +779,10 @@ lines.stream().filter(Predicate.not(String::isBlank));
 
 <!--
 【核心說明】
-這是為了讓你的程式碼讀起來更像英文。
+這個小技巧的目的是讓條件判斷讀起來更接近自然語言。
 
 【程式世界怎麼用】
-與其寫 `!s.isBlank()`，不如寫 `Predicate.not(String::isBlank)`。
-讀起來就是「過濾掉那些『不是』空白的」。這對那些英文很好的外國主管來說，簡直是福音。
+與其寫 `!s.isBlank()`（驚嘆號很容易被忽略，容易看錯邏輯），不如寫 `Predicate.not(String::isBlank)`，讀起來就是「過濾掉『不是』空白的」，意思更清楚。
 -->
 
 ---
@@ -832,44 +806,14 @@ Map<Integer, List<String>> byLen = names.stream()
 
 <!--
 【核心說明】
-`Collectors` 是你的「包裝工具組」。
+`Collectors` 可以想成是我們的「收成工具組」，提供各種「把 Stream 結果包裝成什麼形式」的選項。
 
 【帶著讀這張表】
-`joining`：把字串用逗號串起來，做報表超好用。
-`groupingBy`：就像是在做分類。把同年級、同性別、或同長度的人分在不同的抽屜裡。
+`joining`：把字串用指定符號串起來，做報表時很好用。
+`groupingBy`：依條件分組，就像是把不同類別的東西分別放進不同的抽屜——同年級、同分數區間的人各自歸到一個分類。
 
 💼 業界實務：
-`groupingBy` 是後台統計的神器。想知道每個地區的銷售額？一條 Stream 搞定。
--->
-
----
-
-# 雙向收集器：teeing (JDK 12)
-
-`Collectors.teeing` 允許你將同一個串流分流給兩個收集器，最後再將結果合併：
-
-```java
-// 範例：同時計算「及格人數」與「平均分數」
-var result = Stream.of(85, 45, 90, 62)
-    .collect(Collectors.teeing(
-        Collectors.filtering(s -> s >= 60, Collectors.counting()), // 收集器 1
-        Collectors.averagingInt(s -> s),                         // 收集器 2
-        (count, avg) -> "及格人數：" + count + "，平均：" + avg   // 合併邏輯
-    ));
-System.out.println(result); // 及格人數：3，平均：70.5
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>設計目的：</b> 避免為了得到多個統計結果而對同一個集合進行多次 Stream 操作。
-</div>
-
-<!--
-【核心說明】
-`teeing` 就像是生產線上的「分叉路」。
-
-【生活化比喻】
-資料進來，一邊拿去算總數，一邊拿去算平均，最後再把這兩個結果結合成一個大包裹。
-這樣你只需要跑一次 Stream，就能拿到兩份報告。這就是「有效率的加班」。
+`groupingBy` 是後台統計常用的工具，例如「每個長度的名字各有幾個」，一條 Stream 就能算出來。
 -->
 
 ---
@@ -894,91 +838,39 @@ System.out.println("總分：" + sum); // 536
 
 <!--
 【帶讀程式碼前的鋪陳】
-我們把剛才學的所有黑科技合成一個「終極大絕招」。
+我們把今天學到的內容組合成一個完整的範例。
 
 【逐步解說】
-先篩選及格，再篩選高分，然後排個序，最後裝箱。
-這整套流程就像是在選拔特種部隊一樣，層層過濾，最後留下來的都是精銳。
+先篩選出及格的成績，再篩選出高分的成績，接著排序，最後裝進清單。
+這一整套流程，就像是層層選拔，每經過一道關卡就會篩掉一些人，最後留下來的就是精英。
 
 💼 業界實務：
-在實際專案中，我們會把這些操作分行寫，這樣你的同事在看你程式碼的時候，才不會覺得自己在看咒語。
+實際專案裡，我們通常會把每個步驟分行寫，這樣同事在看程式碼時，一眼就能看出每個步驟在做什麼，而不需要把整行邏輯一次性解讀完。
 -->
 
 ---
 layout: default
 ---
 
-# 練習一：篩選與串接英雄名單
-### 任務說明
-
-宣告一個 `List<String>` 包含以下名字：
-「炭治郎、禰豆子、善逸、伊之助、蜜璃、甘露寺、時透無一郎」
-
-用 Stream 完成以下操作：
-1. 篩選出名字長度 **≥ 3** 個字的人
-2. 依字典順序排序
-3. 用 `Collectors.joining("、")` 串接後印出一行字串
-
-<!--
-【出題前的鋪陳】
-好啦，聽我講了這麼多笑話，換你們動動手了。
-
-【問題引導】
-想像你是鬼殺隊的 HR，現在要從這堆名單裡挑出名字夠長的人。
-想想看，長度怎麼算？排序怎麼做？最後怎麼用一根繩子把他們串起來？
-
-【等待與觀察】
-給大家 2 分鐘。如果寫不出來，別擔心，我不會把你拿去餵鬼的。
--->
-
----
-
-# 練習一：解題提示
-### 提示說明
-
-1. `filter(name -> name.length() >= 3)` 篩選
-2. `sorted()` 依字典排序
-3. `.collect(Collectors.joining("、"))` 串接為一行
-
-```java
-List<String> heroes = List.of(
-    "炭治郎","禰豆子","善逸","伊之助","蜜璃","甘露寺","時透無一郎");
-String result = heroes.stream()
-    .filter(n -> n.length() >= 3)
-    .sorted()
-    .collect(Collectors.joining("、"));
-System.out.println(result);
-```
-
-<!--
-【逐步解說】
-第一步：`filter` 篩出 3 個字以上的（短命的直接淘汰）。
-第二步：`sorted` 讓他們排排站。
-第三步：`joining` 用「、」把他們串起來。
-你看，是不是比寫 `for` 迴圈優雅多了？
--->
-
----
-layout: default
----
-
-# 練習二：成績串流統計
+# 練習二：成績處理綜合練習
 ### 任務說明
 
 宣告 `List<Integer>` 成績：`{45, 78, 90, 62, 55, 85, 91, 73}`
 
 用 Stream 完成以下操作：
-1. 計算及格（≥ 60）的人數
-2. 找出所有成績中的最高分
-3. 計算及格學生的平均分（提示：使用 `mapToInt().average()`）
+1. 篩選出及格（≥ 60）的成績，依照分數**由高到低**排序
+2. 用 `Collectors.joining("、")` 將排序後的成績轉成字串並印出（提示：先用 `map` 把 `Integer` 轉成 `String`）
+3. 計算所有及格成績的總和（使用 `reduce`）
 
 <!--
 【出題前的鋪陳】
-第二關，難度提升一點點。我們要來處理數字。
+這是今天的綜合練習，把 Lambda、方法參考、Stream 的中間操作、終端操作跟 Collectors 全部串在一起用一次。
 
 【問題引導】
-及格人數、最高分、及格者的平均。
-記得喔，平均值要先把 Stream 轉成「數字模式」（IntStream），不然你會算到崩潰。
+想想看：怎麼篩選及格的成績？由高到低排序要怎麼寫比較器？`Integer` 要怎麼變成 `String` 才能用 `joining`？加總要用哪個終端操作？
+
+【等待與觀察】
+給大家 5 分鐘。如果卡在某一步，可以先把前面幾步寫完、印出中間結果，再接著往下寫。
 -->
 
 ---
@@ -986,25 +878,34 @@ layout: default
 # 練習二：解題提示
 ### 提示說明
 
-1. `filter(...).count()` 計算數量
-2. `max(Comparator.naturalOrder()).getAsInt()` 取最大值
-3. 先 filter 再 `mapToInt(Integer::intValue).average()`
+1. `filter(s -> s >= 60)` 篩選，`sorted(Comparator.reverseOrder())` 由高到低排序
+2. `map(String::valueOf)` 把 `Integer` 轉成 `String`，再 `collect(Collectors.joining("、"))`
+3. `reduce(0, Integer::sum)` 加總
 
 ```java
-List<Integer> s = List.of(45, 78, 90, 62, 55, 85, 91, 73);
-long cnt = s.stream().filter(x -> x >= 60).count();
-int max = s.stream().max(Comparator.naturalOrder()).get();
-double avg = s.stream().filter(x -> x >= 60)
-    .mapToInt(Integer::intValue).average().getAsDouble();
-System.out.printf("及格：%d 人，最高：%d，平均：%.1f%n", cnt, max, avg);
+List<Integer> scores = List.of(45, 78, 90, 62, 55, 85, 91, 73);
+
+List<Integer> passed = scores.stream()
+    .filter(s -> s >= 60)
+    .sorted(Comparator.reverseOrder())
+    .toList();
+
+String joined = passed.stream()
+    .map(String::valueOf)
+    .collect(Collectors.joining("、"));
+System.out.println(joined); // 91、90、85、78、73、62
+
+int total = passed.stream().reduce(0, Integer::sum);
+System.out.println("及格總分：" + total); // 479
 ```
 
 <!--
 【逐步解說】
-及格人數：`filter + count`。
-最高分：`max`。
-平均分：先 `filter`（不及格的別來拉低平均！），然後 `mapToInt` 轉成數字，最後 `average`。
-這三行寫完，你就是辦公室的統計之神了。
+第一步：`filter` 篩出及格成績，`sorted(Comparator.reverseOrder())` 由高到低排序——這是基礎版學過的「自訂比較器」用法。
+第二步：用 `map(String::valueOf)` 把每個整數轉成字串（這裡也是方法參考的應用），再用 `joining` 串成一行。
+第三步：`reduce(0, Integer::sum)` 把及格成績通通加總。
+
+這一題把 Lambda、方法參考、filter/sorted/map、reduce、Collectors.joining 全部用上了，是今天內容的總複習。
 -->
 
 ---
@@ -1016,10 +917,9 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【結語】
-好啦，今天這堂課的含金量高到會讓你懷疑人生。
-我們從 Lambda 講到 Stream，最後還偷跑了期中作業的邏輯。
+今天我們從 Lambda 講到方法參考，再到 Stream API 的中間操作、終端操作和 Collectors。
 
-如果有任何問題，不管是關於 Stream 還是關於你的期中作業，現在就是最好的發問時機。沒問題的話，就趕快去練習吧，不然剛學的魔法很快就會忘光光喔！
+如果有任何問題，現在就是最好的發問時機。沒問題的話，建議大家找一份自己手邊現成的清單資料，試著用今天學的這幾個方法重新寫一次，會更有感覺。
 -->
 
 ---
@@ -1035,7 +935,9 @@ layout: end
 今天的課程到這裡結束。我們學了 Java 的現代化 API——Lambda 和 Stream。
 
 記住一個核心概念：Stream 就是「描述你要做什麼」，讓 Java 去決定「怎麼做」。
-`filter`（篩選） + `map`（轉換） + `collect`（收集），這個組合幾乎能解決所有集合操作的需求。
+`filter`（篩選）加上 `map`（轉換）再加上 `collect`（收集），這個組合幾乎能解決大部分集合操作的需求。
+
+如果之後想進一步學習 flatMap、Primitive Stream、teeing 收集器跟 Optional 的進階用法，可以參考本章的進階自學內容。
 
 課後如有任何問題，歡迎來信討論。
 -->
