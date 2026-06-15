@@ -310,6 +310,82 @@ class Temp {
 -->
 
 ---
+layout: default
+---
+
+# 練習：設計 Book 類別的建構子
+### 任務說明
+
+設計一個 `Book` 類別，包含欄位 `String title`（書名）、`String author`（作者）、`int price`（價格）：
+
+1. 提供建構子 `Book(String title, String author, int price)`，用 `this` 設定三個欄位
+2. 提供建構子 `Book(String title, String author)`，使用 `this(...)` 呼叫上面的建構子，並把 `price` 預設為 `0`
+3. 提供無參數建構子 `Book()`，使用 `this(...)` 呼叫第 2 個建構子，並把 `title`、`author` 都預設為 `"未命名"`
+4. 加入方法 `displayInfo()`，印出「書名 / 作者 / 價格」
+
+在 `main` 中分別用三種建構子建立三本書，並各自呼叫 `displayInfo()`。
+
+<!--
+【任務鋪陳】
+這題練習建構子多載＋`this()` 鏈式呼叫：三個建構子彼此委託，最後都會匯流到同一個「真正做事」的建構子。這跟 `this()` 範例裡 `Temp()` → `Temp(int)` → `Temp(int,int)` 的鏈式結構是同一個模式。
+
+【引導思考】
+想一想：`this(...)` 必須放在建構子的第一行，這題的三個建構子要怎麼安排彼此呼叫的順序？哪一個建構子是「最終負責設定欄位」的那一個？
+-->
+
+---
+layout: default
+---
+
+# 練習：設計 Book 類別的建構子
+### 解題提示
+
+```java
+class Book {
+    String title;
+    String author;
+    int price;
+
+    Book(String title, String author, int price) {
+        this.title = title;
+        this.author = author;
+        this.price = price;
+    }
+
+    Book(String title, String author) {
+        this(title, author, 0);
+    }
+
+    Book() {
+        this("未命名", "未命名");
+    }
+
+    void displayInfo() {
+        System.out.println(title + " / " + author + " / " + price);
+    }
+}
+```
+
+呼叫範例：
+
+```java
+Book b1 = new Book("Java 入門", "小明", 500);
+Book b2 = new Book("Java 進階", "小華");
+Book b3 = new Book();
+
+b1.displayInfo(); // Java 入門 / 小明 / 500
+b2.displayInfo(); // Java 進階 / 小華 / 0
+b3.displayInfo(); // 未命名 / 未命名 / 0
+```
+
+<!--
+【帶讀解法】
+這題的鏈式關係是：`Book()` → `this("未命名", "未命名")` → 跳到 `Book(String, String)` → `this(title, author, 0)` → 跳到 `Book(String, String, int)`，最後在這個建構子裡才真正執行 `this.title = title` 等設定動作。
+
+這正是 `this()` 範例提到的「先跳到最末端，再逐層執行」的概念——只是這裡每個建構子的「額外動作」很少，主要是為了示範鏈式委託，避免在三個建構子裡重複寫三次欄位設定的程式碼。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -488,6 +564,76 @@ public class Person {
 
 💼 業界實務：
 在實際工作中，我們通常不會手寫這些 getter/setter。我們會用一個叫「Lombok」的工具，只要寫個 `@Data` 就搞定了。但在那之前，你得先學會怎麼手寫，不然工具壞了你連修都不會修。
+-->
+
+---
+layout: default
+---
+
+# 練習：設計符合封裝的 Product 類別
+### 任務說明
+
+設計一個 `Product` 類別，符合封裝原則與 JavaBean 慣例：
+
+1. 欄位全部設為 `private`：`String name`（名稱）、`int stock`（庫存）、`boolean discontinued`（是否停售）
+2. 提供 `getName()` / `setName(String name)`
+3. 提供 `getStock()` / `setStock(int stock)`，setter 需驗證 `stock` 不可為負數，若為負數則不設定
+4. 提供 `isDiscontinued()` / `setDiscontinued(boolean discontinued)`（注意布林 getter 的命名）
+
+在 `main` 中建立一個 `Product` 物件，呼叫 `setStock(-5)`（不合法）與 `setStock(10)`（合法），並印出最終的 `getStock()` 結果。
+
+<!--
+【任務鋪陳】
+這題把封裝的兩個重點放在一起：第一，欄位都要 `private`，透過 getter/setter 存取；第二，遵守 JavaBean 命名慣例，尤其是 `boolean` 欄位的 getter 要寫成 `isXxx()` 而不是 `getXxx()`。
+
+【引導思考】
+想一想：`setStock(-5)` 應該怎麼處理？如果完全不做任何事（不設定），那麼呼叫完 `setStock(-5)` 之後，`getStock()` 會回傳什麼？
+-->
+
+---
+layout: default
+---
+
+# 練習：設計符合封裝的 Product 類別
+### 解題提示
+
+```java
+public class Product {
+    private String name;
+    private int stock;
+    private boolean discontinued;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getStock() { return stock; }
+    public void setStock(int stock) {
+        if (stock >= 0) {
+            this.stock = stock;
+        }
+    }
+
+    public boolean isDiscontinued() { return discontinued; }
+    public void setDiscontinued(boolean discontinued) {
+        this.discontinued = discontinued;
+    }
+}
+```
+
+呼叫範例：
+
+```java
+Product p = new Product();
+p.setStock(-5); // 不合法，不會設定
+p.setStock(10); // 合法
+System.out.println(p.getStock()); // 10
+```
+
+<!--
+【帶讀解法】
+這題的重點在 `setStock`：`if (stock >= 0)` 這個驗證讓 `setStock(-5)` 完全沒有效果，欄位 `stock` 維持原本的預設值 `0`。接著 `setStock(10)` 通過驗證，`stock` 才真正變成 `10`。
+
+另外提醒一下 `isDiscontinued()` 的命名——如果寫成 `getDiscontinued()`，雖然編譯不會出錯，但不符合 JavaBean 慣例，框架（例如 Spring、Jackson）在自動讀寫這個欄位時可能會找不到對應的方法。這就是封裝＋JavaBean 慣例搭配起來的實際效果：資料安全，命名也統一。
 -->
 
 ---

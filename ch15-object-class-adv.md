@@ -493,6 +493,63 @@ finalize() 的執行時機由 GC 決定，可能延遲很久，也可能因為�
 layout: default
 ---
 
+# 練習：clone() 與 finalize() 的取捨
+### 認證模擬題（單選）
+
+關於 `clone()` 與 `finalize()`，下列哪一個說法**正確**？
+
+```java
+class Pet { String name; Pet(String n) { name = n; } }
+class Owner implements Cloneable {
+    Pet pet;
+    public Owner clone() throws CloneNotSupportedException {
+        return (Owner) super.clone();
+    }
+}
+
+Owner o1 = new Owner();
+o1.pet = new Pet("旺財");
+Owner o2 = o1.clone();
+o2.pet.name = "小白";
+System.out.println(o1.pet.name);
+```
+
+A. 輸出 `旺財`，因為 `clone()` 會自動進行深層複製
+B. 輸出 `小白`，因為 `super.clone()` 預設是淺層複製，`o1.pet` 與 `o2.pet` 指向同一個物件
+C. 編譯錯誤，因為 `Owner` 沒有實作 `finalize()`
+D. 程式會拋出例外，因為 `Cloneable` 介面必須定義 `clone()` 的實作細節
+
+<!--
+【出題動機】
+這題想測驗 `clone()` 淺層複製的陷阱，以及 `Cloneable` 介面「標記介面」的本質。這也是業界常問「為什麼不建議用 clone()」的核心原因。
+
+【解題引導】
+提示：`super.clone()` 對「物件型態的欄位」做的是複製參照還是複製整個物件？`o2.pet.name = "小白"` 這行改的到底是誰的 `pet`？
+-->
+---
+layout: default
+---
+
+# 練習：clone() 與 finalize() 的取捨
+### 解析
+
+**正確答案：B**
+
+- A. ❌ `super.clone()` 預設是**淺層複製**，物件型態的欄位（如 `pet`）只會複製參照，不會自動深層複製
+- B. ✅ `o1.pet` 與 `o2.pet` 指向同一個 `Pet` 物件，所以 `o2.pet.name = "小白"` 也會讓 `o1.pet.name` 變成 `"小白"`
+- C. ❌ `Owner` 完全不需要實作 `finalize()`，兩者沒有關係；`Cloneable` 也不要求實作 `finalize()`
+- D. ❌ `Cloneable` 是「標記介面」（沒有任何方法），`Owner` 已經正確覆寫了 `clone()` 並呼叫 `super.clone()`，不會拋出例外
+
+<!--
+【帶讀解法】
+這題的關鍵就是「淺層複製」：`o1.clone()` 複製出 `o2` 之後，`o2.pet` 跟 `o1.pet` 是同一個 `Pet` 物件的兩個參照。所以透過 `o2.pet` 改名字，`o1.pet.name` 也會一起變。
+
+這正是業界（包括《Effective Java》）建議避免使用 `clone()` 的原因——它的「複製」其實只複製了一層，物件欄位還是共用，很容易寫出有 bug 的程式。現代做法是用「複製建構子」，在建構子裡用 `new Pet(other.pet.name)` 明確地重建每一層物件。
+-->
+---
+layout: default
+---
+
 # 綜合練習：BankAccount 類別
 
 ### 任務說明

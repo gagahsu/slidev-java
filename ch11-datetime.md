@@ -154,6 +154,55 @@ System.out.println(dow.getValue()); // 1（週一=1，週日=7）
 -->
 
 ---
+layout: default
+---
+
+# 練習：活動是否已經結束
+### 任務說明
+
+某個活動的截止日期是 `2024-06-30`。請完成以下任務：
+
+1. 用 `LocalDate.of()` 建立「活動截止日」與「今天日期」（今天假設是 `2024-07-15`）
+2. 用 `isBefore()` 或 `isAfter()` 判斷活動是否已經結束
+3. 計算「活動截止日」往後加 **30 天**之後是哪一天，並印出星期幾（`getDayOfWeek()`）
+
+<!--
+【任務鋪陳】
+我們剛剛學了 `LocalDate.of()` 建立日期、`isBefore()`/`isAfter()` 比較日期先後，以及 `plusDays()` 和 `getDayOfWeek()`。這題請大家把這幾個 API 組合起來，判斷一個活動的狀態。
+
+【引導思考】
+如果「今天」在「活動截止日」之後，代表活動已經結束——這時候該用 `isAfter()` 還是 `isBefore()`？順序不要搞混了。
+-->
+
+---
+layout: default
+---
+
+# 練習：活動是否已經結束
+### 解題提示
+
+```java
+import java.time.LocalDate;
+
+LocalDate deadline = LocalDate.of(2024, 6, 30);
+LocalDate today = LocalDate.of(2024, 7, 15);
+
+boolean isOver = today.isAfter(deadline);
+System.out.println("活動已結束：" + isOver); // true
+
+LocalDate extended = deadline.plusDays(30);
+System.out.println(extended);              // 2024-07-30
+System.out.println(extended.getDayOfWeek()); // 對應的星期幾
+```
+
+<!--
+【帶讀解法】
+判斷「活動是否已經結束」，關鍵是「今天」跟「截止日」誰在誰之後：如果 `today.isAfter(deadline)` 為 `true`，代表今天已經超過截止日，活動就結束了。`2024-07-15` 在 `2024-06-30` 之後，所以 `isOver` 是 `true`。
+
+第三步單純是 `plusDays(30)` 的應用：`2024-06-30` 加 30 天會變成 `2024-07-30`，再用 `getDayOfWeek()` 就能知道這一天是星期幾。這跟我們剛剛看到的 `today.plusDays(7)` 是同一個概念，只是天數不同。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -198,6 +247,53 @@ System.out.println(end.getHour()); // 16
 `LocalTime` 就是只有時間、沒有日期，我們可以把它想成「鬧鐘」——設定早上 7 點起床，不管那天是星期幾，鬧鐘都會在 7 點響。
 
 帶大家看關鍵行：`LocalTime.of(14, 30)` 建立一個下午 2:30 的時間物件，`plusHours(2)` 則會回傳一個加了 2 小時的新物件（16:30）。`getHour()` 可以單獨取出「小時」這個數字，方便我們做進一步的判斷或計算。
+-->
+
+---
+layout: default
+---
+
+# 練習：洗衣店打烊時間
+### 任務說明
+
+某間自助洗衣店的開門時間是 `10:00`，營業時間共 **12 小時**。請完成以下任務：
+
+1. 用 `LocalTime.of()` 建立「開門時間」
+2. 用 `plusHours()` 計算「打烊時間」
+3. 分別用 `getHour()` 和 `getMinute()` 取出打烊時間的「時」和「分」，並印出 `打烊時間：XX 點 XX 分`
+
+<!--
+【任務鋪陳】
+我們剛剛學了 `LocalTime.of()` 建立時間、`plusHours()` 加時數，以及 `getHour()` / `getMinute()` 拆解時間。這題請大家把這些方法用在計算店家打烊時間上。
+
+【引導思考】
+開門時間是 `10:00`，營業 12 小時，打烊時間會是幾點？用 `plusHours(12)` 算出來之後，再想想 `getHour()` 跟 `getMinute()` 分別會回傳什麼。
+-->
+
+---
+layout: default
+---
+
+# 練習：洗衣店打烊時間
+### 解題提示
+
+```java
+import java.time.LocalTime;
+
+LocalTime open = LocalTime.of(10, 0);
+LocalTime close = open.plusHours(12);
+
+System.out.println("打烊時間：" + close.getHour() + " 點 " + close.getMinute() + " 分");
+// 打烊時間：22 點 0 分
+```
+
+<!--
+【帶讀解法】
+這題的步驟很直接：`LocalTime.of(10, 0)` 建立 `10:00`，`plusHours(12)` 回傳一個新的 `LocalTime` 物件 `22:00`（晚上 10 點）。
+
+接著用 `getHour()` 取出 `22`、`getMinute()` 取出 `0`，組合成「打烊時間：22 點 0 分」。
+
+跟我們剛剛看過的會議範例（`meeting.plusHours(2)` 從 14:30 變成 16:30）是一樣的邏輯，只是這裡額外多了 `getHour()` / `getMinute()` 把結果拆開來顯示。
 -->
 
 ---
@@ -246,6 +342,60 @@ System.out.println(combined); // 2024-05-13T10:30
 帶大家看關鍵行：`LocalDateTime.of(2024, 5, 13, 10, 30, 0)` 一次指定年月日時分秒；也可以分開建立 `LocalDate` 和 `LocalTime`，再用 `LocalDateTime.of(d, t)` 把兩者合併起來。`toLocalDate()` 和 `toLocalTime()` 則可以反過來，把合併後的物件再拆開。
 
 💼 業界實務：`LocalDateTime` 很適合用來記錄「本地活動」或存放資料庫裡的時間欄位，只要系統不需要跨時區，這個類別就足夠應付大部分情境了。
+-->
+
+---
+layout: default
+---
+
+# 練習：活動報名截止時間
+### 任務說明
+
+某個活動報名截止的「日期」和「時間」是分開儲存的：日期是 `2024-08-10`，時間是 `23:59`。
+
+1. 分別用 `LocalDate.of()` 和 `LocalTime.of()` 建立這兩個物件
+2. 用 `LocalDateTime.of(date, time)` 將兩者合併成一個 `LocalDateTime`
+3. 印出合併後的結果
+4. 用 `toLocalDate()` 和 `toLocalTime()` 把合併後的物件再拆回日期和時間，分別印出
+
+<!--
+【任務鋪陳】
+我們剛剛學了 `LocalDateTime.of(date, time)` 可以把已經存在的 `LocalDate` 和 `LocalTime` 物件合併起來，也學了 `toLocalDate()` / `toLocalTime()` 可以反過來拆開。這題請大家走一遍「合併 → 拆解」的完整流程。
+
+【引導思考】
+合併之後的 `LocalDateTime` 印出來會是什麼樣子？拆開之後的 `toLocalDate()` 跟原本的 `date` 變數，內容會一樣嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：活動報名截止時間
+### 解題提示
+
+```java
+import java.time.*;
+
+LocalDate date = LocalDate.of(2024, 8, 10);
+LocalTime time = LocalTime.of(23, 59);
+
+LocalDateTime deadline = LocalDateTime.of(date, time);
+System.out.println(deadline); // 2024-08-10T23:59
+
+LocalDate d = deadline.toLocalDate();
+LocalTime t = deadline.toLocalTime();
+System.out.println(d); // 2024-08-10
+System.out.println(t); // 23:59
+```
+
+<!--
+【帶讀解法】
+這題就是把我們剛剛學的「合併」跟「拆解」各做一次：
+
+1. `LocalDateTime.of(date, time)` 把獨立的 `LocalDate` 跟 `LocalTime` 合成一個 `LocalDateTime`，印出來會是 `2024-08-10T23:59`，中間用 `T` 分隔日期跟時間。
+2. `toLocalDate()` 跟 `toLocalTime()` 則是反過來，把合併後的物件「拆」回原本的兩個部分，拆出來的結果跟一開始的 `date`、`time` 內容完全一樣。
+
+這個「合併再拆解」的流程在實務上很常見——例如表單分別收集日期跟時間兩個欄位，後端再把它們組合成一個完整的時間戳記。
 -->
 
 ---
@@ -339,6 +489,57 @@ LocalDateTime parsed = LocalDateTime.parse("2024/05/13 10:30:00", fmt);
 這張表幫我們整理今天學到的三個類別該怎麼選：只關心日期就用 `LocalDate`（生日、課表）；只關心時間就用 `LocalTime`（鬧鐘、營業時間）；日期加時間一起記錄，就用 `LocalDateTime`（本地活動、資料庫時間欄位）。
 
 表格最後一列的 `ZonedDateTime` 是處理跨時區情境的類別，例如跨國會議或航班時刻表，這部分留在進階自學內容裡介紹。今天的重點是先把前三種類別用熟，挑選正確的類別，能讓我們的程式碼更精準也更好維護。
+-->
+
+---
+layout: default
+---
+
+# 練習：DateTimeFormatter 格式符號
+### 認證模擬題（單選）
+
+某工程師想要把 `LocalDateTime` 印成「2024年05月13日 09時05分」這樣的格式，他寫了以下程式碼：
+
+```java
+LocalDateTime ldt = LocalDateTime.of(2024, 5, 13, 9, 5);
+DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy年mm月dd日 HH時MM分");
+System.out.println(ldt.format(fmt));
+```
+
+執行後，這段程式碼最可能發生什麼結果？
+
+A. 正確印出 `2024年05月13日 09時05分`
+B. 印出的「月」會變成「分鐘的數值」，「分」會變成「月份的數值」，因為 `MM` 和 `mm` 用反了
+C. 編譯錯誤，因為 `DateTimeFormatter` 不支援中文字
+D. 拋出 `NullPointerException`，因為 `LocalDateTime.of()` 缺少秒數參數
+
+<!--
+【出題動機】
+這題想確認大家是否真的記得 `MM`（月份）跟 `mm`（分鐘）的差別——我們在介紹格式符號時就特別提過這是最容易搞混的一組。
+
+【解題引導】
+看看 pattern 字串：`"yyyy年mm月dd日 HH時MM分"`。對照我們學過的符號表，`mm` 代表什麼？`MM` 又代表什麼？這個 pattern 把兩者的位置放對了嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：DateTimeFormatter 格式符號
+### 解析
+
+**正確答案：B**
+
+- ❌ A：表面上看起來格式很像，但 `mm` 和 `MM` 的位置剛好放反了——`mm` 是分鐘、`MM` 是月份，這段 pattern 會把月份和分鐘的數值印反。
+- ✅ B：pattern 中「月」的位置用了 `mm`（分鐘），「分」的位置用了 `MM`（月份）。`ldt` 的月份是 `5`、分鐘是 `5`，這個例子剛好數值相同所以不易察覺，但邏輯上「月」欄位印出的其實是分鐘的數值、「分」欄位印出的其實是月份的數值——兩者用反了。
+- ❌ C：`DateTimeFormatter` 完全支援在 pattern 中加入任意文字（包括中文字），這些文字會原封不動出現在結果裡，不會造成編譯錯誤。
+- ❌ D：`LocalDateTime.of(2024, 5, 13, 9, 5)` 是合法的呼叫（秒數有預設值 `0`），不會拋出例外，跟格式符號用錯是兩件不相關的事。
+
+<!--
+【帶讀解法】
+這題的陷阱在於：範例裡 `ldt` 的「月」是 `5`、「分」也是 `5`，剛好數值相同，所以即使 `mm` 和 `MM` 用反了，印出來的結果表面上看起來「沒有錯」（都印出 `05`）。但這只是巧合——如果換成月份 `5`、分鐘 `30` 的時間，印出來就會變成「2024年30月13日 09時05分」這種明顯錯誤的結果。
+
+這正是我們前面提過的易錯點：`MM`（月份）和 `mm`（分鐘）大小寫不同，意義完全不同，寫錯的話可能因為數值剛好相同而「看起來沒問題」，但其實邏輯已經錯了，是個很隱蔽的 bug。
 -->
 
 ---

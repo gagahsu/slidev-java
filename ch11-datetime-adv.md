@@ -229,6 +229,59 @@ Date parsed = sdf.parse("2024/05/13 10:30:00");
 -->
 
 ---
+layout: default
+---
+
+# 練習：Date 的歷史包袱
+### 認證模擬題（單選）
+
+某段舊程式碼如下：
+
+```java
+Date d = new Date(2024 - 1900, 11, 25);
+System.out.println(d.getYear());  // ?
+System.out.println(d.getMonth()); // ?
+```
+
+關於這段程式碼的執行結果，下列描述哪個是**正確**的？
+
+A. `getYear()` 會印出 `2024`，`getMonth()` 會印出 `12`
+B. `getYear()` 會印出 `124`，`getMonth()` 會印出 `11`，因為 `Date` 的年份是「西元年 − 1900」，月份是 0–11
+C. 這段程式碼會直接拋出例外，因為建構子參數不能用算式
+D. `getYear()` 和 `getMonth()` 在新版 Java 已經被移除，無法呼叫
+
+<!--
+【出題動機】
+這題想確認大家是否真的理解 `Date` 被淘汰的兩個經典原因：「年份要加減 1900」和「月份從 0 開始」。這兩個怪癖在面試或閱讀舊程式碼時非常容易被考到。
+
+【解題引導】
+這段程式碼故意寫得很「繞」：建構子傳入 `2024 - 1900`（也就是 `124`）和 `11`，這正是舊程式碼為了「湊出」2024 年 12 月常見的寫法。再對照我們剛剛看過的表格，`getYear()` 和 `getMonth()` 分別會回傳什麼？
+-->
+
+---
+layout: default
+---
+
+# 練習：Date 的歷史包袱
+### 解析
+
+**正確答案：B**
+
+- ❌ A：如果 `getYear()` 真的回傳 `2024`、`getMonth()` 回傳 `12`，那 `Date` 就不會被列為「設計災難」了。事實恰好相反。
+- ✅ B：`Date` 的建構子 `Date(int year, int month, int date)` 中，`year` 參數的意義是「西元年 − 1900」，所以 `getYear()` 回傳的也是同樣規則的數字——程式碼傳入 `2024 - 1900 = 124`，`getYear()` 就會原封不動回傳 `124`。月份方面，`Date` 的月份是 0–11（0 代表 1 月，11 代表 12 月），程式碼傳入 `11`，`getMonth()` 就回傳 `11`（代表 12 月）。
+- ❌ C：建構子參數可以是任意合法的 `int` 算式，`2024 - 1900` 在編譯期就會被計算成 `124`，完全合法，不會拋出例外。
+- ❌ D：`getYear()` 和 `getMonth()` 雖然早就被標示為 `@Deprecated`（不建議使用），但並沒有被移除，仍然可以呼叫，只是會有編譯警告。
+
+<!--
+【帶讀解法】
+這題的程式碼其實是一段「以毒攻毒」的範例：寫 `2024 - 1900` 正是因為 `Date` 建構子的 `year` 參數本身就是「西元年 − 1900」——所以舊程式碼裡常常會看到這種「先減 1900 再傳進去」的詭異寫法，為的就是讓建構出來的 `Date` 物件代表真正的 2024 年。
+
+`getYear()` 和 `getMonth()` 都是「忠實地」回傳當初存進去的數字，不會幫我們做任何轉換，所以 `getYear()` 是 `124`、`getMonth()` 是 `11`（12 月）。
+
+這也是為什麼我們會說 `Date` 的 API 設計「不一致、容易出錯」——這兩個怪癖在 `java.time` 裡完全消失了：`LocalDate.getYear()` 就是真正的西元年，`getMonthValue()` 就是 1–12。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -281,6 +334,59 @@ System.out.println(zdt); // 2024-05-13T10:00+08:00[Asia/Taipei]
 帶大家看關鍵行：`ZonedDateTime.of(ldt, taipei)` 把一個沒有時區資訊的 `LocalDateTime` 加上 `Asia/Taipei` 標籤，變成 `2024-05-13T10:00+08:00[Asia/Taipei]`——這時候，不管在世界哪個角落，都能準確換算出這是哪個瞬間。
 
 ⚠️ 易錯點：`ZonedDateTime.now()` 沒有帶參數時會用 `ZoneId.systemDefault()`，也就是執行程式的這台機器所在的時區。如果伺服器設定的時區跟我們預期的不同，算出來的時間就會跟著跑掉。
+-->
+
+---
+layout: default
+---
+
+# 練習：台北與紐約的會議時間
+### 任務說明
+
+公司決定在「台北時間 2024-05-13 21:00」跟紐約團隊開會。請完成以下任務：
+
+1. 用 `ZoneId.of("Asia/Taipei")` 和 `ZoneId.of("America/New_York")` 分別建立兩個時區物件
+2. 建立一個 `LocalDateTime`：`2024-05-13 21:00`
+3. 用 `ZonedDateTime.of(ldt, taipei)` 建立台北時間的會議時刻
+4. 用 `.withZoneSameInstant(newYork)` 將這個時刻換算成紐約當地時間，並印出結果
+
+<!--
+【任務鋪陳】
+我們剛剛學了 `ZoneId.of()` 建立時區、`ZonedDateTime.of(ldt, zoneId)` 把 `LocalDateTime` 加上時區標籤。這題請大家用這兩個工具，模擬一個跨國會議的情境，並認識一個新方法 `withZoneSameInstant()`——它可以把同一個瞬間換算成另一個時區的「當地時間」。
+
+【引導思考】
+`ZonedDateTime.of(ldt, taipei)` 建立出來的物件，代表的是「台北時間 21:00」這個瞬間。如果想知道「這個瞬間，紐約當地是幾點」，要怎麼換算？
+-->
+
+---
+layout: default
+---
+
+# 練習：台北與紐約的會議時間
+### 解題提示
+
+```java
+import java.time.*;
+
+ZoneId taipei = ZoneId.of("Asia/Taipei");
+ZoneId newYork = ZoneId.of("America/New_York");
+
+LocalDateTime ldt = LocalDateTime.of(2024, 5, 13, 21, 0);
+ZonedDateTime taipeiTime = ZonedDateTime.of(ldt, taipei);
+
+ZonedDateTime newYorkTime = taipeiTime.withZoneSameInstant(newYork);
+
+System.out.println("台北時間：" + taipeiTime);
+System.out.println("紐約時間：" + newYorkTime);
+```
+
+<!--
+【帶讀解法】
+這題的前兩步跟我們剛剛看過的範例一樣：先用 `ZoneId.of()` 建立兩個時區物件，再用 `ZonedDateTime.of(ldt, taipei)` 把「台北時間 21:00」這個資訊組成 `ZonedDateTime`。
+
+關鍵在第三步：`withZoneSameInstant(newYork)`。它的意思是「同一個瞬間（instant），換一個時區來顯示」——也就是說，`taipeiTime` 和 `newYorkTime` 代表的其實是宇宙中同一個瞬間，只是顯示出來的「時鐘讀數」不同（因為兩地時差）。
+
+這跟我們之前學的 `plusHours()`（改變時間點本身）完全不同——`withZoneSameInstant()` 不會改變「實際發生的時刻」，只是換一個視角去看它。這正是 `ZonedDateTime` 在跨國系統裡最重要的能力。
 -->
 
 ---
@@ -379,6 +485,55 @@ System.out.println(p.getDays());   // 24
 -->
 
 ---
+layout: default
+---
+
+# 練習：專案執行時長
+### 任務說明
+
+某個專案的「啟動日」是 `2023-02-10`，「結案日」是 `2024-05-13`。請完成以下任務：
+
+1. 用 `LocalDate.of()` 分別建立啟動日與結案日
+2. 用 `Period.between()` 計算兩者之間的差距
+3. 用 `getYears()`、`getMonths()`、`getDays()` 取出年、月、日，並輸出格式：`專案執行了 X 年 Y 個月 Z 天`
+
+<!--
+【任務鋪陳】
+我們剛剛學了 `Period.between()` 可以算出兩個 `LocalDate` 之間「年、月、日」的差距。這題請大家把它套用到一個常見的實務情境：計算專案從啟動到結案，總共經歷了多久。
+
+【引導思考】
+回想一下生日範例：`Period.between(birth, today)` 算出「23 年 11 個月 24 天」。這題的結構完全一樣，只是把「出生日」換成「啟動日」、「今天」換成「結案日」。
+-->
+
+---
+layout: default
+---
+
+# 練習：專案執行時長
+### 解題提示
+
+```java
+import java.time.*;
+
+LocalDate start = LocalDate.of(2023, 2, 10);
+LocalDate end = LocalDate.of(2024, 5, 13);
+
+Period p = Period.between(start, end);
+System.out.println("專案執行了 " + p.getYears() + " 年 "
+    + p.getMonths() + " 個月 " + p.getDays() + " 天");
+// 專案執行了 1 年 3 個月 3 天
+```
+
+<!--
+【帶讀解法】
+這題跟我們剛剛看過的生日範例幾乎是同一個模板，只是換了情境跟日期：`Period.between(start, end)` 算出從 `2023-02-10` 到 `2024-05-13` 之間，年、月、日各差了多少。
+
+帶大家驗證一下結果：從 2023-02-10 到 2024-02-10 是整整 1 年；從 2024-02-10 到 2024-05-10 是 3 個月；從 2024-05-10 到 2024-05-13 是 3 天。所以結果是「1 年 3 個月 3 天」，跟 `getYears()`、`getMonths()`、`getDays()` 分別取出的數字一致。
+
+⚠️ 易錯點：跟前面提醒過的一樣，這三個數字是「各自獨立的餘數」，不能把它們相加或換算成「總天數」。如果老闆問「這個專案總共執行了幾天？」，要改用 `ChronoUnit.DAYS.between(start, end)`，不是把 `Period` 的結果做加法。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -462,6 +617,61 @@ Date d2 = Date.from(
 帶大家看關鍵行：`LocalDate` 沒有「時間」的概念，所以要先呼叫 `atStartOfDay()` 補上「當天 00:00」，再 `atZone()` 加上時區、`toInstant()` 抵達轉運站，最後用 `Date.from(instant)` 變回 `Date`。`LocalDateTime` 則少一步，因為它已經有時間資訊了。
 
 記住：`Instant` 是 UTC 時間，所以轉換時一定要透過 `atZone()` 告訴電腦「我們在哪個時區」，否則換算出來的時刻會跟我們預期的不一樣。
+-->
+
+---
+layout: default
+---
+
+# 練習：將 LocalDate 轉換為 Date
+### 任務說明
+
+某個舊函式庫的 API 只接受 `java.util.Date` 型態的參數，但我們手上的資料是 `LocalDate`。請完成以下任務：
+
+1. 建立一個 `LocalDate`：`2024-12-25`
+2. 將它轉換成 `Date` 物件（提示：`LocalDate` 沒有時間資訊，需要先補上「當天 00:00」）
+3. 印出轉換後的 `Date` 物件
+
+<!--
+【任務鋪陳】
+我們剛剛學了 `Date → LocalDate` 的轉換路徑（`toInstant()` → `atZone()` → `toLocalDate()`）。這題請大家試試「反過來」：把 `LocalDate` 轉換成 `Date`。
+
+【引導思考】
+`LocalDate` 只有日期，沒有時間，但 `Instant` 需要一個精確的「瞬間」。`LocalDate` 有沒有提供一個方法，可以幫我們補上「當天的開始時間（00:00）」，把它變成 `LocalDateTime`？
+-->
+
+---
+layout: default
+---
+
+# 練習：將 LocalDate 轉換為 Date
+### 解題提示
+
+```java
+import java.util.Date;
+import java.time.*;
+
+LocalDate localDate = LocalDate.of(2024, 12, 25);
+
+Date date = Date.from(
+    localDate.atStartOfDay()
+             .atZone(ZoneId.systemDefault())
+             .toInstant()
+);
+
+System.out.println(date);
+```
+
+<!--
+【帶讀解法】
+這題的解法跟我們剛剛看過的「LocalDate → Date」範例幾乎一模一樣，這裡再帶大家走一次完整的轉換鏈：
+
+1. `localDate.atStartOfDay()`：`LocalDate` 沒有時間，所以先補上「當天 00:00」，變成 `LocalDateTime`。
+2. `.atZone(ZoneId.systemDefault())`：幫這個 `LocalDateTime` 貼上系統預設時區的標籤，變成 `ZonedDateTime`。
+3. `.toInstant()`：抵達「轉運站」，變成代表 UTC 時間軸上某個瞬間的 `Instant`。
+4. `Date.from(instant)`：最後用 `Date.from()` 把 `Instant` 包裝成 `Date` 物件。
+
+這四步缺一不可——這也是為什麼我們會說，跟舊版 `Date` 互動時，`Instant` 是無法跳過的「必經之路」。
 -->
 
 ---

@@ -144,6 +144,71 @@ System.out.println(s1 == s2); // true，是同一個物件
 -->
 
 ---
+layout: default
+---
+
+# 練習：設計 AppLogger 單例類別
+### 任務說明
+
+請設計一個 `AppLogger` 類別，符合 Singleton 設計模式：
+
+1. 包含一個 `private static AppLogger instance` 欄位
+2. 包含一個 `private` 建構子
+3. 提供 `public static AppLogger getInstance()` 方法：第一次呼叫時才建立實體（Lazy）
+4. 提供一個 `log(String message)` 方法，印出 `[LOG] message`
+
+在 `main()` 中呼叫 `AppLogger.getInstance()` 兩次，分別存入 `logger1`、`logger2`，並用 `==` 驗證兩者是否為同一個物件。
+
+<!--
+【任務鋪陳】
+我們剛剛看過 `Singleton` 這個範例類別的三個元件，現在請大家照著同樣的結構，自己動手寫一個更貼近實務的版本——一個日誌管理器 `AppLogger`。
+
+【引導思考】
+回想一下三要素：`private` 建構子要怎麼擋住 `new`？`getInstance()` 裡的 `if` 判斷條件要寫什麼，才能保證「只建立一次」？
+-->
+
+---
+layout: default
+---
+
+# 練習：設計 AppLogger 單例類別
+### 解題提示
+
+```java
+public class AppLogger {
+    private static AppLogger instance = null;
+
+    private AppLogger() {}
+
+    public static AppLogger getInstance() {
+        if (instance == null) {
+            instance = new AppLogger();
+        }
+        return instance;
+    }
+
+    public void log(String message) {
+        System.out.println("[LOG] " + message);
+    }
+}
+```
+
+```java
+AppLogger logger1 = AppLogger.getInstance();
+AppLogger logger2 = AppLogger.getInstance();
+
+System.out.println(logger1 == logger2); // true
+logger1.log("系統啟動");
+```
+
+<!--
+【帶讀解法】
+這題跟我們剛剛看過的 `Singleton` 範例幾乎是同一個模板：`private` 建構子擋住外部的 `new AppLogger()`；`instance` 欄位是 `private static`，整個類別只有這一份；`getInstance()` 用 `if (instance == null)` 判斷，第一次呼叫才真正 `new`，之後都直接回傳同一份。
+
+所以 `logger1 == logger2` 一定是 `true`——因為它們指向的是同一塊記憶體。這就是 Lazy 初始化的標準寫法，跟 Eager 寫法的差異我們下一節會繼續討論。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -194,6 +259,73 @@ public class ConfigEager {
 -->
 
 ---
+layout: default
+---
+
+# 練習：Lazy 與 Eager 初始化
+### 認證模擬題（單選）
+
+觀察以下兩種 Singleton 寫法：
+
+```java
+// 寫法一
+public class A {
+    private static A instance = new A();
+    private A() {}
+    public static A getInstance() { return instance; }
+}
+
+// 寫法二
+public class B {
+    private static B instance = null;
+    private B() {}
+    public static B getInstance() {
+        if (instance == null) instance = new B();
+        return instance;
+    }
+}
+```
+
+關於這兩種寫法，下列哪個描述是**正確**的？
+
+A. 寫法一是 Lazy 初始化，因為 `instance` 一開始是非 `null` 的物件
+B. 寫法二是 Eager 初始化，因為它在類別載入時就建立物件
+C. 寫法一是 Eager 初始化：類別載入時就會建立 `instance`；寫法二是 Lazy 初始化：第一次呼叫 `getInstance()` 時才建立
+D. 兩種寫法在效果上完全相同，沒有任何差異
+
+<!--
+【出題動機】
+這題想確認大家能不能正確分辨 Lazy 與 Eager 的「判斷依據」——不是看程式碼長不長，而是看「物件是什麼時候被建立的」。
+
+【解題引導】
+看看寫法一的 `instance` 欄位：它在宣告的同時就直接 `new A()`，這行會在類別被載入（class loading）時執行。再看寫法二：`instance` 一開始是 `null`，要等到 `getInstance()` 第一次被呼叫、判斷 `instance == null` 為真時，才會 `new B()`。
+-->
+
+---
+layout: default
+---
+
+# 練習：Lazy 與 Eager 初始化
+### 解析
+
+**正確答案：C**
+
+- ❌ A：寫法一確實一開始就是非 `null` 的物件，但這正是因為它在類別載入時就建立了——這是 Eager（餓漢式）的定義，不是 Lazy。
+- ❌ B：寫法二的 `instance` 初始值是 `null`，要等到第一次呼叫 `getInstance()` 才會真正建立物件，這是 Lazy（懶漢式）的定義，不是 Eager。
+- ✅ C：寫法一在欄位宣告時就直接 `new A()`，物件建立時機是「類別載入時」，符合 Eager 初始化；寫法二的 `instance` 一開始是 `null`，要等到第一次呼叫 `getInstance()`、`if (instance == null)` 成立時才建立，符合 Lazy 初始化。
+- ❌ D：兩者的「建立時機」不同，會直接影響程式啟動的效能與資源使用——例如寫法一即使整個程式都沒人呼叫 `getInstance()`，物件也已經被建立了；寫法二則完全不會建立。這個差異在物件「很重」時非常關鍵。
+
+<!--
+【帶讀解法】
+判斷 Lazy 還是 Eager，關鍵只有一個：「物件是在什麼時候被 `new` 出來的」。
+
+- 欄位宣告時就 `new`（例如 `private static A instance = new A();`）→ Eager，類別載入就完成。
+- 欄位先設為 `null`，在 `getInstance()` 裡用 `if (instance == null)` 才 `new` → Lazy，等到真正需要才建立。
+
+這也是為什麼前面我們會強調：物件「重不重」會影響我們選擇哪一種策略。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -237,6 +369,68 @@ public static synchronized Singleton getInstance() {
 ⚠️ 易錯點：`synchronized` 雖然能解決問題，但每次呼叫 `getInstance()` 都要排隊，會稍微影響效能。如果該物件可以接受「程式啟動就建立」，改用前一頁的 Eager 寫法會更簡單、效能也更好。
 
 💼 業界實務：這也是為什麼很多框架（如 Spring）的元件預設用 Eager 風格管理——避免在執行期還要處理這類執行緒同步問題。`synchronized` 的細節我們會在後面多執行緒（Thread）章節再深入討論。
+-->
+
+---
+layout: default
+---
+
+# 練習：為 Lazy Singleton 加上執行緒安全
+### 任務說明
+
+以下是一個 Lazy 初始化的 `ConnectionPool` 類別，但目前**沒有處理執行緒安全問題**：
+
+```java
+public class ConnectionPool {
+    private static ConnectionPool instance = null;
+    private ConnectionPool() {}
+    public static ConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new ConnectionPool();
+        }
+        return instance;
+    }
+}
+```
+
+請修改 `getInstance()` 方法，加上適當的關鍵字，讓它在多執行緒環境下也能保證只建立一個實體。
+
+<!--
+【任務鋪陳】
+我們剛剛看過 `synchronized` 可以解決「兩個 thread 同時判斷 `instance == null` 為真」的問題。這次請大家自己動手，把這個關鍵字加到 `ConnectionPool` 上。
+
+【引導思考】
+回想一下：`synchronized` 要加在方法的哪個位置？加上之後，方法的存取修飾詞（`public static`）順序會怎麼排列？
+-->
+
+---
+layout: default
+---
+
+# 練習：為 Lazy Singleton 加上執行緒安全
+### 解題提示
+
+```java
+public class ConnectionPool {
+    private static ConnectionPool instance = null;
+    private ConnectionPool() {}
+
+    public static synchronized ConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new ConnectionPool();
+        }
+        return instance;
+    }
+}
+```
+
+<!--
+【帶讀解法】
+這題的修改只有一個地方：在 `public static` 跟回傳型態 `ConnectionPool` 之間加上 `synchronized`。
+
+加上 `synchronized` 之後，同一時間只會有一個 thread 能執行 `getInstance()` 內部的程式碼——如果有兩個 thread 幾乎同時呼叫這個方法，第二個 thread 必須等第一個 thread 執行完才能進入。這樣就不會發生「兩個 thread 都看到 `instance == null`，於是各自 `new` 了一份」的情況。
+
+這就是我們剛剛在 `Singleton` 範例上看到的解法一，原封不動套用到 `ConnectionPool` 上。
 -->
 
 ---

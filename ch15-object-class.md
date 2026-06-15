@@ -294,6 +294,79 @@ String v = Objects.requireNonNullElseGet(
 `requireNonNullElseGet` 會比較適合用在「取得預設值的成本較高」的情境，例如要從資料庫撈資料——因為它只有在真正需要時，才會執行 `supplier` 裡的邏輯，這就是「延遲求值」（lazy evaluation）的概念。
 -->
 ---
+layout: default
+---
+
+# 練習：安全處理使用者輸入的暱稱
+### 任務說明
+
+設計一個方法，安全地處理「可能是 `null`」的使用者輸入：
+1. 寫一個方法 `String formatNickname(String input)`：
+   - 若 `input` 為 `null`，回傳 `"訪客"`
+   - 否則回傳 `input`
+2. 寫一個方法 `boolean isSameNickname(String a, String b)`：
+   - 使用 `Objects.equals()` 比較 `a` 與 `b`，避免 NPE
+3. 在 `main()` 中測試：
+   - `formatNickname(null)` 與 `formatNickname("古古")`
+   - `isSameNickname(null, null)`、`isSameNickname(null, "古古")`、`isSameNickname("古古", "古古")`
+
+**預期輸出：**
+```
+訪客
+古古
+true
+false
+true
+```
+
+<!--
+【任務鋪陳】
+剛才學到 `Objects` 工具類別提供了 `requireNonNullElse()` 和 `equals()`，這兩個方法在處理「可能是 `null`」的資料時非常實用。這個練習就是要把它們用在一個常見場景：處理使用者輸入的暱稱。
+
+【引導思考】
+想一想：如果不用 `Objects.requireNonNullElse()`，要怎麼用 `if-else` 寫出一樣的效果？再想想，如果直接寫 `a.equals(b)`，當 `a` 是 `null` 時會發生什麼事？
+
+【等待與觀察】
+給大家 5 分鐘。提示：兩個方法都可以一行解決，直接呼叫 `Objects` 的對應方法即可。
+-->
+---
+layout: default
+---
+
+# 練習：安全處理使用者輸入的暱稱
+### 解題提示
+
+1. `formatNickname()` 直接用 `Objects.requireNonNullElse(input, "訪客")`
+2. `isSameNickname()` 直接用 `Objects.equals(a, b)`，兩個都是 `null` 時視為相同
+
+```java
+import java.util.Objects;
+
+class NicknameUtil {
+    static String formatNickname(String input) {
+        return Objects.requireNonNullElse(input, "訪客");
+    }
+    static boolean isSameNickname(String a, String b) {
+        return Objects.equals(a, b);
+    }
+    public static void main(String[] args) {
+        System.out.println(formatNickname(null));   // 訪客
+        System.out.println(formatNickname("古古")); // 古古
+        System.out.println(isSameNickname(null, null));   // true
+        System.out.println(isSameNickname(null, "古古")); // false
+        System.out.println(isSameNickname("古古", "古古")); // true
+    }
+}
+```
+
+<!--
+【帶讀解法】
+重點在於：這兩行程式碼其實都是「防禦性編程」的體現。`requireNonNullElse()` 把「`null` 時要怎麼辦」這個 `if-else` 邏輯封裝起來；`Objects.equals()` 則內建處理了「兩個都是 `null`」的情況（回傳 `true`），這跟直接呼叫 `a.equals(b)` 在 `a` 為 `null` 時會拋出例外完全不同。
+
+💼 業界實務：
+這種「先確認資料安全再使用」的寫法，在處理表單輸入、API 回應這類「外部資料」時非常常見，能大幅減少 NullPointerException 的發生。
+-->
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -450,6 +523,79 @@ class User {
 
 【預期結果】
 這個 `User` 類別覆寫 `hashCode()` 後，只要 `id` 和 `email` 相同的兩個 `User` 物件，呼叫 `hashCode()` 就會得到相同的結果。
+-->
+---
+layout: default
+---
+
+# 練習：用 Objects.hash() 設計 Book
+### 任務說明
+
+設計一個 `Book` 類別，包含以下欄位：
+
+```java
+class Book {
+    String isbn;
+    String title;
+}
+```
+
+1. 使用 `Objects.hash(isbn, title)` 覆寫 `hashCode()`
+2. 在 `main()` 中建立兩個 `isbn`、`title` 都相同的 `Book` 物件 `b1`、`b2`
+3. 印出 `b1.hashCode()` 與 `b2.hashCode()`，驗證兩者是否相同
+4. 再建立一個 `title` 不同的 `Book` 物件 `b3`，印出它的 `hashCode()`，觀察與 `b1` 是否不同
+
+<!--
+【任務鋪陳】
+剛才學到現代化的 `hashCode()` 寫法就是把要用來判斷相等的欄位丟給 `Objects.hash()`，這個練習就是讓我們動手做一次，並驗證「相同內容 → 相同雜湊碼」這個規則。
+
+【引導思考】
+想一想：如果 `Book` 完全不覆寫 `hashCode()`，`b1` 和 `b2` 的雜湊碼會相同嗎？為什麼覆寫之後就會相同？
+
+【等待與觀察】
+給大家 5 分鐘。提示：`Objects.hash()` 可以傳入任意數量的欄位，用逗號分隔即可。
+-->
+---
+layout: default
+---
+
+# 練習：用 Objects.hash() 設計 Book
+### 解題提示
+
+```java
+import java.util.Objects;
+
+class Book {
+    String isbn;
+    String title;
+
+    Book(String isbn, String title) {
+        this.isbn = isbn;
+        this.title = title;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn, title);
+    }
+}
+```
+
+```java
+Book b1 = new Book("978-1", "Java 入門");
+Book b2 = new Book("978-1", "Java 入門");
+Book b3 = new Book("978-1", "Java 進階");
+
+System.out.println(b1.hashCode() == b2.hashCode()); // true
+System.out.println(b1.hashCode() == b3.hashCode()); // false（通常不同）
+```
+
+<!--
+【帶讀解法】
+`b1` 和 `b2` 的 `isbn`、`title` 完全相同，所以 `Objects.hash(isbn, title)` 算出來的雜湊碼也相同；`b3` 的 `title` 不同，雜湊碼通常會不同。
+
+⚠️ 小提醒：
+如果 `Book` 沒有覆寫 `hashCode()`，即使 `b1` 和 `b2` 的欄位內容一模一樣，因為它們是「不同的物件」，預設的 `hashCode()` 還是會給出不同的結果——這就是為什麼我們需要根據欄位內容自己覆寫 `hashCode()`。
 -->
 ---
 layout: section
@@ -712,6 +858,77 @@ System.out.println(a); // Name: Foo, Age: 1
 
 💼 業界實務：
 日誌（log）是排查問題時的重要依據。如果類別沒有覆寫 `toString()`，發生問題時，log 裡只會看到一堆 `User@2a3b4c` 這種訊息，難以追蹤問題。
+-->
+---
+layout: default
+---
+
+# 練習：Override Order 的 toString()
+### 任務說明
+
+設計一個 `Order` 類別，包含以下欄位：
+
+```java
+class Order {
+    String orderId;
+    String customer;
+    int amount;
+}
+```
+
+1. 不覆寫任何方法，建立一個 `Order` 物件並用 `System.out.println()` 印出，觀察預設輸出格式
+2. 覆寫 `toString()`，輸出格式為 `"訂單 O001，客戶：古古，金額：1500"`
+3. 再印出同一個物件，比較兩次輸出的差異
+
+<!--
+【任務鋪陳】
+剛才看到，沒有覆寫 `toString()` 的物件印出來會是「類別名稱@雜湊碼」這種看不懂的格式。這個練習就是讓我們實際體驗一次「沒覆寫」和「有覆寫」的差別。
+
+【引導思考】
+想一想：`System.out.println(order)` 這一行，背後到底呼叫了什麼方法？我們覆寫 `toString()` 之後，這一行程式碼本身需要修改嗎？
+
+【等待與觀察】
+給大家 5 分鐘。提示：`println()` 的程式碼完全不用改，只需要在 `Order` 類別裡新增 `toString()` 方法。
+-->
+---
+layout: default
+---
+
+# 練習：Override Order 的 toString()
+### 解題提示
+
+```java
+class Order {
+    String orderId;
+    String customer;
+    int amount;
+
+    Order(String orderId, String customer, int amount) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "訂單 " + orderId + "，客戶：" + customer + "，金額：" + amount;
+    }
+}
+```
+
+```java
+Order order = new Order("O001", "古古", 1500);
+System.out.println(order);
+// 覆寫前：Order@1b6d3586
+// 覆寫後：訂單 O001，客戶：古古，金額：1500
+```
+
+<!--
+【帶讀解法】
+重點在於：`System.out.println(order)` 這行程式碼完全沒有改變，改變的只是 `Order` 類別內部多了一個 `toString()` 方法。`println()` 會自動呼叫物件的 `toString()`，所以只要我們把這個方法寫好，輸出就會變得有意義。
+
+💼 業界實務：
+像 `Order`、`User` 這類常常需要被印出來 debug 或寫進 log 的類別，覆寫 `toString()` 幾乎是必做的工作——IDE 通常都有「自動產生 toString()」的功能，但理解背後原理才能在出錯時知道怎麼修正。
 -->
 ---
 layout: section

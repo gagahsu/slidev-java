@@ -142,6 +142,49 @@ Student s2 = new Student();
 -->
 
 ---
+layout: default
+---
+
+# 練習：類別與物件的關係
+### 認證模擬題（單選）
+
+關於 Java 的「類別（Class）」與「物件（Object）」，下列描述哪一項是**正確**的？
+
+A. 一個類別只能建立一個物件，如果需要多個物件，必須定義多個類別
+B. 類別是物件的藍圖，物件是根據類別建立出來的實例，多個物件可以共用同一個類別
+C. 欄位（Field）只能定義在物件裡，不能定義在類別裡
+D. 呼叫方法時必須使用類別名稱，例如 `Student.study()`，不需要先建立物件
+
+<!--
+【出題動機】
+這題回到 8-1 最核心的概念：「類別 vs 物件」的關係。很多初學者會把「類別」和「物件」搞混，或誤以為一個類別只能對應一個物件，這題就是要把這個基礎觀念釘牢。
+
+【解題引導】
+回想一下汽車設計圖跟實際汽車的比喻：一張設計圖可以造出很多台車嗎？欄位和方法是寫在「設計圖」上，還是寫在每一台「實車」上？呼叫物件的方法，前面需不需要先 `new`？
+-->
+
+---
+layout: default
+---
+
+# 練習：類別與物件的關係
+### 解析
+
+**正確答案：B**
+
+- A. ❌ 一個類別可以建立任意數量的物件，例如 `Student s1 = new Student();`、`Student s2 = new Student();`，s1、s2 都是 `Student` 類別的物件
+- B. ✅ 類別是「藍圖／設計圖」，物件是「根據藍圖建立的實例」，多個物件共用同一份類別定義（欄位結構與方法），但各自擁有獨立的欄位資料
+- C. ❌ 欄位是定義在「類別」裡的，每個物件依照這個定義各自擁有一份欄位資料
+- D. ❌ `study()` 是 instance 方法，必須先用 `new` 建立物件（例如 `s1`），再透過 `s1.study()` 呼叫；直接用類別名稱呼叫是 `static` 方法才有的用法（後面章節會學到）
+
+<!--
+【帶讀解法】
+這題的關鍵就是 8-1 表格裡的那句話：「類別是物件的藍圖／設計圖，物件是類別建立出來的實例」。一張設計圖（類別）可以「印」出無數台車（物件），每台車各自擁有自己的顏色、里程（欄位資料），但結構都一樣（共用類別定義）。
+
+選項 D 順便預告了後面章節會學到的 `static`：如果一個方法不需要透過物件呼叫，而是直接用類別名稱呼叫，那就是 `static` 方法——但 8-1 教的 `study()` 不是這種情況，一定要先 `new` 出物件才能呼叫。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -214,6 +257,77 @@ System.out.println(myCar.speed); // 10
 接下來用「.」這個點運算子，就可以存取物件的欄位（`myCar.brand = "Toyota"`）或呼叫方法（`myCar.accelerate()`）。可以把「.」想成「打開這個物件，取用裡面的東西」。
 
 ⚠️ 易錯點：欄位如果沒有手動設定初始值，數值型態會是 0、布林是 false、物件參照是 null——下方的提示就是在說明這個「預設值」的規則，這個概念在後面章節會反覆用到。
+-->
+
+---
+layout: default
+---
+
+# 練習：定義 Light 類別並建立物件
+### 任務說明
+
+參考 8-2 的 `Car` 類別語法，完成以下任務：
+
+1. 定義一個 `Light` 類別，包含：
+   - 欄位：`String color`（顏色）、`boolean isOn`（是否開燈，預設 false）
+   - 方法：`turnOn()` — 將 `isOn` 設為 `true`
+2. 在 `main` 方法中：
+   - 用 `new Light()` 建立一個物件 `myLight`
+   - 印出 `myLight.isOn` 的初始值（不要手動設定，觀察預設值）
+   - 設定 `myLight.color = "白色"`
+   - 呼叫 `myLight.turnOn()`
+   - 再印出一次 `myLight.isOn`
+
+**預期輸出：**
+```
+false
+true
+```
+
+<!--
+【任務鋪陳】
+這題練習 8-2 的核心流程：定義 class（欄位 + 方法）→ 用 `new` 建立物件 → 用「.」存取欄位和呼叫方法。特別設計成「先印出初始值、再呼叫方法後印出」，讓我們親眼看到 `boolean` 欄位的預設值，以及方法如何改變物件的狀態。
+
+【引導思考】
+想一想：`boolean isOn` 沒有手動設定的話，預設值會是什麼？呼叫 `turnOn()` 之後，為什麼 `myLight.isOn` 會變成 `true`？
+-->
+
+---
+layout: default
+---
+
+# 練習：定義 Light 類別並建立物件
+### 解題提示
+
+```java
+class Light {
+    String color;
+    boolean isOn; // 預設值為 false
+
+    void turnOn() {
+        isOn = true;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Light myLight = new Light();
+
+        System.out.println(myLight.isOn); // false（預設值）
+
+        myLight.color = "白色";
+        myLight.turnOn();
+
+        System.out.println(myLight.isOn); // true
+    }
+}
+```
+
+<!--
+【帶讀解法】
+這題呼應 8-2 提到的兩個重點：第一，`new Light()` 會把 `boolean` 欄位初始化成預設值 `false`，所以第一次印出的結果是 `false`，即使我們完全沒有設定它。第二，`turnOn()` 方法內部把 `isOn` 改成 `true`，再印出時就變成 `true`——這就是「呼叫方法會改變物件狀態」的具體展示。
+
+可以特別提一下：`color` 欄位在這題裡其實沒有被用到輸出結果，但設定它是為了讓我們練習「用『.』存取欄位」這個動作，跟呼叫方法是同一套語法。
 -->
 
 ---
@@ -290,6 +404,80 @@ public class Main {
 帶大家看關鍵行：`Car c1 = new Car();` 建立物件；接著三行用「.」設定 brand、color、speed 三個欄位；`c1.accelerate(60)` 呼叫方法讓時速增加 60；最後 `c1.displayInfo()` 把結果印出來。
 
 執行結果會印出「Toyota / 紅色 / 時速：60 km/h」。下方提示也提醒了命名慣例：類別用 PascalCase（如 Car），欄位和方法用 camelCase（如 brand、accelerate）。
+-->
+
+---
+layout: default
+---
+
+# 練習：完整 Pet 類別
+### 任務說明
+
+參考 8-3 的 `Car` 類別寫法，設計一個完整的 `Pet` 類別：
+
+1. 欄位：`String name`（名字）、`String type`（種類）、`int hunger`（飢餓值，初始為 0）
+2. 方法：
+   - `feed(int amount)` — 餵食，`hunger` 減少 `amount`（最少為 0）
+   - `displayInfo()` — 印出「名字（種類）的飢餓值：X」
+
+在 `main` 方法中：
+1. 建立一個 `Pet` 物件，設定 `name = "小白"`、`type = "狗"`、`hunger = 50`
+2. 呼叫 `feed(30)`，再呼叫 `displayInfo()`
+
+**預期輸出：**
+```
+小白（狗）的飢餓值：20
+```
+
+<!--
+【任務鋪陳】
+這題完全複製 8-3 的流程，只是把 `Car` 換成 `Pet`：先設計類別（欄位 + 方法），再到 `main` 裡建立物件、設定欄位、呼叫方法。多了一個小挑戰——`feed` 方法要處理「飢餓值不能小於 0」的邊界情況。
+
+【引導思考】
+想一想：如果飢餓值是 20，呼叫 `feed(30)`，照計算會變成 -10，但飢餓值不該是負數。要怎麼用一行程式碼確保結果「最少為 0」？
+-->
+
+---
+layout: default
+---
+
+# 練習：完整 Pet 類別
+### 解題提示
+
+```java
+class Pet {
+    String name;
+    String type;
+    int hunger;
+
+    void feed(int amount) {
+        hunger -= amount;
+        if (hunger < 0) hunger = 0;
+    }
+
+    void displayInfo() {
+        System.out.println(name + "（" + type + "）的飢餓值：" + hunger);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Pet p1 = new Pet();
+        p1.name = "小白";
+        p1.type = "狗";
+        p1.hunger = 50;
+
+        p1.feed(30);
+        p1.displayInfo(); // 小白（狗）的飢餓值：20
+    }
+}
+```
+
+<!--
+【帶讀解法】
+這題的結構跟 8-3 的 `Car` 一模一樣：欄位負責記錄狀態（`hunger`），方法負責改變狀態（`feed`）和顯示狀態（`displayInfo`）。
+
+`feed` 裡多了一個 `if (hunger < 0) hunger = 0;`，這是很常見的「防呆」寫法——確保數值不會跑到不合理的範圍。之後寫到分數、庫存、血量這類「不能是負數」的欄位時，都可以用同樣的邏輯處理。
 -->
 
 ---
@@ -400,6 +588,82 @@ for (Car c : cars) {
 -->
 
 ---
+layout: default
+---
+
+# 練習：水果籃物件陣列
+### 任務說明
+
+設計一個 `Fruit` 類別：
+
+1. 欄位：`String name`（名稱）、`int price`（單價）
+2. 方法 `displayInfo()`：印出「名稱：單價」，例如「蘋果：35」
+
+在 `main` 方法中：
+1. 建立一個長度為 3 的 `Fruit[]` 物件陣列
+2. 逐一 `new Fruit()` 並設定欄位（例如蘋果 35、香蕉 20、橘子 25）
+3. 用 for-each 迴圈遍歷陣列，呼叫每個物件的 `displayInfo()`
+4. 額外計算並印出三種水果的「總價」
+
+<!--
+【任務鋪陳】
+這題延伸 8-4 的物件陣列概念，把「Car」換成更生活化的「水果」。重點是練習「宣告陣列 → 逐一 new → 設定欄位 → for-each 遍歷」這套標準流程，並加上一個小小的累加計算。
+
+【引導思考】
+想一想：`new Fruit[3]` 建立完之後，陣列裡的三個位置分別是什麼？如果忘記對某個位置 `new Fruit()` 就直接呼叫 `displayInfo()`，會發生什麼事？
+-->
+
+---
+layout: default
+---
+
+# 練習：水果籃物件陣列
+### 解題提示
+
+```java
+class Fruit {
+    String name;
+    int price;
+
+    void displayInfo() {
+        System.out.println(name + "：" + price);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Fruit[] fruits = new Fruit[3];
+
+        fruits[0] = new Fruit();
+        fruits[0].name = "蘋果";
+        fruits[0].price = 35;
+
+        fruits[1] = new Fruit();
+        fruits[1].name = "香蕉";
+        fruits[1].price = 20;
+
+        fruits[2] = new Fruit();
+        fruits[2].name = "橘子";
+        fruits[2].price = 25;
+
+        int total = 0;
+        for (Fruit f : fruits) {
+            f.displayInfo();
+            total += f.price;
+        }
+        System.out.println("總價：" + total); // 80
+    }
+}
+```
+
+<!--
+【帶讀解法】
+這題完全遵循 8-4 教過的三步驟：先 `new Fruit[3]` 準備好停車格（陣列），再逐一 `new Fruit()` 放入真正的物件並設定欄位，最後用 for-each 遍歷。
+
+加分的部分是 `total += f.price`——這是把「遍歷陣列」和「累加計算」結合在一起，之後在處理訂單、購物車這類情境時，這種「遍歷 + 累加」的寫法會非常常見。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -499,6 +763,69 @@ null 代表「這個變數目前沒有指向任何物件」，可以把它想成
 表格列出三個重點：宣告 `Car c = null` 之後，c 不指向任何東西；如果直接用 `c.brand` 存取欄位，會拋出 `NullPointerException`（簡稱 NPE，Java 最常見的錯誤之一）；安全的做法是先用 `c != null` 檢查。
 
 帶大家看程式碼：先判斷 `c != null` 才呼叫 `displayInfo()`，否則印出提示訊息。⚠️ 易錯點：忘記做 null 檢查、直接對 null 變數呼叫方法，是初學者最常遇到的執行期錯誤之一，務必養成檢查的習慣。
+-->
+
+---
+layout: default
+---
+
+# 練習：物件參照行為
+### 認證模擬題（單選）
+
+請看以下程式碼，判斷執行後的輸出結果：
+
+```java
+class Car {
+    String brand;
+    int speed;
+}
+
+Car c1 = new Car();
+c1.brand = "Toyota";
+c1.speed = 50;
+
+Car c2 = c1;
+c2.speed = 100;
+
+Car c3 = new Car();
+c3.brand = "Toyota";
+c3.speed = 100;
+
+System.out.println(c1.speed);
+System.out.println(c1 == c2);
+System.out.println(c1 == c3);
+```
+
+A. `50` / `false` / `true`
+B. `100` / `true` / `false`
+C. `100` / `true` / `true`
+D. `50` / `true` / `false`
+
+<!--
+【出題動機】
+這題想測驗「物件賦值＝複製參照」這個 8-5 的核心觀念，特別是 `==` 在比較物件時比的是「位址」而不是「內容」。
+
+【解題引導】
+先想：`c2 = c1` 之後，`c2.speed = 100` 會不會影響 `c1.speed`？再想：`c3` 是用 `new` 另外建立的，即使欄位內容跟 `c1` 一樣，`c1 == c3` 會是 `true` 還是 `false`？
+-->
+
+---
+layout: default
+---
+
+# 練習：物件參照行為
+### 解析
+
+**正確答案：B**
+
+- A. ❌ `c1.speed` 不是 `50`——因為 `c2 = c1` 讓 `c2` 跟 `c1` 指向同一個物件，透過 `c2` 修改 `speed`，`c1.speed` 也會一起變成 `100`
+- B. ✅ `c1.speed` 為 `100`（同一物件被改）；`c1 == c2` 為 `true`（指向同一塊記憶體）；`c1 == c3` 為 `false`（`c3` 是另外 `new` 出來的物件，即使欄位內容相同，位址不同）
+- C. ❌ `c1 == c3` 不會是 `true`——`==` 比較的是「是不是同一個物件」，不是「欄位內容是否相同」
+- D. ❌ `c1.speed` 不是 `50`，理由同 A
+
+<!--
+【帶讀解法】
+這題的關鍵在於分清楚兩件事：「c2 = c1」是複製參照（兩個變數指向同一個物件），「c3 = new Car()」是建立全新物件（即使欄位設定得一模一樣，也是不同的記憶體位置）。`==` 比的永遠是「位址」，這也是為什麼 8-5 一直強調「物件變數存的是參照，不是物件本身」。
 -->
 
 ---
@@ -638,6 +965,80 @@ class Car {
 -->
 
 ---
+layout: default
+---
+
+# 練習：Pass by Value 與多載驗證
+### 任務說明
+
+設計一個 `Account` 類別，並完成以下任務：
+
+1. 欄位：`String owner`、`int balance`
+2. 提供建構子 `Account(String owner, int balance)`，使用 `this` 設定欄位
+3. 多載方法 `addBonus`：
+   - `addBonus(int amount)` — 將 `balance` 增加 `amount`
+   - `addBonus(int amount, double rate)` — 將 `balance` 增加 `amount * rate`（取整數部分）
+4. 另外寫一個 `static` 方法 `tryReset(Account acc)`，內部執行 `acc = new Account("空帳戶", 0)`
+
+在 `main` 中建立一個帳戶，分別呼叫兩個版本的 `addBonus`，最後呼叫 `tryReset`，觀察呼叫前後 `balance` 是否改變。
+
+<!--
+【任務鋪陳】
+這題把 8-6 教的三個重點放在一起：用 `this` 區分建構子參數與欄位、用方法多載提供兩種加碼方式，最後用 `tryReset` 驗證「物件參照的重新賦值，不會影響外部的物件」。
+
+【引導思考】
+想一想：`addBonus(int amount, double rate)` 跟 `addBonus(int amount)` 的參數有什麼不同，Java 怎麼知道該呼叫哪一個？另外，`tryReset` 裡面 `acc = new Account(...)` 這個動作，呼叫完之後，`main` 裡原本的帳戶物件會變成「空帳戶」嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：Pass by Value 與多載驗證
+### 解題提示
+
+```java
+class Account {
+    String owner;
+    int balance;
+
+    Account(String owner, int balance) {
+        this.owner = owner;
+        this.balance = balance;
+    }
+
+    void addBonus(int amount) {
+        balance += amount;
+    }
+
+    void addBonus(int amount, double rate) {
+        balance += (int)(amount * rate);
+    }
+
+    static void tryReset(Account acc) {
+        acc = new Account("空帳戶", 0); // 只改了方法內的參照
+    }
+}
+```
+
+呼叫範例：
+
+```java
+Account a = new Account("小明", 1000);
+a.addBonus(100);          // balance = 1100
+a.addBonus(100, 0.5);     // balance = 1100 + 50 = 1150
+Account.tryReset(a);
+System.out.println(a.balance); // 仍是 1150
+```
+
+<!--
+【帶讀解法】
+重點在 `tryReset`：`acc = new Account("空帳戶", 0)` 只是把方法內部的參數 `acc` 改指向一個新物件，`main` 裡的 `a` 仍然指向原本的帳戶——這正是 8-6 講的「重新賦值不影響外部」。
+
+兩個 `addBonus` 則示範了多載：Java 依參數數量（1 個還是 2 個）自動選擇對應的版本，跟 8-6 的 `multiply` 範例是同一個道理。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -710,6 +1111,69 @@ class Car {
 帶大家看 `setSpeed(int speed)`：方法裡的 `speed` 是參數（local 變數），它會「遮蔽」掉同名的 instance 變數 `speed`——這就是 Scope 遮蔽（Shadowing）。如果只寫 `speed = speed`，等於是參數設定給自己，欄位完全沒被改到。
 
 ⚠️ 易錯點：這正是 `this` 的用途登場的地方——`this.speed = speed` 左邊明確指定是「物件的欄位」，右邊是「參數」，這樣才能正確把外部傳入的值存到物件的欄位裡。這跟我們在 8-6 學的 `this` 是同一個概念的延伸應用。
+-->
+
+---
+layout: default
+---
+
+# 練習：修正 Scope 遮蔽問題
+### 任務說明
+
+下面這段 `Wallet` 類別的程式碼，原本想透過 `setBalance` 設定餘額，但執行後 `balance` 卻完全沒被改到：
+
+```java
+class Wallet {
+    int balance = 0;  // instance 變數
+
+    void setBalance(int balance) {
+        balance = balance;  // 沒有效果！
+    }
+}
+
+Wallet w = new Wallet();
+w.setBalance(500);
+System.out.println(w.balance); // 預期 500，但實際印出 0
+```
+
+請找出問題所在，並修正這個類別，讓 `w.balance` 在呼叫 `setBalance(500)` 後正確變成 `500`。
+
+<!--
+【任務鋪陳】
+這題的程式碼乍看之下沒問題——參數叫 `balance`，欄位也叫 `balance`，`balance = balance` 看起來像是「把值設給自己」。但這正是剛剛學到的 Scope 遮蔽：方法裡的 `balance` 永遠指的是參數，欄位完全沒被碰到。
+
+【引導思考】
+想一想：`balance = balance;` 這一行，左右兩邊的 `balance` 到底分別是誰？要怎麼讓左邊明確指向「物件自己的欄位」？
+-->
+
+---
+layout: default
+---
+
+# 練習：修正 Scope 遮蔽問題
+### 解題提示
+
+只需要在欄位前面加上 `this.`，就能明確區分「物件的欄位」與「方法的參數」：
+
+```java
+class Wallet {
+    int balance = 0;  // instance 變數
+
+    void setBalance(int balance) {
+        this.balance = balance;  // 左邊是欄位，右邊是參數
+    }
+}
+
+Wallet w = new Wallet();
+w.setBalance(500);
+System.out.println(w.balance); // 500
+```
+
+<!--
+【帶讀解法】
+修正的關鍵只有一個字：`this`。`this.balance = balance;` 左邊的 `this.balance` 明確指向「這個物件自己的欄位」，右邊的 `balance` 才是參數——這樣傳進來的值才會真正存到物件的欄位裡。
+
+這跟我們剛剛在 8-7 看到的 `setSpeed` 範例是同一個模式：只要 setter 的參數名稱跟欄位同名，就一定要記得加 `this.`，否則就會發生「設定了卻沒生效」的 bug，而且編譯器不會報錯，執行時也不會出例外，非常隱蔽。
 -->
 
 ---

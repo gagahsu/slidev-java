@@ -254,6 +254,66 @@ System.out.println("\\t 是控制字元：" + Character.isISOControl(ch2));
 -->
 
 ---
+layout: default
+---
+
+# 練習：字元分類統計
+### 任務說明
+
+宣告字串 `"炭治郎123 是 主角！"`，請逐個字元檢查並統計：
+
+1. 數字字元（`isDigit`）出現幾次？
+2. 字母字元（`isLetter`，中文也算）出現幾次？
+3. 空白字元（`isWhitespace`）出現幾次？
+
+**預期輸出：**
+```
+數字: 3, 字母: 6, 空白: 2
+```
+
+<!--
+【任務鋪陳】
+這一部分學了好幾個 `Character` 的判斷方法：`isDigit`、`isLetter`、`isWhitespace`。這個練習要把它們實際用在一段字串上，逐個字元檢查並分類計數。
+
+【引導思考】
+要怎麼把字串「拆成一個一個字元」？大家還記得 `charAt(index)` 搭配 `for` 迴圈的寫法嗎？拿到每個字元之後，用 `Character` 的判斷方法去歸類即可。
+
+【等待與觀察】
+給大家 5 分鐘。如果不確定中文字算不算字母，回頭看看「字元類別方法 (一) — 範例」那一頁。
+-->
+
+---
+layout: default
+---
+
+# 練習：字元分類統計
+### 解題提示
+
+1. 用 `for` 迴圈搭配 `charAt(i)` 取出每個字元
+2. 對每個字元依序用 `Character.isDigit`、`isLetter`、`isWhitespace` 判斷
+3. 符合的條件分別累加對應的計數器
+
+```java
+String text = "炭治郎123 是 主角！";
+int digit = 0, letter = 0, space = 0;
+for (int i = 0; i < text.length(); i++) {
+    char c = text.charAt(i);
+    if (Character.isDigit(c)) digit++;
+    else if (Character.isLetter(c)) letter++;
+    else if (Character.isWhitespace(c)) space++;
+}
+System.out.println("數字: " + digit + ", 字母: " + letter + ", 空白: " + space);
+```
+
+<!--
+【帶讀解法】
+重點在 `if-else if` 的判斷順序：每個字元只會被歸到一類，所以用 `else if` 串起來。中文字「炭」「治」「郎」「是」「主」「角」都會被 `isLetter` 判定為 `true`，這跟只認英文字母的語言不太一樣。
+
+⚠️ 易錯點提醒：
+「！」這個全形驚嘆號既不是數字、字母也不是空白，三個條件都不會成立，所以總數加起來會比字串長度少 1，這是正常的。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -333,6 +393,63 @@ String s4 = new String(sb);                    // "炭治郎"
 
 【預期結果】
 四個變數的內容分別是 `""`、`"炭治郎"`、`"炭治郎"`、`"炭治郎"`。
+-->
+
+---
+layout: default
+---
+
+# 練習：字元陣列轉字串
+### 任務說明
+
+宣告字元陣列 `char[] name = {'禰', '豆', '子'}`：
+
+1. 使用 `String(char[] data)` 建構方法，把這個字元陣列轉成字串 `s1`
+2. 再用 `String(String original)` 建構方法，把 `s1` 複製成 `s2`
+3. 印出 `s1`、`s2` 的內容，並比較 `s1 == s2` 的結果
+
+**預期輸出：**
+```
+s1 = 禰豆子
+s2 = 禰豆子
+s1 == s2 ? false
+```
+
+<!--
+【任務鋪陳】
+這一部分學了好幾種 `String` 的建構方法，這個練習要動手把它們串起來用一次：從字元陣列建立字串，再用「複製」的方式建立另一個字串。
+
+【引導思考】
+`new String(chars)` 跟 `new String(original)` 分別對應表格裡哪一個建構方法？最後 `s1 == s2` 的結果，跟我們平常用雙引號宣告字串時的 `==` 結果，會不會不一樣？
+-->
+
+---
+layout: default
+---
+
+# 練習：字元陣列轉字串
+### 解題提示
+
+1. 用 `new String(char[])` 把字元陣列轉成 `s1`
+2. 用 `new String(String)` 把 `s1` 的內容複製成 `s2`
+3. `==` 比較的是位址，`new` 出來的物件位址不同
+
+```java
+char[] name = {'禰', '豆', '子'};
+String s1 = new String(name);
+String s2 = new String(s1);
+
+System.out.println("s1 = " + s1);
+System.out.println("s2 = " + s2);
+System.out.println("s1 == s2 ? " + (s1 == s2));
+```
+
+<!--
+【帶讀解法】
+`s1` 是用字元陣列建構出來的字串，`s2` 是用 `new String(s1)` 額外複製出來的新物件。雖然 `s1` 跟 `s2` 的內容一樣，但因為都是用 `new` 建立的，位址不同，`s1 == s2` 是 `false`。
+
+💼 業界實務：
+這也是為什麼業界常說「比較字串內容要用 `equals`，不要用 `==`」——只要其中一個是用 `new` 建立的，`==` 結果就很容易出乎意料。
 -->
 
 ---

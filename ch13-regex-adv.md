@@ -235,6 +235,53 @@ System.out.println("google.com".matches(regex)); // true
 -->
 
 ---
+layout: default
+---
+
+# 練習：具名分組解析網域
+### 任務說明
+
+請完成以下任務：
+
+1. 使用**具名分組**解析網址 `"https://www.example.com"`，分別取出 `protocol`（如 `https`）與 `host`（如 `www.example.com`）兩個欄位。
+2. 將表達式中「`http` 或 `https`」這個選擇範圍改用**非擷取分組** `(?:...)`，確保它不會多佔用一個分組編號。
+
+<!--
+回顧一下，這部分學了具名分組 `(?<name>...)` 讓我們可以用名字取出比對結果，也學了非擷取分組 `(?:...)` 用來「只打包不擷取」。這個練習要把兩者放在同一個表達式裡實際用一次。
+
+引導思考：網址格式是「`protocol://host`」，`protocol` 部分是 `http` 或 `https` 二選一，這個選擇要不要被當成一個獨立分組？如果用 `(?<protocol>...)` 包住整個選擇，裡面的 `http|https` 還需要再多一層 `()` 嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：具名分組解析網域
+### 解題提示
+
+```java
+String regex = "(?<protocol>https?)://(?<host>[\\w.]+)";
+Matcher m = Pattern.compile(regex).matcher("https://www.example.com");
+
+if (m.matches()) {
+    System.out.println(m.group("protocol")); // https
+    System.out.println(m.group("host"));     // www.example.com
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 這裡用 <code>https?</code> 的 <code>?</code> 就能表示「`http` 或 `https`」，剛好不需要額外的 <code>(?:...)</code>，是比 <code>(?:http|https)</code> 更精簡的寫法。
+</div>
+
+<!--
+這裡示範了一個小技巧：`https?` 用 `?` 讓 `s` 可有可無，就能同時比對 `http` 跟 `https`，比寫成 `(?:http|https)` 更簡潔，剛好也呼應了「能不擷取就不擷取」的精神——這裡甚至不需要分組就解決了。
+
+`(?<protocol>https?)` 跟 `(?<host>[\w.]+)` 兩個具名分組分別抓出協定跟主機名稱，最後用 `m.group("protocol")`、`m.group("host")` 取值，比用編號 `group(1)`、`group(2)` 更直觀。
+
+⚠️ 易錯點：如果改成 `(?<protocol>(?:http|https))`，雖然也能動作，但 `(?:...)` 包在具名分組裡面其實是多餘的——具名分組本身就不會因為內容是「選擇」而多佔用分組編號，這也是這題想讓大家體會的地方。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -681,6 +728,55 @@ System.out.println(m.replaceAll("X")); // "Java X and Java X"
 最後 `replaceAll("X")` 把字串裡所有符合 `\d+` 的部分都換成 `X`，得到 `"Java X and Java X"`。
 
 ⚠️ 易錯點：第一次接觸 `end()` 的人常常以為它是「最後一個字元的索引」，但其實它指向的是「最後一個字元的下一個位置」，跟 `substring()` 的習慣是一致的，記住這點就不會搞混。
+-->
+
+---
+layout: default
+---
+
+# 練習：擷取貼文中的標籤
+### 任務說明
+
+給定一段社群貼文：
+
+```
+"今天和 #炭治郎 #禰豆子 一起去 #鬼殺隊 訓練！"
+```
+
+請使用 `Pattern` 與 `Matcher`，找出所有以 `#` 開頭的標籤（如 `#炭治郎`），並印出每個標籤的內容以及它在原字串中的起始位置（`start()`）。
+
+<!--
+這部分學了 `Pattern.compile()` 編譯表達式、`Matcher.find()` 搜尋子字串、`group()` 取出比對結果、`start()` 取出起始位置。這個練習要把這幾個方法串在一起，做一個簡單的「標籤擷取器」。
+
+引導思考：標籤的格式是「`#` 加上一個以上的字母或中文字」，這個「字母或中文字」要怎麼用我們學過的字元類別表示？找到一個標籤之後，要怎麼讓 `find()` 繼續往後找下一個？
+-->
+
+---
+layout: default
+---
+
+# 練習：擷取貼文中的標籤
+### 解題提示
+
+```java
+String post = "今天和 #炭治郎 #禰豆子 一起去 #鬼殺隊 訓練！";
+Matcher m = Pattern.compile("#\\w+").matcher(post);
+
+while (m.find()) {
+    System.out.println(m.group() + "，位置：" + m.start());
+}
+// #炭治郎，位置：4
+// #禰豆子，位置：9
+// #鬼殺隊，位置：17
+```
+
+<!--
+`#\w+` 比對「`#` 加上一個以上的 `\w`」——這裡 `\w` 也包含中文字，所以可以一次抓到 `#炭治郎` 這種中英混合的標籤。
+
+`while (m.find())` 是標準寫法：每呼叫一次 `find()`，`Matcher` 就往後搜尋下一個符合的片段，直到搜尋不到為止迴圈才結束。每一輪用 `m.group()` 取出標籤內容，`m.start()` 取出它在原字串中的起始索引。
+
+💼 業界實務：
+這種「擷取所有標籤」的需求在社群平台、論壇貼文分析中很常見，搭配後面會看到的 `results()` 也可以用 Stream 的方式一次統計出現次數。
 -->
 
 ---

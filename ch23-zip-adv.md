@@ -251,6 +251,52 @@ archive.zip
 -->
 
 ---
+layout: default
+---
+
+# 練習：ZIP 套件架構與選用
+### 認證模擬題（單選）
+
+我們要寫一個小工具，從網路上即時收到一段「不確定長度、邊下載邊到達」的 ZIP 資料串流，並在收到每個檔案的同時就立刻處理它的內容。
+
+關於這個需求該選用哪個類別，以及 `java.util.zip` 套件的基本概念，下列描述何者**正確**？
+
+A. 應該選用 `ZipFile`，因為它支援隨機存取，效能比較好
+
+B. 應該選用 `ZipInputStream`，因為它可以處理任何 `InputStream`（包括網路串流），採循序讀取
+
+C. ZIP 檔案裡的資料夾不需要對應任何 `ZipEntry`，只有檔案才會有 `ZipEntry`
+
+D. `Deflater` 和 `Inflater` 是我們在一般應用程式中最常直接呼叫的類別，用來手動控制壓縮等級
+
+<!--
+【出題動機】
+這題想確認大家是否理解 `ZipInputStream` 跟 `ZipFile` 的根本差異（資料來源與存取方式），以及 `ZipEntry` 如何表示 ZIP 內部的檔案與目錄結構，這些都是第一部分的核心概念。
+
+【解題引導】
+先看看題目給的情境關鍵字：「不確定長度」「邊下載邊到達」「即時處理」，這些線索分別對應到 `ZipInputStream` 還是 `ZipFile` 的「資料來源」跟「存取方式」？再想一想：ZIP 規格裡，資料夾本身算不算一個項目？最後，`Deflater`/`Inflater` 是屬於套件裡的哪一層（最底層引擎，還是我們平常會直接操作的類別）？
+-->
+
+---
+layout: default
+---
+
+# 練習：ZIP 套件架構與選用
+### 解析
+
+**正確答案：B**
+
+- A. ❌ `ZipFile` 只能處理「磁碟上的實體檔案」，而題目情境是「網路串流、邊下載邊到達」，資料根本還沒落地成檔案，無法用 `ZipFile`
+- B. ✅ `ZipInputStream` 可以包裝任何 `InputStream`（包含網路串流），採循序讀取，剛好符合「邊下載邊處理」的場景
+- C. ❌ 資料夾在 ZIP 裡也是一個 `ZipEntry`，只是它的 `getName()` 會以斜線 `/` 結尾（例如 `images/`），`isDirectory()` 就是依據這個判斷的
+- D. ❌ `Deflater`/`Inflater` 是套件裡最底層的壓縮/解壓縮引擎，一般寫程式時很少直接碰到，平常使用的是 `ZipOutputStream`/`ZipInputStream`/`ZipFile` 這些更高層的類別
+
+<!--
+【帶讀解法】
+這題的關鍵在於把「資料來源」（磁碟實體檔案 vs. 任意 InputStream）跟「存取方式」（隨機 vs. 循序）對應到題目情境的關鍵字。網路串流、邊收邊處理 → 來源不是磁碟實體檔案、也無法隨機存取 → 只能選 `ZipInputStream`。另外也複習了 `ZipEntry` 同時代表檔案與目錄，以及 `Deflater`/`Inflater` 屬於「引擎層」，平常不會直接使用，這跟開車不需要知道引擎汽缸怎麼點火是一樣的道理。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -844,6 +890,62 @@ System.out.printf("壓縮比：%.2f%%%n", ratio * 100);
 `Collections.list(zf.entries())` 這行，是把 `ZipFile` 提供的舊式 `Enumeration` 轉換成一般的 `List`，這樣我們就能用熟悉的 `for-each` 寫法來遍歷所有 entry。
 
 最後有個小提醒：如果我們算出來的壓縮比是「負數」，先別慌張，這通常代表某些檔案被我們「越壓越大」了——這在處理已經壓縮過的檔案（例如圖片）時很常見，因為 DEFLATE 演算法對這類資料幾乎無法再壓縮，反而會因為額外的格式資訊讓檔案略微變大。這是正常現象，不是我們的數學算錯了。
+-->
+
+---
+layout: default
+---
+
+# 練習：NIO 增量更新 ZIP
+### 任務說明
+
+用 NIO ZIP File System 的方式，對一個**已經存在**的 ZIP 檔案 `archive.zip` 做以下操作：
+
+1. 用 `FileSystems.newFileSystem(zipPath, Map.of())` 開啟既有的 ZIP（不要加 `"create", "true"`，因為檔案已存在）
+2. 在 ZIP 內建立一個新目錄 `logs/`
+3. 把外部檔案 `today.log` 複製進去，成為 `logs/today.log`
+4. 印出 ZIP 內所有 entry 的路徑（用 `Files.walk` 走訪）
+
+<!--
+【任務鋪陳】
+這一題練習第四部分學到的 NIO ZIP File System，重點是「修改一個已經存在的 ZIP」——這正是傳統 `ZipOutputStream` 寫法做不到、必須整個重新打包才能做到的事。
+
+【引導思考】
+想一想：開啟一個「已經存在」的 ZIP，跟前面範例「建立新 ZIP」相比，`env` 參數（`Map.of("create", "true")` vs `Map.of()`）有什麼不同？另外，`fs.getPath("logs")` 跟 `Files.createDirectories()` 之間的關係是什麼？
+-->
+
+---
+layout: default
+---
+
+# 練習：NIO 增量更新 ZIP
+### 解題提示
+
+```java
+Path zipPath = Path.of("archive.zip");
+
+try (FileSystem fs = FileSystems.newFileSystem(zipPath, Map.of())) {
+    // ① 建立新目錄
+    Path logsDir = fs.getPath("logs");
+    Files.createDirectories(logsDir);
+
+    // ② 複製外部檔案進去
+    Files.copy(Path.of("today.log"), fs.getPath("logs/today.log"));
+
+    // ③ 列出所有 entry
+    Path root = fs.getPath("/");
+    Files.walk(root).forEach(p -> System.out.println(p));
+}
+```
+
+**關鍵點：**
+- 開啟既有 ZIP 用 `Map.of()`（空設定）；建立新 ZIP 才需要 `Map.of("create", "true")`
+- `Files.createDirectories()` 在 ZIP 內建立目錄，跟在真實檔案系統上的用法完全相同
+- 整段操作結束（`try` 區塊結束、`fs.close()`）後，`archive.zip` 就已經包含新增的內容，不需要額外的「儲存」步驟
+
+<!--
+【帶讀解法】
+這題最重要的對比是 `env` 參數的差異：`Map.of("create", "true")` 是「如果檔案不存在就幫我新建」，用在建立新 ZIP；而開啟既有的 `archive.zip` 時，檔案已經存在，直接用 `Map.of()`（空設定）即可，不需要也不應該加 `create`。這正是 NIO ZIP File System 最強大的地方——把 ZIP 當成一個可以隨時掛載、隨時讀寫的虛擬磁碟，新增檔案、建立目錄都跟操作真實檔案系統一樣自然，傳統的 `ZipOutputStream` 寫法則完全無法「就地修改」已存在的 ZIP，只能整個重新打包。
 -->
 
 ---

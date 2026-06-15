@@ -256,6 +256,75 @@ squ.draw();  → 繪製矩形！
 這就是多型的基礎：之後我們可以用一個 `Shape` 型態的容器同時裝圓形和方形，跑一個迴圈，每個物件就會自動執行自己的 `draw()`，不用一個個判斷型態。
 -->
 ---
+layout: default
+---
+
+# 練習：設計 Notification 抽象類別
+### 任務說明
+
+設計一套抽象類別，模擬「發送通知」的情境：
+1. 建立抽象類別 `Notification`，內含一個方法 `void send()`（先用「空實作」`{}`，裡面不寫任何內容）
+2. 建立子類別 `EmailNotification extends Notification`，`override` `send()`，印出 `"以 Email 發送通知"`
+3. 建立子類別 `SmsNotification extends Notification`，`override` `send()`，印出 `"以 SMS 發送通知"`
+4. 在 `main()` 中分別建立兩個子類別物件並呼叫 `send()`；接著嘗試 `new Notification()`，觀察會發生什麼事
+
+**預期輸出：**
+```
+以 Email 發送通知
+以 SMS 發送通知
+```
+
+<!--
+【任務鋪陳】
+這一節學到抽象類別不能用 `new` 建立物件，也學到用「空實作」`{}` 定義骨架方法的寫法。這個練習就是讓我們親手寫一次，並實際感受 `new Notification()` 會出現什麼錯誤訊息。
+
+【引導思考】
+想一想：`Notification` 裡的 `send()` 寫成空的 `{}`，跟完全不寫這個方法，有什麼不同？子類別一定要 `override` 它嗎？
+
+【等待與觀察】
+給大家 5 分鐘。提示：先把兩個子類別寫好並測試輸出，最後再嘗試 `new Notification()`，看看編譯器的錯誤訊息怎麼寫。
+-->
+---
+layout: default
+---
+
+# 練習：設計 Notification 抽象類別
+### 解題提示
+
+1. `Notification` 宣告為 `abstract class`，`send()` 用空大括號 `{}`
+2. 兩個子類別各自 `override` `send()`，印出不同的訊息
+3. `new Notification()` 會出現 `'Notification' is abstract; cannot be instantiated` 編譯錯誤
+
+```java
+abstract class Notification {
+    public void send() { } // 空實作骨架
+}
+class EmailNotification extends Notification {
+    @Override
+    public void send() { System.out.println("以 Email 發送通知"); }
+}
+class SmsNotification extends Notification {
+    @Override
+    public void send() { System.out.println("以 SMS 發送通知"); }
+}
+```
+
+```java
+Notification n1 = new EmailNotification();
+Notification n2 = new SmsNotification();
+n1.send(); // 以 Email 發送通知
+n2.send(); // 以 SMS 發送通知
+// Notification n3 = new Notification(); // 編譯錯誤！
+```
+
+<!--
+【帶讀解法】
+重點在於：`Notification` 雖然定義了 `send()`，但因為自己是 `abstract class`，沒辦法用 `new` 建立物件，只能透過子類別 `EmailNotification`、`SmsNotification` 來實際使用。
+
+⚠️ 小提醒：
+這裡的 `send() {}` 是「空實作」，如果 `EmailNotification` 忘記 `override`，程式仍能編譯通過，但執行 `n1.send()` 時什麼都不會發生——這正是下一節「抽象方法」要解決的問題：用 `abstract void send();` 強制子類別一定要實作。
+-->
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -351,6 +420,72 @@ class Bmw extends Car {
 如果暫時不想在 `Bmw` 裡實作，可以把 `Bmw` 也宣告為 `abstract`，把這個義務延到 `Bmw` 的子類別去實作，這個做法叫「延遲實作」。
 -->
 ---
+layout: default
+---
+
+# 練習：用抽象方法強制實作 pay()
+### 任務說明
+
+設計一套抽象類別，練習「抽象方法強制 override」與「延遲實作」：
+1. 建立抽象類別 `Payment`，內含抽象方法 `abstract void pay(int amount);`
+2. 建立子類別 `CreditCardPayment extends Payment`，`override` `pay(int amount)`，印出 `"信用卡支付 " + amount + " 元"`
+3. 建立另一個子類別 `OnlinePayment extends Payment`，**先不要** `override` `pay()`，觀察編譯錯誤訊息；接著把 `OnlinePayment` 也宣告為 `abstract class`，讓編譯通過
+4. 在 `main()` 中只測試 `CreditCardPayment`，呼叫 `pay(1000)`
+
+**預期輸出：**
+```
+信用卡支付 1000 元
+```
+
+<!--
+【任務鋪陳】
+這一節學到抽象方法「子類別必須 override，否則編譯錯誤」，以及「延遲實作」的解法——把子類別也宣告成 `abstract`。這個練習就是讓我們親手製造一次這個編譯錯誤，再用兩種方式修正它。
+
+【引導思考】
+想一想：`OnlinePayment` 如果不想實作 `pay()`，有哪兩種解法？一種是補上實作，另一種呢？這兩種解法分別適合什麼情境？
+
+【等待與觀察】
+給大家 5 分鐘。提示：先寫 `CreditCardPayment` 確認可以正常運作，再嘗試 `OnlinePayment`，故意不寫 `pay()`，看看錯誤訊息怎麼描述。
+-->
+---
+layout: default
+---
+
+# 練習：用抽象方法強制實作 pay()
+### 解題提示
+
+1. `Payment` 宣告 `abstract void pay(int amount);`（無方法主體，以 `;` 結尾）
+2. `CreditCardPayment` 必須 `override` `pay()`，否則編譯錯誤
+3. `OnlinePayment` 若不想實作，加上 `abstract` 修飾整個類別即可編譯通過
+
+```java
+abstract class Payment {
+    abstract void pay(int amount);
+}
+class CreditCardPayment extends Payment {
+    @Override
+    void pay(int amount) {
+        System.out.println("信用卡支付 " + amount + " 元");
+    }
+}
+// 解法一：補上實作
+// class OnlinePayment extends Payment {
+//     @Override
+//     void pay(int amount) { System.out.println("線上支付 " + amount + " 元"); }
+// }
+// 解法二：延遲實作，類別也宣告為 abstract
+abstract class OnlinePayment extends Payment {
+    // pay() 留給 OnlinePayment 的子類別實作
+}
+```
+
+<!--
+【帶讀解法】
+重點在於：`OnlinePayment extends Payment` 但沒有實作 `pay()`，編譯器會出現 `Class 'OnlinePayment' must implement abstract method 'pay(int)' in 'Payment'`——這就是「債還沒還清」的提醒。
+
+解法一是直接補上實作（像 `CreditCardPayment` 一樣）；解法二是把 `OnlinePayment` 也宣告為 `abstract class`，把這筆「債」遞延給 `OnlinePayment` 未來的子類別。兩種解法都合法，選哪一種取決於：這個類別現在「準備好實作」了沒有。
+-->
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -439,6 +574,80 @@ bmw.run();     → 安全駕駛中 ...
 
 【業界實務】
 這種「共用邏輯寫一次、各自邏輯各自實作」的做法，就是程式碼重用的核心精神，也是我們喜歡用抽象類別的原因之一。
+-->
+---
+layout: default
+---
+
+# 練習：Employee 抽象類別混用兩種方法
+### 任務說明
+
+設計一套抽象類別，練習「抽象方法 + 普通方法混用」：
+1. 建立抽象類別 `Employee`，內含：
+   - 普通方法 `void clockIn()`，印出 `"打卡上班"`（所有員工都一樣，不需 override）
+   - 抽象方法 `abstract void work();`（每種員工的工作內容不同）
+2. 建立子類別 `Engineer extends Employee`，`override` `work()`，印出 `"撰寫程式"`
+3. 建立子類別 `Designer extends Employee`，`override` `work()`，印出 `"設計畫面"`
+4. 在 `main()` 中分別建立 `Engineer` 與 `Designer` 物件，依序呼叫 `clockIn()` 與 `work()`
+
+**預期輸出：**
+```
+打卡上班
+撰寫程式
+打卡上班
+設計畫面
+```
+
+<!--
+【任務鋪陳】
+這一節學到抽象類別可以「同時擁有」抽象方法和普通方法——共同的部分（打卡）寫一次給大家用，各自不同的部分（工作內容）留給子類別實作。這個練習就是把這個概念套用到「員工」這個更貼近職場的情境。
+
+【引導思考】
+想一想：`clockIn()` 為什麼適合宣告成普通方法，而 `work()` 適合宣告成抽象方法？如果反過來，會發生什麼問題？
+
+【等待與觀察】
+給大家 5 分鐘。提示：`Engineer` 和 `Designer` 都不需要再寫一次 `clockIn()`，因為它是繼承來的。
+-->
+---
+layout: default
+---
+
+# 練習：Employee 抽象類別混用兩種方法
+### 解題提示
+
+1. `clockIn()` 是普通方法，所有子類別共用同一份實作，不需要 `override`
+2. `work()` 是抽象方法，每個子類別都必須 `override`，提供自己的工作內容
+
+```java
+abstract class Employee {
+    void clockIn() {              // 普通方法，共用邏輯
+        System.out.println("打卡上班");
+    }
+    abstract void work();         // 抽象方法，各自實作
+}
+class Engineer extends Employee {
+    @Override
+    void work() { System.out.println("撰寫程式"); }
+}
+class Designer extends Employee {
+    @Override
+    void work() { System.out.println("設計畫面"); }
+}
+```
+
+```java
+Employee e1 = new Engineer();
+Employee e2 = new Designer();
+e1.clockIn(); e1.work(); // 打卡上班 → 撰寫程式
+e2.clockIn(); e2.work(); // 打卡上班 → 設計畫面
+```
+
+<!--
+【帶讀解法】
+重點在於：`Engineer` 和 `Designer` 都沒有重新寫 `clockIn()`，因為「打卡」這個動作對所有員工都一樣，寫在 `Employee` 裡讓大家共用就好；但 `work()` 因為每種職務的工作內容不同，所以宣告成抽象方法，強制每個子類別都要交出自己的版本。
+
+💼 業界實務：
+這正是「求同存異」的具體應用——團隊裡常見的 `BaseController`、`AbstractService` 這類抽象類別，通常都會把「共用的流程」寫成普通方法，把「各自不同的業務邏輯」設計成抽象方法。
 -->
 ---
 layout: section
@@ -594,6 +803,84 @@ bmw.run();
 老鳥都喜歡寫 Car car = getCar(); 而不是 Bmw car = getBmw();。因為我們追求的是「彈性」，而不是死板板的型別。
 -->
 ---
+layout: default
+---
+
+# 練習：Account 抽象類別的建構方法與 Upcasting
+### 任務說明
+
+設計一套抽象類別，練習「抽象類別的建構方法、`protected` 屬性與 Upcasting」：
+1. 建立抽象類別 `Account`，內含：
+   - `protected String owner`，建構方法 `Account(String owner)` 接收參數並印出 `"開戶完成"`
+   - 抽象方法 `abstract void showType();`
+2. 建立子類別 `SavingsAccount extends Account`：
+   - 建構方法呼叫 `super(owner)`
+   - `override` `showType()`，印出 `owner + " 的帳戶類型：活存"`
+3. 在 `main()` 中：
+   - 用 `Account acc = new SavingsAccount("古古");`（Upcasting）建立物件
+   - 呼叫 `acc.showType()`
+   - 觀察建構方法的執行順序
+
+**預期輸出：**
+```
+開戶完成
+古古 的帳戶類型：活存
+```
+
+<!--
+【任務鋪陳】
+這一節學到抽象類別也可以有建構方法和 `protected` 屬性，而且可以用 Upcasting 宣告物件。這個練習就是把這幾個概念整合到一個更貼近生活的「帳戶」情境。
+
+【引導思考】
+想一想：`SavingsAccount` 的建構方法第一行要寫什麼？`Account acc = new SavingsAccount("古古")` 這一行，`acc` 能呼叫 `Account` 裡所有的方法嗎？
+
+【等待與觀察】
+給大家 6 分鐘。提示：`Account` 不能 `new`，但它的建構方法仍然會在 `new SavingsAccount(...)` 時被呼叫。
+-->
+---
+layout: default
+---
+
+# 練習：Account 抽象類別的建構方法與 Upcasting
+### 解題提示
+
+1. `Account` 的建構方法接收 `owner`，存入 `protected` 屬性，並印出 `"開戶完成"`
+2. `SavingsAccount` 建構方法第一行 `super(owner)`
+3. `Account acc = new SavingsAccount("古古")` 是合法的 Upcasting，因為 `Account` 本身雖不能 `new`，但可以當作變數型態
+
+```java
+abstract class Account {
+    protected String owner;
+    Account(String owner) {
+        this.owner = owner;
+        System.out.println("開戶完成");
+    }
+    abstract void showType();
+}
+class SavingsAccount extends Account {
+    SavingsAccount(String owner) {
+        super(owner);
+    }
+    @Override
+    void showType() {
+        System.out.println(owner + " 的帳戶類型：活存");
+    }
+}
+```
+
+```java
+Account acc = new SavingsAccount("古古"); // Upcasting，先印出「開戶完成」
+acc.showType(); // 古古 的帳戶類型：活存
+```
+
+<!--
+【帶讀解法】
+重點有兩個：第一，`new SavingsAccount("古古")` 執行時，會先呼叫 `Account` 的建構方法（印出「開戶完成」），再執行 `SavingsAccount` 自己的建構方法；第二，`Account acc = ...` 是 Upcasting——雖然 `Account` 不能直接 `new`，但完全可以當作變數的宣告型態。
+
+💼 業界實務：
+這種「父類別管共用初始化、子類別補上細節」的設計，在企業系統的帳戶、訂單等模組裡很常見，例如所有帳戶開戶都要做的「建檔、發送通知」邏輯放在父類別，各帳戶類型自己的規則放在子類別。
+-->
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -666,6 +953,50 @@ Java 8 起，介面支援 `default` 與 `static` 方法（Java 9 加入 `private
 
 💼 業界實務：
 如果你看到有人用繼承來實作「飛行能力」，導致飛機繼承了鳥類，那這程式碼基本上已經沒救了。
+-->
+---
+layout: default
+---
+
+# 練習：抽象類別 vs 介面 的選擇
+### 認證模擬題（單選）
+
+我們要設計以下系統：`Dog`、`Cat`、`Robot` 三個類別都需要具備「叫聲」（`makeSound()`）的能力，而 `Dog` 和 `Cat` 還共享大量「動物」的共同屬性（如 `name`、`age`）與共同行為（如 `eat()`）；`Robot` 則完全不是動物，但也需要能「叫」。
+
+下列設計方式，哪一個**最合適**？
+
+A. 設計 `abstract class Animal`（含 `name`、`age`、`eat()`），`Dog`、`Cat extends Animal`；另外設計 `interface Soundable`（含 `makeSound()`），讓 `Dog`、`Cat`、`Robot` 都 `implements Soundable`
+B. 設計 `abstract class Animal`，讓 `Dog`、`Cat`、`Robot` 都 `extends Animal`，並在 `Animal` 中宣告 `abstract void makeSound();`
+C. 設計 `interface Animal`（含 `name`、`age`、`eat()`、`makeSound()`），讓 `Dog`、`Cat`、`Robot` 都 `implements Animal`
+D. 分別在 `Dog`、`Cat`、`Robot` 中各自定義 `makeSound()`，不使用抽象類別或介面
+
+<!--
+【出題動機】
+這題想測驗「抽象類別 vs 介面」的應用場景判斷——這是 OCA/OCP 常見的設計題型，也是實務上設計類別架構時最常遇到的抉擇。
+
+【解題引導】
+提示：先想想 `Robot` 跟 `Dog`、`Cat` 之間是不是「親兄弟」關係（IS-A，有沒有共同的 `name`、`age`、`eat()`）？「叫聲」這個能力，是不是「跨界合作」（CAN-DO）比較合適？另外，介面能不能存放 `name`、`age` 這種「狀態」？
+-->
+---
+layout: default
+---
+
+# 練習：抽象類別 vs 介面 的選擇
+### 解析
+
+**正確答案：A**
+
+- A. ✅ `Dog`、`Cat` 是「親兄弟」關係，共享 `name`、`age`、`eat()`，適合用 `abstract class Animal`；`makeSound()` 是跨越「動物」與「機器人」的「跨界能力」，適合用 `interface Soundable`
+- B. ❌ `Robot` 不是動物，卻被迫繼承 `Animal` 並擁有 `name`、`age`、`eat()` 這些不合理的屬性與行為，語意上不正確
+- C. ❌ `interface` 無法儲存 `name`、`age` 這種實例狀態（沒有實例欄位），`Dog`、`Cat` 之間的共用屬性會變成每個類別都要重複宣告
+- D. ❌ 完全不使用抽象類別或介面，會讓 `Dog`、`Cat`、`Robot` 之間沒有任何共同型態，無法用多形統一處理，也無法強制每個類別都實作 `makeSound()`
+
+<!--
+【帶讀解法】
+這題的關鍵在於分辨兩種關係：`Dog` 和 `Cat` 是 IS-A 關係（牠們都「是」一種 `Animal`，有共同的狀態與行為），適合用抽象類別；而「會叫」這個能力，`Robot` 也需要，但 `Robot` 顯然不是動物，這種「跨類別的共同能力」就是 CAN-DO 關係，適合用介面。
+
+💼 業界實務：
+實務上常見「抽象類別 + 介面」混合使用：抽象類別負責「血緣相近的共用狀態與邏輯」，介面負責「跨血緣的共同能力」。這也是為什麼 Java 允許一個類別同時 `extends` 一個抽象類別、又 `implements` 多個介面。
 -->
 ---
 layout: section

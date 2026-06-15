@@ -262,6 +262,50 @@ OutputStream 是 InputStream 的另一半——負責把資料「寫出去」。
 -->
 
 ---
+layout: default
+---
+
+# 練習：串流基礎概念
+### 認證模擬題（單選）
+
+關於 Java I/O 串流的基礎概念，下列描述何者**正確**？
+
+A. 讀取文字檔（如 `.txt`、`.csv`）時，應該優先使用 `InputStream` / `OutputStream`，因為它們效率較高
+
+B. `InputStream` 的 `read()` 方法在讀到串流結尾時，會回傳 `-1`
+
+C. `BufferedInputStream` 是 `InputStream` 的子類別，但它跟 `FileInputStream` 是互相獨立、不能合併使用的兩種串流
+
+D. `OutputStream` 是抽象類別，所以 `new OutputStream()` 可以用來建立一個「什麼都不做」的輸出串流
+
+<!--
+【出題動機】
+這題想確認大家對「兩大串流家族的選用原則」「`read()` 回傳 `-1` 的意義」以及「裝飾者模式（一層包一層）」這三個第一部分的核心概念是否真的理解。
+
+【解題引導】
+先想一想：文字檔該用哪個家族？再回頭看看 `read()` 方法表，`-1` 代表什麼？最後，`BufferedInputStream` 包裝 `FileInputStream` 的「裝飾者模式」，跟「兩者互相獨立不能合併」是同一件事嗎？另外，抽象類別可以直接 `new` 嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：串流基礎概念
+### 解析
+
+**正確答案：B**
+
+- A. ❌ 文字檔（人看得懂的內容）應該優先用 `Reader` / `Writer`；`InputStream` / `OutputStream` 是給「二進位資料」（圖片、音訊）用的，選錯家族文字可能會變成亂碼
+- B. ✅ `read()` 每次讀一個 byte（範圍 0~255），讀到串流結尾時回傳 `-1`，這是迴圈終止的信號，不是錯誤
+- C. ❌ 這正好說反了：Java I/O 採用「裝飾者模式」，`BufferedInputStream` 就是設計來「包裝」`FileInputStream`，為它加上緩衝功能，兩者是可以、而且通常會合併使用的
+- D. ❌ `OutputStream` 是抽象類別，不能直接用 `new OutputStream()` 建立物件，必須選擇具體的子類別（例如 `FileOutputStream`、`ByteArrayOutputStream`）
+
+<!--
+【帶讀解法】
+這題把第一部分三個重點串起來：選擇串流家族的原則（文字用 Reader/Writer，二進位用 InputStream/OutputStream）、`read()` 回傳 `-1` 代表 EOF、以及「裝飾者模式」是「一層包一層」而不是「互相獨立」。記住類別圖裡 `BufferedInputStream` 是 `FilterInputStream` 的子類別，`FilterInputStream` 的設計目的就是包裝其他 `InputStream`，這是 Java I/O 的核心設計哲學。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -868,6 +912,72 @@ java.util.Arrays.fill(password, ' ');  // 安全清除密碼
 
 【業界實務】
 為什麼密碼要用 `char[]` 而不是 `String`？因為 `String` 是不可變的，一旦建立，內容會留在記憶體中一段時間，難以主動清除；而 `char[]` 可以用 `Arrays.fill()` 主動覆寫成空白，用完即焚，降低密碼殘留風險。
+-->
+
+---
+layout: default
+---
+
+# 練習：格式化成績單
+### 任務說明
+
+請用 `System.out.printf` 印出以下成績單，要求欄位對齊：
+
+**資料：**
+```
+姓名: Alice, 分數: 95, 平均: 88.5
+姓名: Bob,   分數: 7,  平均: 72.333
+姓名: Carol, 分數: 100, 平均: 91.0
+```
+
+**預期輸出（姓名靠左寬度 8、分數靠右寬度 5、平均取小數點後 1 位寬度 6）：**
+```
+Alice     95   88.5
+Bob        7   72.3
+Carol    100   91.0
+```
+
+提示：需要用到 `%-8s`、`%5d`、`%6.1f` 這幾種格式符號，並用 `%n` 換行。
+
+<!--
+【任務鋪陳】
+這一題練習第四部分學到的 `printf` 格式符號，把「靠左對齊」「靠右對齊」「固定小數位數」這三個常用技巧一次用上。
+
+【引導思考】
+想一想：`%-8s` 跟 `%8s` 的差別是什麼？如果資料裡的姓名是 "Carol"（5 個字元），`%-8s` 印出來後面會補幾個空白？分數欄位用 `%5d`，數字 `7` 會印成什麼樣子？
+-->
+
+---
+layout: default
+---
+
+# 練習：格式化成績單
+### 解題提示
+
+```java
+record Student(String name, int score, double avg) {}
+
+Student[] students = {
+    new Student("Alice", 95, 88.5),
+    new Student("Bob", 7, 72.333),
+    new Student("Carol", 100, 91.0)
+};
+
+for (Student s : students) {
+    System.out.printf("%-8s %5d %6.1f%n",
+        s.name(), s.score(), s.avg());
+}
+```
+
+**格式符號拆解：**
+- `%-8s`：字串靠左對齊，固定寬度 8（不足補空白）
+- `%5d`：整數靠右對齊，固定寬度 5
+- `%6.1f`：浮點數固定寬度 6，小數點後 1 位
+- `%n`：平台換行符（優於 `\n`）
+
+<!--
+【帶讀解法】
+這題的核心是「固定寬度」的概念：不管姓名長度是 5 個字還是 3 個字，`%-8s` 都會把欄位填滿到 8 個字元寬，這樣冒號或下一個欄位才會對齊。`%6.1f` 中的 `72.333` 會被四捨五入成 `72.3`，並補上前導空白讓寬度達到 6。如果發現對不齊，最常見的原因是混用全形跟半形字元——中文字在終端機通常佔 2 個字元寬，會讓對齊計算跟想像不同，這也是 `printf` 在處理中英文混排時的已知限制。
 -->
 
 ---

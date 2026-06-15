@@ -136,6 +136,55 @@ System.out.println(c); // 8
 -->
 
 ---
+layout: default
+---
+
+# 練習：程式設計的專有名詞
+### 認證模擬題（單選）
+
+觀察下面這段程式碼：
+
+```java
+int width = 4;
+int height = 5;
+int area = width * height;
+```
+
+關於這段程式碼中各個部分的名稱，下列哪一個說法是**正確**的？
+
+A. `width * height` 是一條 statement（敘述）
+B. `*` 是 operand（運算元）
+C. `width` 和 `height` 是 operand（運算元）
+D. `int area = width * height;` 是一個 expression（運算式）
+
+<!--
+【出題動機】
+這題想確認大家是不是真的能分辨 operand（運算元）、operator（運算子）、expression（運算式）、statement（敘述）這四個專有名詞，而不是只會背定義，要能對應到實際的程式碼上。
+
+【解題引導】
+先找出這段程式碼裡，哪些是「被運算的對象」，哪些是「運算的符號」，哪一段「會產生一個值」，哪一行是「以分號結尾的完整指令」。把這四個角色分別圈出來，答案就清楚了。
+-->
+
+---
+layout: default
+---
+
+# 練習：程式設計的專有名詞
+### 解析
+
+**正確答案：C**
+
+- A. ❌ `width * height` 是 expression（運算式），因為它會產生一個值（`20`），但本身沒有以分號結尾，不是完整的 statement
+- B. ❌ `*` 是 operator（運算子），代表「乘法」這個動作，不是被運算的對象
+- C. ✅ `width` 和 `height` 是被運算的對象，正是 operand（運算元）的定義
+- D. ❌ `int area = width * height;` 是一條完整的 statement（敘述），因為它以分號結尾；其中 `width * height` 才是 expression（運算式）
+
+<!--
+【帶讀解法】
+這題的關鍵在於把抽象定義對應回真實程式碼：`width` 和 `height` 是「被操作的東西」（operand）；`*` 是「操作的動作」（operator）；`width * height` 兩者合起來會算出一個值，這就是 expression；最後加上 `int area = ... ;` 變成一條完整指令，就是 statement。記住這個對應關係，之後在 Code Review 或閱讀文件時，看到這幾個英文術語就不會再霧裡看花了。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -328,6 +377,67 @@ System.out.println(score); // 6
 -->
 
 ---
+layout: default
+---
+
+# 練習：數學運算與 Math 類別
+### 任務說明
+
+撰寫一個程式，讓使用者輸入一個圓的**半徑**（`double`），計算並印出：
+
+1. 圓的面積（公式：`半徑² × π`）
+2. 圓的周長（公式：`2 × 半徑 × π`）
+3. 將面積四捨五入到整數後的結果
+
+**要求：**
+1. 使用 `Math.PI`、`Math.pow()` 計算面積
+2. 使用 `Math.round()` 將面積四捨五入
+3. 面積與周長輸出到小數點後兩位（用 `printf`）
+
+<!--
+【任務鋪陳】
+這個練習要把剛剛學到的數學運算子跟 Math 類別常用方法串在一起，做一個簡單但實用的「圓形計算機」。
+
+【引導思考】
+想一想：`Math.pow(半徑, 2)` 算出來的型態是什麼？`Math.round()` 的回傳型態又是什麼，如果要印出整數，需要做什麼處理？
+-->
+
+---
+layout: default
+---
+
+# 練習：數學運算與 Math 類別
+### 解題提示
+
+1. 面積：`double area = Math.pow(radius, 2) * Math.PI;`
+2. 周長：`double circumference = 2 * radius * Math.PI;`
+3. 四捨五入：`Math.round(area)` 回傳 `long`，若要當整數使用可強制轉型為 `int`
+
+```java
+import java.util.Scanner;
+
+Scanner scanner = new Scanner(System.in);
+System.out.print("請輸入半徑：");
+double radius = scanner.nextDouble();
+
+double area = Math.pow(radius, 2) * Math.PI;
+double circumference = 2 * radius * Math.PI;
+long roundedArea = Math.round(area);
+
+System.out.printf("面積：%.2f%n", area);
+System.out.printf("周長：%.2f%n", circumference);
+System.out.println("面積（四捨五入）：" + roundedArea);
+scanner.close();
+```
+
+<!--
+【帶讀解法】
+這個練習用到了上一頁表格裡的兩個常客：`Math.pow()` 算次方、`Math.PI` 取代手寫的 3.14159。重點提醒：`Math.pow(radius, 2)` 回傳的是 `double`，跟 `Math.PI`（也是 `double`）相乘，結果自然也是 `double`，不會有整數除法的問題。
+
+⚠️ 易錯點：`Math.round()` 回傳型態是 `long`，不是 `int`，這裡示範用 `long roundedArea` 直接接住，如果要存進 `int` 變數，記得要額外做強制轉型。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -418,6 +528,66 @@ System.out.println(result); // false，右側因短路未執行
 -->
 
 ---
+layout: default
+---
+
+# 練習：比較與邏輯運算子
+### 任務說明
+
+撰寫一個程式，讓使用者輸入**年齡**（整數）與**是否持有學生證**（用 `1` 表示有、`0` 表示沒有）：
+
+1. 若年齡 `>= 65` **或** 持有學生證，則可以買「優惠票」
+2. 若年齡在 `6` 到 `64` 之間（含）**且**沒有學生證，則買「全票」
+3. 其餘情況買「兒童票」
+
+請用比較運算子與邏輯運算子（`&&`、`||`、`!`）組合出判斷條件，並印出購票結果。
+
+<!--
+【任務鋪陳】
+這個練習要把比較運算子（`>=`、`<=`）跟邏輯運算子（`&&`、`||`）組合起來，做一個更貼近生活的判斷情境——購票規則。
+
+【引導思考】
+想一想：「年齡 >= 65 或持有學生證」這句話，要怎麼用 || 串起兩個條件？「年齡在 6 到 64 之間」又要怎麼用 && 串起兩個比較運算式？三個條件之間，會不會有重疊或衝突的地方？
+-->
+
+---
+layout: default
+---
+
+# 練習：比較與邏輯運算子
+### 解題提示
+
+1. 優惠票條件：`age >= 65 || hasStudentCard`
+2. 全票條件：`age >= 6 && age <= 64 && !hasStudentCard`
+3. 其餘情況（不符合以上兩者）就是兒童票
+
+```java
+import java.util.Scanner;
+
+Scanner scanner = new Scanner(System.in);
+System.out.print("請輸入年齡：");
+int age = scanner.nextInt();
+System.out.print("是否持有學生證（1=有, 0=無）：");
+boolean hasStudentCard = scanner.nextInt() == 1;
+
+if (age >= 65 || hasStudentCard) {
+    System.out.println("優惠票");
+} else if (age >= 6 && age <= 64 && !hasStudentCard) {
+    System.out.println("全票");
+} else {
+    System.out.println("兒童票");
+}
+scanner.close();
+```
+
+<!--
+【帶讀解法】
+這個練習的重點在於把三個購票規則翻譯成三個布林運算式：第一條用 `||`（年齡到了「或」有學生證，兩者滿足其一即可）；第二條用 `&&` 串起兩個範圍判斷，再用 `!` 排除有學生證的情況。
+
+⚠️ 易錯點：這裡的判斷順序很重要——一定要先檢查「優惠票」的條件，因為它的條件最寬鬆（用 `||`），如果順序顛倒，可能會讓符合優惠票資格的人被誤判成全票。這也呼應了上一頁提到的「短路求值」：`||` 只要左邊為 `true` 就會直接成立，不會浪費時間檢查右邊。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -486,6 +656,66 @@ System.out.println(ch);  // A
 可以想像一下：把 double 轉成 int，小數點會像連假結束一樣瞬間消失；把巨大的 long 硬塞進 int，就像把一個大個子硬塞進嬰兒車，結果一定會「擠壞」，也就是溢位，算出來的數字會變得莫名其妙。
 
 ⚠️ 易錯點：int 轉 char 看似神奇（65 變成 'A'），其實是因為字元在底層也是用數字（ASCII／Unicode 編碼）儲存的，這部分在後面字元與字串的章節會更深入說明。
+-->
+
+---
+layout: default
+---
+
+# 練習：型態轉換練習
+### 任務說明
+
+寫一個程式，宣告下列變數並完成轉換：
+
+1. 宣告兩個 `byte` 變數 `x = 100` 與 `y = 50`，計算 `x + y`，並把結果存進一個 `int` 變數印出
+2. 宣告一個 `double` 變數 `price = 99.99`，使用強制轉型把它轉成 `int` 並印出
+3. 宣告一個 `int` 變數 `code = 97`，使用強制轉型把它轉成 `char` 並印出
+
+**預期輸出：**
+```
+150
+99
+a
+```
+
+<!--
+【任務鋪陳】
+剛才學到了自動型態提升跟強制轉型這兩個觀念，這個練習要把這兩種轉換各自實際操作一次，看看 Java 在不同情境下到底會怎麼處理型態。
+
+【引導思考】
+想一想：第一小題裡，兩個 byte 相加之後的結果，型態會自動變成什麼？第二小題的強制轉型，會不會做四捨五入，還是直接捨去小數？第三小題的 97，對照 ASCII 表會是哪個字元？
+-->
+
+---
+layout: default
+---
+
+# 練習：型態轉換練習
+### 解題提示
+
+1. `byte` + `byte` 運算結果會自動提升為 `int`，直接用 `int` 變數接住即可
+2. `double` 轉 `int` 是強制轉型，會**直接截去小數**，不會四捨五入
+3. `int` 轉 `char` 會依照 ASCII／Unicode 對照表轉換，`97` 對應到小寫字母 `'a'`
+
+```java
+byte x = 100, y = 50;
+int sum = x + y;          // 自動提升為 int，結果 150
+System.out.println(sum);
+
+double price = 99.99;
+int rounded = (int) price; // 強制轉型，截去小數，結果 99
+System.out.println(rounded);
+
+int code = 97;
+char ch = (char) code;     // 對照 ASCII，結果 'a'
+System.out.println(ch);
+```
+
+<!--
+【帶讀解法】
+這三小題分別對應這一節的三個重點：第一題示範「byte + byte 自動變成 int」；第二題示範「double 轉 int 是直接砍掉小數，不是四捨五入」——如果想要四捨五入，要先用 `Math.round()`；第三題示範「char 在底層其實是數字」，97 在 ASCII 表裡正好對應到小寫的 `'a'`。
+
+⚠️ 易錯點：第二小題很容易誤以為 `(int) 99.99` 會變成 `100`，但強制轉型是「無條件捨去」，所以正確答案是 `99`。
 -->
 
 ---
@@ -584,6 +814,70 @@ System.out.println(n + 1);          // 101
 -->
 
 ---
+layout: default
+---
+
+# 練習：Scanner 與字串轉數值
+### 任務說明
+
+撰寫一個程式，模擬「點餐小計算機」：
+
+1. 使用 `Scanner` 讀取使用者輸入的**餐點名稱**（一整行文字）與**單價**（整數）
+2. 接著再用 `next()` 讀取使用者輸入的「數量」字串（例如 `"3"`），並用 `Integer.parseInt()` 轉成 `int`
+3. 計算總金額（單價 × 數量），並印出「餐點名稱 x 數量 = 總金額 元」
+
+**要求：**
+1. 注意 `nextInt()` 之後接 `nextLine()` 的換行殘留問題
+2. 數量必須用字串讀入後再用 `parseInt` 轉換（模擬從表單取得文字資料的情境）
+
+<!--
+【任務鋪陳】
+這個練習把這一節學到的 `Scanner` 基本輸入跟 `parseInt` 字串轉數值兩個重點串在一起，模擬一個簡單但實用的點餐情境。
+
+【引導思考】
+想一想：讀取餐點名稱時要用哪個方法？單價是整數，讀完之後如果接著要讀一整行文字，中間會不會卡到殘留的換行符號？最後，數量是用字串讀進來的，要怎麼把它變成可以計算的數字？
+-->
+
+---
+layout: default
+---
+
+# 練習：Scanner 與字串轉數值
+### 解題提示
+
+1. 用 `scanner.nextLine()` 讀取餐點名稱
+2. 用 `scanner.nextInt()` 讀取單價
+3. 用 `scanner.nextLine()` 消耗殘留換行，再用 `scanner.next()` 讀取數量字串
+4. 用 `Integer.parseInt()` 將數量字串轉成 `int`，再計算總金額
+
+```java
+import java.util.Scanner;
+
+Scanner scanner = new Scanner(System.in);
+System.out.print("請輸入餐點名稱：");
+String name = scanner.nextLine();
+
+System.out.print("請輸入單價：");
+int price = scanner.nextInt();
+
+scanner.nextLine(); // 消耗殘留換行
+System.out.print("請輸入數量：");
+String qtyStr = scanner.next();
+int qty = Integer.parseInt(qtyStr);
+
+int total = price * qty;
+System.out.println(name + " x " + qty + " = " + total + " 元");
+scanner.close();
+```
+
+<!--
+【帶讀解法】
+這個練習的關鍵在於兩個地方串接：第一，`nextInt()` 讀完單價之後，記得用一次 `nextLine()` 清掉殘留的換行；第二，數量是先用 `next()` 讀成字串 `qtyStr`，再用 `Integer.parseInt(qtyStr)` 轉成數字，這就是「表單資料永遠是文字，要先轉換才能計算」的具體示範。
+
+完成之後可以試試看：如果拿掉中間那行 `scanner.nextLine();`，會發生什麼事？這正好可以驗證上一頁提到的「換行殘留」問題。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -629,6 +923,47 @@ Scanner sc = new Scanner(System.in);
 -->
 
 ---
+layout: default
+---
+
+# 練習：import 與套件
+### 認證模擬題（單選）
+
+關於 Java 的 `import` 與套件，下列哪一個說法是**正確**的？
+
+A. `Scanner` 屬於 `java.lang` 套件，所以不需要 `import` 就能使用
+B. `System`、`String`、`Math` 都屬於 `java.lang` 套件，編譯器會自動匯入，不需手動 `import`
+C. 使用 `import java.util.*;` 是業界最推薦的寫法，因為一次匯入最方便
+D. 一個程式只要寫了 `import java.util.Scanner;`，就可以不用 `import` 也能使用 `java.io` 套件裡的類別
+
+<!--
+【出題動機】
+這題想確認大家是不是分得清楚 java.lang（自動匯入）跟其他套件（需要手動 import）的差別，這是初學者很容易混淆的地方。
+
+【解題引導】
+先想一想：哪些類別是「打開就能用」的？再想想 import java.util.*; 這種寫法，業界實務上是鼓勵還是不鼓勵？最後注意一下，import 一個套件，對另一個套件有沒有影響。
+-->
+
+---
+layout: default
+---
+
+# 練習：import 與套件
+### 解析
+
+**正確答案：B**
+
+- A. ❌ `Scanner` 屬於 `java.util` 套件，必須 `import java.util.Scanner;` 才能使用
+- B. ✅ `System`、`String`、`Math` 都屬於 `java.lang` 套件，這個套件是 Java 最核心的部分，編譯器會自動幫我們匯入
+- C. ❌ 業界實務剛好相反，明確指定需要的類別（如 `import java.util.Scanner;`）才是建議寫法，`import java.util.*;` 會讓依賴關係變得不清楚
+- D. ❌ 每個套件的 `import` 是獨立的，匯入 `java.util.Scanner` 不會讓 `java.io` 套件裡的類別跟著變成可用
+
+<!--
+【帶讀解法】
+這題的核心觀念是：`java.lang` 是「內建 App」，其他套件（包括 `java.util`、`java.io`）都是「需要額外安裝」的，各自獨立，匯入一個套件不會影響另一個套件的可用性。記住這個分類，之後看到編譯錯誤說「找不到符號」，第一個該檢查的就是 import 有沒有寫對。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -669,6 +1004,55 @@ System.out.println(result); // 250.0
 Java 在判斷一條敘述是否結束時，只看「分號」，完全不在乎換行或空白，這給了我們排版上很大的彈性。
 
 💼 業界實務：雖然技術上可以把所有程式碼擠成一行，但一個有經驗的工程師通常會選擇在較大的運算子前面換行，讓程式碼讀起來更有層次。這種排版上的講究，其實也是專業素養的一部分。
+-->
+
+---
+layout: default
+---
+
+# 練習：程式敘述的結合與分行
+### 認證模擬題（單選）
+
+關於下面這段 Java 程式碼，請問執行後的輸出結果是什麼？
+
+```java
+int a = 1; int b = 2; int c = 3;
+double result = a
+              + b
+              - c;
+System.out.println(result);
+```
+
+A. 編譯錯誤，因為一行不能寫多個敘述
+B. 編譯錯誤，因為運算式不能跨行
+C. `0`
+D. `0.0`
+
+<!--
+【出題動機】
+這題想測驗大家是不是真的理解「Java 用分號判斷敘述結束，不在乎換行或空白」這個規則，順便複習一下型態提升的概念。
+
+【解題引導】
+先看看第一行的三個敘述，是不是都有用分號分隔？再看看 result 的型態宣告是什麼，這會影響最後輸出的格式喔。
+-->
+
+---
+layout: default
+---
+
+# 練習：程式敘述的結合與分行
+### 解析
+
+**正確答案：D**
+
+- A. ❌ 一行多敘述只要用 `;` 分隔就是合法的（雖然不建議），所以不會編譯錯誤
+- B. ❌ Java 不依賴換行判斷敘述結束，只要整段運算式最後有 `;` 結尾就合法，跨行完全沒問題
+- C. ❌ `1 + 2 - 3` 確實等於 `0`，但因為 `result` 宣告為 `double`，輸出時會顯示成 `0.0`，不是 `0`
+- D. ✅ `a + b - c` 算出來是 `0`，但因為存進的是 `double` 變數，`println` 會印出 `0.0`
+
+<!--
+【帶讀解法】
+這題的重點有兩個：第一，Java 只看分號，不看換行，所以即使運算式拆成三行，編譯器仍然把它當成一條完整的敘述；第二，型態會影響輸出的「外觀」——同樣是 0，存在 int 裡印出來是 0，存在 double 裡印出來就是 0.0。這也提醒我們，宣告變數型態時要想清楚，這個值之後會不會需要小數。
 -->
 
 ---

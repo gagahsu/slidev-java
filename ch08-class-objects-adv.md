@@ -246,6 +246,63 @@ sequenceDiagram
 -->
 
 ---
+layout: default
+---
+
+# 練習：遞迴計算次方
+### 任務說明
+
+仿照 `factorial` 的寫法，設計一個遞迴方法 `power(int base, int exp)`，計算 `base` 的 `exp` 次方：
+
+- Base Case：當 `exp == 0` 時，回傳 `1`
+- Recursive Case：回傳 `base * power(base, exp - 1)`
+
+在 `main` 方法中呼叫 `power(2, 5)`，並印出結果（應為 `32`）。
+
+<!--
+【任務鋪陳】
+這題完全照搬 `factorial` 的結構，只是把「`n!` = `n × (n-1)!`」換成「`baseᵉˣᵖ` = `base × baseᵉˣᵖ⁻¹`」。目的是讓我們確認自己真的理解 Base Case 和 Recursive Case 的「套路」，而不是死記 `factorial` 這一題。
+
+【引導思考】
+想一想：`factorial` 的 Base Case 是 `n <= 1` 回傳 `1`；這題的 Base Case 應該是「exp 等於多少」回傳 `1`？為什麼 `power(2, 5)` 最終會等於 `2 * power(2, 4)`？
+-->
+
+---
+layout: default
+---
+
+# 練習：遞迴計算次方
+### 解題提示
+
+```java
+static int power(int base, int exp) {
+    if (exp == 0) return 1;          // Base Case
+    return base * power(base, exp - 1); // Recursive Case
+}
+
+public static void main(String[] args) {
+    System.out.println(power(2, 5)); // 32
+}
+```
+
+呼叫堆疊展開：
+```
+power(2,5) = 2 * power(2,4)
+           = 2 * (2 * power(2,3))
+           = 2 * (2 * (2 * power(2,2)))
+           = ... 
+           = 2 * 2 * 2 * 2 * 2 * power(2,0)
+           = 2 * 2 * 2 * 2 * 2 * 1 = 32
+```
+
+<!--
+【帶讀解法】
+這題的結構跟 `factorial` 幾乎一模一樣：`if (exp == 0) return 1;` 是 Base Case（任何數的 0 次方都是 1），`base * power(base, exp - 1)` 是 Recursive Case（把指數縮小 1，問題交給自己）。
+
+提醒大家：如果呼叫 `power(2, 5)`，遞迴會一路呼叫到 `power(2, 0)` 才觸發 Base Case，然後一層一層把 `2` 乘回去，總共乘了 5 次 `2`，等於 `32`。能看懂這個展開過程，代表我們已經抓到遞迴的「套路」了。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -349,6 +406,57 @@ hanoi(3, 'A', 'B', 'C');
 帶大家對照輸出結果：總共印出 7 行移動紀錄，正好符合 2³ - 1 = 7 的公式。如果我們把每一行的「盤 X：from → to」對照前一頁的圖，會發現順序完全吻合——先處理上面 2 個盤子（移到 B 再移到 C 的過程穿插在中間），再移動最大的盤 3，最後把另外 2 個盤子也歸位到 C。
 
 ⚠️ 易錯點：第一次看這個輸出可能會覺得順序很「跳」，建議搭配上一頁的圖一步一步對照，會比死記順序更容易理解。
+-->
+
+---
+layout: default
+---
+
+# 練習：計算河內塔移動次數
+### 任務說明
+
+延伸 `hanoi` 方法，設計一個遞迴方法 `countMoves(int n)`，回傳「搬移 n 個盤子總共需要的移動次數」，**不要**用 `2ⁿ - 1` 的公式直接計算，而是用遞迴的方式推導：
+
+- Base Case：當 `n == 1` 時，回傳 `1`（只需移動 1 次）
+- Recursive Case：搬 `n` 個盤子 = 搬 `n-1` 個盤子（到中轉柱）+ 移動第 `n` 個盤子（1 次）+ 搬 `n-1` 個盤子（到目標柱）
+
+在 `main` 方法中呼叫 `countMoves(4)`，並印出結果（應為 `15`），同時驗證是否等於 `2⁴ - 1`。
+
+<!--
+【任務鋪陳】
+這題不是要我們重寫 `hanoi` 的列印邏輯，而是把「河內塔遞迴邏輯」那一頁的三步驟（搬 n-1 個 → 移動第 n 個 → 再搬 n-1 個），轉換成「計算次數」的遞迴關係式。
+
+【引導思考】
+想一想：如果搬 `n-1` 個盤子需要 `countMoves(n-1)` 次，那「搬 n 個盤子」的三個步驟裡，前後兩個步驟各需要幾次？中間移動第 n 個盤子又算幾次？把這三個數字加起來會是什麼式子？
+-->
+
+---
+layout: default
+---
+
+# 練習：計算河內塔移動次數
+### 解題提示
+
+```java
+static int countMoves(int n) {
+    if (n == 1) return 1;                     // Base Case
+    return countMoves(n - 1)      // 先搬 n-1 個到中轉柱
+         + 1                       // 移動第 n 個盤子
+         + countMoves(n - 1);      // 再搬 n-1 個到目標柱
+}
+
+public static void main(String[] args) {
+    int n = 4;
+    System.out.println(countMoves(n));        // 15
+    System.out.println((int) Math.pow(2, n) - 1); // 15
+}
+```
+
+<!--
+【帶讀解法】
+這題的 Recursive Case 直接對應「河內塔遞迴邏輯」那張圖的三個區塊：`countMoves(n-1)` 出現了兩次（先搬到中轉柱、再搬到目標柱），中間的 `+ 1` 就是移動最大的那個盤子。
+
+這個遞迴關係式其實就是數學上的 `T(n) = 2 * T(n-1) + 1`，展開之後正好等於 `2ⁿ - 1`——這也是為什麼前面的提示會說「移動次數是 2ⁿ - 1」。透過這題，我們可以親眼驗證這個公式不是憑空冒出來的，而是從遞迴結構自然推導出來的。
 -->
 
 ---

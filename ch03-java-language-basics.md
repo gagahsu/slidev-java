@@ -208,6 +208,65 @@ var list = new ArrayList<String>(); // 推斷為 ArrayList<String>
 -->
 
 ---
+layout: default
+---
+
+# 練習：變數分類與初始化
+### 任務說明
+
+觀察下面這個類別，回答兩個問題：
+
+```java
+public class Player {
+    int level = 1;
+    static int playerCount = 0;
+
+    void levelUp() {
+        int bonus;
+        level = level + 1;
+        System.out.println(level + bonus);
+    }
+}
+```
+
+1. 分別指出 `level`、`playerCount`、`bonus` 屬於哪一種變數（區域 / 實例 / 類別）？
+2. 這段程式碼**無法編譯**，問題出在哪一行？為什麼？
+
+<!--
+【任務鋪陳】
+這題把三種變數分類放進同一個類別裡，讓大家練習「看宣告位置判斷分類」，再加上一個刻意藏的編譯錯誤。
+
+【引導思考】
+`level` 宣告在類別裡、方法外；`playerCount` 多了 `static`；`bonus` 宣告在方法內。對照「變數的三種分類」那張表，分別屬於哪一種？再想想：哪一種變數沒有預設值？
+
+【等待與觀察】
+給大家 4 分鐘。提示：錯誤跟 `bonus` 有關。
+-->
+
+---
+layout: default
+---
+
+# 練習：變數分類與初始化
+### 解題提示
+
+| 變數 | 分類 | 原因 |
+| --- | --- | --- |
+| `level` | 實例變數 | 宣告在類別內、方法外，沒有 `static` |
+| `playerCount` | 類別變數 | 有 `static`，所有物件共用 |
+| `bonus` | 區域變數 | 宣告在方法內 |
+
+**編譯錯誤在哪？**
+`System.out.println(level + bonus)` 這一行——`bonus` 是區域變數，**沒有預設值**，宣告後沒有賦值就直接使用，編譯器會報錯「variable bonus might not have been initialized」。
+
+**修正：** 補上 `int bonus = 0;`（或在使用前賦值）。
+
+<!--
+【帶讀解法】
+這題呼應「變數的三種分類」表格裡的最後一欄——只有區域變數沒有預設值，這也是初學者最常踩到的編譯錯誤之一。記住：區域變數「宣告」跟「賦值」缺一不可。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -423,6 +482,52 @@ Autoboxing（自動裝箱）跟 Unboxing（自動拆箱）是 Java 在 primitive
 -->
 
 ---
+layout: default
+---
+
+# 練習：型態轉換與溢位
+### 任務說明
+
+請寫出以下程式碼執行後，每個變數的值，並說明原因：
+
+```java
+double price = 99.99;
+int rounded = (int) price;
+
+int big = 130;
+byte small = (byte) big;
+
+int score = 100;
+long total = score * 1_000_000_000L;
+```
+
+<!--
+【任務鋪陳】
+這題把「縮小轉換」「溢位截斷」「字面值後綴」三個觀念放在一起，每個變數對應一個重點。
+
+【引導思考】
+`(int) price` 是四捨五入還是直接砍掉小數？`byte` 的範圍是 -128~127，130 超出範圍會發生什麼事？`score * 1_000_000_000L` 裡，`L` 加在哪個數字上會影響計算過程嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：型態轉換與溢位
+### 解題提示
+
+| 變數 | 值 | 原因 |
+| --- | --- | --- |
+| `rounded` | `99` | `(int)` 縮小轉換是**直接截斷**小數，不是四捨五入 |
+| `small` | `-126` | `130` 超出 `byte`（-128~127）範圍，溢位後從負數重新計算（130 - 256 = -126） |
+| `total` | `100000000000` | `1_000_000_000L` 已是 `long`，運算時 `score` 會自動 widening 成 `long`，不會在 `int` 階段就溢位 |
+
+<!--
+【帶讀解法】
+這題最容易答錯的是 `small`：很多人會以為超出範圍會出現編譯錯誤或變成 127，但實際上 Java 會做「溢位截斷」，用二進位的角度重新解讀這個數字。`total` 則是測試大家是否注意到 `L` 後綴的位置——只要算式裡有一個運算元是 `long`，整個運算式就會以 `long` 進行，避免中間結果先在 `int` 溢位。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -537,6 +642,57 @@ System.out.println(a.equals(b));      // true（內容相同）
 -->
 
 ---
+layout: default
+---
+
+# 練習：字串比較與不可變性
+### 任務說明
+
+請寫出以下程式碼每一行的輸出結果：
+
+```java
+String a = "Java17";
+String b = "Java17";
+String c = new String("Java17");
+
+System.out.println(a == b);
+System.out.println(a == c);
+System.out.println(a.equals(c));
+
+String d = a.concat(" 課程");
+System.out.println(a);
+System.out.println(d);
+```
+
+<!--
+【任務鋪陳】
+這題把「字串池」「== vs equals」「不可變性」三個重點放在一起，每一行輸出都對應一個關鍵概念。
+
+【引導思考】
+`a` 和 `b` 是兩個字面值，會不會指向字串池裡的同一個物件？`c` 用 `new` 建立，跟 `a` 是同一個物件嗎？最後 `a.concat(" 課程")` 執行之後，`a` 本身的內容變了嗎？
+-->
+
+---
+layout: default
+---
+
+# 練習：字串比較與不可變性
+### 解題提示
+
+```
+true    // a == b：字面值相同，字串池中是同一個物件
+false   // a == c：c 用 new 建立，是不同物件（不同位址）
+true    // a.equals(c)：內容相同
+Java17  // a 沒有改變——concat() 不會修改原字串
+Java17 課程  // d 是 concat() 產生的新字串
+```
+
+<!--
+【帶讀解法】
+這題的核心是「不可變性（immutable）」：`a.concat(" 課程")` 並不會修改 `a` 本身，而是**回傳一個新的字串**，所以一定要用 `d` 接住結果，`a` 印出來仍然是原本的內容。前三行則驗收字串池與 `==`/`equals()` 的差異——`new String(...)` 是唯一會強制建立新物件、讓 `==` 變成 `false` 的寫法。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -630,6 +786,67 @@ double area = PI * r * r;
 
 💼 業界實務：
 用常數取代神秘數字，是程式碼可讀性與可維護性的基本功——之後要調整及格線、稅率這類數值時，只需要改常數的定義，不用在整份程式碼裡到處找數字。
+-->
+
+---
+layout: default
+---
+
+# 練習：消除神秘數字
+### 任務說明
+
+下面這段程式碼可以正確執行，但裡面有 3 個「神秘數字」。請把它們改成符合命名慣例的常數（`static final`）：
+
+```java
+public class Order {
+    public static void main(String[] args) {
+        int quantity = 5;
+        double total = quantity * 99.5;
+
+        if (total > 1000) {
+            total = total * 0.9;
+        }
+        System.out.println(total);
+    }
+}
+```
+
+<!--
+【任務鋪陳】
+這段程式碼裡的 `99.5`（單價）、`1000`（折扣門檻）、`0.9`（折扣係數），對閱讀的人來說都是「看不出意義的數字」。
+
+【引導思考】
+這三個數字分別代表什麼意義？依照命名慣例，常數名稱應該怎麼取（全大寫、底線分隔）？要宣告成類別層級的常數，需要加哪兩個關鍵字？
+-->
+
+---
+layout: default
+---
+
+# 練習：消除神秘數字
+### 解題提示
+
+```java
+public class Order {
+    static final double UNIT_PRICE = 99.5;
+    static final double DISCOUNT_THRESHOLD = 1000;
+    static final double DISCOUNT_RATE = 0.9;
+
+    public static void main(String[] args) {
+        int quantity = 5;
+        double total = quantity * UNIT_PRICE;
+
+        if (total > DISCOUNT_THRESHOLD) {
+            total = total * DISCOUNT_RATE;
+        }
+        System.out.println(total);
+    }
+}
+```
+
+<!--
+【帶讀解法】
+重構之後，`if (total > DISCOUNT_THRESHOLD)` 比 `if (total > 1000)` 更容易看出「這是在比較折扣門檻」，之後如果單價或折扣率調整，只需要改常數宣告那一行，不用在程式裡到處找數字。
 -->
 
 ---
@@ -735,6 +952,86 @@ System.out.printf("在學：%b%n", isStudent);
 <!--
 【逐步解說】
 注意每行末尾的 `%n` 用來換行。身高如果用 `%f` 會印出一長串小數（例如 165.500000），這裡先用 `%.1f` 取 1 位小數，讓畫面乾淨一點——這個 `.1` 屬於「精確度」的用法，後面在進階內容會有更完整的介紹。
+-->
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 課堂練習
+# Practice
+
+<!--
+【段落轉換】
+這一章學了變數、8 種基本資料型態、String、常數、printf，最後用一個綜合練習把它們全部串起來。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：書籍訂單計算
+### 任務說明
+
+請撰寫一個程式 `BookOrder.java`，完成以下需求：
+
+1. 宣告常數 `TAX_RATE`（稅率，`static final double`，值為 `0.05`）
+2. 宣告變數：書名（`String`）、單價（`double`）、數量（`int`）
+3. 計算未稅小計 `subtotal = 單價 * 數量`
+4. 計算含稅總價 `total = subtotal * (1 + TAX_RATE)`
+5. 用 `printf` 輸出書名、小計、總價（總價取小數點後 2 位）
+
+**預期輸出範例：**
+```
+書名：Java 程式設計
+小計：1500.0
+總價：1575.00
+```
+
+<!--
+【任務鋪陳】
+這是這一章的綜合練習，會用到：常數（`TAX_RATE`）、不同型態的變數（`String`/`double`/`int`）、算術運算與型態互動、以及 `printf` 格式化輸出。
+
+【引導思考】
+`TAX_RATE` 要宣告在哪裡，才能在 `main` 裡直接用？小計跟總價的型態應該是什麼？`printf` 的書名、小計、總價分別要用哪個轉換字元？
+
+【等待與觀察】
+給大家 8 分鐘。如果卡住，先把四個變數（含常數）都宣告好，再一步一步算出 `subtotal` 跟 `total`。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：書籍訂單計算
+### 解題提示
+
+```java
+public class BookOrder {
+    static final double TAX_RATE = 0.05;
+
+    public static void main(String[] args) {
+        String title = "Java 程式設計";
+        double price = 300.0;
+        int quantity = 5;
+
+        double subtotal = price * quantity;
+        double total = subtotal * (1 + TAX_RATE);
+
+        System.out.printf("書名：%s%n", title);
+        System.out.printf("小計：%.1f%n", subtotal);
+        System.out.printf("總價：%.2f%n", total);
+    }
+}
+```
+
+<!--
+【帶讀解法】
+`TAX_RATE` 宣告成 `static final`，跟 `main` 一樣是類別層級的成員，所以可以直接在 `main` 裡使用，不需要建立物件。`subtotal` 跟 `total` 都宣告成 `double`，因為含稅之後幾乎一定會出現小數。最後用 `printf` 搭配 `%.2f` 控制總價只顯示 2 位小數，呼應 3-5 學過的格式化輸出。
+
+💼 業界實務：
+像稅率這種「全公司都要一致」的數值，幾乎一定會定義成常數（甚至寫在設定檔裡），絕對不會直接寫死在計算的那一行程式碼中。
 -->
 
 ---

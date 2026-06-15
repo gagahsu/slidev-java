@@ -264,6 +264,50 @@ NEW ──start()──▶ RUNNABLE ◀─────────────�
 -->
 
 ---
+layout: default
+---
+
+# 練習：執行緒基礎概念
+### 認證模擬題（單選）
+
+關於 `Thread` 的狀態與 Program / Process / Thread 三者的關係，下列描述何者**正確**？
+
+A. 一個 `Process` 內最多只能有一個 `Thread`，這也是「行程」跟「執行緒」唯一的差別
+
+B. 呼叫 `new Thread(task)` 之後、尚未呼叫 `start()` 之前，這個執行緒的狀態是 `NEW`
+
+C. 執行緒呼叫 `sleep()` 進入等待後，狀態會變成 `BLOCKED`
+
+D. `Thread` 物件一旦進入 `TERMINATED` 狀態，呼叫 `start()` 可以讓它重新開始執行
+
+<!--
+【出題動機】
+這題想確認大家對「Program / Process / Thread 的關係」以及「執行緒生命週期狀態」這兩個剛學完的核心概念是不是真的分清楚了，這也是證照考試跟面試很愛問的題型。
+
+【解題引導】
+先想一想：一個 Process（分行）裡面可以開幾個服務窗口（Thread）？再回頭看看生命週期圖——`new Thread()` 之後但還沒呼叫 `start()`，窗口處於什麼狀態？`sleep()` 跟 `wait()`/`join()` 觸發的狀態是同一個嗎？最後，一個已經打卡下班（TERMINATED）的窗口，能不能再被叫回來重新上班？
+-->
+
+---
+layout: default
+---
+
+# 練習：執行緒基礎概念
+### 解析
+
+**正確答案：B**
+
+- A. ❌ 一個 `Process` 內可以有「多個」`Thread`，這正是多執行緒的核心——多個窗口共用同一間分行的資源
+- B. ✅ 物件剛建立（`new Thread()`）但還沒呼叫 `start()`，依照生命週期圖，狀態就是 `NEW`
+- C. ❌ `sleep()` 觸發的是 `TIMED_WAITING`（限時等待）；`BLOCKED` 是「競爭 `synchronized` 鎖失敗」才會進入的狀態
+- D. ❌ `TERMINATED` 代表執行緒已經結束、`run()` 已經跑完，無法再被 `start()`，重新呼叫 `start()` 會丟出 `IllegalThreadStateException`
+
+<!--
+【帶讀解法】
+這題把第一部分三個重要概念串在一起：Process/Thread 的「一對多」關係、`NEW` 狀態的觸發時機（`new` 之後、`start()` 之前），以及 `sleep()` 對應 `TIMED_WAITING` 而不是 `BLOCKED`。記住「BLOCKED 是搶鎖搶輸，TIMED_WAITING 是自己設了鬧鐘睡覺」，這兩者很常被搞混，務必分清楚。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -472,6 +516,82 @@ t2.start();
 
 【業界實務】
 這也是為什麼「執行緒安全（Thread-safe）」幾乎都是針對「共享的 Heap 資料」討論，而局部變數（在各自 Stack 裡）天生就是執行緒安全的，不需要額外保護。
+-->
+
+---
+layout: default
+---
+
+# 練習：三種方式建立執行緒
+### 任務說明
+
+請用我們剛剛學到的**三種方式**，各自建立一個執行緒，完成同一件事：印出 5 次 `"訊息 #N"`（N 為 1~5）。
+
+1. **繼承 Thread**：寫一個 `MessageThread` 類別繼承 `Thread`，覆寫 `run()`
+2. **實作 Runnable**：寫一個 `MessagePrinter` 類別實作 `Runnable`
+3. **Lambda**：直接用 Lambda 表達式建立第三個執行緒
+
+最後在 `main` 中分別建立並啟動這三個執行緒。
+
+<!--
+【任務鋪陳】
+這一題就是把第二部分教的三種建立執行緒的方式，動手各寫一次，感受一下它們的程式碼量跟寫法差異。
+
+【引導思考】
+寫完之後想一想：哪一種寫法最簡短？如果這個 `MessagePrinter` 類別之後還需要繼承別的類別（例如 `extends SomeBaseClass`），三種方式裡哪一種會立刻遇到麻煩？這就是「三種方法比較」表格裡「繼承限制」那一欄想表達的事情。
+-->
+
+---
+layout: default
+---
+
+# 練習：三種方式建立執行緒
+### 解題提示
+
+**① 繼承 Thread：**
+
+```java
+class MessageThread extends Thread {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++)
+            System.out.println("訊息 #" + i);
+    }
+}
+```
+
+**② 實作 Runnable：**
+
+```java
+class MessagePrinter implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++)
+            System.out.println("訊息 #" + i);
+    }
+}
+```
+
+**③ Lambda：**
+
+```java
+Runnable task = () -> {
+    for (int i = 1; i <= 5; i++)
+        System.out.println("訊息 #" + i);
+};
+```
+
+**啟動方式：**
+
+```java
+new MessageThread().start();
+new Thread(new MessagePrinter()).start();
+new Thread(task).start();
+```
+
+<!--
+【帶讀解法】
+三種寫法最後都要呼叫 `start()` 才會真正開新執行緒；差別只在於「任務內容」要包成 `Thread` 子類別、`Runnable` 物件、還是 Lambda。實際執行時，三個執行緒的輸出可能會交錯出現，這是正常的並行現象。如果 `MessagePrinter` 之後要 `extends` 別的類別，方式②、③完全不受影響，但方式①因為已經繼承了 `Thread`，就無法再繼承其他類別了——這正是「優先用 Runnable/Lambda」的原因。
 -->
 
 ---
@@ -694,6 +814,60 @@ JVM 把執行緒分成兩種：User 執行緒跟 Daemon 執行緒。JVM 的退�
 
 【小結】
 一句話總結：Daemon 是「服務主執行緒的工具人」，主人（User 執行緒）都走了，它就沒有存在的意義，會自動跟著下班。
+-->
+
+---
+layout: default
+---
+
+# 練習：執行緒控制方法辨析
+### 認證模擬題（單選）
+
+```java
+Thread worker = new Thread(() -> {
+    try { Thread.sleep(2000); } catch (InterruptedException e) {}
+    System.out.println("worker 完成");
+});
+worker.setDaemon(true);
+worker.start();
+System.out.println("main 結束");
+```
+
+關於這段程式碼，下列描述何者**正確**？
+
+A. `setDaemon(true)` 必須在 `worker.start()` 之後呼叫才會生效
+
+B. 因為 `worker` 被設為 Daemon 執行緒，"main 結束" 一定會在 "worker 完成" 之前印出來
+
+C. 這段程式碼可能會在印出 "main 結束" 後就直接結束，"worker 完成" 不一定會被印出來
+
+D. `Thread.sleep(2000)` 會釋放 `worker` 持有的所有鎖，讓 main 執行緒先執行
+
+<!--
+【出題動機】
+這題把 `sleep()`、`setDaemon()` 跟「JVM 何時退出」這幾個第三部分學到的概念綜合起來考，特別是 Daemon 執行緒「可能被中途強制終止」這個容易被忽略的特性。
+
+【解題引導】
+先檢查 `setDaemon(true)` 呼叫的時機對不對。再想一想：JVM 的退出條件是什麼？只跟 User 執行緒有關，還是也要等 Daemon 執行緒？如果 main（唯一的 User 執行緒）已經印完 "main 結束" 並結束了，這時候 `worker` 還在 `sleep()` 倒數，會發生什麼事？
+-->
+
+---
+layout: default
+---
+
+# 練習：執行緒控制方法辨析
+### 解析
+
+**正確答案：C**
+
+- A. ❌ `setDaemon(true)` 一定要在 `start()` **之前**呼叫，否則會丟出 `IllegalThreadStateException`；這段程式碼的呼叫順序是對的（先 `setDaemon` 再 `start`），但描述本身是錯的
+- B. ❌ 順序確實很可能是 "main 結束" 先印出（因為 main 不用等 `worker`），但「一定」這個說法不準確——理論上排程順序不保證，只是機率上 main 通常會先完成
+- C. ✅ JVM 的退出條件只看 User 執行緒：main 是唯一的 User 執行緒，一旦它印完 "main 結束" 就結束了，此時 `worker`（Daemon）若還在 `sleep(2000)` 倒數中，會被 JVM 直接強制終止，"worker 完成" 很可能根本來不及印出
+- D. ❌ `sleep()` **不會**釋放任何鎖，這題程式碼裡也沒有用到 `synchronized`，此選項描述的行為與 `sleep()` 的特性不符
+
+<!--
+【帶讀解法】
+這題的關鍵在於分清楚兩件事：第一，`setDaemon()` 必須在 `start()` 前呼叫（時機問題）；第二，Daemon 執行緒會在所有 User 執行緒結束時被「強制終止」，不會等它做完手上的工作。這也呼應前面學過的口訣：「有 I/O 副作用的任務，永遠不要設成 Daemon」，因為它可能在任何時間點被腰斬。
 -->
 
 ---
@@ -928,6 +1102,75 @@ class ClassLevelSync {
 
 【易錯點提醒 ⚠️】
 這代表：如果一個靜態方法鎖被某個執行緒長時間佔用，會影響「所有」物件實例對這個類別靜態方法的呼叫，影響範圍比實例鎖大得多，使用時要更謹慎。
+-->
+
+---
+layout: default
+---
+
+# 練習：售票系統的同步區塊
+### 任務說明
+
+模擬演唱會售票系統，練習用**同步區塊**保護共享資源：
+
+1. 建立 `TicketBooth` 類別，包含 `remainingTickets`（剩餘票數）欄位，初始值 100
+2. 實作 `sellTicket(String buyerName)` 方法：
+   - 準備工作（印出 `"[buyerName] 嘗試購票..."`）**不需要**加鎖
+   - 只有「檢查剩餘票數、扣減 1 張」這一段，用 `synchronized` 區塊鎖住
+   - 若還有票，扣 1 張並印出 `"[buyerName] 購票成功，剩餘 X 張"`；若沒票，印出 `"[buyerName] 購票失敗，已售完"`
+3. 建立 10 個執行緒模擬 10 位買家同時搶票，每人都呼叫 `sellTicket`
+
+**重點觀察：** 最終 `remainingTickets` 不會出現負數或重複賣出同一張票的情況
+
+<!--
+【任務鋪陳】
+這一題練習第四部分學到的「同步區塊」寫法：跟練習二的 `BankAccount` 用整個方法加 `synchronized` 不同，這次我們只把「檢查 + 扣票」這個關鍵動作鎖起來，準備工作不用鎖。
+
+【引導思考】
+想一想：為什麼「印出『嘗試購票』」這個動作不需要放進同步區塊？如果把整個 `sellTicket` 方法都標成 `synchronized`，跟只鎖「檢查+扣票」這一小段，效能上會有什麼差別？
+-->
+
+---
+layout: default
+---
+
+# 練習：售票系統的同步區塊
+### 解題提示
+
+```java
+class TicketBooth {
+    private int remainingTickets = 100;
+    private final Object lock = new Object();
+
+    public void sellTicket(String buyerName) {
+        System.out.println(buyerName + " 嘗試購票...");  // 不需要鎖
+
+        synchronized (lock) {  // 只鎖「檢查 + 扣票」這一段
+            if (remainingTickets > 0) {
+                remainingTickets--;
+                System.out.println(buyerName + " 購票成功，剩餘 "
+                    + remainingTickets + " 張");
+            } else {
+                System.out.println(buyerName + " 購票失敗，已售完");
+            }
+        }
+    }
+}
+```
+
+**啟動 10 個買家：**
+
+```java
+TicketBooth booth = new TicketBooth();
+for (int i = 1; i <= 10; i++) {
+    int id = i;
+    new Thread(() -> booth.sellTicket("買家" + id)).start();
+}
+```
+
+<!--
+【帶讀解法】
+「嘗試購票...」這句話只是印出訊息，不會動到共享的 `remainingTickets`，所以不需要佔用鎖，可以讓多個執行緒同時印出這句話。但「檢查 `remainingTickets > 0` 再扣減」這個動作如果不鎖起來，就可能發生兩個執行緒同時讀到「還有 1 張」、結果都各自賣出 1 張，變成超賣。把臨界區縮小到只剩這幾行，既能保證正確性，也比把整個方法都鎖住來得有效率，這正是「同步區塊」存在的意義。
 -->
 
 ---

@@ -165,6 +165,68 @@ Hello, World!
 -->
 
 ---
+layout: default
+---
+
+# 練習：找出編譯與執行的錯誤
+### 任務說明
+
+阿明寫了一個程式，存檔為 `helloworld.java`：
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+他接著在終端機輸入：
+
+```bash
+javac helloworld.java
+java HelloWorld.class
+```
+
+結果出現了兩個錯誤訊息。請指出**錯在哪裡**，並寫出正確的操作方式。
+
+<!--
+【任務鋪陳】
+這題故意把剛剛學到的兩個「規則」都寫錯一次，讓大家在親自踩雷之前，先在腦中模擬一次「電腦會怎麼抱怨」。
+
+【引導思考】
+第一個錯誤跟「檔名」有關，第二個錯誤跟「執行指令的寫法」有關。回頭看看「我的第一個 Java 程式」跟「編譯與執行」這兩頁的提示框，分別對應哪個錯誤？
+
+【等待與觀察】
+給大家 3 分鐘。如果想不出第一個錯誤，提示：檔名跟 `public class` 後面的名字，有什麼規則？
+-->
+
+---
+layout: default
+---
+
+# 練習：找出編譯與執行的錯誤
+### 解題提示
+
+**錯誤一：檔名與類別名稱不一致**
+- `public class HelloWorld` 要求檔名必須是 `HelloWorld.java`（含大小寫），不能是 `helloworld.java`
+- 修正：將檔案存成 `HelloWorld.java`
+
+**錯誤二：執行指令多寫了 `.class`**
+- 執行時應輸入 `java HelloWorld`，不需要（也不能）加 `.class`
+- 修正指令：
+
+```bash
+javac HelloWorld.java
+java HelloWorld
+```
+
+<!--
+【帶讀解法】
+這兩個錯誤都是「規則」層級的錯誤，不是程式邏輯錯誤——程式碼本身完全正確，但檔名跟指令沒對齊規則，電腦就會直接拒絕執行。這也是初學者最常卡住、卻最容易忽略的地方，先養成檢查這兩點的習慣，能省下很多除錯時間。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -298,6 +360,55 @@ System.out.printf("%.2f%n", 3.14159); // 3.14（換行）
 類別名稱用 Pascal Case，也就是每個單字的開頭都大寫，例如 `HelloWorld`；方法和變數用 camelCase，第一個字母小寫、後面每個單字開頭大寫，例如 `printMessage`；常數則是全部大寫，單字之間用底線分隔，例如 `MAX_SIZE`；套件名稱全部小寫，用點分隔。
 
 業界實務上，命名是不是清楚，直接影響到別人（甚至是未來的自己）能不能看懂這段程式碼在做什麼。如果變數都叫 `a`、`b`、`c`，過一段時間回來看，連自己都會看不懂當初寫的是什麼，所以遵守命名慣例，其實也是在替自己省麻煩。
+-->
+
+---
+layout: default
+---
+
+# 練習：抓出結構與命名問題
+### 任務說明
+
+下面這段程式碼可以正確編譯執行，但裡面有幾個地方不符合本節介紹的**結構順序**或**命名慣例**。請找出至少 3 個問題並說明原因：
+
+```java
+public class main {
+    public static void main(String[] Args) {
+        int Total_Score = 90;
+        System.out.println(Total_Score);
+    }
+}
+import java.util.Scanner;
+```
+
+<!--
+【任務鋪陳】
+這段程式碼「能跑」，但每一行幾乎都藏了一個跟「結構順序」或「命名慣例」有關的小問題——這提醒我們：能編譯執行，不代表寫法就是對的。
+
+【引導思考】
+對照「Java 程式完整結構」跟「命名慣例總整理」兩頁：`import` 該放在哪裡？類別名稱、方法參數、變數名稱分別該用哪種命名法？
+
+【等待與觀察】
+給大家 4 分鐘。提示：總共可以找到 4 個問題。
+-->
+
+---
+layout: default
+---
+
+# 練習：抓出結構與命名問題
+### 解題提示
+
+| 問題 | 說明 | 正確寫法 |
+| --- | --- | --- |
+| `import` 放在 class 後面 | `import` 必須在 `package`（若有）之後、`class` 之前 | 移到檔案最上方 |
+| 類別名稱 `main` 全小寫 | 類別名稱應為 Pascal Case | `Main` |
+| 參數名稱 `Args` 大寫開頭 | 變數／參數名稱應為 camelCase | `args` |
+| 變數名稱 `Total_Score` | 變數名稱應為 camelCase，不用底線與大寫 | `totalScore` |
+
+<!--
+【帶讀解法】
+這四個問題分成兩類：`import` 位置錯誤是「結構順序」問題，編譯器其實不一定會報錯，但會讓人一眼看不出檔案的整體輪廓；其他三個都是「命名慣例」問題，編譯器完全不會抱怨，但會讓程式碼變得難讀。命名慣例是團隊合作時的默契，遵守它能讓別人（包括未來的自己）更快看懂程式碼。
 -->
 
 ---
@@ -523,6 +634,86 @@ public class Calculator {
 寫完之後，可以試著執行 `javadoc Calculator.java`，看看會產生什麼樣的 HTML 文件。
 
 打開產生出來的網頁，會看到 `add` 方法的說明、參數、回傳值都被整理成一份格式整齊的文件，這就是 Javadoc 標籤實際發揮作用的樣子，跟我們平常看到的官方 API 文件其實是同一套機制產生出來的。
+-->
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 課堂練習
+# Practice
+
+<!--
+【段落轉換】
+這一章從「寫出第一個程式」、「拆解程式結構」到「加上註解」，最後我們用一個綜合練習，把這三件事一次串起來。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：學生自我介紹程式
+### 任務說明
+
+請撰寫一個完整的 Java 程式 `StudentIntro.java`，滿足以下要求：
+
+1. **結構**：依照「套件宣告（可省略）→ import → class → main」的順序撰寫
+2. **命名**：類別名稱用 Pascal Case，方法與變數用 camelCase
+3. **功能**：在 `main` 中宣告變數儲存姓名與年齡，並用 `System.out.println()` 與 `System.out.printf()` 各輸出一行
+4. **註解**：在 `main` 方法上方加上 Javadoc 註解說明這個程式的用途；在程式內加上至少 1 個單行註解
+5. 編譯並執行，確認輸出結果正確
+
+**預期輸出範例：**
+```
+我是 炭治郎
+今年 16 歲
+```
+
+<!--
+【任務鋪陳】
+這題綜合了三個小節：第一節的「編譯與執行」流程、第二節的「程式結構與命名」、第三節的「註解寫法」。完成這一題，等於把這一章的內容全部動手做過一次。
+
+【引導思考】
+先想結構：檔案最上面要放什麼？然後想命名：類別、變數要怎麼取名才符合慣例？最後想註解：Javadoc 要寫在哪一個元素的上方？
+
+【等待與觀察】
+給大家 8 分鐘。如果卡住，先把「我的第一個 Java 程式」那一頁的範例貼過來，再依照要求一步步加東西，比從空白檔案開始容易。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：學生自我介紹程式
+### 解題提示
+
+```java
+/**
+ * 學生自我介紹程式。
+ */
+public class StudentIntro {
+    public static void main(String[] args) {
+        String studentName = "炭治郎"; // 姓名
+        int studentAge = 16;
+
+        System.out.println("我是 " + studentName);
+        System.out.printf("今年 %d 歲%n", studentAge);
+    }
+}
+```
+
+```bash
+javac StudentIntro.java
+java StudentIntro
+```
+
+<!--
+【帶讀解法】
+這份解答把三個小節的重點都放進來了：檔名跟類別名稱 `StudentIntro` 一致（第一節）；結構上 `class` 包住 `main`（第二節）；`main` 方法上方有 Javadoc，內部有單行註解（第三節）。
+
+💼 業界實務：
+真實專案裡幾乎每一個 `.java` 檔案都遵守這樣的結構與命名慣例——這不是「規定」，而是大家約定好的共同語言，讓任何人打開檔案都能很快抓到重點。
 -->
 
 ---

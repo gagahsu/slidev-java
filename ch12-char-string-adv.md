@@ -273,6 +273,60 @@ graph LR
 -->
 
 ---
+layout: default
+---
+
+# 練習：字串池與 == 判斷
+### 認證模擬題（單選）
+
+請問以下程式碼執行後，會印出什麼結果？
+
+```java
+String a = "鬼殺隊";
+String b = "鬼殺隊";
+String c = new String("鬼殺隊");
+String d = c;
+
+System.out.println(a == b);
+System.out.println(a == c);
+System.out.println(c == d);
+```
+
+A. `true true true`
+B. `true false true`
+C. `false true false`
+D. `true false false`
+
+<!--
+【出題動機】
+這題是 OCA/OCP 考試的經典題型，測驗大家對「字串池 (String Pool)」跟「`new` 建立新物件」這兩個記憶體觀念是不是真的分清楚。
+
+【解題引導】
+先分開看三個比較：`a == b` 兩個都是用雙引號宣告的，會不會指向同一個位址？`a == c` 其中一個用了 `new`，位址會一樣嗎？`c == d` 呢，`d` 是直接把 `c` 指派過去，跟 `c` 是同一個變數嗎？把這三題分開想，答案就出來了。
+-->
+
+---
+layout: default
+---
+
+# 練習：字串池與 == 判斷
+### 解析
+
+**正確答案：B**
+
+- A. ❌ `a == c` 不會是 `true`，因為 `c` 是用 `new` 建立的新物件，位址跟字串池裡的 `a` 不同
+- B. ✅ `a == b` 都從字串池取得同一份「鬼殺隊」所以 `true`；`a == c` 因為 `c` 是 `new` 出來的新位址所以 `false`；`c == d` 因為 `d = c` 直接複製了同一個位址所以 `true`
+- C. ❌ `a == b` 應該是 `true`，兩個雙引號宣告的字串會共用字串池裡的同一個物件
+- D. ❌ `c == d` 應該是 `true`，因為 `d` 直接指派為 `c`，兩者指向完全相同的位址
+
+<!--
+【帶讀解法】
+這題的關鍵在於分辨「字串池共用」跟「`new` 建立新物件」兩種情境：`a` 跟 `b` 都是雙引號宣告，Java 會先去字串池找有沒有現成的「鬼殺隊」，有的話直接共用，所以 `a == b` 是 `true`。
+
+`c` 用 `new String(...)` 強制在 Heap 另外開一個新位址，即使內容一樣，`a == c` 也會是 `false`。最後 `d = c` 只是把同一個位址再指派給另一個變數，`c == d` 自然是 `true`。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -441,6 +495,58 @@ System.out.println(text.lines().count()); // 3
 
 ⚠️ 易錯點提醒：
 跟 `split("\n")` 不一樣的地方是，`lines()` 對不同作業系統的換行符相容性更好，建議優先使用 `lines()`。
+-->
+
+---
+layout: default
+---
+
+# 練習：隊員名單統計與格式化
+### 任務說明
+
+宣告一段多行字串，內容是鬼殺隊隊員名單：
+
+```java
+String roster = "炭治郎\n禰豆子\n善逸\n伊之助";
+```
+
+1. 使用 `lines()` 計算總共有幾位隊員
+2. 使用 `transform()`，把整份名單包裝成 `"隊員名單：[原始內容]"` 的格式並印出
+
+<!--
+【任務鋪陳】
+這一部分學了 `lines()` 可以把多行字串拆成 `Stream<String>`，也學了 `transform()` 可以在呼叫鏈的最後插入一個自訂轉換動作。這個練習要把兩者各自用一次。
+
+【引導思考】
+`lines()` 回傳的是 `Stream<String>`，要怎麼從 Stream 取得「總共幾行」？`transform()` 接收的 Lambda，參數又是什麼？想清楚這兩點，這題就不難。
+-->
+
+---
+layout: default
+---
+
+# 練習：隊員名單統計與格式化
+### 解題提示
+
+1. `roster.lines().count()` 取得行數（即隊員人數）
+2. `roster.transform(s -> "隊員名單：" + s)` 把整段文字包上前綴
+
+```java
+String roster = "炭治郎\n禰豆子\n善逸\n伊之助";
+
+long count = roster.lines().count();
+System.out.println("隊員人數：" + count); // 4
+
+String result = roster.transform(s -> "隊員名單：" + s);
+System.out.println(result);
+```
+
+<!--
+【帶讀解法】
+`lines()` 回傳的 `Stream<String>` 直接呼叫 `count()`，就能得到總行數，等於隊員人數。`transform(s -> "隊員名單：" + s)` 裡的 `s` 就是 `roster` 本身的內容，Lambda 回傳的字串會變成整條呼叫鏈最後的結果。
+
+💼 業界實務：
+`lines().count()` 在統計檔案行數、`transform()` 在組裝輸出格式時都很常用，兩者搭配可以用很少的程式碼完成「統計 + 格式化」這類常見任務。
 -->
 
 ---

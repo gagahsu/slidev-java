@@ -370,6 +370,81 @@ String 類別就是 final class，所以你沒辦法 extends String。這是 Jav
 工具類別（Utility class）通常設計成 final，防止別人亂繼承改壞行為。
 -->
 ---
+layout: default
+---
+
+# 練習：設計 Employee 繼承體系
+### 任務說明
+
+設計一套類別，練習 `extends`、`protected` 屬性與 `super()`：
+1. 建立父類別 `Employee`，有 `protected String name` 與 `protected int baseSalary`，建構方法接收這兩個參數並印出 `"Employee 建構"`
+2. `Employee` 有方法 `void showSalary()`，印出 `name + " 的底薪是 " + baseSalary`
+3. 建立子類別 `Manager extends Employee`，多一個 `int bonus` 屬性；建構方法呼叫 `super(name, baseSalary)` 後印出 `"Manager 建構"`，並 `override` `showSalary()`，印出底薪與獎金的加總
+4. 在 `main()` 中建立一個 `Manager` 物件，呼叫 `showSalary()`，並觀察建構方法的執行順序
+
+**預期輸出（最後兩行為呼叫 `showSalary()` 的結果）：**
+```
+Employee 建構
+Manager 建構
+古古 的總薪資是 80000
+```
+
+<!--
+【任務鋪陳】
+這一節學了 `extends`、`protected`、`super()` 和「父類別建構方法先執行」這幾個重點，這個練習就是要把它們全部串起來，做一個更貼近實務的範例：員工與經理。
+
+【引導思考】
+想一想：`Manager` 的建構方法第一行一定要寫什麼？`name` 和 `baseSalary` 為什麼可以宣告成 `protected` 而不是 `private`？
+
+【等待與觀察】
+給大家 6 分鐘。如果不確定 `super(name, baseSalary)` 要放在哪一行，回頭看「父類別建構方法的啟動順序」那一頁。
+-->
+---
+layout: default
+---
+
+# 練習：設計 Employee 繼承體系
+### 解題提示
+
+1. `Employee` 的 `protected` 屬性讓 `Manager` 能直接存取，建構方法印出 `"Employee 建構"`
+2. `Manager extends Employee`，建構方法第一行 `super(name, baseSalary)`，再印出 `"Manager 建構"`
+3. `Manager` 多了 `int bonus`，`override` `showSalary()` 印出 `baseSalary + bonus`
+
+```java
+class Employee {
+    protected String name;
+    protected int baseSalary;
+    public Employee(String name, int baseSalary) {
+        this.name = name;
+        this.baseSalary = baseSalary;
+        System.out.println("Employee 建構");
+    }
+    public void showSalary() {
+        System.out.println(name + " 的底薪是 " + baseSalary);
+    }
+}
+class Manager extends Employee {
+    private int bonus;
+    public Manager(String name, int baseSalary, int bonus) {
+        super(name, baseSalary);
+        this.bonus = bonus;
+        System.out.println("Manager 建構");
+    }
+    @Override
+    public void showSalary() {
+        System.out.println(name + " 的總薪資是 " + (baseSalary + bonus));
+    }
+}
+```
+
+<!--
+【帶讀解法】
+重點有兩個：第一，`Manager` 的建構方法第一行必須是 `super(name, baseSalary)`，把共用的初始化邏輯交給父類別處理；第二，`new Manager(...)` 執行時，會先印出 `"Employee 建構"`，再印出 `"Manager 建構"`，驗證了「父先子後」的順序。
+
+💼 業界實務：
+這種「共同屬性放父類別、特殊邏輯子類別 override」的設計，是企業系統裡 `Employee`／`Manager`／`Director` 這類人事結構最常見的寫法。
+-->
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -488,6 +563,80 @@ class Customer extends BasinInfo { int balance; }
 組合（這頁）：把共同屬性抽出來用繼承共享（Employee 和 Customer 都繼承 BasinInfo）。
 
 兩種 HAS-A 的使用場景不同，根據語意選擇。
+-->
+---
+layout: default
+---
+
+# 練習：IS-A 與 HAS-A 綜合判斷
+### 任務說明
+
+設計一套類別，分辨 IS-A 與 HAS-A 關係：
+1. 建立類別 `Engine`，有方法 `void start()`，印出 `"引擎發動"`
+2. 建立類別 `Vehicle`，有方法 `void run()`，印出 `"車輛行駛中"`
+3. 建立類別 `Car`：
+   - `Car` **HAS-A** `Engine`（用聚合：`Car` 內含一個 `Engine` 屬性），新增方法 `void drive()`，先呼叫 `engine.start()`，再印出 `"汽車出發"`
+   - `Car` **IS-A** `Vehicle`（用繼承：`Car extends Vehicle`）
+4. 在 `main()` 中建立一個 `Car` 物件，依序呼叫 `run()` 與 `drive()`，並用 `instanceof` 驗證 `car instanceof Vehicle` 為 `true`
+
+**預期輸出：**
+```
+車輛行駛中
+引擎發動
+汽車出發
+true
+```
+
+<!--
+【任務鋪陳】
+這一節學了 IS-A（繼承）和 HAS-A（聚合／組合）兩種物件關係，這個練習就是要在同一個 `Car` 類別裡，同時體會這兩種關係：`Car` IS-A `Vehicle`（繼承來的），`Car` HAS-A `Engine`（屬性裡的物件）。
+
+【引導思考】
+想一想：為什麼 `Car` 跟 `Vehicle` 用 `extends`，但 `Car` 跟 `Engine` 不用 `extends`？如果反過來把 `Engine` 也設計成用繼承，會發生什麼問題？
+
+【等待與觀察】
+給大家 6 分鐘。提示：`Car` 裡面要有一個 `Engine` 型態的屬性，並在建構方法或宣告時 `new` 出來。
+-->
+---
+layout: default
+---
+
+# 練習：IS-A 與 HAS-A 綜合判斷
+### 解題提示
+
+1. `Car extends Vehicle`：IS-A 關係，繼承 `run()`
+2. `Car` 內含 `private Engine engine = new Engine();`：HAS-A 關係（聚合）
+3. `drive()` 委派給 `engine.start()`，再印出自己的訊息
+
+```java
+class Engine {
+    public void start() { System.out.println("引擎發動"); }
+}
+class Vehicle {
+    public void run() { System.out.println("車輛行駛中"); }
+}
+class Car extends Vehicle {
+    private Engine engine = new Engine(); // HAS-A
+    public void drive() {
+        engine.start();
+        System.out.println("汽車出發");
+    }
+}
+```
+
+```java
+Car car = new Car();
+car.run();    // 繼承自 Vehicle（IS-A）
+car.drive();  // 委派給 Engine（HAS-A）
+System.out.println(car instanceof Vehicle); // true
+```
+
+<!--
+【帶讀解法】
+這題的關鍵在於「同時看到兩種關係」：`car.run()` 能直接呼叫，是因為 `Car extends Vehicle`（IS-A）；`car.drive()` 內部呼叫 `engine.start()`，是因為 `Car` 有一個 `Engine` 物件（HAS-A）。`instanceof` 驗證的是 IS-A 關係，跟 `Engine` 完全無關。
+
+⚠️ 小提醒：
+如果把 `Engine` 也設計成 `Car extends Engine`，語意上會變成「汽車是一種引擎」，這明顯不合理——這正是為什麼判斷該用 `extends` 還是「屬性」之前，要先想清楚兩個類別之間到底是 IS-A 還是 HAS-A。
 -->
 ---
 layout: section
@@ -711,6 +860,66 @@ eat(String food) 和 eat(String food, int amount) 都叫 eat，但參數不同�
 
 ⚠️ Override vs Overload 的關鍵差異：
 Override 要繼承關係，Overload 不需要。Override 參數必須一樣，Overload 參數必須不一樣。
+-->
+---
+layout: default
+---
+
+# 練習：Override 與方法隱藏辨析
+### 認證模擬題（單選）
+
+請看以下程式碼，執行 `main()` 之後的輸出是什麼？
+
+```java
+class Animal {
+    static void sound() { System.out.println("Animal sound"); }
+    void move() { System.out.println("Animal move"); }
+}
+class Dog extends Animal {
+    static void sound() { System.out.println("Dog sound"); }
+    @Override
+    void move() { System.out.println("Dog move"); }
+}
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();
+        a.move();
+    }
+}
+```
+
+A. `Animal sound` 與 `Animal move`
+B. `Dog sound` 與 `Dog move`
+C. `Animal sound` 與 `Dog move`
+D. `Dog sound` 與 `Animal move`
+
+<!--
+【出題動機】
+這題想測驗「方法隱藏（static 方法）」和「Override（一般方法）」在多形情境下的不同行為——這是 OCA/OCP 考試的經典陷阱題，也是面試常問的概念。
+
+【解題引導】
+提示：先分別看 `sound()` 和 `move()` 是不是 `static`，再想想「靜態綁定」和「動態綁定」分別是看變數的「宣告型態」還是物件的「實際型態」。
+-->
+---
+layout: default
+---
+
+# 練習：Override 與方法隱藏辨析
+### 解析
+
+**正確答案：C**
+
+- A. ❌ `a.move()` 是動態綁定，會呼叫 `Dog` 的 `move()`，不是 `Animal` 的
+- B. ❌ `a.sound()` 是 `static` 方法，屬於方法隱藏，由變數的宣告型態 `Animal` 決定，不是 `Dog`
+- C. ✅ `a.sound()` 是靜態綁定，看宣告型態 `Animal` → 印出 `Animal sound`；`a.move()` 是動態綁定，看實際型態 `Dog` → 印出 `Dog move`
+- D. ❌ 兩個答案剛好對調，`sound()` 和 `move()` 的綁定方式判斷反了
+
+<!--
+【帶讀解法】
+這題的關鍵在於 `static` 方法不參與多形：`a.sound()` 雖然 `a` 實際指向 `Dog` 物件，但因為 `sound()` 是 `static`，Java 在編譯期就依據變數的宣告型態 `Animal` 決定呼叫哪一個，這就是「方法隱藏」。
+
+反過來，`move()` 是一般的實例方法，且 `Dog` 有 `@Override`，所以 `a.move()` 是動態綁定，執行期依物件的實際型態 `Dog` 來決定——這就是我們前面學的「執行時期多形」。記住：**`static` 方法看宣告型態，一般方法看實際型態**。
 -->
 ---
 layout: section

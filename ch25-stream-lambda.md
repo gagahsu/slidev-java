@@ -367,6 +367,63 @@ JDK 11 之後，Lambda 的參數也可以用 `var` 來宣告，主要是為了�
 -->
 
 ---
+layout: default
+---
+
+# 練習：用函數式介面整理鬼殺隊名單
+### 任務說明
+
+宣告一個 `List<String> heroes`，內容為「炭治郎、禰豆子、善逸、伊之助、蜜璃」，完成以下操作：
+
+1. 用 `Predicate<String>` 寫一個 lambda，判斷名字長度是否 **≥ 3**
+2. 用 `Function<String, Integer>` 寫一個 lambda，將名字轉成它的長度
+3. 用 `Consumer<String>` 寫一個 lambda，印出「隊員：」+ 名字
+4. 對 `heroes` 中的每個名字，先用 `Predicate.test()` 判斷，若成立就用 `Consumer.accept()` 印出該名字；最後用 `Function.apply()` 印出「禰豆子」的名字長度
+
+<!--
+【任務鋪陳】
+這一節學了 Lambda 語法，還有 `Predicate`、`Function`、`Consumer`、`Supplier` 四大天王。這個練習就是要把「裁判」「加工機」「大胃王」三個角色實際組裝起來用一次。
+
+【引導思考】
+想一想：`Predicate<String>` 的 lambda 要怎麼寫才能判斷「長度 >= 3」？`heroes` 要用什麼方式逐一走過去？每一步呼叫的「啟動按鈕」分別是 `.test()`、`.apply()`、`.accept()`，別搞混了。
+-->
+
+---
+layout: default
+---
+
+# 練習：用函數式介面整理鬼殺隊名單
+### 解題提示
+
+1. `Predicate<String> isLongName = name -> name.length() >= 3;`
+2. `Function<String, Integer> nameLength = name -> name.length();`
+3. `Consumer<String> printHero = name -> System.out.println("隊員：" + name);`
+4. 用 for-each 走過 `heroes`，配合 `isLongName.test(name)` 與 `printHero.accept(name)`
+
+```java
+List<String> heroes = List.of("炭治郎", "禰豆子", "善逸", "伊之助", "蜜璃");
+
+Predicate<String> isLongName = name -> name.length() >= 3;
+Function<String, Integer> nameLength = name -> name.length();
+Consumer<String> printHero = name -> System.out.println("隊員：" + name);
+
+for (String name : heroes) {
+    if (isLongName.test(name)) {
+        printHero.accept(name);
+    }
+}
+System.out.println("禰豆子的名字長度：" + nameLength.apply("禰豆子"));
+```
+
+<!--
+【帶讀解法】
+三個 lambda 對應三種「形狀」：`isLongName` 是「問是非」的 `Predicate`，呼叫用 `.test()`；`nameLength` 是「轉換」的 `Function`，呼叫用 `.apply()`；`printHero` 是「做事不回傳」的 `Consumer`，呼叫用 `.accept()`。
+
+💼 業界實務：
+這種把「條件」「轉換」「動作」分別宣告成獨立的 lambda 變數，可以讓程式碼讀起來像是在「組裝積木」——之後我們會看到 Stream 的 `filter`、`map`、`forEach` 其實就是直接吃這幾種 lambda。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -412,6 +469,66 @@ Lambda 寫法是：「請你去叫那位廚師煮飯」（`chef -> chef.cook()`�
 
 💼 業界實務：
 在 Code Review 的時候，如果能把單純轉達呼叫的 Lambda 改成方法參考，程式碼會更精簡，這是許多團隊偏好的寫法。
+-->
+
+---
+layout: default
+---
+
+# 練習：把 Lambda 改寫成方法參考
+### 任務說明
+
+下面這段程式碼裡的三個 lambda，分別可以改寫成哪一種方法參考（`ClassName::staticMethod`、`obj::instanceMethod`、`ClassName::instanceMethod`、`ClassName::new`）？請逐一改寫：
+
+```java
+List<String> heroes = List.of("炭治郎", "禰豆子", "善逸");
+
+// (A)
+heroes.forEach(name -> System.out.println(name));
+
+// (B)
+heroes.stream().map(name -> name.length());
+
+// (C)
+heroes.stream().map(name -> Integer.valueOf(name.hashCode()));
+```
+
+<!--
+【任務鋪陳】
+上一頁的表格列出了四種方法參考形式，這個練習就是要把眼前這三段 Lambda，對照表格找出它們各自對應的形式並改寫。
+
+【引導思考】
+想一想：(A) 的 `System.out` 是不是已經是一個現成的物件？(B) 的 `name.length()` 是 `name` 自己呼叫自己的方法嗎？(C) 的 `Integer.valueOf(...)` 又是哪一種方法？
+-->
+
+---
+layout: default
+---
+
+# 練習：把 Lambda 改寫成方法參考
+### 解題提示
+
+1. (A) `System.out` 是現成物件 → `obj::instanceMethod` → `heroes.forEach(System.out::println)`
+2. (B) `name` 自己呼叫 `length()` → `ClassName::instanceMethod` → `heroes.stream().map(String::length)`
+3. (C) `Integer.valueOf(...)` 是靜態方法 → `ClassName::staticMethod` → `heroes.stream().map(name -> Integer.valueOf(name.hashCode()))` 中的 `Integer.valueOf` 部分可寫成 `Integer::valueOf`，但因為還要先呼叫 `name.hashCode()`，整體仍需保留 lambda：`name -> Integer.valueOf(name.hashCode())`
+
+```java
+List<String> heroes = List.of("炭治郎", "禰豆子", "善逸");
+
+heroes.forEach(System.out::println);          // (A) obj::instanceMethod
+heroes.stream().map(String::length);          // (B) ClassName::instanceMethod
+heroes.stream()
+      .map(String::hashCode)                  // (C) 先取得 hashCode（int）
+      .map(Integer::valueOf);                 // 再用 ClassName::staticMethod 包成 Integer
+```
+
+<!--
+【帶讀解法】
+(A) 跟 (B) 都能整行直接替換成方法參考，因為 lambda 裡「只是轉達」一個方法呼叫。
+(C) 比較特別：原本一行 lambda 其實做了兩件事（先 `hashCode()` 再 `Integer.valueOf()`），方法參考一次只能轉達「一件事」，所以拆成兩個 `map`，分別對應 `ClassName::instanceMethod` 跟 `ClassName::staticMethod`。
+
+⚠️ 學生常見誤解：
+不是所有 lambda 都「一定」能改寫成方法參考——如果 lambda 裡面做了多個步驟、或有額外的運算（例如 `x -> x * 2`），就沒有對應的方法可以參考，只能繼續用 lambda。
 -->
 
 ---

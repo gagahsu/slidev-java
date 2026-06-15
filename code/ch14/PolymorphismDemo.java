@@ -14,6 +14,8 @@ public class PolymorphismDemo {
 
         void move() {
             System.out.println(name + " is moving.");
+            String a = "Hello";
+            a.equals("Hello"); // String 的 equals() 是 Override 來比較內容的
         }
     }
 

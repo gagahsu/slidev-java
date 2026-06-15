@@ -181,6 +181,76 @@ month = 8，符合第一個多值 case，days = 31，印出「8 月有 31 天」
 -->
 
 ---
+layout: default
+---
+
+# 練習：成績等第（Switch Expression 版）
+### 任務說明
+
+請使用 **Switch Expression（Java 14+）** 改寫「分數轉等第」的邏輯：
+
+- 輸入整數分數 `score`（0–100），先用 `score / 10` 算出十位數
+- 依十位數判斷等第：
+  - `10`、`9` → `A`
+  - `8` → `B`
+  - `7` → `C`
+  - `6` → `D`
+  - 其他 → `F`
+- 若 `score` 剛好是 `100`，需用 `yield` 加上額外文字「（滿分！）」
+
+**輸入範例：** `score = 95`
+**輸出範例：** `等第：A`
+
+<!--
+【任務鋪陳】
+這題把「十位數」這個小技巧（`score / 10` 利用整數除法的特性）跟 Switch Expression 的箭頭語法、多值 case、`yield` 全部串在一起。
+
+【問題引導】
+想一想：`10` 和 `9` 都要對應到 `A`，可以用多值 case `10, 9 ->` 一次處理。`100` 分的十位數是多少？這跟 `90` 分的十位數一樣嗎？如果一樣，那要怎麼用 `yield` 在同一個分支裡，針對 `100` 多印一段文字？
+-->
+
+---
+layout: default
+---
+
+# 練習：解題提示
+
+### 提示說明
+
+1. 先算十位數：`int tens = score / 10;`（`100 / 10 = 10`，`95 / 10 = 9`）
+2. `case 10, 9 ->` 對應 `A`，但要用 block + `yield` 判斷 `score == 100` 是否要加註文字
+3. 其餘等第用一般箭頭語法直接回傳字串
+
+```java
+int score = 95;
+int tens = score / 10;
+
+String grade = switch (tens) {
+    case 10, 9 -> {
+        if (score == 100) {
+            yield "A（滿分！）";
+        }
+        yield "A";
+    }
+    case 8 -> "B";
+    case 7 -> "C";
+    case 6 -> "D";
+    default -> "F";
+};
+System.out.println("等第：" + grade);
+```
+
+<!--
+【逐步解說】
+這題的巧思在於先用 `score / 10` 把分數「降維」成十位數，這樣 `90~99` 跟 `100` 都會落在 `10` 或 `9` 這兩個 case，可以用多值 case `10, 9 ->` 一次接住。
+
+接著因為要針對 `100` 分做額外處理，這個分支就不能只是簡單的一行 `-> "A"`，而是要寫成 `{ ... yield ... }` 的 block 形式，在裡面用 `if` 判斷後，分別 `yield` 不同的字串。
+
+⚠️ 易錯點提醒：
+block 形式的每一條路徑都必須要有 `yield`，不能有「漏網之魚」。這題裡面，`if` 成立跟不成立都各自 `yield` 了一次，確保不管哪種情況，這個分支都一定會「交出」一個值。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -251,6 +321,68 @@ static String describe(Object o) {
 
 【預期結果】
 如果傳入空字串 ""，會印出「空字串」；傳入 100，會印出「整數：100」；傳入 null，會印出「null 值」。
+-->
+
+---
+layout: default
+---
+
+# 練習：分類任意物件
+### 任務說明
+
+請撰寫一個方法 `static String classify(Object o)`，使用 **Pattern Matching for switch** 依照傳入物件的型別與內容，回傳對應的分類字串：
+
+| 傳入內容 | 回傳結果 |
+| --- | --- |
+| `Integer`，數值 `>= 0` | `"正整數或零：" + 數值` |
+| `Integer`，數值 `< 0` | `"負整數：" + 數值` |
+| `String`，空字串 | `"空字串"` |
+| `String`，非空 | `"字串：" + 內容` |
+| `null` | `"null 值"` |
+| 其他型別 | `"其他型別"` |
+
+**輸入範例：** `classify(-5)`
+**輸出範例：** `負整數：-5`
+
+<!--
+【任務鋪陳】
+剛才學了 `case Integer i ->` 可以比對型別並取名字，`when` 可以加條件守衛，`case null ->` 可以處理 null。這個練習要把這三個元素全部用上，做一個更完整的物件分類器。
+
+【問題引導】
+想一想：`Integer` 要拆成「正整數或零」跟「負整數」兩種情況，這要怎麼用 `when` 來區分？另外，`case null ->` 跟 `default ->` 的順序有沒有限制？哪一個應該放在前面？
+-->
+
+---
+layout: default
+---
+
+# 練習：解題提示
+
+### 提示說明
+
+1. `Integer` 的兩種情況用 `when` 區分：`case Integer i when i >= 0 ->` 和 `case Integer i ->`（剩下的自然就是負數）
+2. `String` 的兩種情況一樣用 `when`：`case String s when s.isEmpty() ->` 要寫在一般 `String s ->` 前面
+3. `case null ->` 通常會放在所有型別判斷之前或之後皆可，但要確保它有被寫到，否則傳入 `null` 會丟出 `NullPointerException`
+
+```java
+static String classify(Object o) {
+    return switch (o) {
+        case null -> "null 值";
+        case Integer i when i >= 0 -> "正整數或零：" + i;
+        case Integer i -> "負整數：" + i;
+        case String s when s.isEmpty() -> "空字串";
+        case String s -> "字串：" + s;
+        default -> "其他型別";
+    };
+}
+```
+
+<!--
+【逐步解說】
+這個練習的結構跟上一頁的範例幾乎一樣，只是把 `Integer` 多拆成了兩種情況。重點看 `case Integer i when i >= 0 ->` 跟緊接著的 `case Integer i ->`：第一個分支用 `when` 攔走了「大於等於 0」的整數，剩下沒被攔走的 `Integer`，自然就是負數，所以第二個分支不需要再寫 `when`。
+
+⚠️ 易錯點提醒：
+`case null ->` 一定要明確寫出來。如果漏掉，傳入 `null` 時 switch 會直接拋出 `NullPointerException`，這正是 Java 17 這個新語法想解決的問題——把 `null` 也變成一個可以被明確處理的「分支」，而不是讓它變成一個隱藏的地雷。
 -->
 
 ---
