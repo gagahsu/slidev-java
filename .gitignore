@@ -32,3 +32,6 @@ desktop.ini
 
 # --- Eclipse Java build output ---
 code/bin/
+
+# --- Claude Code local state ---
+.claude/
