@@ -2,6 +2,8 @@
 // 自訂 MyRunnable 介面（提醒：若直接命名為 Runnable，會與 java.lang.Runnable 撞名
 // 投影片提示：「如果你在實作時發現有個東西叫 java.lang.Runnable，
 // 那是 Java 內建用來跑 Thread 的。名字取太好，也是會撞衫的。」）
+// 注意：Car 已在 ch14/Exercise_CarIsAHasA.java 的 default package 中被定義，
+//       這裡改名為 CarRunner 以避免 Eclipse 跨 source folder 的 default package 衝突。
 
 interface MyRunnable {
     void run();
@@ -14,7 +16,7 @@ class Human implements MyRunnable {
     }
 }
 
-class Car implements MyRunnable {
+class CarRunner implements MyRunnable {
     @Override
     public void run() {
         System.out.println("車在公路上跑");
@@ -37,7 +39,7 @@ public class Exercise_InterfaceHierarchy {
         Person person = new Person();
         person.run(); // 人在操場上跑
 
-        Car car = new Car();
+        CarRunner car = new CarRunner();
         car.run();    // 車在公路上跑
     }
 }
