@@ -483,7 +483,7 @@ layout: default
 請寫一段程式碼，在同一個 `main` 方法中：
 
 1. 建立一個 `java.util.Date` 物件，代表「目前時間」
-2. 建立一個 `java.sql.Date` 物件，代表「2024-01-01」（使用 `new java.sql.Date(時間毫秒數)`）
+2. 建立一個 `java.sql.Date` 物件，代表「目前時間」（使用 `new java.sql.Date(System.currentTimeMillis())`）
 3. 將兩個物件分別印出
 
 請說明你會如何 `import`，以避免命名衝突。
