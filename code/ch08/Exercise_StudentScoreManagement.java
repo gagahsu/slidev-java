@@ -2,11 +2,13 @@
 // 串連整章重點：建構子 + this（設定欄位）、物件陣列與 for-each 遍歷、
 // 陣列參照（成績陣列以參照方式存入物件）
 
-class Student {
+// 命名為 ScoreStudent（而非 Student）以避免與 ch09/StudentDemo.java 的
+// Student class 在同一個 Eclipse default package 內重複定義
+class ScoreStudent {
     String name;
     int[] scores;
 
-    Student(String name, int[] scores) {
+    ScoreStudent(String name, int[] scores) {
         this.name = name;
         this.scores = scores;
     }
@@ -24,14 +26,14 @@ class Student {
 
 public class Exercise_StudentScoreManagement {
     public static void main(String[] args) {
-        Student[] students = new Student[2];
+        ScoreStudent[] students = new ScoreStudent[2];
 
         // 直接把陣列字面值（匿名陣列）當引數傳入建構子，
         // scores 欄位會參照到這個陣列，而不是複製一份資料
-        students[0] = new Student("小明", new int[]{80, 90, 70});
-        students[1] = new Student("小華", new int[]{60, 75, 85});
+        students[0] = new ScoreStudent("小明", new int[]{80, 90, 70});
+        students[1] = new ScoreStudent("小華", new int[]{60, 75, 85});
 
-        for (Student s : students) {
+        for (ScoreStudent s : students) {
             s.displayInfo();
         }
     }
