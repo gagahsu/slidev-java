@@ -2,9 +2,6 @@ name: Site health check
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - claude/main-display-deploy-issue-965oij
 
 jobs:
   check:
