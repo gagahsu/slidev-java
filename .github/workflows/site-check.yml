@@ -1,0 +1,26 @@
+name: Site health check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch live Pages site
+        run: |
+          set -x
+          # Root page: status, headers, and body
+          curl -sS -D - -o body.html -w 'ROOT_STATUS=%{http_code}\n' https://gagahsu.github.io/slidev-java/ || true
+          echo '===== BODY ====='
+          cat body.html || true
+          echo '===== CURRENT MAIN ASSET (index-CBqPR0zz.js, expected 200) ====='
+          curl -sS -o /dev/null -w '%{http_code} size=%{size_download}\n' https://gagahsu.github.io/slidev-java/assets/index-CBqPR0zz.js || true
+          echo '===== OLD RELEASE ASSET (index-BSv36rYX.js, expected 404 if new deploy live) ====='
+          curl -sS -o /dev/null -w '%{http_code} size=%{size_download}\n' https://gagahsu.github.io/slidev-java/assets/index-BSv36rYX.js || true
+          echo '===== 404 FALLBACK (deep link /slidev-java/ch26) ====='
+          curl -sS -o deep.html -w '%{http_code} size=%{size_download}\n' https://gagahsu.github.io/slidev-java/ch26 || true
+          head -c 600 deep.html || true
+          echo
+          echo '===== CSS ====='
+          curl -sS -o /dev/null -w '%{http_code} size=%{size_download}\n' https://gagahsu.github.io/slidev-java/assets/index-tq5nw8XF.css || true
