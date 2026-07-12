@@ -211,6 +211,11 @@ style: |
       <div>Stream 與 Lambda</div>
       <div class="chapter-subtitle">Modern Java API</div>
     </Link>
+    <Link to="ch26" class="chapter-card">
+      <div class="chapter-num">Ch 26</div>
+      <div>全課程總複習</div>
+      <div class="chapter-subtitle">Course Review</div>
+    </Link>
   </div>
   <div style="height: 2px; width: 240px; background: linear-gradient(90deg, #e0a96d, #f0c896); border-radius: 2px; margin-top: 2rem; margin-bottom: 0.5rem;"></div>
   <p style="color: #c97b2c; font-size: 1.1rem; font-weight: 700; margin-bottom: 0;">進階／自學內容</p>
@@ -352,6 +357,16 @@ style: |
       <div class="chapter-badge">進階・自學</div>
       <div>Stream 與 Lambda</div>
       <div class="chapter-subtitle">Modern Java API (Advanced)</div>
+    </Link>
+  </div>
+  <div style="height: 2px; width: 240px; background: linear-gradient(90deg, #5eada0, #a7d9d0); border-radius: 2px; margin-top: 2rem; margin-bottom: 0.5rem;"></div>
+  <p style="color: #5eada0; font-size: 1.1rem; font-weight: 700; margin-bottom: 0;">特別篇</p>
+  <div class="chapter-grid">
+    <Link to="demo-oop" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Demo</div>
+      <div class="chapter-badge">AI 協作・試教</div>
+      <div>物件導向入門與封裝</div>
+      <div class="chapter-subtitle">OOP &amp; Encapsulation × AI</div>
     </Link>
   </div>
 </div>
@@ -546,6 +561,14 @@ src: ./ch24-collection-adv.md
 
 ---
 src: ./ch25-stream-lambda-adv.md
+---
+
+---
+src: ./ch26-course-review.md
+---
+
+---
+src: ./demo-oop-encapsulation.md
 ---
 
 
