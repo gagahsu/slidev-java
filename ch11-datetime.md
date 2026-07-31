@@ -348,6 +348,31 @@ System.out.println(combined); // 2024-05-13T10:30
 layout: default
 ---
 
+# 🎬 AI 協作時刻：時間類別選哪個？
+
+`LocalDate`、`LocalTime`、`LocalDateTime` 三個名字很像，遇到新需求時常常猶豫該用哪個。讓 AI 幫你判斷：
+
+**要用的 Prompt：**
+
+> 我要設計一個「訂房系統」的資料表，裡面有「入住日期」「退房日期」跟「櫃檯每日開放服務時間（例如 08:00~22:00）」三個欄位。
+> 請問這三個欄位分別該用 `LocalDate`、`LocalTime` 還是 `LocalDateTime`？請說明理由。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>判斷原則：</b> 問自己「這個欄位需要知道時區嗎？需要日期還是只需要時間？」AI 的回答通常會照這個邏輯拆解，練習幾次你自己也能判斷。
+</div>
+
+<!--
+【操作提示】
+現場示範貼上 prompt，讓 AI 逐一拆解三個欄位：入住/退房日期用 `LocalDate`（不需要時分），開放服務時間用 `LocalTime`（每天重複、跟日期無關）。
+
+【收斂一句話】
+選對日期時間類別的關鍵，是先問「這筆資料到底需不需要日期、需不需要時間」，AI 可以幫你把這個判斷邏輯講清楚。
+-->
+
+---
+layout: default
+---
+
 # 練習 3：活動報名截止時間
 ### 任務說明
 

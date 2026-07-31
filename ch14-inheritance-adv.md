@@ -48,11 +48,11 @@ style: |
 </div>
 
 <!--
-哈囉大家，歡迎來到「繼承與多形」的進階自學篇！基礎版我們已經學會 `extends`、`super`、Override、多型、向上／向下轉型這些核心機制，這份自學內容會帶我們往三個方向延伸。
+哈囉大家，歡迎來到「繼承與多形」的進階自學篇！基礎版我們已經學會 `extends`、`super`、Override、多型、向上／向下轉型、Pattern Matching for instanceof、Record 基本語法這些核心機制，這份自學內容會帶我們往三個方向延伸。
 
-為什麼要學這些？因為 Java 這幾年版本更新很快，Sealed Classes 和 Records 是現代 Java 專案常見的新寫法，能讓繼承關係更安全、資料類別更精簡；Pattern Matching 則讓型別判斷更簡潔；而巢狀類別和靜態／動態綁定，是讀懂 Spring Boot 等框架原始碼時一定會遇到的概念。
+為什麼要學這些？因為 Java 這幾年版本更新很快，Sealed Classes 是現代 Java 專案常見的新寫法，能讓繼承關係更安全；Records 的繼承限制則補齊基礎版沒教到的細節；而巢狀類別和靜態／動態綁定，是讀懂 Spring Boot 等框架原始碼時一定會遇到的概念。
 
-學完這份自學內容，我們會知道怎麼用 Sealed Classes 精確控制繼承範圍、怎麼用 Records 快速建立資料類別、怎麼用 Pattern Matching 簡化型別判斷，還有靜態綁定和動態綁定的差異，以及巢狀類別與匿名內部類別的用法。準備好就開始吧！
+學完這份自學內容，我們會知道怎麼用 Sealed Classes 精確控制繼承範圍、Records 的繼承限制規則、靜態綁定和動態綁定的差異，以及巢狀類別與匿名內部類別的用法。準備好就開始吧！
 -->
 
 ---
@@ -61,14 +61,14 @@ layout: default
 
 # Outline
 
-- **Sealed Classes 與 Records** — 密封類別、permits、密封子類別修飾符、Records 簡介與繼承限制
-- **Pattern Matching 與靜態／動態綁定** — Pattern Matching for instanceof、Static Binding vs Dynamic Binding
+- **Sealed Classes 與 Records** — 密封類別、permits、密封子類別修飾符、Records 繼承限制（Record 基本語法基礎課已學過）
+- **靜態／動態綁定** — Static Binding vs Dynamic Binding（練習會複習基礎課學過的 Pattern Matching for instanceof）
 - **巢狀類別與匿名內部類別** — Inner Class、Method-local、Anonymous Class
 
 <!--
-這份自學內容分成三大塊，循序漸進：先看 JDK 較新版本帶來的 Sealed Classes 和 Records，這兩個語法糖能讓我們的類別設計更嚴謹也更精簡；接著看 Pattern Matching for instanceof，搭配靜態／動態綁定，補齊我們對「型別判斷」與「方法呼叫時機」的理解；最後進入巢狀類別，這是物件導向設計裡常被忽略、但實務上很常見的技巧。
+這份自學內容分成三大塊，循序漸進：先看 Sealed Classes 這個 JDK 較新版本帶來的語法糖，讓我們的類別設計更嚴謹，再補齊 Records 的繼承限制細節；接著看靜態／動態綁定，補齊我們對「方法呼叫時機」的理解；最後進入巢狀類別，這是物件導向設計裡常被忽略、但實務上很常見的技巧。
 
-如果大家還記得基礎版教過的 `extends`、Override、多型，這份內容會非常順。準備好的話，我們開始吧！
+如果大家還記得基礎版教過的 `extends`、Override、多型、Pattern Matching for instanceof、Record，這份內容會非常順。準備好的話，我們開始吧！
 -->
 
 ---
@@ -175,33 +175,11 @@ return switch (shape) {
 layout: default
 ---
 
-# 紀錄類別 (Records) 簡介
-
-JDK 16 引入，只需宣告欄位，編譯器自動產生 constructor、getter、`equals`、`hashCode`、`toString`：
-
-```java
-// 傳統寫法需要數十行；record 一行搞定
-record Person(String name, int age) { }
-
-Person p = new Person("炭治郎", 15);
-System.out.println(p.name()); // "炭治郎"
-System.out.println(p.age());  // 15
-System.out.println(p);        // Person[name=炭治郎, age=15]
-```
-
-<!--
-核心說明：Records 是 JDK 16 的新功能，專為「純資料類別」設計。只要宣告欄位，編譯器自動產生所有我們需要的方法。
-
-帶讀程式碼：`record Person(String name, int age)` 一行，自動有建構方法、getter（`name()`、`age()`）、`toString()`、`equals()`、`hashCode()`。傳統寫法要幾十行。
-
-業界實務：DTO（Data Transfer Object）——在系統之間傳遞資料的物件——用 Record 非常合適，既簡潔又不可變（immutable）。
--->
-
----
-layout: default
----
-
 # Records 與繼承限制
+
+<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>複習：</b>Record 基本語法（自動產生 constructor/getter/equals/hashCode/toString）已在基礎課教過，這裡補充繼承相關的限制規則。
+</div>
 
 | 規則 | 說明 |
 | --- | --- |
@@ -281,48 +259,12 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 第二部分
-# Pattern Matching 與靜態／動態綁定
+# 靜態／動態綁定
 
 <!--
-段落轉換：第二部分我們來看兩個比較「底層」的概念。第一個是 Pattern Matching for instanceof，它讓型別判斷和轉型可以一步完成；第二個是靜態綁定與動態綁定，它解釋了「為什麼父類別變數能呼叫到子類別覆寫後的方法」這個多型背後的機制。
+段落轉換：第二部分我們來看一個比較「底層」的概念——靜態綁定與動態綁定，它解釋了「為什麼父類別變數能呼叫到子類別覆寫後的方法」這個多型背後的機制（Pattern Matching for instanceof 基礎課已經學過，等一下的練習會用到）。
 
-這兩個概念看起來抽象，但其實是基礎版多型內容的延伸——理解它們之後，我們對 Java 方法呼叫的運作方式會有更扎實的掌握。
--->
-
----
-layout: default
----
-
-# Pattern Matching for instanceof
-
-JDK 16 引入了更簡潔的 **Pattern Matching**，將 `instanceof` 判斷與轉型合併。
-
-| 方式 | 語法 |
-| --- | --- |
-| 傳統方式 | `if (a instanceof Dog) { Dog d = (Dog) a; ... }` |
-| Pattern Matching | `if (a instanceof Dog d) { d.barking(); }` |
-
-```java
-Object obj = "Hello Java";
-
-// 判斷的同時宣告變數 s，若符合則自動轉型
-if (obj instanceof String s) {
-    System.out.println(s.toLowerCase()); // 直接使用 s
-}
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 變數 <code>s</code> 的作用域僅限於 <code>if</code> 區塊內（或邏輯符合的範圍內）
-</div>
-
-<!--
-核心說明：JDK 16 新語法，`instanceof` 判斷和轉型可以一次完成，更安全也更簡潔。
-
-帶讀表格：傳統方式要先 `instanceof` 判斷，再 `(Dog)` 轉型，分兩步；Pattern Matching 用 `if (a instanceof Dog d)`，判斷成功的同時把 `d` 宣告為 Dog 型態，一步搞定。
-
-帶讀程式碼：`if (obj instanceof String s)` 中，`s` 在 `if` 區塊內直接可用，不需要再轉型。
-
-業界實務：現代 Java 專案已大量採用 Pattern Matching 取代傳統的 `instanceof` + 強制轉型組合。
+這個概念看起來抽象，但其實是基礎版多型內容的延伸——理解它之後，我們對 Java 方法呼叫的運作方式會有更扎實的掌握。
 -->
 
 ---

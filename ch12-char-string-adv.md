@@ -52,7 +52,7 @@ style: |
 有些同學寫程式時會發現：明明內容一樣的兩個字串，拿去比較卻有不同結果；或是迴圈裡拼字串拼到後面整個程式變很慢。這些現象背後都有原因，搞懂了，你寫出來的程式會更穩、更快。
 
 【學習目標】
-學完這份自學內容，我們會知道字串在記憶體裡到底長什麼樣子（字串池）、怎麼用 Text Block 寫多行文字、怎麼用 StringBuilder 大量拼接字串而不拖垮效能，以及幾個進階字串方法的實戰用法。
+學完這份自學內容，我們會知道字串在記憶體裡到底長什麼樣子（字串池）、Text Block 的進階格式方法（indent）、StringBuffer 跟 StringBuilder 的差異，以及幾個進階字串方法的實戰用法。基礎課已經學過 Text Block 語法跟 StringBuilder 常用方法，這裡是在那之上再深入。
 -->
 
 ---
@@ -61,18 +61,18 @@ layout: default
 
 # Outline
 
-- **字串記憶體與進階語法**：Text Blocks、字串池 (String Pool)
+- **字串記憶體與進階語法**：字串池 (String Pool)、Text Block 的 indent()
 - **進階字串方法**：getChars、StringUtils、transform、lines
-- **StringBuffer 與 StringBuilder**
+- **StringBuffer vs StringBuilder**：執行緒安全、容量管理、更多操作方法
 - **綜合練習**
 
 <!--
 【核心說明】
-這份自學內容分成三大塊。第一塊是「字串在記憶體裡到底怎麼存」，包含字串池的概念，還有 Java 15 之後新增的 Text Block 多行字串寫法。
+這份自學內容分成三大塊。第一塊是「字串在記憶體裡到底怎麼存」，包含字串池的概念，還有 Text Block 的 `indent()` 格式方法（Text Block 語法本身基礎課已教過）。
 
 第二塊是幾個比較少用、但關鍵時刻很好用的方法，像是 getChars、StringUtils、transform、lines。
 
-第三塊是重頭戲：StringBuffer 跟 StringBuilder，這是處理大量字串拼接時的效能神器。
+第三塊是 StringBuffer 跟 StringBuilder 的深入比較：執行緒安全性、容量管理，以及基礎課沒教到的 setCharAt/replace/substring 等方法。
 
 💼 業界實務：
 這些內容平時可能用不到，但一旦遇到效能瓶頸或面試考古題，往往就是這幾個概念在考。
@@ -95,43 +95,11 @@ class: flex flex-col justify-center items-center text-center
 
 ---
 
-# Text Blocks（多行字串）
-
-以三個雙引號 `"""` 開頭並**換行**，結尾加 `"""`，省去字串拼接與跳脫：
-
-```java
-// 傳統字串（需加 \n）
-String msg = "Hello\n鬼殺隊\nGoodbye";
-
-// Text Block（直覺可讀）
-String tb = """
-            Hello
-            鬼殺隊
-            Goodbye
-            """;
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 Text Blocks 的型別仍是 <code>String</code>，所有 String 方法都可使用。結尾的 <code>"""</code> 與內容對齊時，公共縮排會被自動移除。
-</div>
-
-<!--
-【核心說明】
-這是 JDK 15 之後新增的語法糖，專門用來解決「多行文字寫起來很醜」的問題。
-
-【生活化比喻】
-以前要寫一段多行文字（像 SQL 語法），我們要在每一行後面加 "\n" 再用 + 接下一行，寫到後面整段程式碼擠成一團，像是把好幾張紙硬塞進一個信封。Text Block 就像直接給你一張大信紙，要怎麼排版、換行，照寫就好。
-
-【逐步解說】
-你看 tb 這個寫法，三個雙引號開頭後直接換行，裡面想怎麼斷行就怎麼斷行，Java 會照你寫的樣子保留下來。
-
-💼 業界實務：
-寫 SQL 查詢字串、HTML 模板、JSON 範例的時候特別好用，程式碼讀起來乾淨很多。
--->
-
----
-
 # indent( )
+
+<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>複習：</b>Text Block（<code>"""</code> 多行字串）語法已在基礎課教過，這裡補一個進階格式方法。
+</div>
 
 | 方法名稱 | 說明 |
 | --- | --- |
@@ -554,45 +522,15 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# StringBuffer 與 StringBuilder
+# StringBuffer vs StringBuilder（深入）
 
 <!--
 【🎯 章節標題頁】
-最後一個大主題：字串界的「變形金剛」——StringBuffer 跟 StringBuilder。
-
-【為什麼要學這個？】
-基礎篇提過，一般的 `String` 只要一改動就會產生新物件，如果在迴圈裡反覆修改幾千、幾萬次，效能會明顯變差。這兩個類別就是為了解決這個問題而生的，它們提供一個「可變」的字串緩衝區。
+基礎課已經教過 StringBuilder 的常用方法（append/insert/delete/reverse）跟為什麼要用它取代 `+=` 拼接。這裡要更深入：容量管理怎麼運作、StringBuffer 跟 StringBuilder 差在哪、還有幾個基礎課沒教的方法。
 -->
 
 ---
 layout: default
----
-
-# 為什麼需要緩衝區類別？
-
-`String` 是不可變的，頻繁修改會造成效能低落。
-
-```java
-// ❌ 效能差 (產生大量暫存物件)
-String s = "";
-for(int i=0; i<100; i++) s += i;
-
-// ✅ 效能佳 (在同一個緩衝區操作)
-StringBuilder sb = new StringBuilder();
-for(int i=0; i<100; i++) sb.append(i);
-```
-
-<!--
-【核心說明】
-我們直接看程式碼對比。`StringBuilder` 就像一個專屬的工具籃，不管裝多少東西，都還是同一個籃子，不會一直去買新籃子再把舊的丟掉。
-
-【逐步解說】
-左邊的寫法，每次 `s += i`，Java 都會偷偷建立一個新的 `String` 物件、複製內容、再讓 `s` 指向它，跑 100 次就產生 100 個用過即丟的物件。右邊的 `StringBuilder` 則是一直往同一個籃子裡塞東西（`append`），籃子會自動變大，但位址始終沒變。
-
-💼 業界實務：
-在迴圈裡拼接字串，幾乎是「一定要用 `StringBuilder`」的等級，這是新手跟有經驗工程師的常見分水嶺。
--->
-
 ---
 
 # 記憶體變更對比
@@ -664,66 +602,6 @@ System.out.println(sb3.length());   // 3
 
 【預期結果】
 這就是緩衝區「預留空間」的設計——容量跟實際長度是分開計算的兩件事。
--->
-
----
-
-# 內容修訂方法 (一)
-
-| 方法名稱 | 說明 |
-| --- | --- |
-| `append(data)` | 將內容加在尾端 |
-| `insert(pos, data)` | 在指定位置插入內容 |
-
-```java
-StringBuilder sb1 = new StringBuilder("Muzan");
-sb1.append("Kibutsuji");
-System.out.println(sb1); // "MuzanKibutsuji"
-
-StringBuilder sb2 = new StringBuilder("MuzanKibutsuji");
-sb2.insert(5, " "); // 在索引 5 插入空格
-System.out.println(sb2); // "Muzan Kibutsuji"
-```
-
-<!--
-【核心說明】
-對 `StringBuilder` 來說最重要的兩個動作就是加字：`append` 是加在最後面，`insert` 則是「插隊」。
-
-【逐步解說】
-`append` 最常用，直接把內容接到尾端；`insert` 則是指定一個位置，把後面的內容往後推，再把新內容塞進去。
-
-💼 業界實務：
-這跟一般 `String` 拼接比起來，語意更清楚，也不會產生多餘的暫存物件，在大量字串組裝（例如報表輸出）時很常見。
--->
-
----
-
-# 內容修訂方法 (二)
-
-| 方法名稱 | 說明 |
-| --- | --- |
-| `delete(start, end)` | 刪除 [start, end-1] 範圍的內容 |
-| `reverse()` | **反轉字串內容** |
-
-```java
-StringBuilder sb1 = new StringBuilder("鬼滅之刃大戰");
-sb1.delete(4, 6); // 刪除索引 4~5
-System.out.println(sb1); // "鬼滅之刃"
-
-StringBuilder sb2 = new StringBuilder("炭治郎");
-sb2.reverse();
-System.out.println(sb2); // "郎治炭"
-```
-
-<!--
-【核心說明】
-`delete` 跟 `reverse` 是兩個常用的內容修訂方法。
-
-【逐步解說】
-`delete` 一樣是「包含頭不包含尾」的規則，跟 `substring` 一致；`reverse` 則是直接把整串內容反過來。
-
-⚠️ 易錯點提醒：
-判斷「迴文」這類題目時，`reverse` 是很方便的工具，但別忘了它會直接修改原本的 `StringBuilder` 物件內容，跟 `String` 的不可變特性不同。
 -->
 
 ---
@@ -809,44 +687,7 @@ System.out.println(sb); // "鬼滅之刃是炭治郎"
 layout: default
 ---
 
-# 練習 3：迴文判斷
-### 任務說明
-
-撰寫一個程式，判斷使用者輸入是否為「迴文」（正讀反讀結果一致）。
-
-- 例如：`禰豆子豆禰` $\rightarrow$ 是
-- 例如：`鬼滅之刃` $\rightarrow$ 否
-
-<!--
-【任務鋪陳】
-我們剛才學了 `reverse` 這個方法，剛好可以拿來解決一個經典題型：判斷一個字串是不是「迴文」。
-
-【引導思考】
-迴文就是倒過來唸結果也一樣。如果手上已經有 `reverse` 這個工具，要判斷迴文的邏輯會不會突然變得很直覺？大家可以先想想看，要怎麼把輸入的字串變成可以反轉的形式。
--->
-
----
-
-# 練習 3：迴文判斷 — 解題提示
-### 提示說明
-
-1. 將使用者輸入建立為 `StringBuilder` 物件。
-2. 呼叫 `.reverse()` 方法取得反轉後的內容。
-3. 將反轉結果轉回 `String`，與原字串用 `equals` 比對是否相等。
-
-<!--
-【逐步解說】
-第一步，把輸入的字串放進 `StringBuilder`。第二步，直接呼叫 `.reverse()`。第三步，把反轉後的內容轉成 `String`（注意：比較內容要用 `equals`，不是 `==`），跟原始字串比對。
-
-【預期結果】
-如果兩者內容相同，就是迴文；不同的話就不是。這題同時複習了 `StringBuilder.reverse()` 跟字串比較這兩個概念。
--->
-
----
-layout: default
----
-
-# 練習 4 (綜合)：日記格式化器
+# 練習 3 (綜合)：日記格式化器
 ### 任務說明
 
 請設計一個小工具，處理使用者輸入的多行日記內容：
@@ -857,7 +698,7 @@ layout: default
 
 <!--
 【任務鋪陳】
-這份自學內容學了不少進階主題：Text Block 讓我們可以寫多行字串、`lines()` 可以把多行內容拆開、`StringUtils` 可以過濾掉沒意義的空白行、`StringBuilder` 則能有效率地把處理好的內容重新組裝起來。這個綜合練習就是要把這幾樣工具串在一起用。
+這題把基礎課學過的 Text Block、StringBuilder，跟這份自學內容新學的 `lines()`、`StringUtils` 串在一起用：Text Block 讓我們可以寫多行字串、`lines()` 可以把多行內容拆開、`StringUtils` 可以過濾掉沒意義的空白行、`StringBuilder` 則能有效率地把處理好的內容重新組裝起來。
 
 【引導思考】
 想像我們收到一份格式不太整齊的日記稿，裡面可能夾雜空白行，我們希望輸出一份「每行都有編號、且沒有空白行」的整潔版本。大家可以想想：這個流程要先做哪一步、再做哪一步，才不會把空白行也編進號碼裡？
@@ -865,7 +706,7 @@ layout: default
 
 ---
 
-# 練習 4 (綜合)：日記格式化器 — 解題提示
+# 練習 3 (綜合)：日記格式化器 — 解題提示
 ### 提示說明
 
 1. 用 `"""` 建立多行 Text Block，內容包含至少一行空白行。

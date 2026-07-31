@@ -90,6 +90,32 @@ style: |
 layout: default
 ---
 
+# 🎬 AI 協作時刻：多執行緒到底難在哪？
+
+還不確定要不要花時間自學多執行緒？先問 AI 一個問題，了解它的「甜頭」跟「地雷」在哪：
+
+**要用的 Prompt：**
+
+> 我是 Java 初學者，還沒學過多執行緒。
+> 請用一個生活化比喻，說明「兩個執行緒同時搶同一份資料」會發生什麼問題，
+> 100 字以內，不要用程式碼。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>先建立危機感：</b> 多執行緒最難的不是「怎麼開」，而是「怎麼避免大家搶同一份資源」——這也是自學版 synchronized 章節要解決的問題。
+</div>
+
+<!--
+【操作提示】
+現場貼給 AI，看它會不會舉「兩個人同時領同一個提款機的錢」或類似的例子，幫同學建立「競爭條件（race condition）」的直覺。
+
+【收斂一句話】
+知道多執行緒「好用在哪、危險在哪」，比死記語法更重要——這決定了同學要不要投入時間自學下去。
+-->
+
+---
+layout: default
+---
+
 <div class="flex flex-col justify-center items-center h-full">
 
 # 想深入了解多執行緒？

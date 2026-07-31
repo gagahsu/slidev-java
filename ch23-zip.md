@@ -87,6 +87,32 @@ layout: default
 layout: default
 ---
 
+# 🎬 AI 協作時刻：解壓縮也有資安風險？
+
+自學版提到的「Zip Slip」聽起來很陌生，但先讓 AI 用一句話讓你有印象：
+
+**要用的 Prompt：**
+
+> 我聽說解壓縮 ZIP 檔案有一種叫「Zip Slip」的資安漏洞，
+> 請用完全不懂資安的人也能聽懂的方式，解釋這個漏洞大概在做什麼壞事，
+> 100 字以內，不要用程式碼。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>先有印象就好：</b> 只要知道「解壓縮別人給的 ZIP 檔案不能照單全收」，之後在自學版看到防護寫法時就不會覺得莫名其妙。
+</div>
+
+<!--
+【操作提示】
+口頭帶過即可，不用深入解釋技術細節，重點是讓同學知道「連解壓縮這種看似單純的操作，也可能藏著資安問題」，引起對自學版內容的興趣。
+
+【收斂一句話】
+壓縮解壓縮不只是省空間的工具，處理「別人給的檔案」時多一分警覺，就是資安意識的第一步。
+-->
+
+---
+layout: default
+---
+
 <div class="flex flex-col justify-center items-center h-full text-center">
 
 # 想深入了解壓縮與解壓縮？

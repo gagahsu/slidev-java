@@ -787,6 +787,32 @@ int d2 = r.nextInt(6) + 1;
 layout: default
 ---
 
+# 🎬 AI 協作時刻：讓 AI 幫你選工具
+
+`Math.random()` 跟 `Random` 到底該選哪個？與其自己猜，不如直接問 AI，順便練習怎麼下一個「有情境」的 prompt：
+
+**要用的 Prompt：**
+
+> 我要寫一個「刮刮樂」小遊戲，需要產生 1~10 的整數當中獎號碼，
+> 而且測試時希望每次執行結果都一樣，方便除錯。
+> 請問我該用 `Math.random()` 還是 `java.util.Random`？為什麼？
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>下 prompt 的訣竅：</b> 把「情境」和「限制條件」講清楚（例如要不要可重現），AI 給的答案會比單純問「兩個差在哪」更貼近你的實際需求。
+</div>
+
+<!--
+【操作提示】
+現場貼上這個 prompt，讓 AI 回答並說明「可重現」正是 `Random(seed)` 的強項，`Math.random()` 做不到。可以順便問 AI 幫忙寫出範例程式碼。
+
+【收斂一句話】
+問 AI 的時候多帶一句「我的情境是什麼」，得到的答案會更精準，這也是寫好 prompt 的基本功。
+-->
+
+---
+layout: default
+---
+
 # 練習 4：猜數字遊戲（產生 — 答案
 ### 任務說明
 

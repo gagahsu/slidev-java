@@ -69,14 +69,15 @@ layout: default
 - **第三部分：執行緒控制** — sleep()、join()、優先順序、Daemon 執行緒
 - **第四部分：同步機制** — synchronized、匿名類別、同步區塊與靜態方法
 - **第五部分：進階議題** — Deadlock、wait()/notify()、生產者消費者模式
+- **第六部分：Virtual Threads（JDK 21）** — 虛擬執行緒基本用法
 - **綜合練習**
 
 <!--
 【帶讀大綱】
-今天的自學內容分成五大塊，前兩塊先打地基：認識「Program、Process、Thread」這三個常被搞混的詞，再學三種把執行緒生出來的方法。
+今天的自學內容分成六大塊，前兩塊先打地基：認識「Program、Process、Thread」這三個常被搞混的詞，再學三種把執行緒生出來的方法。
 
 【重點預告】
-中間是「執行緒控制」——怎麼讓它們睡覺、排隊等待、設定優先順序。最後兩塊是重頭戲：同步機制怎麼避免多個窗口搶同一份資料，以及死結（Deadlock）這個工程師的噩夢要怎麼預防。每個小節後面都有練習，章節結尾還有一題綜合練習，把全部概念串起來。
+中間是「執行緒控制」——怎麼讓它們睡覺、排隊等待、設定優先順序。接著是重頭戲：同步機制怎麼避免多個窗口搶同一份資料，以及死結（Deadlock）這個工程師的噩夢要怎麼預防。最後補上 JDK 21 的 Virtual Threads，這是目前 Java 併發模型最新的演進。每個小節後面都有練習，章節結尾還有一題綜合練習，把全部概念串起來。
 -->
 
 ---
@@ -1567,11 +1568,87 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
+# 第六部分
+# Virtual Threads（JDK 21）
+
+<!--
+【開場白】
+最後補一個 JDK 21 的招牌新功能：Virtual Threads（虛擬執行緒）。前面學的都是「Platform Thread」（傳統執行緒），這是目前最新版 Java 對多執行緒模型的重大升級。
+-->
+
+---
+layout: default
+---
+
+# 為什麼需要 Virtual Threads？
+
+傳統的 Platform Thread 直接對應一條作業系統執行緒，數量受限（通常幾千條就是極限）：
+
+```java
+// 傳統寫法：每個 Thread 對應一條 OS 執行緒，開太多會耗盡資源
+Thread t = new Thread(() -> System.out.println("處理請求"));
+t.start();
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>典型情境：</b>一個網站伺服器如果要同時處理 10 萬個請求，用傳統 Thread「一個請求一條執行緒」的模式會直接把系統資源耗盡。
+</div>
+
+<!--
+【核心說明】
+傳統的 Thread（現在也稱為 Platform Thread）建立成本高，因為它直接綁定一條作業系統層級的執行緒，數量一多，記憶體跟排程負擔都會爆炸。
+
+💼 業界實務：
+這正是傳統 Java Web 伺服器「一個請求配一條執行緒」的模式在高併發場景下會遇到的瓶頸，也是 Virtual Threads 想解決的問題。
+-->
+
+---
+
+# Virtual Threads 基本用法
+
+```java
+// 用 Thread.ofVirtual() 建立虛擬執行緒
+Thread vt = Thread.ofVirtual().start(() -> {
+    System.out.println("在虛擬執行緒中執行");
+});
+vt.join();
+
+// 或用 Executors 一次管理大量虛擬執行緒
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    for (int i = 0; i < 100_000; i++) {
+        executor.submit(() -> System.out.println("任務執行中"));
+    }
+} // try-with-resources 自動等待所有任務完成
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>關鍵差異：</b>Virtual Thread 不直接綁定 OS 執行緒，而是由 JVM 排程到少量的「載體執行緒（carrier thread）」上執行，建立成本極低，可以輕鬆開出數十萬條。
+</div>
+
+<!--
+【核心說明】
+建立方式看起來跟傳統 Thread 很像（`start()`、`join()` 都一樣），但底層機制完全不同：Virtual Thread 是由 JVM 自己管理排程，不會一對一佔用作業系統執行緒。
+
+【逐步解說】
+`Executors.newVirtualThreadPerTaskExecutor()` 是最常用的寫法——每個任務都拿到一條專屬的虛擬執行緒，即使開了 10 萬個任務，也不會像傳統 Thread 那樣壓垮系統。
+
+💼 業界實務：
+Virtual Threads 特別適合「I/O 密集」的場景（例如等待資料庫查詢、呼叫外部 API），因為執行緒大部分時間都在等待，用便宜的虛擬執行緒取代昂貴的作業系統執行緒非常划算。對於「CPU 密集」的運算工作，虛擬執行緒沒有額外優勢。
+
+⚠️ 易錯點提醒：
+Virtual Threads 不是用來取代 `synchronized` 或前面學的所有執行緒安全機制——共享資料的競爭條件問題依然存在，該用的同步機制還是要用。
+-->
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
 # Q & A
 
 <!--
 【收尾】
-這份自學內容到這裡告一段落，我們從「Program / Process / Thread」的名詞釐清開始，一路走到建立執行緒、控制執行緒節奏、同步機制，最後挑戰了死結與生產者消費者模式。
+這份自學內容到這裡告一段落，我們從「Program / Process / Thread」的名詞釐清開始，一路走到建立執行緒、控制執行緒節奏、同步機制、死結與生產者消費者模式，最後認識了 JDK 21 的 Virtual Threads。
 
 【核心帶走重點】
 三個最重要的提醒：第一，啟動執行緒一定是 `start()`，不是 `run()`；第二，只要有共享資料，先想清楚要不要 `synchronized`，鎖的範圍越小越好；第三，看到程式「卡住不動但沒報錯」，先檢查是不是死結，看看各執行緒拿鎖的順序是否一致。有問題歡迎隨時討論！

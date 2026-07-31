@@ -432,6 +432,33 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 layout: default
 ---
 
+# 🎬 AI 協作時刻：ArrayList 內部到底怎麼存資料？
+
+面試最愛問「ArrayList 跟 LinkedList 差在哪」，與其死背答案，不如請 AI 用畫面講給你聽：
+
+**要用的 Prompt：**
+
+> 請用「書架」跟「藏寶圖尋寶」兩種比喻，
+> 分別解釋 ArrayList 跟 LinkedList 的內部儲存方式，
+> 並說明為什麼 `get(index)` 在 ArrayList 比較快、
+> 在中間 `add`/`remove` 卻是 LinkedList 比較快。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試常考：</b> 答不出「為什麼快」只答得出「哪個快」，在面試官眼裡差很多——這個 prompt 幫你把「為什麼」補齊。
+</div>
+
+<!--
+【操作提示】
+現場貼給 AI，讓學生看它怎麼用「書架連續格子」vs「藏寶圖一張接一張」比喻兩種資料結構的差異。
+
+【收斂一句話】
+選哪個 List 不是背答案，而是看「你比較常做什麼操作」——這正是面試官想聽到的思考過程。
+-->
+
+---
+layout: default
+---
+
 # 練習 2：管理英雄名單
 ### 任務說明
 
@@ -769,6 +796,34 @@ for (String key : scores.keySet()) {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：HashMap 到底有沒有順序？
+
+把資料 `put` 進 `HashMap`，`keySet()` 印出來的順序常常跟你 `put` 的順序不一樣，這是不是 bug？問問 AI：
+
+**要用的 Prompt：**
+
+> 我用 HashMap 依序 put 了 A、B、C，
+> 但印出來的順序卻不是 A、B、C。這是正常的嗎？
+> 請解釋 HashMap 為什麼不保證順序，
+> 並告訴我如果我需要「保持插入順序」或「自動排序」，
+> 應該分別改用哪個 Map？
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試常考：</b> 「HashMap 有沒有順序」是junior面試經典送分題，答錯很可惜，答對能立刻加分。
+</div>
+
+<!--
+【操作提示】
+可以現場把某位同學寫的 HashMap 範例貼給 AI，讓它指出「你以為的順序」跟「實際的順序」不一定一樣。
+
+【收斂一句話】
+HashMap 不保證順序是設計上的取捨，不是 bug；真的需要順序，換 LinkedHashMap 或 TreeMap 就好。
+-->
+
+---
+layout: default
+---
+
 # 練習 4：成績統計系統
 ### 任務說明
 
@@ -913,6 +968,34 @@ layout: default
 
 【補充】
 資深工程師的選擇流程通常是：`ArrayList` → `HashMap` → `HashSet`。如果這三樣不能解決問題，才會考慮其他變化型，那部分留給進階自學內容。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：拿到題目，該選哪個集合？
+
+面試常出一個情境題，考你會不會選對集合。試著把情境丟給 AI，看你的答案對不對：
+
+**要用的 Prompt：**
+
+> 情境：我要記錄「今天進場的所有訪客名字」，
+> 訪客可能重複進出好幾次、順序不重要，
+> 但我需要能快速查詢「某個人今天有沒有來過」。
+> 請問我該用 List、Set 還是 Map？為什麼？
+> 換個情境：如果我改成要記錄「每個訪客進場了幾次」呢？
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>帶回家用：</b> 遇到任何新情境，都可以套這個 prompt 讓 AI 陪你練習「選集合」的判斷邏輯。
+</div>
+
+<!--
+【操作提示】
+先讓學生自己猜答案（Set / Map），再貼給 AI 核對，順便問第二個情境（Map<String, Integer> 計數），練習「同一群資料，需求變了、選擇也要跟著變」。
+
+【收斂一句話】
+選集合沒有標準答案，關鍵是看「你要對這批資料做什麼操作」，這正是這張選用指南表格背後的邏輯。
 -->
 
 ---

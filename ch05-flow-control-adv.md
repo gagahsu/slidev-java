@@ -43,10 +43,10 @@ style: |
 
 <!--
 【開場白】
-歡迎來到流程控制的進階篇！如果說 if 和傳統 switch 是手排車，那今天要介紹的這幾招，就是 Java 給工程師的「自排升級包」。
+歡迎來到流程控制的進階篇！基礎課已經學過 Switch Expression（箭頭語法），今天要在這個基礎上再加兩招。
 
 【為什麼要學這個？】
-你可能會想：「傳統 switch 不是能用嗎？為什麼還要學新的？」想像一下，同樣是切菜，一個用菜刀慢慢切，一個用食物處理機。兩種都能完成任務，但效率跟安全性差很多。Switch Expression、Pattern Matching 和 Sealed Class，就是 Java 給你的「食物處理機」。
+Switch Expression 只是開胃菜，接下來這兩招才是真正讓 switch 變聰明的關鍵：讓它看穿物件的真實型別（Pattern Matching），再用 sealed 把所有可能性「鎖死」，讓編譯器幫你把關（Sealed Class）。
 
 【今天學完你會能做什麼】
 學完這份自學內容，你會看得懂、也寫得出近年企業專案中常見的現代化 switch 寫法，並且理解為什麼 Java 要演化出這些語法。這在面試或閱讀新版原始碼時，都會是你的加分項。
@@ -58,17 +58,17 @@ layout: default
 
 # Outline
 
-- **Switch Expression**：`->` 箭頭語法、多值 case、`yield` 回傳值
+- **複習：Switch Expression**（基礎課已學過，這裡快速回顧）
 - **Pattern Matching for switch**：型別比對、條件守衛、`case null`
 - **Sealed Class 搭配 switch**：`sealed` 介面與完整型別覆蓋
-- **練習題**：2 題（星期幾判斷器、綜合應用，各含任務說明 + 解題提示）
+- **練習題**：2 題（分類任意物件、綜合應用，各含任務說明 + 解題提示）
 
 <!--
 【核心說明】
-這份自學內容，其實是在講同一件事的三個進化階段：switch 怎麼從「老舊開關」一步步變成「智慧分類員」。
+這份自學內容，是在 Switch Expression 之上再疊加兩個進化階段：switch 怎麼從「只能比對值」一步步變成「智慧分類員」。
 
 【生活化比喻】
-先學會用箭頭語法取代 break（Switch Expression），接著讓它能看穿物件的真實型別（Pattern Matching），最後再用 sealed 把所有可能性「鎖死」，讓編譯器幫你把關（Sealed Class）。三者環環相扣，建議依序往下學。
+先讓 switch 能看穿物件的真實型別（Pattern Matching），最後再用 sealed 把所有可能性「鎖死」，讓編譯器幫你把關（Sealed Class）。兩者環環相扣，建議依序往下學。
 -->
 
 ---
@@ -77,185 +77,6 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 第一部分
-# Switch Expression
-
-<!--
-【開場白】
-我們先從最基礎的進化開始：把傳統 switch 換成「箭頭版」。
--->
-
----
-layout: default
----
-
-# Java 14+ Switch Expression 語法對比
-
-| 特性 | 傳統 switch | Switch Expression (Java 14+) |
-| --- | --- | --- |
-| 語法符號 | `case 值:` + `break` | `case 值 ->` |
-| Fall-through | 有（忘記 break 就貫穿） | 無（自動隔離每個 case） |
-| 回傳值 | 不能直接賦值 | 可直接賦值給變數 |
-| 多值 case | 需連寫多個 case | `case A, B, C ->` 逗號分隔 |
-| 強制完整性 | 不強制（無 default 也行） | 必須涵蓋所有可能值 |
-
-<!--
-【核心說明】
-這是 Java 的「現代化改造」。
-
-【生活化比喻】
-傳統 switch 就像是老舊的機械開關，得自己加保險絲（break）。現代 switch（用 -> 箭頭）就像是數位觸控面板，點一下就到位，不用擔心煞車失靈，還能直接把結果丟給你。
-
-💼 業界實務：
-現在許多新專案的 Code Style 已經規定優先使用 Switch Expression，因為它能讓編譯器幫你檢查是否漏掉某個分支，減少潛在的 Bug。
--->
-
----
-
-# Switch Expression 基本用法
-
-```java
-int day = 3;
-
-// 直接賦值，不需 break
-String dayName = switch (day) {
-    case 1 -> "星期一";
-    case 2 -> "星期二";
-    case 3 -> "星期三";
-    case 4 -> "星期四";
-    case 5 -> "星期五";
-    default -> "假日";
-};
-System.out.println(dayName); // 星期三
-```
-
-<!--
-【範例目的】
-這個範例要示範：switch 現在可以「直接生出一個值」，不再只是單純的分支跳轉。
-
-【帶讀關鍵行】
-看 `String dayName = switch (day) { ... };` 這一行，整個 switch 本身就是一個「運算式」，運算完的結果直接指派給 dayName，中間完全不需要 break。
-
-⚠️ 易錯點提醒：
-每個分支結尾要用分號 `;` 結束（最後一個 `};` 別漏了），這跟傳統 switch 的語法不太一樣，剛開始很容易漏打。
-
-【預期結果】
-day = 3，符合 `case 3 -> "星期三"`，所以印出「星期三」。
--->
-
----
-
-# Switch Expression：多值 case 與 yield
-
-```java
-int month = 8;
-
-int days = switch (month) {
-    case 1, 3, 5, 7, 8, 10, 12 -> 31;
-    case 4, 6, 9, 11 -> 30;
-    case 2 -> {
-        // 多行邏輯用 yield 回傳值
-        boolean leap = (2024 % 4 == 0);
-        yield leap ? 29 : 28;
-    }
-    default -> 0;
-};
-System.out.println(month + " 月有 " + days + " 天");
-```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>yield：</b>在 switch expression 的 block（大括號）中，用 <code>yield</code> 代替 <code>return</code> 回傳值。
-</div>
-
-<!--
-【核心說明】
-現代 switch 能讓你一行抵五行。看到 case 1, 3, 5... -> 31 了嗎？這太優雅了！
-
-【逐步解說】
-如果你的邏輯很複雜，需要在大括號裡運算，最後請用 yield 把結果「吐」出來。注意：yield 只有在這種賦值模式下才有用喔。
-
-⚠️ 易錯點提醒：
-忘記寫 `yield`，只在大括號裡面寫 `leap ? 29 : 28;` 而不回傳，編譯器會直接報錯，因為它不知道這個分支該「交出」什麼值。
-
-【預期結果】
-month = 8，符合第一個多值 case，days = 31，印出「8 月有 31 天」。
--->
-
----
-layout: default
----
-
-# 練習 1：成績等第（Switch Expression 版）
-### 任務說明
-
-請使用 **Switch Expression（Java 14+）** 改寫「分數轉等第」的邏輯：
-
-- 輸入整數分數 `score`（0–100），先用 `score / 10` 算出十位數
-- 依十位數判斷等第：
-  - `10`、`9` → `A`
-  - `8` → `B`
-  - `7` → `C`
-  - `6` → `D`
-  - 其他 → `F`
-- 若 `score` 剛好是 `100`，需用 `yield` 加上額外文字「（滿分！）」
-
-**輸入範例：** `score = 95`
-**輸出範例：** `等第：A`
-
-<!--
-【任務鋪陳】
-這題把「十位數」這個小技巧（`score / 10` 利用整數除法的特性）跟 Switch Expression 的箭頭語法、多值 case、`yield` 全部串在一起。
-
-【問題引導】
-想一想：`10` 和 `9` 都要對應到 `A`，可以用多值 case `10, 9 ->` 一次處理。`100` 分的十位數是多少？這跟 `90` 分的十位數一樣嗎？如果一樣，那要怎麼用 `yield` 在同一個分支裡，針對 `100` 多印一段文字？
--->
-
----
-layout: default
----
-
-# 練習 1：解題提示
-
-### 提示說明
-
-1. 先算十位數：`int tens = score / 10;`（`100 / 10 = 10`，`95 / 10 = 9`）
-2. `case 10, 9 ->` 對應 `A`，但要用 block + `yield` 判斷 `score == 100` 是否要加註文字
-3. 其餘等第用一般箭頭語法直接回傳字串
-
-```java
-int score = 95;
-int tens = score / 10;
-
-String grade = switch (tens) {
-    case 10, 9 -> {
-        if (score == 100) {
-            yield "A（滿分！）";
-        }
-        yield "A";
-    }
-    case 8 -> "B";
-    case 7 -> "C";
-    case 6 -> "D";
-    default -> "F";
-};
-System.out.println("等第：" + grade);
-```
-
-<!--
-【逐步解說】
-這題的巧思在於先用 `score / 10` 把分數「降維」成十位數，這樣 `90~99` 跟 `100` 都會落在 `10` 或 `9` 這兩個 case，可以用多值 case `10, 9 ->` 一次接住。
-
-接著因為要針對 `100` 分做額外處理，這個分支就不能只是簡單的一行 `-> "A"`，而是要寫成 `{ ... yield ... }` 的 block 形式，在裡面用 `if` 判斷後，分別 `yield` 不同的字串。
-
-⚠️ 易錯點提醒：
-block 形式的每一條路徑都必須要有 `yield`，不能有「漏網之魚」。這題裡面，`if` 成立跟不成立都各自 `yield` 了一次，確保不管哪種情況，這個分支都一定會「交出」一個值。
--->
-
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 第二部分
 # Pattern Matching for switch
 
 <!--
@@ -267,9 +88,9 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# Java 17 Pattern Matching for switch（預覽特性）
+# Pattern Matching for switch（JDK 21 正式標準）
 
-Java 17 引入 switch 型別模式比對（JEP 406，預覽功能）：
+Java 17 首次引入 switch 型別模式比對（JEP 406，當時是預覽功能），JDK 21 起（JEP 441）成為正式標準語法：
 
 | 語法 | 說明 |
 | --- | --- |
@@ -306,7 +127,7 @@ static String describe(Object o) {
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>Java 版本說明：</b>Pattern Matching for switch 在 Java 17 為預覽版，Java 21 起成為正式標準。課程以 JDK 17 為主，使用時需加上 <code>--enable-preview</code> 編譯旗標。
+💡 <b>Java 版本說明：</b>Pattern Matching for switch 在 Java 17 為預覽版，Java 21 起成為正式標準語法，不需要再加 <code>--enable-preview</code> 編譯旗標。本課程以 JDK 21 為主，可直接使用。
 </div>
 
 <!--
@@ -327,7 +148,7 @@ static String describe(Object o) {
 layout: default
 ---
 
-# 練習 2：分類任意物件
+# 練習 1：分類任意物件
 ### 任務說明
 
 請撰寫一個方法 `static String classify(Object o)`，使用 **Pattern Matching for switch** 依照傳入物件的型別與內容，回傳對應的分類字串：
@@ -356,7 +177,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2：解題提示
+# 練習 1：解題提示
 
 ### 提示說明
 
@@ -390,12 +211,12 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
+# 第二部分
 # Sealed Class 搭配 switch
 
 <!--
 【開場白】
-最後一招，是把前面兩招組合起來，再加上一個「保險裝置」：sealed class。
+接下來這招，是把前面 Pattern Matching 再加上一個「保險裝置」：sealed class。
 -->
 
 ---
@@ -438,60 +259,7 @@ static double area(Shape s) {
 layout: default
 ---
 
-# 練習 3：星期幾判斷器
-### 任務說明
-
-使用 **Switch Expression（Java 14+）** 撰寫程式：
-
-- 輸入整數 1–7，分別對應星期一到星期日
-- 星期一至星期五輸出：`工作日`
-- 星期六、星期日輸出：`假日`
-- 其他數值輸出：`無效輸入`
-
-**輸入範例：** `day = 6`  
-**輸出範例：** `假日`
-
-<!--
-【任務鋪陳】
-剛才我們學了 Switch Expression 的箭頭語法跟多值 case，現在來練習把它真正用出來。
-
-【問題引導】
-不要用舊的 `case 1: ... break;` 了，試著用箭頭 `->` 和多值 case `1, 2, 3, 4, 5`。想一想：星期六和星期日可以怎麼合併寫成一個 case？
--->
-
----
-layout: default
----
-
-# 練習 3：解題提示
-
-### 提示說明
-
-1. 使用 `switch (day)` 搭配箭頭語法（`->`）。
-2. 星期一到五可用多值 case：`case 1, 2, 3, 4, 5 ->`。
-3. 星期六、日：`case 6, 7 ->`。
-4. 超出範圍用 `default ->`。
-
-```java
-int day = 6;
-String type = switch (day) {
-    case 1, 2, 3, 4, 5 -> "工作日";
-    case ______         -> "假日";
-    default             -> "無效輸入";
-};
-System.out.println(type);
-```
-
-<!--
-【逐步解說】
-`case 1, 2, 3, 4, 5 -> "工作日";`。就這一行，搞定週一到週五。剩下的就是把週末兩天填進那個空格裡，這就是現代 Java 的力量！
--->
-
----
-layout: default
----
-
-# 練習 4 (綜合)：包裹運費試算器
+# 練習 2 (綜合)：包裹運費試算器
 ### 任務說明
 
 請設計一個依「包裹型態」與「重量」計算運費的程式，綜合運用本份自學的三個概念：
@@ -518,7 +286,7 @@ layout: default
 layout: default
 ---
 
-# 練習 4 (綜合)：解題提示
+# 練習 2 (綜合)：解題提示
 
 ### 提示說明
 
@@ -551,7 +319,7 @@ layout: end
 
 <!--
 【開場白】
-這份自學內容帶大家看完了 switch 的「進化三部曲」：從箭頭語法的 Switch Expression，到能看穿型別的 Pattern Matching，再到用 sealed 把可能性鎖死的安全寫法。
+這份自學內容在基礎課的 Switch Expression 之上，帶大家看完了 switch 的「進化二部曲」：從能看穿型別的 Pattern Matching，到用 sealed 把可能性鎖死的安全寫法。
 
 如果在自學過程中遇到 `--enable-preview` 編譯不起來，或是 `yield` 跟 `case` 語法搞混了，都可以記錄下來，下次上課時提出來討論。
 -->

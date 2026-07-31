@@ -85,6 +85,32 @@ I/O（Input/Output，輸入與輸出）是 Java 處理「資料進出」的機�
 -->
 
 ---
+layout: default
+---
+
+# 🎬 AI 協作時刻：串流沒關閉會怎樣？
+
+上一章學過 try-with-resources 可以自動關資源，這裡順便問 AI，檔案 I/O 為什麼特別需要這個習慣：
+
+**要用的 Prompt：**
+
+> 如果程式打開一個檔案讀取（FileInputStream 或類似的串流）之後忘記關閉，
+> 短期內看起來正常，但長期執行會出現什麼問題？
+> 請用新手能理解的方式舉一個例子，100 字以內。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>把觀念串起來：</b> 檔案 I/O 正是 try-with-resources 最常派上用場的地方——這也是為什麼自學版會特別強調用它來管理串流。
+</div>
+
+<!--
+【操作提示】
+可以順帶提醒同學：這跟上一章 try-with-resources 學到的觀念是同一件事，只是換成了檔案這個「資源」，讓概念前後呼應。
+
+【收斂一句話】
+I/O 串流跟資料庫連線、Scanner 一樣，都是「用完要關」的資源——這個習慣越早養成，之後寫的程式就越不容易在正式環境出狀況。
+-->
+
+---
 layout: end
 ---
 

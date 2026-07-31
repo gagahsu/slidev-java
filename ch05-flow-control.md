@@ -59,13 +59,13 @@ layout: default
 # Outline
 
 - **5-1 if 敘述**：if / if-else / if-else if-else 鏈、三元運算子 `? :`
-- **5-2 switch 敘述**：傳統 switch、switch 搭配字串
+- **5-2 switch 敘述**：傳統 switch、switch 搭配字串、Switch Expression（箭頭語法）
 - **5-3 專題實作**：BMI 計算、生肖判斷、火箭升空倒數
-- **練習題**：2 題（任務說明 + 解題提示各一張）
+- **練習題**：5 題（任務說明 + 解題提示各一張）
 
 <!--
 【核心說明】
-這章的重點就是兩個字：「分支」。我們先把基本的判斷工具練熟，未來想看 switch 更新潮的寫法，可以參考進階自學內容。
+這章的重點就是兩個字：「分支」。我們先把基本的判斷工具練熟，接著學會現代化的 Switch Expression 寫法——這是業界現在的主流寫法，也是 junior 面試常考題。更進階的型別比對（Pattern Matching for switch）跟 Sealed Class，可以參考進階自學內容。
 
 【生活化比喻】
 想像我們站在人生的十字路口。往左是去當工程師，往右是去送外送（誤）。if 就像是那個紅綠燈，switch 就像是那個圓環，有多個出口讓你挑。
@@ -230,6 +230,32 @@ System.out.println(result); // b 較大
 
 【生活化比喻】
 三元運算子就像是「快顯視窗」，一眼看完；if-else 就像是「完整報告」，每個情況都寫得清清楚楚。邏輯簡單就用三元，邏輯複雜請務必用 if-else——程式碼是寫給人看的，不是寫來炫耀的。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：巢狀 if 太多層怎麼辦？
+
+寫 if-else 寫到自己都看不懂在判斷什麼嗎？把亂寫的判斷式丟給 AI 重構：
+
+**要用的 Prompt：**
+
+> 這是我寫的 if-else 判斷邏輯（貼上你的程式碼）。
+> 巢狀太多層，看起來很亂，請幫我提出 1-2 種讓邏輯更清楚的寫法建議，
+> 並說明為什麼比較好讀，不用直接改我的程式碼。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>實務技巧：</b> AI 通常會建議「提早 return」或「合併條件」來減少巢狀層數，這是業界常見的重構手法，值得記起來自己練習套用。
+</div>
+
+<!--
+【操作提示】
+找一個學生寫的巢狀 if-else（或現場故意寫一個 3 層以上的判斷），貼給 AI，看它怎麼建議簡化。
+
+【收斂一句話】
+判斷式寫得又深又亂時，別急著硬看，先問 AI 有沒有更清楚的寫法，這是很實用的重構習慣。
 -->
 
 ---
@@ -470,6 +496,179 @@ switch (day) {
 -->
 
 ---
+
+# 5-2 Switch Expression（Java 14+ 箭頭語法）
+
+| 特性 | 傳統 switch | Switch Expression (Java 14+) |
+| --- | --- | --- |
+| 語法符號 | `case 值:` + `break` | `case 值 ->` |
+| Fall-through | 有（忘記 break 就貫穿） | 無（自動隔離每個 case） |
+| 回傳值 | 不能直接賦值 | 可直接賦值給變數 |
+| 多值 case | 需連寫多個 case | `case A, B, C ->` 逗號分隔 |
+| 強制完整性 | 不強制（無 default 也行） | 必須涵蓋所有可能值 |
+
+<!--
+【核心說明】
+這是傳統 switch 的「現代化改造」，已經是業界junior面試常考的基本功。
+
+【生活化比喻】
+傳統 switch 就像是老舊的機械開關，得自己加保險絲（break）。現代 switch（用 -> 箭頭）就像是數位觸控面板，點一下就到位，不用擔心煞車失靈，還能直接把結果丟給你。
+
+💼 業界實務：
+現在許多新專案的 Code Style 已經規定優先使用 Switch Expression，因為它能讓編譯器幫你檢查是否漏掉某個分支，減少潛在的 Bug。
+-->
+
+---
+
+# Switch Expression 基本用法
+
+```java
+int day = 3;
+
+// 直接賦值，不需 break
+String dayName = switch (day) {
+    case 1 -> "星期一";
+    case 2 -> "星期二";
+    case 3 -> "星期三";
+    case 4 -> "星期四";
+    case 5 -> "星期五";
+    default -> "假日";
+};
+System.out.println(dayName); // 星期三
+```
+
+<!--
+【範例目的】
+這個範例要示範：switch 現在可以「直接生出一個值」，不再只是單純的分支跳轉。
+
+【帶讀關鍵行】
+看 `String dayName = switch (day) { ... };` 這一行，整個 switch 本身就是一個「運算式」，運算完的結果直接指派給 dayName，中間完全不需要 break。
+
+⚠️ 易錯點提醒：
+每個分支結尾要用分號 `;` 結束（最後一個 `};` 別漏了），這跟傳統 switch 的語法不太一樣，剛開始很容易漏打。
+
+【預期結果】
+day = 3，符合 `case 3 -> "星期三"`，所以印出「星期三」。
+-->
+
+---
+
+# Switch Expression：多值 case 與 yield
+
+```java
+int month = 8;
+
+int days = switch (month) {
+    case 1, 3, 5, 7, 8, 10, 12 -> 31;
+    case 4, 6, 9, 11 -> 30;
+    case 2 -> {
+        // 多行邏輯用 yield 回傳值
+        boolean leap = (2024 % 4 == 0);
+        yield leap ? 29 : 28;
+    }
+    default -> 0;
+};
+System.out.println(month + " 月有 " + days + " 天");
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>yield：</b>在 switch expression 的 block（大括號）中，用 <code>yield</code> 代替 <code>return</code> 回傳值。
+</div>
+
+<!--
+【核心說明】
+現代 switch 能讓你一行抵五行。看到 case 1, 3, 5... -> 31 了嗎？這太優雅了！
+
+【逐步解說】
+如果你的邏輯很複雜，需要在大括號裡運算，最後請用 yield 把結果「吐」出來。注意：yield 只有在這種賦值模式下才有用喔。
+
+⚠️ 易錯點提醒：
+忘記寫 `yield`，只在大括號裡面寫 `leap ? 29 : 28;` 而不回傳，編譯器會直接報錯，因為它不知道這個分支該「交出」什麼值。
+
+【預期結果】
+month = 8，符合第一個多值 case，days = 31，印出「8 月有 31 天」。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：傳統 switch vs Switch Expression
+
+Switch Expression 是近年 Java 面試的熱門考點，讓 AI 幫你整理兩者的差異：
+
+**要用的 Prompt：**
+
+> 請用一張表格比較傳統 switch 敘述跟 Java 14+ 的 Switch Expression，
+> 至少列出：語法差異、要不要寫 break、fall-through 會不會發生、能不能直接賦值給變數，
+> 表格下方用一句話總結什麼情況該用哪一種。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試常考：</b> 「新版 switch 為什麼不會 fall-through」是很常見的追問題，能講出 <code>-></code> 語法本身就不會貫穿到下一個 case，會是加分關鍵。
+</div>
+
+<!--
+【操作提示】
+拿到 AI 產出的表格後，現場對照剛才教過的傳統 switch 範例，逐項確認每個差異點是不是真的在程式碼裡體現出來。
+
+【收斂一句話】
+新舊 switch 最大的差異是「會不會貫穿、能不能賦值」，這兩點記熟，面試被問到就能直接答。
+-->
+
+---
+layout: default
+---
+
+# 練習 3：星期幾判斷器（Switch Expression 版）
+### 任務說明
+
+使用 **Switch Expression** 撰寫程式：
+
+- 輸入整數 1–7，分別對應星期一到星期日
+- 星期一至星期五輸出：`工作日`
+- 星期六、星期日輸出：`假日`
+- 其他數值輸出：`無效輸入`
+
+**輸入範例：** `day = 6`
+**輸出範例：** `假日`
+
+<!--
+【任務鋪陳】
+剛才學了 Switch Expression 的箭頭語法跟多值 case，現在來練習把它真正用出來。
+
+【問題引導】
+不要用舊的 `case 1: ... break;` 了，試著用箭頭 `->` 和多值 case `1, 2, 3, 4, 5`。想一想：星期六和星期日可以怎麼合併寫成一個 case？
+-->
+
+---
+layout: default
+---
+
+# 練習 3：解題提示
+
+### 提示說明
+
+1. 使用 `switch (day)` 搭配箭頭語法（`->`）。
+2. 星期一到五可用多值 case：`case 1, 2, 3, 4, 5 ->`。
+3. 星期六、日：`case 6, 7 ->`。
+4. 超出範圍用 `default ->`。
+
+```java
+int day = 6;
+String type = switch (day) {
+    case 1, 2, 3, 4, 5 -> "工作日";
+    case ______         -> "假日";
+    default             -> "無效輸入";
+};
+System.out.println(type);
+```
+
+<!--
+【逐步解說】
+`case 1, 2, 3, 4, 5 -> "工作日";`。就這一行，搞定週一到週五。剩下的就是把週末兩天填進那個空格裡，這就是現代 Java 的力量！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -590,7 +789,7 @@ System.out.println(year + " 年是 " + zodiac + " 年");
 看 `String zodiac = switch (r) { ... };`，每個 case 後面接 `->` 跟對應的生肖名稱，最後用分號結尾。
 
 ⚠️ 易錯點提醒：
-這種箭頭寫法跟前面教的 `case 值: ... break;` 不一樣，兩者不能混用。完整的箭頭語法規則，可以參考進階自學內容的 Switch Expression。
+這種箭頭寫法跟前面教的 `case 值: ... break;` 不一樣，兩者不能混用。
 
 【預期結果】
 2024 年除以 12 餘 8，對應到「龍」，印出「2024 年是 龍 年」。
@@ -636,7 +835,7 @@ for (int i = 10; i >= 0; i--) {
 layout: default
 ---
 
-# 練習 3：成績等第轉換
+# 練習 4：成績等第轉換
 ### 任務說明
 
 請撰寫一個 Java 程式，接收一個整數分數（0–100），依下列規則輸出等第：
@@ -664,7 +863,7 @@ layout: default
 layout: default
 ---
 
-# 練習 3：解題提示
+# 練習 4：解題提示
 
 ### 提示說明
 
@@ -693,7 +892,7 @@ System.out.println("等第：" + grade);
 layout: default
 ---
 
-# 練習 4 (綜合)：月份轉季節（綜合練習）
+# 練習 5 (綜合)：月份轉季節（綜合練習）
 ### 任務說明
 
 請撰寫一個 Java 程式，綜合本章 if 與 switch 兩個重點：
@@ -720,7 +919,7 @@ layout: default
 layout: default
 ---
 
-# 練習 4：解題提示
+# 練習 5：解題提示
 
 ### 提示說明
 

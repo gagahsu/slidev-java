@@ -338,19 +338,22 @@ Java 從 1995 年發表到現在，已經經歷了二十幾個版本的演進。
 | 年份 | 版本 | 重要事件 |
 | --- | --- | --- |
 | **2014** | **Java 8** ⭐ LTS | Lambda 表達式、Stream API、新日期時間 API |
-| **2017** | Java 9 | 模組系統（JPMS），改為六個月一版 |
+| **2017** | Java 9 | 模組系統（JPMS） |
+| **2018** | **Java 10** | 改為六個月一版；`var` 區域變數型別推斷 |
 | **2018** | **Java 11** ⭐ LTS | 移除獨立 JRE 封裝 |
-| **2021** | **Java 17** ⭐ LTS | Sealed Classes、Pattern Matching（本課程版本）|
-| **2023** | **Java 21** ⭐ LTS | Virtual Threads、Record Patterns |
+| **2021** | **Java 17** ⭐ LTS | Sealed Classes、Pattern Matching |
+| **2023** | **Java 21** ⭐ LTS | Virtual Threads、Record Patterns（本課程版本）|
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>LTS（Long-Term Support）</b> 版本提供長期安全性更新，企業首選。本課程以 <b>Java 17</b> 為主。
+💡 <b>LTS（Long-Term Support）</b> 版本提供長期安全性更新，企業首選。本課程以 <b>Java 21</b> 為主。
 </div>
 
 <!--
 這一頁延續剛才的時間軸，來到 2014 年之後的版本。2014 年的 Java 8 是公認的重要分水嶺，它帶來了 Lambda 表達式和 Stream API，讓原本要寫很多行程式碼才能完成的操作（例如對一個集合做篩選、轉換），可以用更精簡的方式表達。我們在後面的章節會實際練習這些寫法。
 
-下方提示框特別說明了 LTS（Long-Term Support，長期支援）這個概念。簡單來說，LTS 版本會持續提供安全性更新比較長的時間，企業在選擇要用哪個版本時，通常會優先選 LTS，避免用到剛發布不久、還不夠穩定的版本。表格裡標了星號的 Java 8、11、17、21 都是 LTS 版本，而本課程採用的是 Java 17——目前業界普及度很高、也夠穩定的一個版本。
+要注意「六個月一版」是從 Java 10（2018 年 3 月）才開始的新發布節奏，Java 9（2017 年 9 月）是最後一個舊制的大版本，很多人會誤記成從 Java 9 開始，這裡特別澄清一下。
+
+下方提示框特別說明了 LTS（Long-Term Support，長期支援）這個概念。簡單來說，LTS 版本會持續提供安全性更新比較長的時間，企業在選擇要用哪個版本時，通常會優先選 LTS，避免用到剛發布不久、還不夠穩定的版本。表格裡標了星號的 Java 8、11、17、21 都是 LTS 版本，本課程採用目前最新的 LTS——Java 21。
 -->
 
 ---
@@ -548,6 +551,32 @@ JDK 裡面包含了好幾個指令工具，其中最核心的兩個是 `javac` �
 `javac` 是編譯器，負責把我們寫的 `.java` 原始碼編譯成 `.class` 的 Bytecode；`java` 則是執行工具，負責啟動 JVM 並執行這個 `.class` 檔。其他像 `jdb`（除錯）、`jar`（封裝）、`javadoc`（產生文件）也都是開發過程中會用到的輔助工具。
 
 平常我們在 IDE（像 IntelliJ）裡面寫程式，按一個按鈕就能編譯加執行，背後其實就是幫我們呼叫了 `javac` 和 `java`。但如果之後遇到沒有圖形介面的伺服器環境，要手動編譯、執行程式，這些指令就是我們的基本工具。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：JDK/JRE/JVM 傻傻分不清？
+
+面試時被問「JDK、JRE、JVM 差在哪」，腦袋一片空白嗎？丟給 AI，換一個你熟悉的場景重新理解：
+
+**要用的 Prompt：**
+
+> 我還是搞不清楚 JDK、JRE、JVM 這三個名詞的關係。
+> 請用「{你熟悉的場景，例如：餐廳點餐、手機 App}」做一個包含關係的比喻，
+> 說明誰包含誰、各自負責什麼，100 字以內。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試常考：</b> 這三個名詞的包含關係（JDK ⊃ JRE ⊃ JVM）幾乎是每次 Java 面試都會被問到的基本題，值得用自己的話講三次以上，講到不用想就能脫口而出。
+</div>
+
+<!--
+【操作提示】
+現場請一位同學說出自己熟悉的場景（例如手機 App、便利商店），把 prompt 貼給 AI，看它怎麼把 JDK/JRE/JVM 的包含關係套進這個比喻。
+
+【收斂一句話】
+JDK 包含 JRE、JRE 包含 JVM，這個包含關係要能立刻講出來——這是最基本也最常被問的面試題。
 -->
 
 ---

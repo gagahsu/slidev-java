@@ -62,7 +62,7 @@
 ## 三、進階／選讀內容清單（自學）
 
 ### 整章列為自學
-- **ch21 多執行緒（Thread）**：全章
+- **ch21 多執行緒（Thread）**：全章（2026 校準補充 Virtual Threads(JDK 21) 簡介一節）
 - **ch22 檔案 I/O**：全章
 - **ch23 ZIP 壓縮**：全章
 
@@ -72,19 +72,19 @@
 | --- | --- |
 | ch03 語言基礎 | printf 進階格式旗標細節 |
 | ch04 運算子 | 位元運算子與位移運算、完整運算子優先順序表、進階位元操作練習 |
-| ch05 流程控制 | Switch Expression、Pattern Matching for switch、Sealed Class 搭配 switch（JDK 14+ / 17） |
+| ch05 流程控制 | Pattern Matching for switch、Sealed Class 搭配 switch（JDK 17 / 21）※ Switch Expression 已於 2026 校準搬入基礎（junior 面試常見） |
 | ch06 迴圈 | 迴圈標籤（Label）；萊布尼茨／雞兔同籠／國王的麥粒三個專題保留 1 個作為核心範例，其餘列自學 |
 | ch07 陣列 | 不規則陣列（Jagged Array）、命令列參數（`String[] args`）、垃圾回收細節、計算器專題 |
 | ch08 類別與物件 | 遞迴與河內塔問題、匿名陣列 |
 | ch09 建構子與封裝 | Singleton 設計模式 |
 | ch10 Math/Random | 三角函數方法、Haversine 公式專題 |
 | ch11 日期時間 | ZonedDateTime、Duration / Period、舊版 Date 類別與新舊轉換 |
-| ch12 字元與字串 | StringBuffer / StringBuilder、Text Blocks、字串池記憶體細節、進階字串方法（transform、lines、StringUtils、getChars） |
+| ch12 字元與字串 | StringBuffer（StringBuilder 已搬入基礎）、字串池記憶體細節、進階字串方法（transform、lines、StringUtils、getChars）※ StringBuilder、Text Blocks 已於 2026 校準搬入基礎 |
 | ch13 正規表達式 | 反向引用、具名分組、環視斷言、Pattern / Matcher 類別細節、MULTILINE / DOTALL 旗標、Predicate 整合、splitAsStream、動態取代結合 Stream |
-| ch14 繼承 | Sealed Classes、Records、Pattern Matching for instanceof、巢狀類別與匿名內部類別、靜態／動態綁定 |
+| ch14 繼承 | Sealed Classes、巢狀類別與匿名內部類別、靜態／動態綁定 ※ Records 基本語法、Pattern Matching for instanceof 已於 2026 校準搬入基礎 |
 | ch15 Object 類別 | hashCode 合約細節、clone() 與 Cloneable、finalize() 廢棄說明、Records 與 Object 方法 |
 | ch16 抽象類別 | Template Method 設計模式、Sealed 抽象類別 |
-| ch17 介面 | default / static / private 方法（JDK 8 / 9）、鑽石問題、Sealed Interfaces |
+| ch17 介面 | static / private 方法（JDK 9）、鑽石問題、Sealed Interfaces ※ default 方法（JDK 8）已於 2026 校準搬入基礎 |
 | ch18 包裝類別 | 進位轉換方法、Number 抽象父類別 |
 | ch19 套件 | Java 模組系統 JPMS（JDK 9+） |
 | ch20 例外處理 | 使用 enum 自訂錯誤代碼、try-with-resources 進階用法 |

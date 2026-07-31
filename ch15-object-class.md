@@ -383,7 +383,7 @@ layout: default
 
 # 什麼是哈希碼？
 
-- **Hash（雜湊）** 源自一位數學家的名字，他發明了雜湊演算法
+- **Hash（雜湊）** 這個字源自料理術語「剁碎、混合」（如 hash browns 薯餅），借用來比喻把資料打散、對應到不同位置的過程
 - 主要目的：**在集合中提升搜尋效率**
 - `hashCode()` 根據演算法將物件資訊映射成一個**整數（雜湊碼）**
 - 不同 JVM 的實作與記憶體位址有關，但不保證就是位址本身
@@ -523,6 +523,32 @@ class User {
 
 【預期結果】
 這個 `User` 類別覆寫 `hashCode()` 後，只要 `id` 和 `email` 相同的兩個 `User` 物件，呼叫 `hashCode()` 就會得到相同的結果。
+-->
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：為什麼不自己寫雜湊演算法？
+
+以前的教材常常示範手寫 `31 * result + ...` 這種雜湊演算法，現在我們都改用 `Objects.hash()`。讓 AI 說清楚背後的原因：
+
+**要用的 Prompt：**
+
+> 請解釋為什麼現代 Java 開發建議用 `Objects.hash(欄位...)`，
+> 而不是自己手寫雜湊演算法。
+> 並舉一個「自己寫的 hashCode() 設計不良」導致 HashMap 查找變慢的例子，
+> 100 字以內，不要用太深的數學細節。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>重點：</b> 手寫雜湊演算法容易寫出「品質差」的雜湊碼，導致效能問題；`Objects.hash()` 已經幫我們處理好這件事。
+</div>
+
+<!--
+【操作提示】
+可以請一位同學念出 AI 的回答，順便對照前面「置物櫃號碼牌」的比喻，看 AI 舉的例子是否也用了類似的生活化說明。
+
+【收斂一句話】
+現代開發能站在巨人肩膀上，Objects.hash() 就是這樣的巨人。
 -->
 ---
 layout: default
@@ -731,6 +757,32 @@ public boolean equals(Object o) {
 
 ⚠️ 易錯點提醒：
 覆寫 `equals()` 之後，務必同時覆寫 `hashCode()`，這兩個方法的行為必須「對齊」，不然集合類別（如 `HashMap`）可能會出現異常行為。
+-->
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：equals/hashCode 面試題驗收
+
+equals/hashCode 的「配對規則」是 junior 面試最常考的 OOP 觀念之一，考前讓 AI 幫你出題：
+
+**要用的 Prompt：**
+
+> 根據「只覆寫 equals() 卻沒有覆寫 hashCode()」這個常見錯誤，
+> 出 3 題選擇題，考我這個錯誤會造成什麼後果（例如物件放進 HashSet/HashMap 後會發生什麼事）。
+> 一次只出一題，等我回答後才公布答案，
+> 答錯時不要直接講答案，先給一個提示。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>帶回家用：</b> 「equals 和 hashCode 要一起覆寫」幾乎是每一場 Java 面試都會被問到的題目，務必練到能不假思索答出來。
+</div>
+
+<!--
+【操作提示】
+建議實際找一位同學跟 AI 互動作答，其他人在台下一起猜答案，增加參與感。
+
+【收斂一句話】
+equals() 決定「算不算同一個」，hashCode() 決定「放進哪個櫃子」，兩者對不上，物件就會在集合裡「查無此人」。
 -->
 ---
 layout: default

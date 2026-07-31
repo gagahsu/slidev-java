@@ -224,15 +224,15 @@ layout: default
 
 # Number 抽象父類別的方法
 
-`Number` 是 `Integer`、`Double`、`Float`、`Long` 等數值型別的共同父類別，定義了以下抽象方法：
+`Number` 是 `Integer`、`Double`、`Float`、`Long` 等數值型別的共同父類別：
 
-| 方法名稱 | 說明 |
-| --- | --- |
-| `intValue()` | 轉換成 `int`（可能截斷或精度損失）|
-| `longValue()` | 轉換成 `long` |
-| `doubleValue()` | 轉換成 `double` |
-| `floatValue()` | 轉換成 `float` |
-| `byteValue()` / `shortValue()` | 轉換成 `byte` / `short` |
+| 方法名稱 | 種類 | 說明 |
+| --- | --- | --- |
+| `intValue()` | 抽象方法 | 轉換成 `int`（可能截斷或精度損失）|
+| `longValue()` | 抽象方法 | 轉換成 `long` |
+| `doubleValue()` | 抽象方法 | 轉換成 `double` |
+| `floatValue()` | 抽象方法 | 轉換成 `float` |
+| `byteValue()` / `shortValue()` | 具體方法（有預設實作） | 內部呼叫 `intValue()` 再轉型，轉換成 `byte` / `short` |
 
 <!--
 【情境切入】

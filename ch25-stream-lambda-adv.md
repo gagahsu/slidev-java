@@ -303,7 +303,7 @@ System.out.println(flat); // [水柱, 炭治郎, 雷柱, 善逸]
 List<String> names = List.of("炭治郎", "禰豆子", "善逸");
 double avg = names.stream()
     .mapToInt(String::length).average().getAsDouble();
-System.out.println(avg); // 2.333...
+System.out.println(avg); // 2.667（(3+3+2)/3）
 ```
 
 <!--

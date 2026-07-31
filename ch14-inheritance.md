@@ -63,10 +63,11 @@ layout: default
 - **繼承 (Inheritance)** — extends 語法、存取修飾符、繼承類型、final
 - **IS-A 與 HAS-A 關係** — instanceof、聚合、組合
 - **Override 與 Overload** — Override 規則、super、@Override、Overload 對比
-- **多形 (Polymorphism)** — 編譯時期 vs 執行時期、型別轉型
+- **多形 (Polymorphism)** — 編譯時期 vs 執行時期、型別轉型、Pattern Matching for instanceof
+- **Record 簡介** — 現代化資料類別語法
 
 <!--
-今天的內容分成四大塊：先從繼承的語法和機制開始，然後討論兩種物件關係（IS-A 和 HAS-A），接著深入 `override` 和 `overload` 的差異，最後是多形。
+今天的內容分成五大塊：先從繼承的語法和機制開始，然後討論兩種物件關係（IS-A 和 HAS-A），接著深入 `override` 和 `overload` 的差異，然後是多形，最後認識 Record 這個現代化的資料類別語法。
 
 這章的概念環環相扣，繼承是多形的基礎。跟著順序學，不要急著跳後面，每個概念都會在後面用到喔！
 -->
@@ -491,25 +492,30 @@ instanceof 可以驗證：eagle instanceof Bird 是 true，eagle instanceof Anim
 
 # HAS-A 關係 — 聚合 vs 組合
 
-| 類型 | 關鍵字 | 說明 |
+兩者都是「類別 A 的屬性是類別 B 的物件」，**都不用 `extends`**，差在物件的生命週期關係：
+
+| 類型 | 生命週期關係 | 例子 |
 | --- | --- | --- |
-| 聚合 (Aggregation) | 無 `extends` | 類別 A 的屬性是類別 B 的物件（A HAS A B） |
-| 組合 (Composition) | 用 `extends` | 將多個類別的共用屬性抽取到父類別再繼承 |
+| 聚合 (Aggregation) | B 可以獨立於 A 存在（弱擁有） | Car HAS-A Speed，Speed 可以外部建立再傳進來 |
+| 組合 (Composition) | B 完全依附 A，A 消失 B 也跟著消失（強擁有） | Human HAS-A Heart，Heart 離開 Human 沒有意義 |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 兩者目的相同：減少重複程式碼，提高可維護性
+💡 <b>常見誤解：</b>組合（Composition）不是「用 <code>extends</code> 抽共用屬性」——那仍然是繼承（IS-A）。組合跟聚合一樣是「把物件當欄位」，只是擁有關係更緊密。
 </div>
 
 <!--
 【帶讀表格】
-HAS-A 是組合關係：Car HAS-A Engine（車子有一個引擎）。這不是繼承，而是一個類別的屬性是另一個類別的物件。
+HAS-A 是「把另一個物件當欄位」的關係，聚合和組合都屬於 HAS-A，兩者語法上都一樣（欄位是物件參考），差別純粹在於：這個物件離開了擁有者還有沒有意義。
 
 【關鍵區別】
 IS-A：Dog IS-A Animal → 用繼承（extends）
-HAS-A：Car HAS-A Engine → 用屬性（把 Engine 當成 Car 的欄位）
+HAS-A：Car HAS-A Speed → 用屬性（把 Speed 當成 Car 的欄位），不管聚合或組合都一樣用屬性，不會用 extends
+
+⚠️ 學生常見誤解：
+很多教材會誤把「用 extends 抽取共用屬性到父類別」稱作組合，這是錯的——那仍然是百分之百的繼承（IS-A），只是用來共享程式碼，跟 HAS-A 完全無關。
 
 💼 業界實務：
-「組合優於繼承」是物件導向設計原則之一。能用 HAS-A 解決的，不一定要用 IS-A。
+「組合優於繼承」（Composition over Inheritance）是物件導向設計原則之一：能用 HAS-A（把功能委派給另一個物件）解決的，不一定要用 IS-A（繼承）。
 -->
 ---
 
@@ -524,7 +530,8 @@ class Speed {
 
 ```java
 class Car {
-    private Speed s = new Speed(); // Car HAS A Speed
+    private Speed s; // Car HAS A Speed，弱擁有
+    public Car(Speed s) { this.s = s; } // 從外部傳入，Speed 可以獨立存在
     public int getCarSpeed() { return s.getSpeed(); }
 }
 ```
@@ -534,35 +541,35 @@ class Car {
 Car 有一個 Speed 物件作為屬性，getCarSpeed() 委託給 Speed 來處理速度邏輯。Car 和 Speed 是 HAS-A 關係。
 
 【類比說明】
-就像你的車子「有一個」速度計，車子自己不計算速度，交給速度計去做。這叫「委派」（Delegation）。
+就像你的車子「有一個」速度計，車子自己不計算速度，交給速度計去做。這叫「委派」（Delegation）。這裡 Speed 是從外部傳進來的（建構子參數），代表 Speed 這個物件可以脫離 Car 單獨存在、被其他物件共用——這就是「弱擁有」。
 -->
 ---
 
 # HAS-A 組合範例 (Composition)
 
-多個類別的共用屬性抽取到 `BasinInfo`，再繼承：
-
 ```java
-class BasinInfo {
-    protected String id;
-    protected String name;
+class Engine {
+    void start() { System.out.println("引擎發動"); }
 }
 ```
 
 ```java
-class Employee extends BasinInfo { int salary; }
-class Customer extends BasinInfo { int balance; }
+class Car {
+    private final Engine engine; // Car HAS A Engine，強擁有
+    public Car() { engine = new Engine(); } // 在建構子內自己建立，隨 Car 生滅
+    void drive() { engine.start(); }
+}
 ```
 
 <!--
 【帶讀程式碼】
-組合繼承：Employee 和 Customer 都有 id 和 name，把共同屬性抽到 BasinInfo，然後分別繼承。
+Engine 是在 Car 的建構子裡自己 `new` 出來的，不是外部傳進來的。這代表 Engine 這個物件完全屬於這個 Car，Car 物件被回收時，這個 Engine 也一起被回收，沒有其他地方能拿到同一個 Engine 參考。
 
 【比較說明】
-聚合（前一頁）：物件包含另一個物件作為屬性（Car HAS A Speed 物件）。
-組合（這頁）：把共同屬性抽出來用繼承共享（Employee 和 Customer 都繼承 BasinInfo）。
+聚合（前一頁）：Speed 從外部傳入，可以脫離 Car 獨立存在、被共用（弱擁有）。
+組合（這頁）：Engine 在 Car 內部建立，生命週期完全綁定 Car（強擁有）。
 
-兩種 HAS-A 的使用場景不同，根據語意選擇。
+兩者語法上都是「物件當欄位」，差別在於物件是外部傳入還是內部自建、能不能脫離擁有者獨立存在。
 -->
 ---
 layout: default
@@ -575,7 +582,7 @@ layout: default
 1. 建立類別 `Engine`，有方法 `void start()`，印出 `"引擎發動"`
 2. 建立類別 `Vehicle`，有方法 `void run()`，印出 `"車輛行駛中"`
 3. 建立類別 `Car`：
-   - `Car` **HAS-A** `Engine`（用聚合：`Car` 內含一個 `Engine` 屬性），新增方法 `void drive()`，先呼叫 `engine.start()`，再印出 `"汽車出發"`
+   - `Car` **HAS-A** `Engine`（把 `Engine` 當成 `Car` 的屬性，在建構子內建立），新增方法 `void drive()`，先呼叫 `engine.start()`，再印出 `"汽車出發"`
    - `Car` **IS-A** `Vehicle`（用繼承：`Car extends Vehicle`）
 4. 在 `main()` 中建立一個 `Car` 物件，依序呼叫 `run()` 與 `drive()`，並用 `instanceof` 驗證 `car instanceof Vehicle` 為 `true`
 
@@ -865,6 +872,31 @@ Override 要繼承關係，Overload 不需要。Override 參數必須一樣，Ov
 layout: default
 ---
 
+# 🎬 AI 協作時刻：Override vs Overload 一次記牢
+
+「Override 跟 Overload 差在哪？」幾乎是每場 Java 面試的開場題，光看名字很像，內容卻完全不同。讓 AI 幫你整理成好記的對照表：
+
+**要用的 Prompt：**
+
+> 請幫我用表格整理 Java 的 Override（覆寫）和 Overload（多載）差異，
+> 包含：中文名稱、是否需要繼承關係、方法名稱是否相同、參數是否相同、
+> 決定時機（編譯期或執行期）。最後再幫我出一個生活化的比喻，讓我更容易記住兩者的差別。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試複習法：</b> 請 AI 用表格整理相似概念的差異，再加一句「幫我出個比喻」，比死記硬背更容易在面試現場臨場回想起來。
+</div>
+
+<!--
+【操作提示】
+現場貼上 prompt，讓 AI 產出對照表跟比喻，可以順便請學生比較 AI 的比喻跟課堂上教的比喻（父子做菜 vs 同名不同工）有沒有異曲同工之妙。
+
+【收斂一句話】
+遇到兩個容易搞混的概念，請 AI 做成表格加比喻，會比自己硬背更容易在面試現場臨場反應。
+-->
+---
+layout: default
+---
+
 # 練習 3：Override 與方法隱藏辨析
 ### 認證模擬題（單選）
 
@@ -1041,6 +1073,33 @@ a2.move(); // Bird 飛翔
 Spring Boot 框架大量使用這個模式。Service 介面宣告方法，實作類別 Override，Controller 只認識 Service 介面，不管底層換成什麼實作都能運作。
 -->
 ---
+layout: default
+---
+
+# 🎬 AI 協作時刻：多形到底解決了什麼問題？
+
+多形的語法看懂了，但很多初學者會卡在「這樣做到底有什麼好處？」讓 AI 用你熟悉的情境重新說一次：
+
+**要用的 Prompt：**
+
+> 我已經懂多形（Polymorphism）的語法：用父類別變數指向子類別物件，呼叫方法會執行子類別覆寫後的版本。
+> 但我還是不太懂「這樣設計到底解決了什麼實際問題」。
+> 請舉一個「如果沒有多形，程式會變得多難維護」的具體對比例子，100 字以內。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>學觀念的訣竅：</b> 語法會寫不代表真的懂，追問「這解決了什麼問題」，才能把技術細節連回實際的設計動機。
+</div>
+
+<!--
+【操作提示】
+現場貼上 prompt，讓 AI 舉例說明如果新增一種動物就要多寫一段 if-else 判斷型態，程式碼會越改越肥；有了多形，新增子類別完全不用動到既有程式碼。
+
+【收斂一句話】
+會寫語法只是第一步，能講出「這樣設計解決了什麼問題」才是真的懂——這也是面試官最愛追問的部分。
+-->
+---
+layout: default
+---
 
 # 向上轉型 Upcasting
 
@@ -1092,6 +1151,69 @@ dog.barking();        // 可呼叫 Dog 的 barking()
 ⚠️ 學生常見誤解：
 強制轉型不是「讓物件變成另一種東西」，而是「告訴 Java 我知道這個物件其實是 Dog」。如果物件實際上不是 Dog，會拋出 ClassCastException，所以要先用 instanceof 確認。
 -->
+
+---
+
+# Pattern Matching for instanceof（JDK 16+）
+
+現代寫法可以把 `instanceof` 判斷跟轉型合併成一步：
+
+| 方式 | 語法 |
+| --- | --- |
+| 傳統方式 | `if (a instanceof Dog) { Dog d = (Dog) a; ... }` |
+| Pattern Matching | `if (a instanceof Dog d) { d.barking(); }` |
+
+```java
+Animal a = new Dog();
+
+// 判斷的同時宣告變數 d，若符合則自動轉型
+if (a instanceof Dog d) {
+    d.barking(); // 直接使用 d，不需要再手動轉型
+}
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 變數 <code>d</code> 的作用域僅限於 <code>if</code> 區塊內（或邏輯符合的範圍內）
+</div>
+
+<!--
+【核心說明】
+這是上一頁「先 instanceof 判斷、再強制轉型」的現代化寫法，JDK 16 開始可以一步完成。
+
+【帶讀程式碼】
+`if (a instanceof Dog d)` 判斷成功的同時，直接把 `d` 宣告為 `Dog` 型態，不需要再寫一行 `Dog d = (Dog) a;`。
+
+💼 業界實務：
+現代 Java 專案已大量採用 Pattern Matching 取代傳統的 `instanceof` + 強制轉型組合，junior 面試也常考這個語法。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：轉型出包了，讓 AI 幫忙除錯
+
+`ClassCastException` 是新手最常踩到的地雷之一。與其自己乾瞪眼，不如把錯誤訊息連同程式碼一起丟給 AI：
+
+**要用的 Prompt：**
+
+> 我的程式在執行時噴出這個錯誤：
+> `Exception in thread "main" java.lang.ClassCastException: class Bird cannot be cast to class Dog`
+> 這是我的程式碼片段（貼上你的 instanceof / 轉型程式碼）。
+> 請告訴我為什麼會出現這個錯誤，以及該怎麼修正比較安全。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>除錯訣竅：</b> 把「完整錯誤訊息」加「相關程式碼片段」一起貼給 AI，比只問「這是什麼意思」更容易得到能直接解決問題的答案。
+</div>
+
+<!--
+【操作提示】
+現場示範故意寫一段向下轉型錯誤的程式碼，讓它噴出 ClassCastException，再把錯誤訊息貼給 AI，讓 AI 建議改用 Pattern Matching for instanceof 來避免。
+
+【收斂一句話】
+遇到看不懂的錯誤訊息，把「錯誤訊息 + 程式碼」一起丟給 AI，是比自己土法煉鋼除錯快得多的方法。
+-->
+
 ---
 
 # 練習
@@ -1143,6 +1265,33 @@ dog.barking();        // 可呼叫 Dog 的 barking()
 💡 練習完記得把輸出印出來驗證！
 -->
 ---
+
+# 紀錄類別 (Record) 簡介（JDK 16+）
+
+只需宣告欄位，編譯器自動產生 constructor、getter、`equals`、`hashCode`、`toString`：
+
+```java
+// 傳統寫法需要數十行；record 一行搞定
+record Person(String name, int age) { }
+
+Person p = new Person("炭治郎", 15);
+System.out.println(p.name()); // "炭治郎"
+System.out.println(p.age());  // 15
+System.out.println(p);        // Person[name=炭治郎, age=15]
+```
+
+<!--
+【核心說明】
+Records 是 JDK 16 的新功能，專為「純資料類別」設計。只要宣告欄位，編譯器自動產生所有我們需要的方法。
+
+【帶讀程式碼】
+`record Person(String name, int age)` 一行，自動有建構方法、getter（`name()`、`age()`）、`toString()`、`equals()`、`hashCode()`。傳統寫法要幾十行。
+
+💼 業界實務：
+DTO（Data Transfer Object）——在系統之間傳遞資料的物件——用 Record 非常合適，既簡潔又不可變（immutable），現在是junior面試常被問到的現代Java寫法。想深入了解 Record 的繼承限制，可以參考進階自學內容。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -1151,7 +1300,7 @@ class: flex flex-col justify-center items-center text-center
 
 <!--
 【收尾】
-今天學了繼承、IS-A/HAS-A 關係、Override vs Overload、多形、靜態/動態綁定，還有巢狀類別。
+今天學了繼承、IS-A/HAS-A 關係、Override vs Overload、多形、向上/向下轉型與 Pattern Matching for instanceof。想深入靜態/動態綁定、巢狀類別、Sealed Classes 跟 Records，可以參考進階自學內容。
 
 【核心總結】
 繼承讓你消除重複程式碼，多形讓你的設計更彈性。這兩個是後面 Spring Boot 框架理解的基礎，一定要熟悉。

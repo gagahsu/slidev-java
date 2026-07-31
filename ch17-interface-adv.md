@@ -49,13 +49,13 @@ style: |
 
 <!--
 【開場白】
-歡迎來到介面的「自學深水區」。基礎班我們已經學完了介面的基本語法、成員變數，以及怎麼讓一個類別實作多個介面。這份內容是進階加碼，獻給有餘力、想把介面摸到底的同學。
+歡迎來到介面的「自學深水區」。基礎班我們已經學完了介面的基本語法、成員變數、怎麼讓一個類別實作多個介面，以及 Default 方法。這份內容是進階加碼，獻給有餘力、想把介面摸到底的同學。
 
 【為什麼要學這個】
-基礎的介面只能訂規則，不能給實作。但從 Java 8 開始，介面被加上了 default、static、private 方法，幾乎變成半個類別。學會這些，你才能看懂現代 Java 框架（像 Spring）裡那些介面到底在玩什麼花樣，也才能應付「鑽石問題」這種面試常客。
+基礎課學過 Default 方法讓介面能提供預設實作，這裡要再加上 Static、Private 方法，幾乎變成半個類別。學會這些，你才能看懂現代 Java 框架（像 Spring）裡那些介面到底在玩什麼花樣，也才能應付「鑽石問題」這種面試常客。
 
 【學完你會能做什麼】
-學完這份內容，你會知道介面的方法可以有「預設行為」、可以當工具箱用、可以藏私房邏輯；遇到多重繼承衝突時，你會知道怎麼用 `介面名稱.super.方法()` 排解糾紛；最後還會認識 Java 17 的 Sealed Interfaces，學會怎麼把介面的擴充權限鎖死。
+學完這份內容，你會知道介面可以當工具箱用、可以藏私房邏輯；遇到多重繼承衝突時，你會知道怎麼用 `介面名稱.super.方法()` 排解糾紛；最後還會認識 Java 17 的 Sealed Interfaces，學會怎麼把介面的擴充權限鎖死。
 -->
 ---
 layout: default
@@ -63,7 +63,7 @@ layout: default
 
 # Outline
 
-- **Java 8 新增介面內容** — Default 方法、Static 方法、Functional Interface
+- **Java 8 新增介面內容複習與 Static 方法** — Default 方法（基礎課已學過）、Static 方法、Functional Interface
 - **Java 9 新增介面內容** — Private 方法
 - **Default 方法衝突與解決** — 多重繼承衝突、`介面.super`
 - **鑽石 (Diamond) 問題**
@@ -99,8 +99,8 @@ layout: default
 
 | 功能 | Java 版本 | 說明 |
 | --- | --- | --- |
-| Constant variable | Java 7+ | 常數成員變數 |
-| Abstract methods | Java 7+ | 抽象方法 |
+| Constant variable | 自 Java 1.0 即有 | 常數成員變數 |
+| Abstract methods | 自 Java 1.0 即有 | 抽象方法 |
 | **Default methods** | **Java 8 新增** | 預設方法（有方法本體） |
 | **Static methods** | **Java 8 新增** | 靜態方法 |
 
@@ -123,61 +123,10 @@ layout: default
 -->
 ---
 
-# Default 方法
+<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>複習：</b>Default 方法的語法與用途已在基礎課教過（介面內用 <code>default</code> 提供預設實作，可被覆寫）。接下來看同批推出的 Static 方法。
+</div>
 
-```java
-interface Vehicle {
-    String getBrand();
-    default void alarmOn() {
-        System.out.println("防盜啟動");
-    }
-    default void alarmOff() {
-        System.out.println("防盜關閉");
-    }
-}
-```
-
-- 使用 `default` 關鍵字，介面內**直接提供預設實作**
-- 實作類別可直接繼承 Default 方法，也可以 `override`
-- Default 方法**可以繼承**，不強制是 abstract
-
-<!--
-【帶讀範例】
-這段範例的目的，是示範介面如何同時包含「沒有實作的抽象方法」（`getBrand()`）和「已經寫好的 default 方法」（`alarmOn`、`alarmOff`）。重點看 `default` 這個關鍵字一出現，後面就會接著大括號 `{}`，代表介面已經把這段程式碼準備好了。
-
-⚠️ 易錯點提醒：
-不要以為加了 `default` 之後，這個方法就「強制」是預設值不能改。實作類別如果想要不同的防盜邏輯，照樣可以 `override` 掉，default 只是「不寫就有得用」的保險機制。
--->
----
-
-# Default 方法 — 範例
-
-```java
-class Car implements Vehicle {
-    private String brand;
-    Car(String b) { this.brand = b; }
-    public String getBrand() { return brand; }
-    // alarmOn / alarmOff 直接繼承自 Vehicle，不需重寫
-}
-public class Demo {
-    public static void main(String[] args) {
-        Car car = new Car("Toyota");
-        car.alarmOn();   // 防盜啟動
-        car.alarmOff();  // 防盜關閉
-    }
-}
-```
-
-<!--
-【帶讀範例】
-這段範例的目的，是看看 `Car` 類別在「什麼都沒寫」的情況下，怎麼用到 `alarmOn()` 和 `alarmOff()`。`Car` 只老老實實地實作了自己必須負責的 `getBrand()`，剩下兩個方法是天上掉下來的禮物。
-
-【預期結果】
-執行後會印出「防盜啟動」和「防盜關閉」——即使 `Car` 類別裡完全沒有這兩個方法的程式碼。
-
-💼 業界實務：
-這個設計徹底改變了 Java 介面的角色。以前如果想共用一段邏輯，常常得另外設計一個抽象類別、再 `extends`；現在直接寫在介面裡，省掉一層繼承關係。
--->
 ---
 
 # Static 方法
@@ -447,8 +396,8 @@ layout: default
 
 | 功能 | Java 版本 | 說明 |
 | --- | --- | --- |
-| Constant variable | Java 7+ | 常數成員變數 |
-| Abstract methods | Java 7+ | 抽象方法 |
+| Constant variable | 自 Java 1.0 即有 | 常數成員變數 |
+| Abstract methods | 自 Java 1.0 即有 | 抽象方法 |
 | Default methods | Java 8+ | 預設方法 |
 | Static methods | Java 8+ | 靜態方法 |
 | **Private methods** | **Java 9 新增** | 私有方法 |

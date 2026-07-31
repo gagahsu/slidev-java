@@ -292,7 +292,7 @@ class: flex flex-col justify-center items-center text-center
 | `float` | 32 bit | IEEE 754 單精度 | `0.0f` | `Float` |
 | `double` | 64 bit | IEEE 754 雙精度 | `0.0` | `Double` |
 | `boolean` | 1 bit | `true` / `false` | `false` | `Boolean` |
-| `char` | 16 bit | ` ` ~ `￿`（0~65535）| ` ` | `Character` |
+| `char` | 16 bit | `\u0000` ~ `\uffff`（0~65535）| `'\u0000'` | `Character` |
 
 <!--
 【核心說明】
@@ -485,6 +485,32 @@ Autoboxing（自動裝箱）跟 Unboxing（自動拆箱）是 Java 在 primitive
 layout: default
 ---
 
+# 🎬 AI 協作時刻：親手做出一次溢位
+
+資料型態的範圍與溢位是面試常考的觀念題，讓 AI 幫你出題自我測驗：
+
+**要用的 Prompt：**
+
+> 請針對 Java 的 byte、short、int、long 型態範圍與溢位（overflow），
+> 出 3 題「猜輸出結果」的程式碼考題給我，
+> 先不要告訴我答案，等我回答完再一起核對。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試常考：</b> 「byte 最大值加 1 會變成多少？」這類溢位題幾乎是基礎題必考款，親手算錯一次，記憶會比背範圍表深刻很多。
+</div>
+
+<!--
+【操作提示】
+現場請學生先不要看範圍表，直接回答 AI 出的題目，再讓 AI 核對答案並解釋為什麼會溢位（超出範圍後從最小值重新繞回）。
+
+【收斂一句話】
+自己先猜錯一次溢位的答案，比死背範圍表更容易記住「超出範圍會繞回去」這個規則。
+-->
+
+---
+layout: default
+---
+
 # 練習 2：型態轉換與溢位
 ### 任務說明
 
@@ -639,6 +665,32 @@ System.out.println(a.equals(b));      // true（內容相同）
 
 【預期結果】
 `a == b` 印出 `false`；`a.equals(b)` 印出 `true`。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：== 陷阱還有多深？
+
+`==` 跟 `equals()` 的區別是 Java 面試的經典地雷題，追問 AI 挖出更多細節：
+
+**要用的 Prompt：**
+
+> 我知道字串比較要用 equals() 不能用 ==。
+> 但如果是 `String a = "Java"; String b = "Java";`（都用字面值宣告，沒有 new），
+> `a == b` 會是 true 還是 false？請解釋原因（提示：String Pool）。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>追問見真章：</b> 這題答案是 true（因為字面值字串會共用 String Pool），跟 <code>new String()</code> 的情況剛好相反——面試官很愛用這種「多問一句」來考察你是不是真的懂原理。
+</div>
+
+<!--
+【操作提示】
+先讓學生猜一次答案，再貼給 AI 驗證，順便追問「如果兩個都用 new String() 呢？」，比較三種情境的差異。
+
+【收斂一句話】
+同樣是字串比較，字面值宣告跟 new 出來的結果不一樣——這種細節正是面試官用來分辨你是背答案還是真的懂的關鍵。
 -->
 
 ---

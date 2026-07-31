@@ -64,6 +64,7 @@ layout: default
 - **字元 Character 類別**
 - **字串的建立**
 - **String 類別的方法 (搜尋、擷取、取代、比較、格式化)**
+- **Text Blocks 與 StringBuilder**
 - **實作練習與邏輯挑戰**
 
 <!--
@@ -1172,6 +1173,32 @@ System.out.println(s1.equals(s2)); // true  (內容相同)
 -->
 
 ---
+layout: default
+---
+
+# 🎬 AI 協作時刻：追問「為什麼」
+
+`==` 跟 `equals()` 的差別背熟了，但面試官通常會再追問一句「那為什麼要這樣設計？」，讓 AI 幫你補上背後的原因：
+
+**要用的 Prompt：**
+
+> 我知道 Java 的字串比較內容要用 `equals()`，不要用 `==`。
+> 但我想知道更深一層：為什麼 Java 要把 String 設計成「不可變（Immutable）」？
+> 這個設計跟 String Pool（字串池）有什麼關係？請用 junior 工程師聽得懂的方式解釋，200 字以內。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試延伸：</b> 「這樣設計的原因是什麼？」是 AI 陪你準備面試時最好用的追問句，能把死背的觀念變成真正理解的知識。
+</div>
+
+<!--
+【操作提示】
+現場貼上 prompt，讓 AI 說明字串不可變讓多個變數能安全共用同一個字串池物件，不用擔心被意外修改，同時也帶出執行緒安全的好處。
+
+【收斂一句話】
+背答案只能應付選擇題，追問「為什麼」才能應付面試官的下一句話——這是用 AI 準備面試的關鍵技巧。
+-->
+
+---
 
 # 字典順序比較 (compareTo)
 
@@ -1482,6 +1509,181 @@ layout: default
 
 【預期結果】
 即使遇到像 `999 + 1 = 1000` 這種會「多一位數」的情況，因為是先轉成數字運算，再轉回字串拆解，陣列長度也會自然跟著變成 4，整個流程不需要額外處理進位邏輯。
+-->
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 第四部分
+# Text Blocks 與 StringBuilder
+
+<!--
+【開場白】
+最後補兩個現代 Java 開發幾乎天天會用到的工具：多行字串的 Text Block，還有處理大量字串拼接的 StringBuilder。
+-->
+
+---
+
+# Text Blocks（多行字串）
+
+以三個雙引號 `"""` 開頭並**換行**，結尾加 `"""`，省去字串拼接與跳脫：
+
+```java
+// 傳統字串（需加 \n）
+String msg = "Hello\n鬼殺隊\nGoodbye";
+
+// Text Block（直覺可讀）
+String tb = """
+            Hello
+            鬼殺隊
+            Goodbye
+            """;
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 Text Blocks 的型別仍是 <code>String</code>，所有 String 方法都可使用。結尾的 <code>"""</code> 與內容對齊時，公共縮排會被自動移除。
+</div>
+
+<!--
+【核心說明】
+這是 JDK 15 之後新增的語法糖，專門用來解決「多行文字寫起來很醜」的問題。
+
+【生活化比喻】
+以前要寫一段多行文字（像 SQL 語法），我們要在每一行後面加 "\n" 再用 + 接下一行，寫到後面整段程式碼擠成一團，像是把好幾張紙硬塞進一個信封。Text Block 就像直接給你一張大信紙，要怎麼排版、換行，照寫就好。
+
+【逐步解說】
+你看 tb 這個寫法，三個雙引號開頭後直接換行，裡面想怎麼斷行就怎麼斷行，Java 會照你寫的樣子保留下來。
+
+💼 業界實務：
+寫 SQL 查詢字串、HTML 模板、JSON 範例的時候特別好用，程式碼讀起來乾淨很多。想更深入了解 `indent()` 等格式調整方法，可以參考進階自學內容。
+-->
+
+---
+
+# 為什麼需要 StringBuilder？
+
+`String` 是不可變的，頻繁修改會造成效能低落：
+
+```java
+// ❌ 效能差 (產生大量暫存物件)
+String s = "";
+for (int i = 0; i < 100; i++) s += i;
+
+// ✅ 效能佳 (在同一個緩衝區操作)
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 100; i++) sb.append(i);
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>面試常考：</b>「String 跟 StringBuilder 差在哪？」是 junior 面試經典題，一定要弄懂這個效能差異的原因。
+</div>
+
+<!--
+【核心說明】
+我們直接看程式碼對比。`StringBuilder` 就像一個專屬的工具籃，不管裝多少東西，都還是同一個籃子，不會一直去買新籃子再把舊的丟掉。
+
+【逐步解說】
+左邊的寫法，每次 `s += i`，Java 都會偷偷建立一個新的 `String` 物件、複製內容、再讓 `s` 指向它，跑 100 次就產生 100 個用過即丟的物件。右邊的 `StringBuilder` 則是一直往同一個籃子裡塞東西（`append`），籃子會自動變大，但位址始終沒變。
+
+💼 業界實務：
+在迴圈裡拼接字串，幾乎是「一定要用 `StringBuilder`」的等級，這是新手跟有經驗工程師的常見分水嶺。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：面試題自我檢測
+
+「String 跟 StringBuilder 差在哪？」幾乎每場 junior 面試都會被問到，讓 AI 幫你出題驗收：
+
+**要用的 Prompt：**
+
+> 請你扮演 Java 面試官，針對「String 跟 StringBuilder 的差異」出 3 題選擇題考我，
+> 涵蓋不可變性、效能、以及什麼時候該用哪一個。
+> 先只給題目，等我回答完再告訴我答案跟詳解。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>自我檢測技巧：</b> 請 AI「先出題、後公布答案」，比直接請它整理重點更有效——因為你得先想過一次，記憶才會深刻。
+</div>
+
+<!--
+【操作提示】
+現場示範這個 prompt，讓學生看到 AI 真的會先出題、等回答再公布詳解，鼓勵大家回家用同樣方式自我測驗其他章節的觀念。
+
+【收斂一句話】
+與其被動看 AI 整理重點，不如反過來讓 AI 考你——這個角色互換，是把 AI 變成免費家教的關鍵一步。
+-->
+
+---
+
+# StringBuilder 常用方法
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `append(data)` | 將內容加在尾端 |
+| `insert(pos, data)` | 在指定位置插入內容 |
+| `delete(start, end)` | 刪除 [start, end-1] 範圍的內容 |
+| `reverse()` | 反轉字串內容 |
+| `toString()` | 轉換回不可變的 `String` |
+
+```java
+StringBuilder sb = new StringBuilder("Muzan");
+sb.append("Kibutsuji");        // "MuzanKibutsuji"
+sb.insert(5, " ");              // "Muzan Kibutsuji"
+sb.reverse();                   // 反轉整串內容
+System.out.println(sb.toString());
+```
+
+<!--
+【核心說明】
+對 `StringBuilder` 來說最重要的動作就是加字：`append` 是加在最後面，`insert` 則是「插隊」，`delete`/`reverse` 用來修改既有內容。
+
+【逐步解說】
+跟一般 `String` 拼接比起來，這幾個方法語意更清楚，也不會產生多餘的暫存物件，在大量字串組裝（例如報表輸出）時很常見。
+
+⚠️ 易錯點提醒：
+別忘了 `reverse()`、`append()` 等方法會直接修改原本的 `StringBuilder` 物件內容，跟 `String` 的不可變特性不同。判斷「迴文」這類題目時很好用。
+-->
+
+---
+layout: default
+---
+
+# 練習 7：迴文判斷
+### 任務說明
+
+撰寫一個程式，判斷使用者輸入是否為「迴文」（正讀反讀結果一致）。
+
+- 例如：`禰豆子豆禰` $\rightarrow$ 是
+- 例如：`鬼滅之刃` $\rightarrow$ 否
+
+<!--
+【任務鋪陳】
+我們剛才學了 `reverse` 這個方法，剛好可以拿來解決一個經典題型：判斷一個字串是不是「迴文」。
+
+【引導思考】
+迴文就是倒過來唸結果也一樣。如果手上已經有 `reverse` 這個工具，要判斷迴文的邏輯會不會突然變得很直覺？大家可以先想想看，要怎麼把輸入的字串變成可以反轉的形式。
+-->
+
+---
+
+# 練習 7：解題提示
+
+### 提示說明
+
+1. 將使用者輸入建立為 `StringBuilder` 物件。
+2. 呼叫 `.reverse()` 方法取得反轉後的內容。
+3. 將反轉結果轉回 `String`，與原字串用 `equals` 比對是否相等。
+
+<!--
+【逐步解說】
+第一步，把輸入的字串放進 `StringBuilder`。第二步，直接呼叫 `.reverse()`。第三步，把反轉後的內容轉成 `String`（注意：比較內容要用 `equals`，不是 `==`），跟原始字串比對。
+
+【預期結果】
+如果兩者內容相同，就是迴文；不同的話就不是。這題同時複習了 `StringBuilder.reverse()` 跟字串比較這兩個概念。想深入了解 `StringBuffer` 跟 `StringBuilder` 的差異、容量管理、`setCharAt`/`replace` 等方法，可以參考進階自學內容。
 -->
 
 ---

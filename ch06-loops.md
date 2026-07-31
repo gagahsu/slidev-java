@@ -850,6 +850,32 @@ for (int i = 1; i <= 5; i++) {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：break vs continue 混淆測驗
+
+`break` 跟 `continue` 是新手最容易搞混的一對關鍵字，讓 AI 出題檢驗你是不是真的分清楚：
+
+**要用的 Prompt：**
+
+> 請針對 for 迴圈搭配 break 跟 continue 的行為差異，
+> 出 2 題「猜輸出結果」的程式碼考題（其中一題用巢狀迴圈），
+> 先不要公布答案，等我回答完再核對。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>常見地雷：</b> 巢狀迴圈裡的 <code>break</code> 只會跳出「最內層」的迴圈，很多人誤以為會整個結束——這也是面試常出的追問題。
+</div>
+
+<!--
+【操作提示】
+現場讓學生先猜答案，特別是巢狀迴圈那一題，再實際跑一次程式碼驗證，順便追問「break 在巢狀迴圈裡到底跳出哪一層」。
+
+【收斂一句話】
+break 是整個離開迴圈、continue 是跳過這一圈繼續跑，巢狀迴圈裡更要小心 break 只會影響最內層。
+-->
+
+---
+layout: default
+---
+
 # 練習 5：找出第一個符合條件的數字
 ### 任務說明
 

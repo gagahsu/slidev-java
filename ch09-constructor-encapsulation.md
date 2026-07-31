@@ -462,6 +462,34 @@ System.out.println(acc.getBalance()); // 1000.0
 -->
 
 ---
+layout: default
+---
+
+# 🎬 AI 協作時刻：見證攻擊失效
+
+還記得上一章 AI 幫你示範過「public 欄位怎麼被繞過亂改」嗎？現在把封裝後的版本貼回去：
+
+**要用的 Prompt：**
+
+> 這是加上封裝之後的 BankAccount（貼上程式碼）。
+> 請重新執行你上次示範的攻擊方式（直接改 balance），
+> 告訴我結果是「編譯錯誤」還是「被 deposit 的驗證擋下」。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>對照重點：</b> 同一個攻擊、同一個帳戶，只差 <code>private</code> 兩個字——這就是封裝的價值。
+</div>
+
+<!--
+【操作提示】
+如果上一章有留存 AI 的攻擊範例，現場延續同一個對話，貼上封裝後的版本，讓學生親眼看到「同一招攻擊現在被擋下」。若沒有延續對話，重新貼一次 public 版本再貼封裝版對照也可以。
+
+【收斂一句話】
+上一章看到資料被隨便亂改，這一章看到同一個攻擊被擋下——封裝的價值用「前後對比」記最深。
+-->
+
+---
+layout: default
+---
 
 # 存取修飾詞：四種層級
 
@@ -634,6 +662,34 @@ System.out.println(p.getStock()); // 10
 這題的重點在 `setStock`：`if (stock >= 0)` 這個驗證讓 `setStock(-5)` 完全沒有效果，欄位 `stock` 維持原本的預設值 `0`。接著 `setStock(10)` 通過驗證，`stock` 才真正變成 `10`。
 
 另外提醒一下 `isDiscontinued()` 的命名——如果寫成 `getDiscontinued()`，雖然編譯不會出錯，但不符合 JavaBean 慣例，框架（例如 Spring、Jackson）在自動讀寫這個欄位時可能會找不到對應的方法。這就是封裝＋JavaBean 慣例搭配起來的實際效果：資料安全，命名也統一。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：封裝觀念驗收
+
+封裝是 junior 面試最常考的 OOP 觀念之一，考前讓 AI 幫你出題：
+
+**要用的 Prompt：**
+
+> 根據封裝的觀念（private 欄位、public getter/setter、
+> setter 內的驗證邏輯、JavaBean 命名慣例），
+> 出 3 題選擇題，難度由淺到深。
+> 一次只出一題，等我回答後才公布答案，
+> 答錯時不要直接講答案，先給一個提示。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>帶回家用：</b> 每學完一個章節，都可以用這個 prompt 叫 AI 考你，比自己看筆記更容易發現盲點。
+</div>
+
+<!--
+【操作提示】
+時間充裕做完整 3 題；時間緊湊可以只做 1-2 題，重點是示範「AI 出題、答錯先給提示不給答案」這個學習模式。
+
+【收斂一句話】
+封裝是最常見的 junior 面試題之一，這個 prompt 可以在準備面試時反覆使用。
 -->
 
 ---
