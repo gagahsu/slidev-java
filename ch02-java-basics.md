@@ -59,9 +59,9 @@ layout: default
 
 # Outline
 
-- **2-1 我的第一個 Java 程式**
-- **2-2 解析 Java 的程式結構**
-- **2-3 程式註解**
+- **我的第一個 Java 程式**
+- **解析 Java 的程式結構**
+- **程式註解**
 
 <!--
 這一章分成三個小節：第一節我們會實際動手，寫出並執行第一個 Java 程式；第二節把這個程式拆開來看，了解每一段在做什麼；第三節學怎麼幫程式加上註解。
@@ -74,7 +74,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 2-1
+# 我的第一個 Java 程式
 # 我的第一個 Java 程式
 
 <!--
@@ -168,7 +168,7 @@ Hello, World!
 layout: default
 ---
 
-# 練習：找出編譯與執行的錯誤
+# 練習 1：找出編譯與執行的錯誤
 ### 任務說明
 
 阿明寫了一個程式，存檔為 `helloworld.java`：
@@ -205,7 +205,7 @@ java HelloWorld.class
 layout: default
 ---
 
-# 練習：找出編譯與執行的錯誤
+# 練習 1：找出編譯與執行的錯誤
 ### 解題提示
 
 **錯誤一：檔名與類別名稱不一致**
@@ -231,7 +231,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 2-2
+# 解析 Java 的程式結構
 # 解析 Java 的程式結構
 
 <!--
@@ -366,7 +366,7 @@ System.out.printf("%.2f%n", 3.14159); // 3.14（換行）
 layout: default
 ---
 
-# 練習：抓出結構與命名問題
+# 練習 2：抓出結構與命名問題
 ### 任務說明
 
 下面這段程式碼可以正確編譯執行，但裡面有幾個地方不符合本節介紹的**結構順序**或**命名慣例**。請找出至少 3 個問題並說明原因：
@@ -396,7 +396,7 @@ import java.util.Scanner;
 layout: default
 ---
 
-# 練習：抓出結構與命名問題
+# 練習 2：抓出結構與命名問題
 ### 解題提示
 
 | 問題 | 說明 | 正確寫法 |
@@ -416,7 +416,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 2-3
+# 程式註解
 # 程式註解
 
 <!--
@@ -540,7 +540,7 @@ public int add(int a, int b) {
 layout: default
 ---
 
-# 練習一：從零跑出第一個程式
+# 練習 3：從零跑出第一個程式
 ### 任務說明
 
 請完成以下步驟：
@@ -567,7 +567,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 1. 建立 `MyProfile.java`，注意 **檔名** 和 **class 名稱** 必須一致
@@ -585,7 +585,7 @@ layout: default
 layout: default
 ---
 
-# 練習二：寫一段有完整註解的程式
+# 練習 4：寫一段有完整註解的程式
 ### 任務說明
 
 針對以下程式碼，分別加上三種註解：
@@ -613,7 +613,7 @@ public class Calculator {
 
 ---
 
-# 練習二：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. **Javadoc 文件註解**加在 `add` 方法定義的**上方**，以 `/**` 開頭：
@@ -653,7 +653,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：學生自我介紹程式
+# 練習 5 (綜合)：學生自我介紹程式
 ### 任務說明
 
 請撰寫一個完整的 Java 程式 `StudentIntro.java`，滿足以下要求：
@@ -685,7 +685,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：學生自我介紹程式
+# 練習 5 (綜合)：學生自我介紹程式
 ### 解題提示
 
 ```java

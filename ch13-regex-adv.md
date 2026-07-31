@@ -238,7 +238,7 @@ System.out.println("google.com".matches(regex)); // true
 layout: default
 ---
 
-# 練習：具名分組解析網域
+# 練習 0：具名分組 — 解題解析
 ### 任務說明
 
 請完成以下任務：
@@ -256,7 +256,7 @@ layout: default
 layout: default
 ---
 
-# 練習：具名分組解析網域
+# 練習 0：具名分組 — 解題解析
 ### 解題提示
 
 ```java
@@ -426,7 +426,7 @@ while (m.find()) {
 layout: default
 ---
 
-# 練習一：偵測重複單字與密碼格式
+# 練習 1：偵測重複單字與密碼格式
 ### 任務說明
 
 請完成以下兩個小題：
@@ -445,7 +445,7 @@ layout: default
 
 ---
 
-# 練習一：偵測重複單字與密碼格式
+# 練習 1：偵測重複單字與密碼格式
 ### 解題提示
 
 ```java
@@ -734,7 +734,7 @@ System.out.println(m.replaceAll("X")); // "Java X and Java X"
 layout: default
 ---
 
-# 練習：擷取貼文中的標籤
+# 練習 2：擷取貼文中的標籤
 ### 任務說明
 
 給定一段社群貼文：
@@ -755,7 +755,7 @@ layout: default
 layout: default
 ---
 
-# 練習：擷取貼文中的標籤
+# 練習 2：擷取貼文中的標籤
 ### 解題提示
 
 ```java
@@ -943,7 +943,7 @@ System.out.println(log.replaceAll("\\d{4}-\\d{3}-\\d{3}", "****-***-***"));
 layout: default
 ---
 
-# 練習二（綜合）：日誌解析小工具
+# 練習 2 (綜合)：（綜合）：日誌 — 解題解析
 ### 任務說明
 
 給定一行系統日誌：
@@ -966,7 +966,7 @@ layout: default
 
 ---
 
-# 練習二（綜合）：日誌解析小工具
+# 練習 2 (綜合)：（綜合）：日誌 — 解題解析
 ### 解題提示
 
 ```java

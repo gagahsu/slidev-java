@@ -211,7 +211,7 @@ var list = new ArrayList<String>(); // 推斷為 ArrayList<String>
 layout: default
 ---
 
-# 練習：變數分類與初始化
+# 練習 1：變數分類與初始化
 ### 任務說明
 
 觀察下面這個類別，回答兩個問題：
@@ -247,7 +247,7 @@ public class Player {
 layout: default
 ---
 
-# 練習：變數分類與初始化
+# 練習 1：變數分類與初始化
 ### 解題提示
 
 | 變數 | 分類 | 原因 |
@@ -485,7 +485,7 @@ Autoboxing（自動裝箱）跟 Unboxing（自動拆箱）是 Java 在 primitive
 layout: default
 ---
 
-# 練習：型態轉換與溢位
+# 練習 2：型態轉換與溢位
 ### 任務說明
 
 請寫出以下程式碼執行後，每個變數的值，並說明原因：
@@ -513,7 +513,7 @@ long total = score * 1_000_000_000L;
 layout: default
 ---
 
-# 練習：型態轉換與溢位
+# 練習 2：型態轉換與溢位
 ### 解題提示
 
 | 變數 | 值 | 原因 |
@@ -645,7 +645,7 @@ System.out.println(a.equals(b));      // true（內容相同）
 layout: default
 ---
 
-# 練習：字串比較與不可變性
+# 練習 3：字串比較與不可變性
 ### 任務說明
 
 請寫出以下程式碼每一行的輸出結果：
@@ -676,7 +676,7 @@ System.out.println(d);
 layout: default
 ---
 
-# 練習：字串比較與不可變性
+# 練習 3：字串比較與不可變性
 ### 解題提示
 
 ```
@@ -792,7 +792,7 @@ double area = PI * r * r;
 layout: default
 ---
 
-# 練習：消除神秘數字
+# 練習 4：消除神秘數字
 ### 任務說明
 
 下面這段程式碼可以正確執行，但裡面有 3 個「神秘數字」。請把它們改成符合命名慣例的常數（`static final`）：
@@ -823,7 +823,7 @@ public class Order {
 layout: default
 ---
 
-# 練習：消除神秘數字
+# 練習 4：消除神秘數字
 ### 解題提示
 
 ```java
@@ -901,7 +901,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習一：個人資料卡
+# 練習 5：個人資料卡
 ### 任務說明
 
 宣告以下變數，並用 `printf` 整齊排版輸出：
@@ -932,7 +932,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 5：解題提示
 ### 提示說明
 
 1. 宣告四個不同型態的變數並賦值
@@ -971,7 +971,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：書籍訂單計算
+# 練習 6 (綜合)：書籍訂單計算
 ### 任務說明
 
 請撰寫一個程式 `BookOrder.java`，完成以下需求：
@@ -1004,7 +1004,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：書籍訂單計算
+# 練習 6 (綜合)：書籍訂單計算
 ### 解題提示
 
 ```java

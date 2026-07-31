@@ -313,7 +313,7 @@ class Temp {
 layout: default
 ---
 
-# 練習：設計 Book 類別的建構子
+# 練習 1：設計 Book 類別的建構子
 ### 任務說明
 
 設計一個 `Book` 類別，包含欄位 `String title`（書名）、`String author`（作者）、`int price`（價格）：
@@ -337,7 +337,7 @@ layout: default
 layout: default
 ---
 
-# 練習：設計 Book 類別的建構子
+# 練習 1：設計 Book 類別的建構子
 ### 解題提示
 
 ```java
@@ -570,7 +570,7 @@ public class Person {
 layout: default
 ---
 
-# 練習：設計符合封裝的 Product 類別
+# 練習 2：設計符合封裝的 Product 類別
 ### 任務說明
 
 設計一個 `Product` 類別，符合封裝原則與 JavaBean 慣例：
@@ -594,7 +594,7 @@ layout: default
 layout: default
 ---
 
-# 練習：設計符合封裝的 Product 類別
+# 練習 2：設計符合封裝的 Product 類別
 ### 解題提示
 
 ```java
@@ -815,7 +815,7 @@ class Config {
 layout: default
 ---
 
-# 練習一：設計 Student 類別
+# 練習 3：設計 Student 類別
 ### 任務說明
 
 設計一個符合封裝原則的 `Student` 類別，需求如下：
@@ -839,7 +839,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 1. 使用 `this("未知", 0)` 讓無參數建構子委託給有參數建構子

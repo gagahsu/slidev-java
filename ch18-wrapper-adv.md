@@ -166,7 +166,7 @@ ff
 layout: default
 ---
 
-# 練習：進位制轉換器
+# 練習 1：進位制轉換器
 ### 任務說明
 
 讓使用者輸入一個十進位整數，印出它的二進位、八進位、十六進位，以及「36 進位」的表示。
@@ -190,7 +190,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 1：解題提示
 ### 提示說明
 
 1. 使用 `Integer.parseInt()` 讀取輸入的十進位字串。
@@ -293,7 +293,7 @@ printAsInt(n2);
 layout: default
 ---
 
-# 練習：成績統計小工具
+# 練習 2：成績統計小工具
 ### 任務說明
 
 寫一個方法 `printScore(Number score)`，可以同時接受 `Integer` 和 `Double` 兩種型別的分數，並印出：
@@ -319,7 +319,7 @@ printScore(Double.valueOf(92.5));  // 成績：92.5　取整數後：92
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 2：解題提示
 ### 提示說明
 
 1. 方法簽章寫成 `static void printScore(Number score)`。
@@ -339,7 +339,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：權限碼轉換器
+# 練習 3 (綜合)：權限碼轉換器
 ### 任務說明
 
 某系統用十進位數字代表使用者權限（例如 `Linux chmod` 概念），請完成：
@@ -366,7 +366,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 3 (綜合)：解題提示
 ### 提示說明
 
 1. 第一步用 `Integer.toBinaryString(input)` 轉成二進位字串。

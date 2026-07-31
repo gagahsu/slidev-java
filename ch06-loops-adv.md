@@ -147,7 +147,7 @@ for (int i = 0; i < 3; i++) {
 layout: default
 ---
 
-# 練習：跳過對角線組合
+# 練習 1：跳過對角線組合
 ### 任務說明
 
 使用巢狀 `for` 迴圈與**迴圈標籤**，印出所有 `i`、`j` 從 `0` 到 `2` 的組合 `(i, j)`，但：
@@ -174,7 +174,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 1：解題提示
 
 1. 外層迴圈加標籤 `outer:`
 2. 內層迴圈中，若 `i == j`，執行 `continue outer`（跳過這個 i 剩下的所有 j，直接進入下一個 i）
@@ -251,7 +251,7 @@ System.out.printf("π ≈ %.6f%n", pi * 4);
 layout: default
 ---
 
-# 練習：估算自然對數 e
+# 練習 2：估算自然對數 e
 ### 任務說明
 
 數學常數 `e`（自然對數的底）可以用以下無窮級數估算：
@@ -274,7 +274,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 2：解題提示
 
 1. 用一個 `double factorial = 1` 變數累積階乘值，每輪迴圈結束後 `factorial *= (i + 1)`
 2. 每一項 `1 / factorial` 累加到 `e`
@@ -350,7 +350,7 @@ System.out.println("總麥粒數：" + total);
 layout: default
 ---
 
-# 自學練習一：跳出雙層迴圈找座位
+# 練習 3 (自學)：跳出雙層迴圈找座位
 
 ### 任務說明
 
@@ -368,7 +368,7 @@ layout: default
 layout: default
 ---
 
-# 自學練習一：解題提示
+# 練習 3 (自學)：解題提示
 
 ### 提示說明
 
@@ -405,7 +405,7 @@ for (int row = 0; row < seats.length; row++) {
 layout: default
 ---
 
-# 自學練習二：精度比較專題
+# 練習 4 (自學)：精度比較專題
 
 ### 任務說明
 
@@ -423,7 +423,7 @@ layout: default
 layout: default
 ---
 
-# 自學練習二：解題提示
+# 練習 4 (自學)：解題提示
 
 ### 提示說明
 

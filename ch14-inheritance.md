@@ -373,7 +373,7 @@ String 類別就是 final class，所以你沒辦法 extends String。這是 Jav
 layout: default
 ---
 
-# 練習：設計 Employee 繼承體系
+# 練習 1：設計 Employee 繼承體系
 ### 任務說明
 
 設計一套類別，練習 `extends`、`protected` 屬性與 `super()`：
@@ -403,7 +403,7 @@ Manager 建構
 layout: default
 ---
 
-# 練習：設計 Employee 繼承體系
+# 練習 1：設計 Employee 繼承體系
 ### 解題提示
 
 1. `Employee` 的 `protected` 屬性讓 `Manager` 能直接存取，建構方法印出 `"Employee 建構"`
@@ -568,7 +568,7 @@ class Customer extends BasinInfo { int balance; }
 layout: default
 ---
 
-# 練習：IS-A 與 HAS-A 綜合判斷
+# 練習 2 (綜合)：IS-A 與 HAS-A 綜合判斷
 ### 任務說明
 
 設計一套類別，分辨 IS-A 與 HAS-A 關係：
@@ -601,7 +601,7 @@ true
 layout: default
 ---
 
-# 練習：IS-A 與 HAS-A 綜合判斷
+# 練習 2 (綜合)：IS-A 與 HAS-A 綜合判斷
 ### 解題提示
 
 1. `Car extends Vehicle`：IS-A 關係，繼承 `run()`
@@ -865,7 +865,7 @@ Override 要繼承關係，Overload 不需要。Override 參數必須一樣，Ov
 layout: default
 ---
 
-# 練習：Override 與方法隱藏辨析
+# 練習 3：Override 與方法隱藏辨析
 ### 認證模擬題（單選）
 
 請看以下程式碼，執行 `main()` 之後的輸出是什麼？
@@ -905,7 +905,7 @@ D. `Dog sound` 與 `Animal move`
 layout: default
 ---
 
-# 練習：Override 與方法隱藏辨析
+# 練習 3：Override 與方法隱藏辨析
 ### 解析
 
 **正確答案：C**

@@ -143,7 +143,7 @@ System.out.println(Math.toDegrees(Math.asin(sinValue))); // 36.87...
 layout: default
 ---
 
-# 自學練習：直角三角形角度計算
+# 練習 1 (自學)：直角三角形角度計算
 
 ### 任務說明
 
@@ -167,7 +167,7 @@ layout: default
 layout: default
 ---
 
-# 自學練習：解題提示
+# 練習 1 (自學)：解題提示
 
 ### 提示說明
 
@@ -311,7 +311,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：自家到學校的距離
+# 練習 2 (綜合)：自家到學校的距離
 
 ### 任務說明
 
@@ -332,7 +332,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 2 (綜合)：解題提示
 
 ### 提示說明
 

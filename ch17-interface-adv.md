@@ -365,7 +365,7 @@ System.out.println(max.apply(10, 20)); // 20
 layout: default
 ---
 
-# 練習：自訂功能介面與工具方法
+# 練習 1：自訂功能介面與工具方法
 ### 任務說明
 
 設計一個介面，結合 default、static 與 Functional Interface 的用法：
@@ -396,7 +396,7 @@ layout: default
 layout: default
 ---
 
-# 練習：自訂功能介面與工具方法
+# 練習 1：自訂功能介面與工具方法
 ### 解題提示
 
 1. `Discountable` 介面：一個抽象方法 `discount`，一個 default 方法 `printPrice`，一個 static 方法 `noDiscount`
@@ -519,7 +519,7 @@ interface LearnJava {
 layout: default
 ---
 
-# 練習：用 Private 方法重構 Default 方法
+# 練習 2：用 Private 方法重構 Default 方法
 ### 任務說明
 
 設計一個介面 `ReportPrinter`，模擬報表列印前的「資料驗證」邏輯重複出現的情境：
@@ -548,7 +548,7 @@ layout: default
 layout: default
 ---
 
-# 練習：用 Private 方法重構 Default 方法
+# 練習 2：用 Private 方法重構 Default 方法
 ### 解題提示
 
 1. `validate()` 宣告為 `private`（non-static），因為它需要呼叫 `getData()`（non-static 抽象方法）
@@ -699,7 +699,7 @@ class Pet implements Dog { }
 layout: default
 ---
 
-# 練習：解決多重介面的 Default 衝突
+# 練習 3：解決多重介面的 Default 衝突
 ### 任務說明
 
 設計一套介面，模擬「員工同時具備兩種職能」時的行為衝突：
@@ -728,7 +728,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解決多重介面的 Default 衝突
+# 練習 3：解決多重介面的 Default 衝突
 ### 解題提示
 
 1. `StaffMember implements Trainer, Receptionist`，兩者皆有 `greet()`，必須 `override`
@@ -835,7 +835,7 @@ class D implements B, C {
 layout: default
 ---
 
-# 練習：解決鑽石問題
+# 練習 4：解決鑽石問題
 ### 任務說明
 
 設計一套介面，模擬「兩條繼承路線在同一個類別匯合」的鑽石結構：
@@ -864,7 +864,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解決鑽石問題
+# 練習 4：解決鑽石問題
 ### 解題提示
 
 1. `Worker` 定義基礎版 `work()`；`Manager extends Worker`、`Engineer extends Worker` 各自 `override`
@@ -1038,7 +1038,7 @@ public double getArea(Shape shape) {
 layout: default
 ---
 
-# 綜合練習：訂單狀態的密封設計
+# 練習 5 (綜合)：訂單狀態的密封設計
 ### 任務說明
 
 整合本份自學內容（default 方法、衝突處理、Sealed Interfaces），設計一套「訂單狀態」系統：
@@ -1061,7 +1061,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：訂單狀態的密封設計
+# 練習 5 (綜合)：訂單狀態的密封設計
 ### 解題提示
 
 1. `OrderStatus` 是 `sealed interface`，`permits Pending, Shipped, Cancelled`，包含抽象方法 `describe()` 與 default 方法 `printStatus()`

@@ -269,7 +269,7 @@ while (it.hasNext()) {
 layout: default
 ---
 
-# 練習 1-1：水果攤的 Collection 操作
+# 練習 1：水果攤的 Collection 操作
 ### 任務說明
 
 建立 `List<String> fruits`，初始內容為「蘋果、香蕉、橘子、葡萄」，完成以下操作：
@@ -291,7 +291,7 @@ layout: default
 layout: default
 ---
 
-# 練習 1-1：解題提示
+# 練習 1：解題提示
 ### 提示說明
 
 ```java
@@ -432,7 +432,7 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 layout: default
 ---
 
-# 練習 2-1：管理英雄名單
+# 練習 2：管理英雄名單
 ### 任務說明
 
 請宣告一個 `ArrayList<String>`，儲存以下鬼殺隊成員：
@@ -458,7 +458,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2-1：解題提示
+# 練習 2：解題提示
 ### 提示說明
 
 1. 善逸在索引 2，使用 `list.add(2, "甘露寺")` 插入
@@ -575,7 +575,7 @@ System.out.println(names.isEmpty());          // true
 layout: default
 ---
 
-# 練習 3-1：清點訪客名單
+# 練習 3：清點訪客名單
 ### 任務說明
 
 給定 `String[] visitors = {"Alice","Bob","Alice","Charlie","Bob","Alice"}`：
@@ -597,7 +597,7 @@ layout: default
 layout: default
 ---
 
-# 練習 3-1：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 ```java
@@ -769,7 +769,7 @@ for (String key : scores.keySet()) {
 layout: default
 ---
 
-# 練習 4-1：成績統計系統
+# 練習 4：成績統計系統
 ### 任務說明
 
 宣告一個 `HashMap<String, Integer>` 儲存以下成績：
@@ -795,7 +795,7 @@ layout: default
 layout: default
 ---
 
-# 練習 4-1：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. `map.put("甘露寺", 88)` — 新增
@@ -824,7 +824,7 @@ for (var e : scores.entrySet())
 layout: default
 ---
 
-# 練習 4-2：單字計數器
+# 練習 5：單字計數器
 ### 任務說明
 
 給定字串陣列 `String[] words = {"apple","banana","apple","orange","banana","apple"}`：
@@ -845,7 +845,7 @@ layout: default
 layout: default
 ---
 
-# 練習 4-2：解題提示
+# 練習 5：解題提示
 ### 提示說明
 
 ```java
@@ -971,7 +971,7 @@ System.out.println(Collections.min(nums)); // 1
 layout: default
 ---
 
-# 練習 5-1：樂透號碼產生器
+# 練習 6：樂透號碼產生器
 ### 任務說明
 
 1. 建立 `List<Integer> numbers`，依序加入 1 ~ 49
@@ -991,7 +991,7 @@ layout: default
 layout: default
 ---
 
-# 練習 5-1：解題提示
+# 練習 6：解題提示
 ### 提示說明
 
 ```java
@@ -1021,7 +1021,7 @@ System.out.println("最小值：" + Collections.min(numbers));
 layout: default
 ---
 
-# 綜合練習：選課系統
+# 練習 7 (綜合)：選課系統
 ### 任務說明
 
 整合 List、Set、Map 與 Collections 工具類別，設計一個簡易選課系統：
@@ -1045,7 +1045,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示（一）
+# 練習 7 (綜合)：解題提示
 ### enroll 方法 + 統計不重複學生數
 
 ```java
@@ -1076,7 +1076,7 @@ System.out.println("不重複學生數：" + allStudents.size());
 layout: default
 ---
 
-# 綜合練習：解題提示（二）
+# 練習 7 (綜合)：解題提示
 ### 排序印出名單 + 找出選課人數最多的課程
 
 ```java

@@ -227,7 +227,7 @@ record Circle(double r) implements Drawable { } // ✅ 可實作介面
 layout: default
 ---
 
-# 自學練習一：Sealed Classes 與 Records
+# 練習 1 (自學)：Sealed Classes 與 Records
 
 ### 任務說明
 
@@ -248,7 +248,7 @@ layout: default
 layout: default
 ---
 
-# 自學練習一：解題提示
+# 練習 1 (自學)：解題提示
 
 ### 提示說明
 
@@ -357,7 +357,7 @@ a.move(); // 動態綁定：執行時才確定呼叫 Dog.move()
 layout: default
 ---
 
-# 自學練習二：Pattern Matching 與綁定判斷
+# 練習 2 (自學)：Pattern Matching 與綁定判斷
 
 ### 任務說明
 
@@ -376,7 +376,7 @@ layout: default
 layout: default
 ---
 
-# 自學練習二：解題提示
+# 練習 2 (自學)：解題提示
 
 ### 提示說明
 
@@ -562,7 +562,7 @@ obj.showAnimal(new Animal() {
 layout: default
 ---
 
-# 自學練習三：巢狀類別綜合應用
+# 練習 3 (綜合)：巢狀類別綜合應用
 
 ### 任務說明
 
@@ -582,7 +582,7 @@ layout: default
 layout: default
 ---
 
-# 自學練習三：解題提示
+# 練習 3 (自學)：解題提示
 
 ### 提示說明
 
@@ -619,7 +619,7 @@ a.move();
 layout: default
 ---
 
-# 綜合練習：密封圖形系統
+# 練習 4 (綜合)：密封圖形系統
 
 ### 任務說明
 
@@ -641,7 +641,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 4 (綜合)：解題提示
 
 ### 提示說明
 

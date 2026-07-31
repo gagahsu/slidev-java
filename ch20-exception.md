@@ -232,7 +232,7 @@ System.out.println(user.getName());
 layout: default
 ---
 
-# 練習 1-1：觸發並觀察例外
+# 練習 1：觸發並觀察例外
 ### 任務說明
 
 分別撰寫程式碼，刻意觸發以下三種例外，並執行觀察錯誤訊息：
@@ -254,7 +254,7 @@ layout: default
 layout: default
 ---
 
-# 練習 1-1：解題提示
+# 練習 1：解題提示
 ### 提示說明
 
 ```java
@@ -284,7 +284,7 @@ int n = Integer.parseInt("Java");     // NumberFormatException
 layout: default
 ---
 
-# 練習 1-2：除法計算機與錯誤分類
+# 練習 2：除法計算機與錯誤分類
 ### 任務說明
 
 撰寫 `divide(int a, int b)` 方法，回傳 `a / b` 的結果（**先不要**加任何例外處理）：
@@ -306,7 +306,7 @@ layout: default
 layout: default
 ---
 
-# 練習 1-2：解題提示
+# 練習 2：解題提示
 ### 提示說明
 
 ```java
@@ -638,7 +638,7 @@ try {
 layout: default
 ---
 
-# 練習 2-1：多 catch 實作
+# 練習 3 (實作)：多 catch 實作
 ### 任務說明
 
 設計一個程式，讀取使用者輸入的 2 個整數，計算除法結果。
@@ -658,7 +658,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2-1：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 1. 宣告 `Scanner` 讀取使用者輸入
@@ -842,7 +842,7 @@ try (scanner) {
 layout: default
 ---
 
-# 練習 2-2：try-with-resources
+# 練習 4：try-with-resources
 ### 任務說明
 
 改寫練習 2-1，使用 try-with-resources 語法管理 `Scanner` 資源，確保程式結束後 Scanner 自動關閉。不再需要在 `finally` 中手動呼叫 `scanner.close()`。
@@ -858,7 +858,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2-2：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. 將 `new Scanner(System.in)` 移入 `try(...)` 括號內宣告
@@ -961,7 +961,7 @@ public static void main(String[] args) throws IOException {
 layout: default
 ---
 
-# 練習 2-3：throw 實作
+# 練習 5 (實作)：throw 實作
 ### 任務說明
 
 設計一個密碼檢查程式：
@@ -981,7 +981,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2-3：解題提示
+# 練習 5：解題提示
 ### 提示說明
 
 1. 建立方法 `pwdCheck(String pwdStr)`，宣告 `throws StringIndexOutOfBoundsException`
@@ -1135,7 +1135,7 @@ try {
 layout: default
 ---
 
-# 練習 2-4：自訂異常類別
+# 練習 6：自訂異常類別
 ### 任務說明
 
 設計一個銀行存提款程式：
@@ -1155,7 +1155,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2-4：解題提示
+# 練習 6：解題提示
 ### 提示說明
 
 1. `NotEnoughException` 加入 `private int shortAmount` 成員與 `getShortAmount()` 方法
@@ -1175,7 +1175,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：成績登錄系統
+# 練習 7 (綜合)：成績登錄系統
 ### 任務說明
 
 整合本章所學，設計一個簡易成績登錄系統：
@@ -1199,7 +1199,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 7 (綜合)：解題提示
 ### 提示說明
 
 ```java

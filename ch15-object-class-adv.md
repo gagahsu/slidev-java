@@ -493,7 +493,7 @@ finalize() 的執行時機由 GC 決定，可能延遲很久，也可能因為�
 layout: default
 ---
 
-# 練習：clone() 與 finalize() 的取捨
+# 練習 3：clone() 與 finalize() 的取捨
 ### 認證模擬題（單選）
 
 關於 `clone()` 與 `finalize()`，下列哪一個說法**正確**？
@@ -530,7 +530,7 @@ D. 程式會拋出例外，因為 `Cloneable` 介面必須定義 `clone()` 的�
 layout: default
 ---
 
-# 練習：clone() 與 finalize() 的取捨
+# 練習 3：clone() 與 finalize() 的取捨
 ### 解析
 
 **正確答案：B**
@@ -550,7 +550,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：BankAccount 類別
+# 練習 4 (綜合)：BankAccount 類別
 
 ### 任務說明
 
@@ -580,7 +580,7 @@ class BankAccount {
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 4 (綜合)：解題提示
 
 ```java
 record BankAccount(String accountNo, String owner, double balance) { }

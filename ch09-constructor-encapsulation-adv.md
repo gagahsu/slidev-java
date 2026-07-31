@@ -147,7 +147,7 @@ System.out.println(s1 == s2); // true，是同一個物件
 layout: default
 ---
 
-# 練習：設計 AppLogger 單例類別
+# 練習 1：設計 AppLogger 單例類別
 ### 任務說明
 
 請設計一個 `AppLogger` 類別，符合 Singleton 設計模式：
@@ -171,7 +171,7 @@ layout: default
 layout: default
 ---
 
-# 練習：設計 AppLogger 單例類別
+# 練習 1：設計 AppLogger 單例類別
 ### 解題提示
 
 ```java
@@ -262,7 +262,7 @@ public class ConfigEager {
 layout: default
 ---
 
-# 練習：Lazy 與 Eager 初始化
+# 練習 2：Lazy 與 Eager 初始化
 ### 認證模擬題（單選）
 
 觀察以下兩種 Singleton 寫法：
@@ -305,7 +305,7 @@ D. 兩種寫法在效果上完全相同，沒有任何差異
 layout: default
 ---
 
-# 練習：Lazy 與 Eager 初始化
+# 練習 2：Lazy 與 Eager 初始化
 ### 解析
 
 **正確答案：C**
@@ -375,7 +375,7 @@ public static synchronized Singleton getInstance() {
 layout: default
 ---
 
-# 練習：為 Lazy Singleton 加上執行緒安全
+# 練習 3：為 Lazy Singleton 加上執行緒安全
 ### 任務說明
 
 以下是一個 Lazy 初始化的 `ConnectionPool` 類別，但目前**沒有處理執行緒安全問題**：
@@ -407,7 +407,7 @@ public class ConnectionPool {
 layout: default
 ---
 
-# 練習：為 Lazy Singleton 加上執行緒安全
+# 練習 3：為 Lazy Singleton 加上執行緒安全
 ### 解題提示
 
 ```java
@@ -448,7 +448,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習：計數器與 Singleton
+# 練習 4：計數器與 Singleton
 ### 任務說明
 
 1. 在 `Student` 類別中加入 `static int totalCount` 欄位，每次建立新物件時自動累計人數。
@@ -466,7 +466,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. static 計數器在建構子內累加：

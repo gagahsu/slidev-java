@@ -57,14 +57,14 @@ layout: default
 
 # Outline
 
-- **1-1 認識 Java**
-- **1-2 Java 的起源**
-- **1-3 Java 之父**
-- **1-4 Java 發展史**
-- **1-5 Java 的三大平台**
-- **1-6 認識 Java SE 平台的 JDK / JRE / JVM**
-- **1-7 Java 跨平台原理**
-- **1-8 Java 語言的特色**
+- **認識 Java**
+- **Java 的起源**
+- **Java 之父**
+- **Java 發展史**
+- **Java 的三大平台**
+- **認識 Java SE 平台的 JDK / JRE / JVM**
+- **Java 跨平台原理**
+- **Java 語言的特色**
 
 <!--
 這一頁列出了我們這一章會走過的八個小節，從「Java 是什麼」一路講到「Java 語言的特色」。整體來說，就是一場 Java 的身世調查——它從哪裡誕生、經歷過哪些重要的版本演進、現在又是怎麼運作的。
@@ -77,7 +77,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-1
 # 認識 Java
 
 <!--
@@ -102,7 +101,7 @@ class: flex flex-col justify-center items-center text-center
 <!--
 這張表格幫我們快速建立 Java 的基本身分：它是一個誕生於 1995 年的高階、物件導向程式語言，現在由 Oracle 維護。
 
-表格裡最關鍵的一句是設計理念那一行——「Write Once, Run Anywhere（一次撰寫，到處執行）」。這句話的意思是，我們寫好一份程式碼，不管拿到 Windows、macOS 還是 Linux 上都能跑，不需要為每個系統重新寫一份。在這個概念出現之前，程式換一台機器就常常要大改一遍，所以這在當年算是滿大的突破，後面 1-7 我們會仔細講它是怎麼做到的。
+表格裡最關鍵的一句是設計理念那一行——「Write Once, Run Anywhere（一次撰寫，到處執行）」。這句話的意思是，我們寫好一份程式碼，不管拿到 Windows、macOS 還是 Linux 上都能跑，不需要為每個系統重新寫一份。在整個概念出現之前，程式換一台機器就常常要大改一遍，所以這在當年算是滿大的突破，後面「Java 跨平台原理」我們會仔細講它是怎麼做到的。
 
 至於業界實務，Java 給人的印象就是「穩」。它可能不是最潮的語言，但銀行、電商、企業後台這些需要長期維運、處理大量交易的系統，Java 一直是很常見的選擇。下方那個小提示框也說了，目前全球有超過一千萬名開發者在用它，從網頁應用、企業系統到 Android 開發都看得到它的身影。
 -->
@@ -111,19 +110,19 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習：認識 Java
+# 練習 1：認識 Java
 ### 認證模擬題（單選）
 
 關於 Java 這個程式語言，下列敘述何者**正確**？
 
-A. Java 由 Microsoft 於 1995 年發表，設計理念是 Write Once, Run Anywhere
-B. Java 的設計理念是「一次撰寫，到處執行」，目前由 Oracle 負責維護
-C. Java 是一種低階組合語言，主要用於嵌入式裝置
-D. Java 自發表以來從未更新版本，目前仍是 1.0
+- A. Java 由 Microsoft 於 1995 年發表，設計理念是 Write Once, Run Anywhere
+- B. Java 的設計理念是「一次撰寫，到處執行」，目前由 Oracle 負責維護
+- C. Java 是一種低階組合語言，主要用於嵌入式裝置
+- D. Java 自發表以來從未更新版本，目前仍是 1.0
 
 <!--
 【出題動機】
-這題把 1-1 認識 Java 那頁表格裡的幾個關鍵字（誕生年份、設計理念、維護者）混在一起，考大家有沒有把對應關係記清楚。
+這題把「認識 Java」那頁表格裡的幾個關鍵字（誕生年份、設計理念、維護者）混在一起，考大家有沒有把對應關係記清楚。
 
 【解題引導】
 四個選項裡，B 跟 A 的內容很像，差別在「發表公司」跟「現任維護者」——這正是表格裡最容易搞混的兩件事，回頭對照一下表格就能分辨。
@@ -133,7 +132,7 @@ D. Java 自發表以來從未更新版本，目前仍是 1.0
 layout: default
 ---
 
-# 練習：認識 Java
+# 練習 1：認識 Java
 ### 解析
 
 **正確答案：B**
@@ -153,7 +152,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-2
 # Java 的起源
 
 <!--
@@ -187,29 +185,29 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習：Java 的起源
+# 練習 2：Java 的起源
 ### 認證模擬題（單選）
 
 關於 Java 名稱與起源的敘述，下列何者**正確**？
 
-A. Java 最初命名為「Oak」，因商標已被註冊而改名為 Java
-B. Green Project 的最初目標是開發 Web 瀏覽器
-C. Java 與 JavaScript 是由同一個團隊在同一時期設計的同一種語言
-D. Java 這個名字來自 James Gosling 的姓氏縮寫
+- A. Java 最初命名為「Oak」，因商標已被註冊而改名為 Java
+- B. Green Project 的最初目標是開發 Web 瀏覽器
+- C. Java 與 JavaScript 是由同一個團隊在同一時期設計的同一種語言
+- D. Java 這個名字來自 James Gosling 的姓氏縮寫
 
 <!--
 【出題動機】
 這題針對新手最常見的兩個誤解：「Java 跟 JavaScript 是不是同一個東西」、「Java 這名字怎麼來的」。
 
 【解題引導】
-回想 1-2 的時間軸：Green Project 最初的目標是什麼？1993 年發生了什麼事，讓方向轉變？名字又是在哪個時間點、因為什麼原因改的？
+回想「Java 的起源」的時間軸：Green Project 最初的目標是什麼？1993 年發生了什麼事，讓方向轉變？名字又是在哪個時間點、因為什麼原因改的？
 -->
 
 ---
 layout: default
 ---
 
-# 練習：Java 的起源
+# 練習 2：Java 的起源
 ### 解析
 
 **正確答案：A**
@@ -229,7 +227,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-3
 # Java 之父
 
 <!--
@@ -256,7 +253,7 @@ class: flex flex-col justify-center items-center text-center
 <!--
 James Gosling 不只是負責設計語言規格，他還親自參與了第一版 `javac` 編譯器和 JVM 原型的開發，下方提示框特別強調了這一點——他是真正從規格到實作都有經手的人。
 
-他厲害的地方在於，當年就預見了未來的電腦會出現各種不同的作業系統環境，所以設計了一套能夠跨越這些差異的語言。這個「能適應各種環境」的想法，後來就演變成 Java 最有名的跨平台特性，我們在 1-7 會詳細看它怎麼實現。
+他厲害的地方在於，當年就預見了未來的電腦會出現各種不同的作業系統環境，所以設計了一套能夠跨越這些差異的語言。這個「能適應各種環境」的想法，後來就演變成 Java 最有名的跨平台特性，我們在「Java 跨平台原理」會詳細看它怎麼實現。
 
 業界裡，這種從語言設計到底層實作都參與過的工程師非常受到敬重——因為他們寫的程式碼，往往是整個語言生態系運作的基礎。
 -->
@@ -265,29 +262,29 @@ James Gosling 不只是負責設計語言規格，他還親自參與了第一版
 layout: default
 ---
 
-# 練習：Java 之父
+# 練習 3：Java 之父
 ### 認證模擬題（單選）
 
 下列關於 James Gosling 的敘述，何者**正確**？
 
-A. 他是 Oracle 公司的創辦人，於 2009 年收購 Sun Microsystems
-B. 他被稱為「Java 之父」，曾親自撰寫第一版 javac 編譯器與 JVM 原型
-C. 他主要的貢獻是設計 JDK 工具中的 jar 封裝工具
-D. 他從未參與 Java 語言規格的制定，僅負責行銷推廣
+- A. 他是 Oracle 公司的創辦人，於 2009 年收購 Sun Microsystems
+- B. 他被稱為「Java 之父」，曾親自撰寫第一版 javac 編譯器與 JVM 原型
+- C. 他主要的貢獻是設計 JDK 工具中的 jar 封裝工具
+- D. 他從未參與 Java 語言規格的制定，僅負責行銷推廣
 
 <!--
 【出題動機】
 這題確認大家記得 Gosling 的「身分」與「具體貢獻」，避免把他跟「Oracle 收購 Sun」這個事件搞混。
 
 【解題引導】
-1-3 那頁的提示框特別強調了 Gosling 不只是設計規格，還親自寫了哪些東西？
+「Java 之父」那頁的提示框特別強調了 Gosling 不只是設計規格，還親自寫了哪些東西？
 -->
 
 ---
 layout: default
 ---
 
-# 練習：Java 之父
+# 練習 3：Java 之父
 ### 解析
 
 **正確答案：B**
@@ -299,7 +296,7 @@ layout: default
 
 <!--
 【帶讀解法】
-A 選項把「Java 之父」跟「Oracle 收購 Sun」兩個不同時間點、不同主體的事件混在一起，是常見的誤導陷阱；正確答案呼應 1-3 提示框「全端創造者」的描述。
+A 選項把「Java 之父」跟「Oracle 收購 Sun」兩個不同時間點、不同主體的事件混在一起，是常見的誤導陷阱；正確答案呼應「Java 之父」提示框「全端創造者」的描述。
 -->
 
 ---
@@ -307,7 +304,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-4
 # Java 發展史
 
 <!--
@@ -361,15 +357,15 @@ Java 從 1995 年發表到現在，已經經歷了二十幾個版本的演進。
 layout: default
 ---
 
-# 練習：Java 發展史
+# 練習 4：Java 發展史
 ### 認證模擬題（單選）
 
 下列關於 Java 版本演進的敘述，何者**正確**？
 
-A. Java 5 引入了 Lambda 表達式與 Stream API
-B. Java 8 引入了泛型（Generics）與增強 for 迴圈
-C. Java 8 引入 Lambda 表達式、Stream API 與新日期時間 API，是重要分水嶺
-D. Java 9 是第一個 LTS（長期支援）版本
+- A. Java 5 引入了 Lambda 表達式與 Stream API
+- B. Java 8 引入了泛型（Generics）與增強 for 迴圈
+- C. Java 8 引入 Lambda 表達式、Stream API 與新日期時間 API，是重要分水嶺
+- D. Java 9 是第一個 LTS（長期支援）版本
 
 <!--
 【出題動機】
@@ -383,7 +379,7 @@ D. Java 9 是第一個 LTS（長期支援）版本
 layout: default
 ---
 
-# 練習：Java 發展史
+# 練習 4：Java 發展史
 ### 解析
 
 **正確答案：C**
@@ -403,7 +399,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-5
 # Java 的三大平台
 
 <!--
@@ -436,29 +431,29 @@ Java 依照應用場景分成三大平台：Java SE、Java EE（現在改名叫 
 layout: default
 ---
 
-# 練習：Java 的三大平台
+# 練習 5：Java 的三大平台
 ### 認證模擬題（單選）
 
 某公司同時擁有企業內部的 Web 後台系統，以及一套嵌入式控制裝置韌體，兩者都使用 Java 開發。下列敘述何者**正確**？
 
-A. Java EE 與 Java ME 各自獨立開發，與 Java SE 沒有任何關係
-B. Java SE 是 Java EE 與 Java ME 的基礎核心，兩者皆建立在 SE 之上
-C. Java ME 的功能比 Java SE 更完整，是 SE 的超集
-D. 企業 Web 後台應使用 Java ME，嵌入式裝置應使用 Java EE
+- A. Java EE 與 Java ME 各自獨立開發，與 Java SE 沒有任何關係
+- B. Java SE 是 Java EE 與 Java ME 的基礎核心，兩者皆建立在 SE 之上
+- C. Java ME 的功能比 Java SE 更完整，是 SE 的超集
+- D. 企業 Web 後台應使用 Java ME，嵌入式裝置應使用 Java EE
 
 <!--
 【出題動機】
 這題用一個情境，測試大家是否理解三大平台「彼此獨立 vs 彼此基於」的關係，以及哪個平台對應哪種應用場景。
 
 【解題引導】
-1-5 那張表格的「應用場景」欄位，以及提示框裡 SE 是「基礎核心」這句話，是這題的關鍵。
+「Java 的三大平台」那張表格的「應用場景」欄位，以及提示框裡 SE 是「基礎核心」這句話，是這題的關鍵。
 -->
 
 ---
 layout: default
 ---
 
-# 練習：Java 的三大平台
+# 練習 5：Java 的三大平台
 ### 解析
 
 **正確答案：B**
@@ -478,7 +473,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-6
 # JDK / JRE / JVM
 
 <!--
@@ -560,29 +554,29 @@ JDK 裡面包含了好幾個指令工具，其中最核心的兩個是 `javac` �
 layout: default
 ---
 
-# 練習：JDK / JRE / JVM
+# 練習 6：JDK / JRE / JVM
 ### 認證模擬題（單選）
 
 小華在一台新電腦上只安裝了 JRE，撰寫好 `Hello.java` 後，執行 `javac Hello.java` 卻出現「找不到指令」的錯誤。下列說明何者**正確**？
 
-A. JRE = JVM + 標準類別庫，但不含 javac 等開發工具，需安裝 JDK 才能編譯
-B. javac 是作業系統內建指令，與 JDK/JRE/JVM 都無關，需另外下載
-C. JRE 已經包含 javac，問題出在檔名大小寫不一致
-D. 只要安裝 JVM，就能使用 javac 編譯程式
+- A. JRE = JVM + 標準類別庫，但不含 javac 等開發工具，需安裝 JDK 才能編譯
+- B. javac 是作業系統內建指令，與 JDK/JRE/JVM 都無關，需另外下載
+- C. JRE 已經包含 javac，問題出在檔名大小寫不一致
+- D. 只要安裝 JVM，就能使用 javac 編譯程式
 
 <!--
 【出題動機】
 這題用一個生活化的「裝錯軟體」情境，檢驗大家是否記得 JDK ⊃ JRE ⊃ JVM 的包含關係，以及「開發」跟「執行」分別需要哪一層。
 
 【解題引導】
-1-6 提示框直接寫出了包含關係，以及哪一層才有編譯器；對照「JDK 主要工具」那張表，javac 屬於哪一層？
+「認識 Java SE 平台的 JDK / JRE / JVM」提示框直接寫出了包含關係，以及哪一層才有編譯器；對照「JDK 主要工具」那張表，javac 屬於哪一層？
 -->
 
 ---
 layout: default
 ---
 
-# 練習：JDK / JRE / JVM
+# 練習 6：JDK / JRE / JVM
 ### 解析
 
 **正確答案：A**
@@ -594,7 +588,7 @@ layout: default
 
 <!--
 【帶讀解法】
-這題對應 1-6 的⚠️提醒：身為開發者一定要安裝 JDK，因為它才包含 javac。三個錯誤選項分別測試「包含關係搞反」「來源搞錯」「跟無關因素掛勾」三種常見誤解。
+這題對應「認識 Java SE 平台的 JDK / JRE / JVM」的⚠️提醒：身為開發者一定要安裝 JDK，因為它才包含 javac。三個錯誤選項分別測試「包含關係搞反」「來源搞錯」「跟無關因素掛勾」三種常見誤解。
 -->
 
 ---
@@ -602,7 +596,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-7
 # Java 跨平台原理
 
 <!--
@@ -669,29 +662,29 @@ public class Hello {
 layout: default
 ---
 
-# 練習：Java 跨平台原理
+# 練習 7：Java 跨平台原理
 ### 認證模擬題（單選）
 
 關於 Java 的「Write Once, Run Anywhere」(WORA) 原理，下列敘述何者**正確**？
 
-A. `.java` 原始碼可以直接在各作業系統上執行，不需要編譯
-B. `.class` Bytecode 是平台中立的，但需要各平台安裝對應版本的 JVM 才能執行
-C. `.class` Bytecode 是平台相依的，必須針對 Windows、macOS、Linux 各自編譯一份
-D. JVM 是平台中立的，因此同一個 JVM 可以直接安裝在任何作業系統上執行
+- A. `.java` 原始碼可以直接在各作業系統上執行，不需要編譯
+- B. `.class` Bytecode 是平台中立的，但需要各平台安裝對應版本的 JVM 才能執行
+- C. `.class` Bytecode 是平台相依的，必須針對 Windows、macOS、Linux 各自編譯一份
+- D. JVM 是平台中立的，因此同一個 JVM 可以直接安裝在任何作業系統上執行
 
 <!--
 【出題動機】
 這題的核心在分辨「Bytecode」跟「JVM」誰是「平台中立」、誰是「平台相依」——這兩者剛好相反，是最容易答錯的地方。
 
 【解題引導】
-1-7 提示框用了一句話精確定義這個關係，回頭找找看「中立」跟「相依」分別形容的是哪一個。
+「Java 跨平台原理」提示框用了一句話精確定義這個關係，回頭找找看「中立」跟「相依」分別形容的是哪一個。
 -->
 
 ---
 layout: default
 ---
 
-# 練習：Java 跨平台原理
+# 練習 7：Java 跨平台原理
 ### 解析
 
 **正確答案：B**
@@ -711,7 +704,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-8
 # Java 語言的特色
 
 <!--
@@ -732,7 +724,7 @@ class: flex flex-col justify-center items-center text-center
 <!--
 這一頁是前四個特色：簡單、物件導向、跨平台、安全。
 
-「簡單」指的是 Java 把 C++ 裡面比較容易出錯、複雜的機制（像是指標、多重繼承）拿掉了，讓語法相對清楚好讀。「跨平台」就是我們剛剛在 1-7 詳細看過的 Bytecode + JVM 機制，這裡再次呼應。
+「簡單」指的是 Java 把 C++ 裡面比較容易出錯、複雜的機制（像是指標、多重繼承）拿掉了，讓語法相對清楚好讀。「跨平台」就是我們剛剛在「Java 跨平台原理」詳細看過的 Bytecode + JVM 機制，這裡再次呼應。
 
 「物件導向（Object-Oriented）」是這門課接下來會花很多時間建立的核心概念，簡單來說就是把程式拆成一個個物件，每個物件有自己的資料和行為，可以重複使用、組合起來——有點像是用現成的樂高積木拼出新的作品，而不是每次都從零開始做。
 
@@ -768,29 +760,29 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習：Java 語言的特色
+# 練習 8：Java 語言的特色
 ### 認證模擬題（單選）
 
 下列關於 Java 語言特色的敘述，何者**正確**？
 
-A. Java 採用手動記憶體管理，開發者需自行呼叫 free() 釋放物件
-B. JIT（Just-In-Time）編譯技術會將常執行的熱點程式碼即時轉換為機器碼，提升效能
-C. Java 為了簡化語法，移除了強型別檢查
-D. Java 不支援多執行緒，需透過第三方函式庫才能並發處理
+- A. Java 採用手動記憶體管理，開發者需自行呼叫 free() 釋放物件
+- B. JIT（Just-In-Time）編譯技術會將常執行的熱點程式碼即時轉換為機器碼，提升效能
+- C. Java 為了簡化語法，移除了強型別檢查
+- D. Java 不支援多執行緒，需透過第三方函式庫才能並發處理
 
 <!--
 【出題動機】
 這題針對「Robust」「高效能」這兩個特色裡最容易誤解的細節：記憶體管理由誰負責？JIT 在做什麼？
 
 【解題引導】
-1-8 第二頁的提示框特別解釋了 GC 跟手動 free() 的差異；JIT 那一格的說明則點出「熱點程式碼」這個關鍵字。
+「Java 語言的特色」第二頁的提示框特別解釋了 GC 跟手動 free() 的差異；JIT 那一格的說明則點出「熱點程式碼」這個關鍵字。
 -->
 
 ---
 layout: default
 ---
 
-# 練習：Java 語言的特色
+# 練習 8：Java 語言的特色
 ### 解析
 
 **正確答案：B**
@@ -822,19 +814,19 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：新進工程師的環境設置
+# 練習 9 (綜合)：新進工程師的環境設置
 ### 認證模擬題（單選）
 
 公司要求新進工程師在一台全新電腦上，安裝可以「開發並執行」Java 程式的環境，並指定使用具有長期支援（LTS）的版本。下列做法何者**最合適**？
 
-A. 只安裝 JRE，並選用 Java 9（六個月一版的最新版本）
-B. 安裝 JDK，並選用具 LTS 標記的版本（如 Java 17），因 JDK 已包含編譯與執行所需的完整工具
-C. 安裝 JVM 即可，因為 JVM 已內含編譯器與標準類別庫
-D. 安裝 Java EE，因為 EE 是 SE 的進階版，功能比 SE 更完整
+- A. 只安裝 JRE，並選用 Java 9（六個月一版的最新版本）
+- B. 安裝 JDK，並選用具 LTS 標記的版本（如 Java 17），因 JDK 已包含編譯與執行所需的完整工具
+- C. 安裝 JVM 即可，因為 JVM 已內含編譯器與標準類別庫
+- D. 安裝 Java EE，因為 EE 是 SE 的進階版，功能比 SE 更完整
 
 <!--
 【任務鋪陳】
-這一題串連了三個小節的概念：JDK/JRE/JVM 的包含關係（1-6）、LTS 版本的判斷（1-4），以及 SE/EE/ME 三大平台的定位（1-5）。
+這一題串連了三個小節的概念：JDK/JRE/JVM 的包含關係（JDK / JRE / JVM）、LTS 版本的判斷（Java 發展史），以及 SE/EE/ME 三大平台的定位（Java 的三大平台）。
 
 【引導思考】
 「開發」這個動作需要哪一層工具？「具有 LTS 標記」要從哪張表格裡找？Java EE 跟 Java SE 之間，是「取代」還是「建立在...之上」的關係？
@@ -847,7 +839,7 @@ D. 安裝 Java EE，因為 EE 是 SE 的進階版，功能比 SE 更完整
 layout: default
 ---
 
-# 綜合練習：新進工程師的環境設置
+# 練習 9 (綜合)：新進工程師的環境設置
 ### 解析
 
 **正確答案：B**

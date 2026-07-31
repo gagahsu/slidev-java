@@ -927,7 +927,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：設計套件結構與存取控制
+# 練習 5 (綜合)：設計套件結構與存取控制
 ### 任務說明
 
 設計一個簡單的學生管理系統，要求：
@@ -952,7 +952,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 5 (綜合)：解題提示
 
 ```java
 // com/school/model/Student.java
@@ -983,7 +983,7 @@ public class Student {
 layout: default
 ---
 
-# 綜合練習：解題提示（續）
+# 練習 5 (綜合)：解題提示
 
 ```java
 // com/school/service/StudentService.java
@@ -1012,7 +1012,7 @@ public class StudentService {
 layout: default
 ---
 
-# 綜合練習：解題提示（續 2）
+# 練習 5 (綜合)：解題提示
 
 ```java
 // com/school/Main.java

@@ -154,7 +154,7 @@ Integer scoreObj = 95;    // 包裝類別，可以呼叫方法
 layout: default
 ---
 
-# 練習：基本型態與包裝類別轉換
+# 練習 1：基本型態與包裝類別轉換
 ### 任務說明
 
 宣告一個 `int` 變數 `level = 5`，再宣告一個 `boolean` 變數 `isOnline = true`。
@@ -173,7 +173,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 1：解題提示
 ### 提示說明
 
 1. `int level = 5;` 對應的包裝類別宣告是 `Integer levelObj = level;`
@@ -394,7 +394,7 @@ int damage = (hp != null) ? hp - 10 : 0;
 layout: default
 ---
 
-# 練習：安全計算生命值
+# 練習 2：安全計算生命值
 ### 任務說明
 
 宣告 `Integer maxHp = 100;` 與 `Integer currentDamage = null;`。
@@ -415,7 +415,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 2：解題提示
 ### 提示說明
 
 1. 用三元運算子判斷 `null`：`int remainingHp = (currentDamage != null) ? maxHp - currentDamage : maxHp;`
@@ -599,7 +599,7 @@ System.out.println(Integer.compare(atkA, atkB)); // 正值 (atkA > atkB)
 layout: default
 ---
 
-# 練習一：讀取使用者輸入並計算
+# 練習 3：讀取使用者輸入並計算
 ### 任務說明
 
 請利用 `Scanner` 讀取兩個整數字串，轉換後計算並印出：
@@ -623,7 +623,7 @@ String s2 = sc.nextLine();
 
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 
 1. 使用 `Integer.parseInt()` 將字串轉為 `int`。
 2. 用算術運算子計算和、差、積。
@@ -746,7 +746,7 @@ Character 是字元型態 `char` 的包裝類別，常用方法複習：
 layout: default
 ---
 
-# 練習二：判斷字串是否為合法整數
+# 練習 4：判斷字串是否為合法整數
 ### 任務說明
 
 撰寫一個方法 `isInteger(String s)`，判斷輸入的字串是否可以成功轉為整數。
@@ -766,7 +766,7 @@ layout: default
 
 ---
 
-# 練習二：解題提示
+# 練習 4：解題提示
 
 ```java
 static boolean isInteger(String s) {
@@ -791,7 +791,7 @@ static boolean isInteger(String s) {
 layout: default
 ---
 
-# 綜合練習：簡易屬性面板
+# 練習 5 (綜合)：簡易屬性面板
 ### 任務說明
 
 設計一個簡易的角色屬性輸入工具，請完成：
@@ -824,7 +824,7 @@ abc
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 5 (綜合)：解題提示
 ### 提示說明
 
 1. 用 `Scanner` 依序讀入角色名稱與生命值字串

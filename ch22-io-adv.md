@@ -265,7 +265,7 @@ OutputStream 是 InputStream 的另一半——負責把資料「寫出去」。
 layout: default
 ---
 
-# 練習：串流基礎概念
+# 練習 1：串流基礎概念
 ### 認證模擬題（單選）
 
 關於 Java I/O 串流的基礎概念，下列描述何者**正確**？
@@ -290,7 +290,7 @@ D. `OutputStream` 是抽象類別，所以 `new OutputStream()` 可以用來建�
 layout: default
 ---
 
-# 練習：串流基礎概念
+# 練習 1：串流基礎概念
 ### 解析
 
 **正確答案：B**
@@ -918,7 +918,7 @@ java.util.Arrays.fill(password, ' ');  // 安全清除密碼
 layout: default
 ---
 
-# 練習：格式化成績單
+# 練習 2：格式化成績單
 ### 任務說明
 
 請用 `System.out.printf` 印出以下成績單，要求欄位對齊：
@@ -951,7 +951,7 @@ Carol    100   91.0
 layout: default
 ---
 
-# 練習：格式化成績單
+# 練習 2：格式化成績單
 ### 解題提示
 
 ```java
@@ -1198,7 +1198,7 @@ if (javaFiles != null) {
 layout: default
 ---
 
-# 練習一：Byte 檔案複製
+# 練習 3：Byte 檔案複製
 ### 任務說明
 
 撰寫一個程式，將指定的二進位檔案（如圖片）複製到另一個路徑。
@@ -1225,7 +1225,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 
 ```java
 long total = 0;
@@ -1260,7 +1260,7 @@ System.out.println("共複製 " + total + " bytes");
 layout: default
 ---
 
-# 練習二：逐行讀取文字檔
+# 練習 4：逐行讀取文字檔
 ### 任務說明
 
 撰寫一個程式，讀取 CSV 文字檔，計算每位學生的平均成績並輸出報表。
@@ -1291,7 +1291,7 @@ Carol  : 84.00
 
 ---
 
-# 練習二：解題提示
+# 練習 4：解題提示
 
 ```java
 try (BufferedReader br =
@@ -1326,7 +1326,7 @@ try (BufferedReader br =
 layout: default
 ---
 
-# 練習三：目錄瀏覽工具
+# 練習 5：目錄瀏覽工具
 ### 任務說明
 
 撰寫一個方法，遞迴列出指定目錄下所有的檔案與子目錄，以樹狀結構輸出：
@@ -1355,7 +1355,7 @@ layout: default
 
 ---
 
-# 練習三：解題提示
+# 練習 5：解題提示
 
 ```java
 void printTree(File dir, String indent) {

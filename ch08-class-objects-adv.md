@@ -249,7 +249,7 @@ sequenceDiagram
 layout: default
 ---
 
-# 練習：遞迴計算次方
+# 練習 1：遞迴計算次方
 ### 任務說明
 
 仿照 `factorial` 的寫法，設計一個遞迴方法 `power(int base, int exp)`，計算 `base` 的 `exp` 次方：
@@ -271,7 +271,7 @@ layout: default
 layout: default
 ---
 
-# 練習：遞迴計算次方
+# 練習 1：遞迴計算次方
 ### 解題提示
 
 ```java
@@ -412,7 +412,7 @@ hanoi(3, 'A', 'B', 'C');
 layout: default
 ---
 
-# 練習：計算河內塔移動次數
+# 練習 2：計算河內塔移動次數
 ### 任務說明
 
 延伸 `hanoi` 方法，設計一個遞迴方法 `countMoves(int n)`，回傳「搬移 n 個盤子總共需要的移動次數」，**不要**用 `2ⁿ - 1` 的公式直接計算，而是用遞迴的方式推導：
@@ -434,7 +434,7 @@ layout: default
 layout: default
 ---
 
-# 練習：計算河內塔移動次數
+# 練習 2：計算河內塔移動次數
 ### 解題提示
 
 ```java
@@ -474,7 +474,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習一：陣列總和與最大值
+# 練習 3：陣列總和與最大值
 
 ### 任務說明
 
@@ -495,7 +495,7 @@ layout: default
 layout: default
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 
 ### 提示說明
 
@@ -531,7 +531,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：遞迴計算陣列總和
+# 練習 4 (綜合)：遞迴計算陣列總和
 
 ### 任務說明
 
@@ -554,7 +554,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 4 (綜合)：解題提示
 
 ### 提示說明
 

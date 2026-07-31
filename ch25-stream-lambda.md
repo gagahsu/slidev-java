@@ -370,7 +370,7 @@ JDK 11 之後，Lambda 的參數也可以用 `var` 來宣告，主要是為了�
 layout: default
 ---
 
-# 練習：用函數式介面整理鬼殺隊名單
+# 練習 1：用函數式介面整理鬼殺隊名單
 ### 任務說明
 
 宣告一個 `List<String> heroes`，內容為「炭治郎、禰豆子、善逸、伊之助、蜜璃」，完成以下操作：
@@ -392,7 +392,7 @@ layout: default
 layout: default
 ---
 
-# 練習：用函數式介面整理鬼殺隊名單
+# 練習 1：用函數式介面整理鬼殺隊名單
 ### 解題提示
 
 1. `Predicate<String> isLongName = name -> name.length() >= 3;`
@@ -475,7 +475,7 @@ Lambda 寫法是：「請你去叫那位廚師煮飯」（`chef -> chef.cook()`�
 layout: default
 ---
 
-# 練習：把 Lambda 改寫成方法參考
+# 練習 2：把 Lambda 改寫成方法參考
 ### 任務說明
 
 下面這段程式碼裡的三個 lambda，分別可以改寫成哪一種方法參考（`ClassName::staticMethod`、`obj::instanceMethod`、`ClassName::instanceMethod`、`ClassName::new`）？請逐一改寫：
@@ -505,7 +505,7 @@ heroes.stream().map(name -> Integer.valueOf(name.hashCode()));
 layout: default
 ---
 
-# 練習：把 Lambda 改寫成方法參考
+# 練習 2：把 Lambda 改寫成方法參考
 ### 解題提示
 
 1. (A) `System.out` 是現成物件 → `obj::instanceMethod` → `heroes.forEach(System.out::println)`
@@ -684,7 +684,7 @@ nums.stream()
 layout: default
 ---
 
-# 練習一：篩選與串接英雄名單
+# 練習 3：篩選與串接英雄名單
 ### 任務說明
 
 宣告一個 `List<String>` 包含以下名字：
@@ -708,7 +708,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 1. `filter(name -> name.length() >= 3)` 篩選
@@ -969,7 +969,7 @@ System.out.println("總分：" + sum); // 536
 layout: default
 ---
 
-# 練習二：成績處理綜合練習
+# 練習 4 (綜合)：成績處理綜合練習
 ### 任務說明
 
 宣告 `List<Integer>` 成績：`{45, 78, 90, 62, 55, 85, 91, 73}`
@@ -992,7 +992,7 @@ layout: default
 
 ---
 
-# 練習二：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. `filter(s -> s >= 60)` 篩選，`sorted(Comparator.reverseOrder())` 由高到低排序

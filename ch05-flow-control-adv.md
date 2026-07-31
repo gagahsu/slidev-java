@@ -184,7 +184,7 @@ month = 8，符合第一個多值 case，days = 31，印出「8 月有 31 天」
 layout: default
 ---
 
-# 練習：成績等第（Switch Expression 版）
+# 練習 1：成績等第（Switch Expression 版）
 ### 任務說明
 
 請使用 **Switch Expression（Java 14+）** 改寫「分數轉等第」的邏輯：
@@ -213,7 +213,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 1：解題提示
 
 ### 提示說明
 
@@ -327,7 +327,7 @@ static String describe(Object o) {
 layout: default
 ---
 
-# 練習：分類任意物件
+# 練習 2：分類任意物件
 ### 任務說明
 
 請撰寫一個方法 `static String classify(Object o)`，使用 **Pattern Matching for switch** 依照傳入物件的型別與內容，回傳對應的分類字串：
@@ -356,7 +356,7 @@ layout: default
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 2：解題提示
 
 ### 提示說明
 
@@ -438,7 +438,7 @@ static double area(Shape s) {
 layout: default
 ---
 
-# 練習一：星期幾判斷器
+# 練習 3：星期幾判斷器
 ### 任務說明
 
 使用 **Switch Expression（Java 14+）** 撰寫程式：
@@ -463,7 +463,7 @@ layout: default
 layout: default
 ---
 
-# 練習一：解題提示
+# 練習 3：解題提示
 
 ### 提示說明
 
@@ -491,7 +491,7 @@ System.out.println(type);
 layout: default
 ---
 
-# 綜合練習：包裹運費試算器
+# 練習 4 (綜合)：包裹運費試算器
 ### 任務說明
 
 請設計一個依「包裹型態」與「重量」計算運費的程式，綜合運用本份自學的三個概念：
@@ -518,7 +518,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 4 (綜合)：解題提示
 
 ### 提示說明
 

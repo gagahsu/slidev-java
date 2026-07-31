@@ -259,7 +259,7 @@ squ.draw();  → 繪製矩形！
 layout: default
 ---
 
-# 練習：設計 Notification 抽象類別
+# 練習 1：設計 Notification 抽象類別
 ### 任務說明
 
 設計一套抽象類別，模擬「發送通知」的情境：
@@ -288,7 +288,7 @@ layout: default
 layout: default
 ---
 
-# 練習：設計 Notification 抽象類別
+# 練習 1：設計 Notification 抽象類別
 ### 解題提示
 
 1. `Notification` 宣告為 `abstract class`，`send()` 用空大括號 `{}`
@@ -423,7 +423,7 @@ class Bmw extends Car {
 layout: default
 ---
 
-# 練習：用抽象方法強制實作 pay()
+# 練習 2 (實作)：用抽象方法強制實作 pay()
 ### 任務說明
 
 設計一套抽象類別，練習「抽象方法強制 override」與「延遲實作」：
@@ -451,7 +451,7 @@ layout: default
 layout: default
 ---
 
-# 練習：用抽象方法強制實作 pay()
+# 練習 2 (實作)：用抽象方法強制實作 pay()
 ### 解題提示
 
 1. `Payment` 宣告 `abstract void pay(int amount);`（無方法主體，以 `;` 結尾）
@@ -579,7 +579,7 @@ bmw.run();     → 安全駕駛中 ...
 layout: default
 ---
 
-# 練習：Employee 抽象類別混用兩種方法
+# 練習 3：Employee 抽象類別混用兩種方法
 ### 任務說明
 
 設計一套抽象類別，練習「抽象方法 + 普通方法混用」：
@@ -612,7 +612,7 @@ layout: default
 layout: default
 ---
 
-# 練習：Employee 抽象類別混用兩種方法
+# 練習 3：Employee 抽象類別混用兩種方法
 ### 解題提示
 
 1. `clockIn()` 是普通方法，所有子類別共用同一份實作，不需要 `override`
@@ -806,7 +806,7 @@ bmw.run();
 layout: default
 ---
 
-# 練習：Account 抽象類別的建構方法與 Upcasting
+# 練習 4：Account 抽象類別的建構方法與 Upcasting
 ### 任務說明
 
 設計一套抽象類別，練習「抽象類別的建構方法、`protected` 屬性與 Upcasting」：
@@ -841,7 +841,7 @@ layout: default
 layout: default
 ---
 
-# 練習：Account 抽象類別的建構方法與 Upcasting
+# 練習 4：Account 抽象類別的建構方法與 Upcasting
 ### 解題提示
 
 1. `Account` 的建構方法接收 `owner`，存入 `protected` 屬性，並印出 `"開戶完成"`
@@ -958,7 +958,7 @@ Java 8 起，介面支援 `default` 與 `static` 方法（Java 9 加入 `private
 layout: default
 ---
 
-# 練習：抽象類別 vs 介面 的選擇
+# 練習 5：抽象類別 vs 介面 的選擇
 ### 認證模擬題（單選）
 
 我們要設計以下系統：`Dog`、`Cat`、`Robot` 三個類別都需要具備「叫聲」（`makeSound()`）的能力，而 `Dog` 和 `Cat` 還共享大量「動物」的共同屬性（如 `name`、`age`）與共同行為（如 `eat()`）；`Robot` 則完全不是動物，但也需要能「叫」。
@@ -981,7 +981,7 @@ D. 分別在 `Dog`、`Cat`、`Robot` 中各自定義 `makeSound()`，不使用�
 layout: default
 ---
 
-# 練習：抽象類別 vs 介面 的選擇
+# 練習 5：抽象類別 vs 介面 的選擇
 ### 解析
 
 **正確答案：A**
@@ -1013,7 +1013,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習 1：Shape 面積與周長
+# 練習 6：Shape 面積與周長
 ### 任務說明
 
 請設計一個**抽象類別 `Shape`**，包含計算面積（`area()`）和周長（`perimeter()`）的抽象方法，再設計 `Rectangle` 和 `Circle` 兩個子類別分別實作。
@@ -1038,7 +1038,7 @@ Shape 類別要怎麼寫？那兩個計算的方法要加什麼關鍵字？Circl
 -->
 ---
 
-# 練習 1：解題提示
+# 練習 6：解題提示
 ### 提示說明
 
 1. 在 `Shape` 中宣告 `abstract double area();` 與 `abstract double perimeter();`
@@ -1057,7 +1057,7 @@ Shape 類別要怎麼寫？那兩個計算的方法要加什麼關鍵字？Circl
 -->
 ---
 
-# 練習 2：抽象數學計算器
+# 練習 7：抽象數學計算器
 ### 任務說明
 
 請設計一個**抽象類別 `MyMath`**，包含 `add()` 與 `mul()` 兩個帶參數的抽象方法，以及一個普通方法 `output()` 印出「我的計算器」。設計子類別 `MyTest` 重新定義這兩個抽象方法。
@@ -1078,7 +1078,7 @@ output() 是普通方法喔，不要手癢去加 abstract。add() 跟 mul() 才�
 -->
 ---
 
-# 練習 2：解題提示
+# 練習 7：解題提示
 ### 提示說明
 
 1. 在 `MyMath` 中宣告 `abstract int add(int n1, int n2);` 與 `abstract int mul(int n1, int n2);`

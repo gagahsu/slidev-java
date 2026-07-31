@@ -192,7 +192,7 @@ System.out.println(sbList.get(0).append("！")); // 炭治郎！
 layout: default
 ---
 
-# 練習一：方法參考形式判斷
+# 練習 1：方法參考形式判斷
 ### 任務說明
 
 下列三段程式碼各使用了哪一種方法參考？請判斷是 **bound**、**unbound** 還是**建構子參考**：
@@ -223,7 +223,7 @@ names.stream().collect(Collectors.toCollection(LinkedList::new));
 
 ---
 
-# 練習一：解題提示
+# 練習 1：解題提示
 ### 提示說明
 
 1. `(A)` `System.out` 是已經存在的物件 → **bound**
@@ -360,7 +360,7 @@ JDK 9 新出的 `takeWhile` 是個「沒耐心的工頭」。
 layout: default
 ---
 
-# 練習二：成績串流統計
+# 練習 2：成績串流統計
 ### 任務說明
 
 宣告 `List<Integer>` 成績：`{45, 78, 90, 62, 55, 85, 91, 73}`
@@ -384,7 +384,7 @@ layout: default
 
 ---
 
-# 練習二：解題提示
+# 練習 2：解題提示
 ### 提示說明
 
 1. `filter(...).count()` 計算數量
@@ -462,7 +462,7 @@ System.out.println(result); // 及格人數：3，平均：70.5
 layout: default
 ---
 
-# 練習三：teeing 雙重統計
+# 練習 3：teeing 雙重統計
 ### 任務說明
 
 宣告 `List<Integer>` 訂單金額：`{1200, 350, 4800, 220, 990, 60}`
@@ -485,7 +485,7 @@ layout: default
 
 ---
 
-# 練習三：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 1. `Collectors.filtering(amount -> amount >= 500, Collectors.counting())` 算大額訂單數
@@ -605,7 +605,7 @@ score.ifPresentOrElse(
 layout: default
 ---
 
-# 練習四：Optional 串流綜合練習
+# 練習 4 (綜合)：Optional 串流綜合練習
 ### 任務說明
 
 宣告 `List<String>` 字串：`{"85", "abc", "60", "", "92"}`（其中部分不是合法數字）
@@ -628,7 +628,7 @@ layout: default
 
 ---
 
-# 練習四：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. `safeParse` 用 `try-catch` 包住 `Integer.parseInt`，失敗回傳 `Optional.empty()`

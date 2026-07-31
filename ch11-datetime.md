@@ -157,7 +157,7 @@ System.out.println(dow.getValue()); // 1（週一=1，週日=7）
 layout: default
 ---
 
-# 練習：活動是否已經結束
+# 練習 1：活動是否已經結束
 ### 任務說明
 
 某個活動的截止日期是 `2024-06-30`。請完成以下任務：
@@ -178,7 +178,7 @@ layout: default
 layout: default
 ---
 
-# 練習：活動是否已經結束
+# 練習 1：活動是否已經結束
 ### 解題提示
 
 ```java
@@ -253,7 +253,7 @@ System.out.println(end.getHour()); // 16
 layout: default
 ---
 
-# 練習：洗衣店打烊時間
+# 練習 2：洗衣店打烊時間
 ### 任務說明
 
 某間自助洗衣店的開門時間是 `10:00`，營業時間共 **12 小時**。請完成以下任務：
@@ -274,7 +274,7 @@ layout: default
 layout: default
 ---
 
-# 練習：洗衣店打烊時間
+# 練習 2：洗衣店打烊時間
 ### 解題提示
 
 ```java
@@ -348,7 +348,7 @@ System.out.println(combined); // 2024-05-13T10:30
 layout: default
 ---
 
-# 練習：活動報名截止時間
+# 練習 3：活動報名截止時間
 ### 任務說明
 
 某個活動報名截止的「日期」和「時間」是分開儲存的：日期是 `2024-08-10`，時間是 `23:59`。
@@ -370,7 +370,7 @@ layout: default
 layout: default
 ---
 
-# 練習：活動報名截止時間
+# 練習 3：活動報名截止時間
 ### 解題提示
 
 ```java
@@ -495,7 +495,7 @@ LocalDateTime parsed = LocalDateTime.parse("2024/05/13 10:30:00", fmt);
 layout: default
 ---
 
-# 練習：DateTimeFormatter 格式符號
+# 練習 4：DateTimeFormatter 格式符號
 ### 認證模擬題（單選）
 
 某工程師想要把 `LocalDateTime` 印成「2024年05月13日 09時05分」這樣的格式，他寫了以下程式碼：
@@ -525,7 +525,7 @@ D. 拋出 `NullPointerException`，因為 `LocalDateTime.of()` 缺少秒數參�
 layout: default
 ---
 
-# 練習：DateTimeFormatter 格式符號
+# 練習 4：DateTimeFormatter 格式符號
 ### 解析
 
 **正確答案：B**
@@ -557,7 +557,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習一：計算倒數天數
+# 練習 5：計算倒數天數
 
 ### 任務說明
 
@@ -578,7 +578,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 5：解題提示
 
 ### 提示說明
 
@@ -607,7 +607,7 @@ System.out.println("距離下次生日還有 " + days + " 天");
 layout: default
 ---
 
-# 練習二：時間格式轉換
+# 練習 6：時間格式轉換
 
 ### 任務說明
 
@@ -627,7 +627,7 @@ layout: default
 
 ---
 
-# 練習二：解題提示
+# 練習 6：解題提示
 
 ### 提示說明
 
@@ -658,7 +658,7 @@ System.out.println(ldt.getDayOfWeek()); // MONDAY
 layout: default
 ---
 
-# 綜合練習：會議提醒小工具
+# 練習 7 (綜合)：會議提醒小工具
 
 ### 任務說明
 
@@ -680,7 +680,7 @@ layout: default
 
 ---
 
-# 綜合練習：解題提示
+# 練習 7 (綜合)：解題提示
 
 ### 提示說明
 

@@ -166,7 +166,7 @@ LinkedList 不只是 List，它還身兼 Deque（雙端佇列），可以從兩�
 layout: default
 ---
 
-# 練習 A-1：待辦事項佇列
+# 練習 1：A-1：待辦事項佇列
 ### 任務說明
 
 使用 `LinkedList<String>` 模擬一個「待辦事項佇列」：
@@ -190,7 +190,7 @@ layout: default
 layout: default
 ---
 
-# 練習 A-1：解題提示
+# 練習 1：A-1 — 解題提示
 ### 提示說明
 
 ```java
@@ -256,7 +256,7 @@ TreeSet 不准放 `null`。因為它要幫元素排隊，但它不知道 `null` 
 layout: default
 ---
 
-# 練習 A-2：去除重複的訪客名單
+# 練習 2：A-2：去除重複的訪客名單
 ### 任務說明
 
 給定 `String[] visitors = {"Alice","Bob","Alice","Charlie","Bob","Alice"}`：
@@ -277,7 +277,7 @@ layout: default
 layout: default
 ---
 
-# 練習 A-2：解題提示
+# 練習 2：A-2 — 解題提示
 ### 提示說明
 
 ```java
@@ -366,7 +366,7 @@ HashMap 的輸出順序由內部的雜湊演算法決定，跟放入順序無關
 layout: default
 ---
 
-# 練習 A-3：選擇合適的集合類別
+# 練習 3：A-3：選擇合適的集合類別
 ### 任務說明
 
 針對以下情境，選擇最合適的集合類別（`ArrayList`、`LinkedList`、`HashSet`、`LinkedHashSet`、`TreeSet`、`HashMap`、`LinkedHashMap`、`TreeMap`），寫出宣告該集合的程式碼，並簡述理由：
@@ -388,7 +388,7 @@ layout: default
 layout: default
 ---
 
-# 練習 A-3：解題提示
+# 練習 3：A-3 — 解題提示
 ### 提示說明
 
 ```java
@@ -494,7 +494,7 @@ System.out.println(diff); // [A]
 layout: default
 ---
 
-# 練習 B-1：社團成員聯集、交集與差集
+# 練習 4：B-1：社團成員聯集、交集與差集
 ### 任務說明
 
 - 籃球社成員：`{"小明","小華","小美","阿強"}`
@@ -518,7 +518,7 @@ layout: default
 layout: default
 ---
 
-# 練習 B-1：解題提示
+# 練習 4：B-1 — 解題提示
 ### 提示說明
 
 ```java
@@ -646,7 +646,7 @@ List<String> immutableList = List.copyOf(mutableList);
 layout: default
 ---
 
-# 練習 C-1：不可變集合的應用
+# 練習 5：C-1：不可變集合的應用
 ### 任務說明
 
 1. 使用 `List.of()` 建立不可變清單 `weekdays`，內容為一週七天
@@ -666,7 +666,7 @@ layout: default
 layout: default
 ---
 
-# 練習 C-1：解題提示
+# 練習 5：C-1 — 解題提示
 ### 提示說明
 
 ```java
@@ -705,7 +705,7 @@ System.out.println("copy: " + copy);
 layout: default
 ---
 
-# 進階綜合練習：圖書館借閱系統
+# 練習 6 (綜合)：進階綜合練習：圖書館借閱系統
 ### 任務說明
 
 設計一個簡易圖書館借閱系統，整合本章三大進階主題：
@@ -729,7 +729,7 @@ layout: default
 layout: default
 ---
 
-# 進階綜合練習：解題提示
+# 練習 6 (綜合)：進階綜合練習 — 解題提示
 
 ```java
 // 1. TreeMap 自動依鍵排序

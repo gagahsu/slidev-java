@@ -254,7 +254,7 @@ archive.zip
 layout: default
 ---
 
-# 練習：ZIP 套件架構與選用
+# 練習 1：ZIP 套件架構與選用
 ### 認證模擬題（單選）
 
 我們要寫一個小工具，從網路上即時收到一段「不確定長度、邊下載邊到達」的 ZIP 資料串流，並在收到每個檔案的同時就立刻處理它的內容。
@@ -281,7 +281,7 @@ D. `Deflater` 和 `Inflater` 是我們在一般應用程式中最常直接呼叫
 layout: default
 ---
 
-# 練習：ZIP 套件架構與選用
+# 練習 1：ZIP 套件架構與選用
 ### 解析
 
 **正確答案：B**
@@ -785,7 +785,7 @@ try (FileSystem fs = FileSystems.newFileSystem(zipPath, Map.of())) {
 layout: default
 ---
 
-# 練習一：壓縮指定目錄
+# 練習 2：壓縮指定目錄
 ### 任務說明
 
 撰寫一個 Java 程式，接受命令列參數：`java ZipTool <來源目錄> <輸出.zip>`
@@ -804,7 +804,7 @@ layout: default
 
 ---
 
-# 練習一：解題提示
+# 練習 2：解題提示
 
 ```java
 Path srcDir = Path.of(args[0]);
@@ -838,7 +838,7 @@ try (ZipOutputStream zos =
 layout: default
 ---
 
-# 練習二：解壓縮並統計
+# 練習 3：解壓縮並統計
 ### 任務說明
 
 撰寫一個 Java 程式解壓縮 ZIP 並輸出統計報告：
@@ -865,7 +865,7 @@ java UnzipReport <archive.zip> <輸出目錄>
 
 ---
 
-# 練習二：解題提示
+# 練習 3：解題提示
 
 ```java
 long totalSize = 0, compressedSize = 0;
@@ -896,7 +896,7 @@ System.out.printf("壓縮比：%.2f%%%n", ratio * 100);
 layout: default
 ---
 
-# 練習：NIO 增量更新 ZIP
+# 練習 4：NIO 增量更新 ZIP
 ### 任務說明
 
 用 NIO ZIP File System 的方式，對一個**已經存在**的 ZIP 檔案 `archive.zip` 做以下操作：
@@ -918,7 +918,7 @@ layout: default
 layout: default
 ---
 
-# 練習：NIO 增量更新 ZIP
+# 練習 4：NIO 增量更新 ZIP
 ### 解題提示
 
 ```java

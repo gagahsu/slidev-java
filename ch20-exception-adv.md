@@ -488,7 +488,7 @@ class Logger implements AutoCloseable {
 layout: default
 ---
 
-# 綜合練習：圖書借閱系統
+# 練習 4 (綜合)：圖書借閱系統
 ### 任務說明
 
 整合本份自學內容與基礎版所學，設計一個簡易圖書借閱系統：
@@ -514,7 +514,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 4 (綜合)：解題提示
 ### 提示說明
 
 ```java

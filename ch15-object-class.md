@@ -297,7 +297,7 @@ String v = Objects.requireNonNullElseGet(
 layout: default
 ---
 
-# 練習：安全處理使用者輸入的暱稱
+# 練習 1：安全處理使用者輸入的暱稱
 ### 任務說明
 
 設計一個方法，安全地處理「可能是 `null`」的使用者輸入：
@@ -333,7 +333,7 @@ true
 layout: default
 ---
 
-# 練習：安全處理使用者輸入的暱稱
+# 練習 1：安全處理使用者輸入的暱稱
 ### 解題提示
 
 1. `formatNickname()` 直接用 `Objects.requireNonNullElse(input, "訪客")`
@@ -528,7 +528,7 @@ class User {
 layout: default
 ---
 
-# 練習：用 Objects.hash() 設計 Book
+# 練習 2：用 Objects.hash() 設計 Book
 ### 任務說明
 
 設計一個 `Book` 類別，包含以下欄位：
@@ -559,7 +559,7 @@ class Book {
 layout: default
 ---
 
-# 練習：用 Objects.hash() 設計 Book
+# 練習 2：用 Objects.hash() 設計 Book
 ### 解題提示
 
 ```java
@@ -736,7 +736,7 @@ public boolean equals(Object o) {
 layout: default
 ---
 
-# 練習：equals() 與 toString() 的對齊
+# 練習 3：equals() 與 toString() 的對齊
 
 ### 任務說明
 
@@ -765,7 +765,7 @@ class Product {
 layout: default
 ---
 
-# 練習：解題提示
+# 練習 3：解題提示
 
 ```java
 @Override
@@ -863,7 +863,7 @@ System.out.println(a); // Name: Foo, Age: 1
 layout: default
 ---
 
-# 練習：Override Order 的 toString()
+# 練習 4：Override Order 的 toString()
 ### 任務說明
 
 設計一個 `Order` 類別，包含以下欄位：
@@ -894,7 +894,7 @@ class Order {
 layout: default
 ---
 
-# 練習：Override Order 的 toString()
+# 練習 4：Override Order 的 toString()
 ### 解題提示
 
 ```java
@@ -990,7 +990,7 @@ System.out.println(obj.getClass().getName());
 layout: default
 ---
 
-# 綜合練習：Employee 類別
+# 練習 5 (綜合)：Employee 類別
 
 ### 任務說明
 
@@ -1020,7 +1020,7 @@ class Employee {
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 5 (綜合)：解題提示
 
 1. **覆寫 toString()**
 

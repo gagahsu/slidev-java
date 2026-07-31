@@ -254,7 +254,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：設計模組宣告檔
+# 練習 1 (綜合)：設計模組宣告檔
 ### 任務說明
 
 延續基礎版「學生管理系統」的套件結構：
@@ -283,7 +283,7 @@ com.school           ← Main（使用 Student、StudentService）
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 1 (綜合)：解題提示
 ### 提示說明
 
 1. 第一行用 `module school.app { ... }` 宣告模組名稱

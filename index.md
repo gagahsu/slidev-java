@@ -6,6 +6,8 @@ lineNumbers: true
 drawings:
   persist: false
 transition: slide-left
+fonts:
+  provider: none
 title: Java Programming Masterclass
 routeAlias: home
 style: |

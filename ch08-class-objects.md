@@ -145,7 +145,7 @@ Student s2 = new Student();
 layout: default
 ---
 
-# 練習：類別與物件的關係
+# 練習 1：類別與物件的關係
 ### 認證模擬題（單選）
 
 關於 Java 的「類別（Class）」與「物件（Object）」，下列描述哪一項是**正確**的？
@@ -167,7 +167,7 @@ D. 呼叫方法時必須使用類別名稱，例如 `Student.study()`，不需�
 layout: default
 ---
 
-# 練習：類別與物件的關係
+# 練習 1：類別與物件的關係
 ### 解析
 
 **正確答案：B**
@@ -263,7 +263,7 @@ System.out.println(myCar.speed); // 10
 layout: default
 ---
 
-# 練習：定義 Light 類別並建立物件
+# 練習 2：定義 Light 類別並建立物件
 ### 任務說明
 
 參考 8-2 的 `Car` 類別語法，完成以下任務：
@@ -296,7 +296,7 @@ true
 layout: default
 ---
 
-# 練習：定義 Light 類別並建立物件
+# 練習 2：定義 Light 類別並建立物件
 ### 解題提示
 
 ```java
@@ -410,7 +410,7 @@ public class Main {
 layout: default
 ---
 
-# 練習：完整 Pet 類別
+# 練習 3：完整 Pet 類別
 ### 任務說明
 
 參考 8-3 的 `Car` 類別寫法，設計一個完整的 `Pet` 類別：
@@ -441,7 +441,7 @@ layout: default
 layout: default
 ---
 
-# 練習：完整 Pet 類別
+# 練習 3：完整 Pet 類別
 ### 解題提示
 
 ```java
@@ -591,7 +591,7 @@ for (Car c : cars) {
 layout: default
 ---
 
-# 練習：水果籃物件陣列
+# 練習 4：水果籃物件陣列
 ### 任務說明
 
 設計一個 `Fruit` 類別：
@@ -617,7 +617,7 @@ layout: default
 layout: default
 ---
 
-# 練習：水果籃物件陣列
+# 練習 4：水果籃物件陣列
 ### 解題提示
 
 ```java
@@ -769,7 +769,7 @@ null 代表「這個變數目前沒有指向任何物件」，可以把它想成
 layout: default
 ---
 
-# 練習：物件參照行為
+# 練習 5：物件參照行為
 ### 認證模擬題（單選）
 
 請看以下程式碼，判斷執行後的輸出結果：
@@ -813,7 +813,7 @@ D. `50` / `true` / `false`
 layout: default
 ---
 
-# 練習：物件參照行為
+# 練習 5：物件參照行為
 ### 解析
 
 **正確答案：B**
@@ -968,7 +968,7 @@ class Car {
 layout: default
 ---
 
-# 練習：Pass by Value 與多載驗證
+# 練習 6：Pass by Value 與多載驗證
 ### 任務說明
 
 設計一個 `Account` 類別，並完成以下任務：
@@ -994,7 +994,7 @@ layout: default
 layout: default
 ---
 
-# 練習：Pass by Value 與多載驗證
+# 練習 6：Pass by Value 與多載驗證
 ### 解題提示
 
 ```java
@@ -1117,7 +1117,7 @@ class Car {
 layout: default
 ---
 
-# 練習：修正 Scope 遮蔽問題
+# 練習 7：修正 Scope 遮蔽問題
 ### 任務說明
 
 下面這段 `Wallet` 類別的程式碼，原本想透過 `setBalance` 設定餘額，但執行後 `balance` 卻完全沒被改到：
@@ -1150,7 +1150,7 @@ System.out.println(w.balance); // 預期 500，但實際印出 0
 layout: default
 ---
 
-# 練習：修正 Scope 遮蔽問題
+# 練習 7：修正 Scope 遮蔽問題
 ### 解題提示
 
 只需要在欄位前面加上 `this.`，就能明確區分「物件的欄位」與「方法的參數」：
@@ -1191,7 +1191,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習一：設計 BankAccount 類別
+# 練習 8：設計 BankAccount 類別
 ### 任務說明
 
 設計一個 `BankAccount` 類別，包含：
@@ -1214,7 +1214,7 @@ layout: default
 layout: default
 ---
 
-# 練習一：解題提示
+# 練習 8：解題提示
 ### 提示說明
 
 1. 先定義類別與欄位：`class BankAccount { String owner; double balance; ... }`
@@ -1241,7 +1241,7 @@ layout: default
 layout: default
 ---
 
-# 練習二：多載計算機
+# 練習 9：多載計算機
 ### 任務說明
 
 設計一個 `Calculator` 類別，對 `add` 方法進行**多載**：
@@ -1262,7 +1262,7 @@ layout: default
 layout: default
 ---
 
-# 練習二：解題提示
+# 練習 9：解題提示
 ### 提示說明
 
 1. 在同一個類別中定義三個名稱都叫 `add` 的方法，只需讓參數不同：
@@ -1285,7 +1285,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：學生成績管理
+# 練習 10 (綜合)：學生成績管理
 
 ### 任務說明
 
@@ -1309,7 +1309,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 10 (綜合)：解題提示
 
 ### 提示說明
 

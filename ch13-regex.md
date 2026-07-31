@@ -463,7 +463,7 @@ System.out.println("John".matches("Mary|Tom")); // false
 layout: default
 ---
 
-# 練習：車牌格式驗證
+# 練習 1：車牌格式驗證
 ### 任務說明
 
 撰寫程式，判斷輸入字串是否符合以下任一種車牌格式：
@@ -488,7 +488,7 @@ layout: default
 layout: default
 ---
 
-# 練習：車牌格式驗證
+# 練習 1：車牌格式驗證
 ### 解題提示
 
 1. 大寫字母：`[A-Z]`，數字：`[0-9]`
@@ -747,7 +747,7 @@ System.out.println("0912-345-678".matches("\\d{4}(-\\d{3}){2}"));    // true
 layout: default
 ---
 
-# 練習：信用卡號格式驗證
+# 練習 2：信用卡號格式驗證
 ### 任務說明
 
 撰寫程式，驗證輸入字串是否符合信用卡號格式：
@@ -771,7 +771,7 @@ layout: default
 layout: default
 ---
 
-# 練習：信用卡號格式驗證
+# 練習 2：信用卡號格式驗證
 ### 解題提示
 
 1. 第一組：`\\d{4}`
@@ -895,7 +895,7 @@ replaceFirst() 只換第一個，replaceAll() 全部換。
 layout: default
 ---
 
-# 練習 1：電話號碼格式驗證
+# 練習 3：電話號碼格式驗證
 ### 任務說明
 
 撰寫程式，以 `Scanner` 輸入電話號碼，判斷是否符合以下格式之一：
@@ -921,7 +921,7 @@ layout: default
 layout: default
 ---
 
-# 練習 1：解題提示
+# 練習 3：解題提示
 ### 提示說明
 
 1. **行動電話**：`0\\d{3}-\\d{3}-\\d{3}`
@@ -951,7 +951,7 @@ System.out.println(input.matches(regex));
 layout: default
 ---
 
-# 練習 2：身份證字號驗證
+# 練習 4：身份證字號驗證
 ### 任務說明
 
 撰寫程式，以 `Scanner` 輸入身份證字號，用正規表達式驗證格式：
@@ -980,7 +980,7 @@ layout: default
 layout: default
 ---
 
-# 練習 2：解題提示
+# 練習 4：解題提示
 ### 提示說明
 
 1. 第 1 碼英文字母：`[A-Za-z]`
@@ -1017,7 +1017,7 @@ System.out.println(id.matches("[^ABDEFHabdefh][12]\\d{8}"));
 layout: default
 ---
 
-# 練習 3：Email 格式驗證
+# 練習 5：Email 格式驗證
 ### 任務說明
 
 撰寫程式，以 `Scanner` 輸入電子郵件，判斷是否符合以下格式：
@@ -1048,7 +1048,7 @@ Email 格式是正規表達式的經典應用，分四個部分：帳號、@、�
 layout: default
 ---
 
-# 練習 3：解題提示
+# 練習 5：解題提示
 ### 提示說明
 
 1. 帳號部分：`[\w.+-]+`（`\w` 是 `[A-Za-z0-9_]` 的縮寫）

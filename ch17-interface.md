@@ -208,7 +208,7 @@ public class Demo {
 layout: default
 ---
 
-# 練習：實作多種付款方式
+# 練習 1 (實作)：實作多種付款方式
 ### 任務說明
 
 設計一套介面，模擬「結帳時可以選擇不同付款方式」的情境：
@@ -236,7 +236,7 @@ layout: default
 layout: default
 ---
 
-# 練習：實作多種付款方式
+# 練習 1 (實作)：實作多種付款方式
 ### 解題提示
 
 1. 定義介面 `Payable`，內含 `void pay(int amount)`
@@ -341,7 +341,7 @@ class Circle implements Shape {
 layout: default
 ---
 
-# 練習：商品分類常數
+# 練習 2：商品分類常數
 ### 任務說明
 
 設計一套介面，利用介面常數統一管理「庫存警示門檻」：
@@ -369,7 +369,7 @@ layout: default
 layout: default
 ---
 
-# 練習：商品分類常數
+# 練習 2：商品分類常數
 ### 解題提示
 
 1. `InventoryRule` 介面：常數 `LOW_STOCK_THRESHOLD = 10`，抽象方法 `checkStock(int quantity)`
@@ -625,7 +625,7 @@ class Pet extends Horse implements Dog {
 layout: default
 ---
 
-# 練習：寬螢幕裝置的多重身分
+# 練習 3：寬螢幕裝置的多重身分
 ### 任務說明
 
 設計一套介面繼承與多重實作的結構，模擬「平板電腦」同時具備多種裝置能力：
@@ -656,7 +656,7 @@ layout: default
 layout: default
 ---
 
-# 練習：寬螢幕裝置的多重身分
+# 練習 3：寬螢幕裝置的多重身分
 ### 解題提示
 
 1. `Phone` 定義 `call()`，`Camera` 定義 `takePhoto()`
@@ -700,7 +700,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 綜合練習：設計介面階層
+# 練習 4 (綜合)：設計介面階層
 ### 任務說明
 
 設計一套介面與類別，模擬「跑」的行為：
@@ -732,7 +732,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：設計介面階層
+# 練習 4 (綜合)：設計介面階層
 ### 解題提示
 
 1. 定義介面 `Runnable`，加入抽象方法 `run()`

@@ -166,7 +166,7 @@ System.out.println("骰出：" + dice);
 layout: default
 ---
 
-# 練習：圓形面積與抽號機
+# 練習 1：圓形面積與抽號機
 ### 任務說明
 
 請完成以下兩個小任務：
@@ -186,7 +186,7 @@ layout: default
 layout: default
 ---
 
-# 練習：圓形面積與抽號機
+# 練習 1：圓形面積與抽號機
 ### 解題提示
 
 ```java
@@ -295,7 +295,7 @@ System.out.println("差距：" + diff); // 差距：45
 layout: default
 ---
 
-# 練習：溫度範圍限制與溫差計算
+# 練習 2：溫度範圍限制與溫差計算
 ### 任務說明
 
 某個空調系統有以下需求：
@@ -317,7 +317,7 @@ layout: default
 layout: default
 ---
 
-# 練習：溫度範圍限制與溫差計算
+# 練習 2：溫度範圍限制與溫差計算
 ### 解題提示
 
 ```java
@@ -522,7 +522,7 @@ System.out.println(Math.floor(-3.1)); // -4.0 (往負方向)
 layout: default
 ---
 
-# 練習：round() 與 rint() 的差異
+# 練習 3：round() 與 rint() 的差異
 ### 認證模擬題（單選）
 
 請看以下程式碼：
@@ -553,7 +553,7 @@ D. `5` / `4.0` / `4` / `3.0`
 layout: default
 ---
 
-# 練習：round() 與 rint() 的差異
+# 練習 3：round() 與 rint() 的差異
 ### 解析
 
 **正確答案：A**
@@ -639,7 +639,7 @@ System.out.println(Math.log10(1000));   // 3.0
 layout: default
 ---
 
-# 練習：計算正方形對角線長度
+# 練習 4：計算正方形對角線長度
 ### 任務說明
 
 已知正方形的邊長為 `side`，請計算它的對角線長度。
@@ -660,7 +660,7 @@ layout: default
 layout: default
 ---
 
-# 練習：計算正方形對角線長度
+# 練習 4：計算正方形對角線長度
 ### 解題提示
 
 ```java
@@ -787,7 +787,7 @@ int d2 = r.nextInt(6) + 1;
 layout: default
 ---
 
-# 練習：猜數字遊戲（產生答案）
+# 練習 4：猜數字遊戲（產生 — 答案
 ### 任務說明
 
 請使用 `java.util.Random` 完成以下任務：
@@ -809,7 +809,7 @@ layout: default
 layout: default
 ---
 
-# 練習：猜數字遊戲（產生答案）
+# 練習 4：猜數字遊戲（產生 — 答案
 ### 解題提示
 
 ```java
@@ -852,7 +852,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習一：樂透號碼產生器
+# 練習 5：樂透號碼產生器
 ### 任務說明
 
 撰寫一個程式，模擬台灣大樂透（49 選 6）：
@@ -876,7 +876,7 @@ layout: default
 layout: default
 ---
 
-# 練習一：解題提示
+# 練習 5：解題提示
 ### 提示說明
 
 1. 使用 `Random` 物件的 `nextInt(49) + 1` 產生 1~49 的亂數
@@ -905,7 +905,7 @@ Collections.sort(nums);
 layout: default
 ---
 
-# 練習二：BMI 計算器
+# 練習 6：BMI 計算器
 ### 任務說明
 
 撰寫一個程式，計算 BMI 並判斷體重狀態：
@@ -931,7 +931,7 @@ layout: default
 layout: default
 ---
 
-# 練習二：解題提示
+# 練習 6：解題提示
 ### 提示說明
 
 1. 身高從公分換算為公尺：`double heightM = height / 100.0;`

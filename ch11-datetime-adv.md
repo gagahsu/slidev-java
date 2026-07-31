@@ -232,7 +232,7 @@ Date parsed = sdf.parse("2024/05/13 10:30:00");
 layout: default
 ---
 
-# 練習：Date 的歷史包袱
+# 練習 1：Date 的歷史包袱
 ### 認證模擬題（單選）
 
 某段舊程式碼如下：
@@ -262,7 +262,7 @@ D. `getYear()` 和 `getMonth()` 在新版 Java 已經被移除，無法呼叫
 layout: default
 ---
 
-# 練習：Date 的歷史包袱
+# 練習 1：Date 的歷史包袱
 ### 解析
 
 **正確答案：B**
@@ -340,7 +340,7 @@ System.out.println(zdt); // 2024-05-13T10:00+08:00[Asia/Taipei]
 layout: default
 ---
 
-# 練習：台北與紐約的會議時間
+# 練習 2：台北與紐約的會議時間
 ### 任務說明
 
 公司決定在「台北時間 2024-05-13 21:00」跟紐約團隊開會。請完成以下任務：
@@ -362,7 +362,7 @@ layout: default
 layout: default
 ---
 
-# 練習：台北與紐約的會議時間
+# 練習 2：台北與紐約的會議時間
 ### 解題提示
 
 ```java
@@ -488,7 +488,7 @@ System.out.println(p.getDays());   // 24
 layout: default
 ---
 
-# 練習：專案執行時長
+# 練習 3：專案執行時長
 ### 任務說明
 
 某個專案的「啟動日」是 `2023-02-10`，「結案日」是 `2024-05-13`。請完成以下任務：
@@ -509,7 +509,7 @@ layout: default
 layout: default
 ---
 
-# 練習：專案執行時長
+# 練習 3：專案執行時長
 ### 解題提示
 
 ```java
@@ -623,7 +623,7 @@ Date d2 = Date.from(
 layout: default
 ---
 
-# 練習：將 LocalDate 轉換為 Date
+# 練習 4：將 LocalDate 轉換為 Date
 ### 任務說明
 
 某個舊函式庫的 API 只接受 `java.util.Date` 型態的參數，但我們手上的資料是 `LocalDate`。請完成以下任務：
@@ -644,7 +644,7 @@ layout: default
 layout: default
 ---
 
-# 練習：將 LocalDate 轉換為 Date
+# 練習 4：將 LocalDate 轉換為 Date
 ### 解題提示
 
 ```java
@@ -689,7 +689,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 練習一：計算會議倒數時間
+# 練習 5：計算會議倒數時間
 
 ### 任務說明
 
@@ -711,7 +711,7 @@ layout: default
 layout: default
 ---
 
-# 練習一：解題提示
+# 練習 5：解題提示
 
 ### 提示說明
 
@@ -742,7 +742,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：舊系統時間轉換報表
+# 練習 6 (綜合)：舊系統時間轉換報表
 
 ### 任務說明
 
@@ -765,7 +765,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 6 (綜合)：解題提示
 
 ### 提示說明
 

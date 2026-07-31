@@ -328,7 +328,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：密封式遊戲框架
+# 練習 3 (綜合)：密封式遊戲框架
 ### 任務說明
 
 請結合本份自學內容的兩個主題：
@@ -354,7 +354,7 @@ layout: default
 layout: default
 ---
 
-# 綜合練習：解題提示
+# 練習 3 (綜合)：解題提示
 ### 提示說明
 
 1. `Game` 宣告為 `public abstract sealed class Game permits Chess, Soccer`

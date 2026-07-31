@@ -139,7 +139,7 @@ System.out.println(c); // 8
 layout: default
 ---
 
-# 練習：程式設計的專有名詞
+# 練習 1：程式設計的專有名詞
 ### 認證模擬題（單選）
 
 觀察下面這段程式碼：
@@ -169,7 +169,7 @@ D. `int area = width * height;` 是一個 expression（運算式）
 layout: default
 ---
 
-# 練習：程式設計的專有名詞
+# 練習 1：程式設計的專有名詞
 ### 解析
 
 **正確答案：C**
@@ -380,7 +380,7 @@ System.out.println(score); // 6
 layout: default
 ---
 
-# 練習：數學運算與 Math 類別
+# 練習 2：數學運算與 Math 類別
 ### 任務說明
 
 撰寫一個程式，讓使用者輸入一個圓的**半徑**（`double`），計算並印出：
@@ -406,7 +406,7 @@ layout: default
 layout: default
 ---
 
-# 練習：數學運算與 Math 類別
+# 練習 2：數學運算與 Math 類別
 ### 解題提示
 
 1. 面積：`double area = Math.pow(radius, 2) * Math.PI;`
@@ -531,7 +531,7 @@ System.out.println(result); // false，右側因短路未執行
 layout: default
 ---
 
-# 練習：比較與邏輯運算子
+# 練習 2：比較與 — 解題邏輯
 ### 任務說明
 
 撰寫一個程式，讓使用者輸入**年齡**（整數）與**是否持有學生證**（用 `1` 表示有、`0` 表示沒有）：
@@ -554,7 +554,7 @@ layout: default
 layout: default
 ---
 
-# 練習：比較與邏輯運算子
+# 練習 2：比較與 — 解題邏輯
 ### 解題提示
 
 1. 優惠票條件：`age >= 65 || hasStudentCard`
@@ -662,7 +662,7 @@ System.out.println(ch);  // A
 layout: default
 ---
 
-# 練習：型態轉換練習
+# 練習 3：型態轉換練習
 ### 任務說明
 
 寫一個程式，宣告下列變數並完成轉換：
@@ -690,7 +690,7 @@ a
 layout: default
 ---
 
-# 練習：型態轉換練習
+# 練習 3：型態轉換練習
 ### 解題提示
 
 1. `byte` + `byte` 運算結果會自動提升為 `int`，直接用 `int` 變數接住即可
@@ -817,7 +817,7 @@ System.out.println(n + 1);          // 101
 layout: default
 ---
 
-# 練習：Scanner 與字串轉數值
+# 練習 4：Scanner 與字串轉數值
 ### 任務說明
 
 撰寫一個程式，模擬「點餐小計算機」：
@@ -842,7 +842,7 @@ layout: default
 layout: default
 ---
 
-# 練習：Scanner 與字串轉數值
+# 練習 4：Scanner 與字串轉數值
 ### 解題提示
 
 1. 用 `scanner.nextLine()` 讀取餐點名稱
@@ -926,7 +926,7 @@ Scanner sc = new Scanner(System.in);
 layout: default
 ---
 
-# 練習：import 與套件
+# 練習 5：import 與套件
 ### 認證模擬題（單選）
 
 關於 Java 的 `import` 與套件，下列哪一個說法是**正確**的？
@@ -948,7 +948,7 @@ D. 一個程式只要寫了 `import java.util.Scanner;`，就可以不用 `impor
 layout: default
 ---
 
-# 練習：import 與套件
+# 練習 5：import 與套件
 ### 解析
 
 **正確答案：B**
@@ -1010,7 +1010,7 @@ Java 在判斷一條敘述是否結束時，只看「分號」，完全不在乎
 layout: default
 ---
 
-# 練習：程式敘述的結合與分行
+# 練習 6：程式敘述的結合與分行
 ### 認證模擬題（單選）
 
 關於下面這段 Java 程式碼，請問執行後的輸出結果是什麼？
@@ -1040,7 +1040,7 @@ D. `0.0`
 layout: default
 ---
 
-# 練習：程式敘述的結合與分行
+# 練習 6：程式敘述的結合與分行
 ### 解析
 
 **正確答案：D**
@@ -1140,7 +1140,7 @@ sc.close();
 layout: default
 ---
 
-# 練習一：BMI 計算機
+# 練習 7：BMI 計算機
 ### 任務說明
 
 撰寫一個程式，讓使用者輸入**身高（cm）**和**體重（kg）**，計算並顯示 BMI 值。
@@ -1163,7 +1163,7 @@ layout: default
 
 ---
 
-# 練習一：BMI 計算機
+# 練習 7：BMI 計算機
 ### 解題提示
 
 1. 使用 `Scanner.nextDouble()` 讀取身高與體重
@@ -1189,7 +1189,7 @@ System.out.printf("BMI = %.2f%n", bmi);
 layout: default
 ---
 
-# 練習二（綜合）：成績統計小工具
+# 練習 8 (綜合)：（綜合）：成績統計小工具
 ### 任務說明
 
 撰寫一個程式，讓使用者輸入**三科成績**（國文、數學、英文，皆為整數 0–100），程式需要：
@@ -1211,7 +1211,7 @@ layout: default
 
 ---
 
-# 練習二（綜合）：成績統計小工具
+# 練習 8 (綜合)：（綜合）：成績統計小工具
 ### 解題提示
 
 1. 三個整數相加後是 `int`，計算平均時轉型為 `double`：`double avg = (chinese + math + english) / 3.0;`
