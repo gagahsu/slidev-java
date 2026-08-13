@@ -3,9 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "ch12":  "slidev ch12-char-string.md",
-    "ch13":  "slidev ch13-regex.md",
-    "ch13g": "slidev ch13-regex-gemini.md",
+    "ch02":  "slidev ch02-env-setup.md",
+    "ch13":  "slidev ch13-char-string.md",
+    "ch14":  "slidev ch14-regex.md",
     "dev":   "slidev index.md",
     "build": "slidev build index.md",
     "export:all": "node scripts/export-all.mjs"

@@ -67,9 +67,9 @@ layout: default
 
 # Outline
 
-- **第一部分：物件是什麼？** — 資料 + 行為
-- **第二部分：一個沒有防護的世界** — 現場破壞一個銀行帳戶
-- **第三部分：封裝** — 把資料鎖起來，只留安全的門
+- **物件是什麼？** — 資料 + 行為
+- **一個沒有防護的世界** — 現場破壞一個銀行帳戶
+- **封裝** — 把資料鎖起來，只留安全的門
 - **AI 協作驗收** — 讓 AI 現場出題考大家
 
 <!--
@@ -87,8 +87,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
-## 物件是什麼？
+# 物件是什麼？
 
 <!--
 【開場白】
@@ -167,8 +166,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
-## 一個沒有防護的世界
+# 一個沒有防護的世界
 
 ### 🔓 接下來，請大家當駭客
 
@@ -290,8 +288,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
-## 封裝 Encapsulation
+# 封裝 Encapsulation
 
 ### 💊 把資料鎖起來，只留安全的門
 
@@ -471,7 +468,7 @@ layout: end
 ### 有問題嗎？我們可以現場問 AI 🙋
 
 <div class="mt-6 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left" style="max-width: 560px; margin-left: auto; margin-right: auto;">
-📚 <b>想學完整版？</b> 本章概念的完整教學：<b>Ch 8 類別與物件</b>、<b>Ch 9 物件建構與封裝</b>
+📚 <b>想學完整版？</b> 本章概念的完整教學：<b>Ch 9 類別與物件</b>、<b>Ch 10 物件建構與封裝</b>
 </div>
 
 <!--

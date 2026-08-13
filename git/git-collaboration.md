@@ -50,17 +50,16 @@ layout: default
 
 # Outline
 
-- **第一部分：理想世界 — 標準功能分支工作流**
-- **第二部分：慘案發生 — 錯誤衝突解決的蝴蝶效應**
-- **第三部分：急救方案 — 根據嚴重程度精準止血**
-- **第四部分：防範機制 — 建立團隊的免疫系統**
+- **理想世界 — 標準功能分支工作流**
+- **慘案發生 — 錯誤衝突解決的蝴蝶效應**
+- **急救方案 — 根據嚴重程度精準止血**
+- **防範機制 — 建立團隊的免疫系統**
 
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 理想世界
 # 標準功能分支工作流
 
@@ -95,7 +94,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 慘案發生
 # 錯誤衝突解決的蝴蝶效應
 
@@ -136,7 +134,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # 急救方案
 # 根據嚴重程度精準止血
 
@@ -194,7 +191,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # 防範機制
 # 建立團隊的免疫系統
 

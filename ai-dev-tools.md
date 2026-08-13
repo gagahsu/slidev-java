@@ -47,13 +47,13 @@ layout: default
 
 # Outline
 
-- **第一部分：Codex CLI**
+- **Codex CLI**
   - 定義、安裝與核心功能
   - 互動模式與使用情境
-- **第二部分：MCP（Model Context Protocol）**
+- **MCP（Model Context Protocol）**
   - MCP 定義與解決的問題
   - 架構、三大核心原語與預建伺服器
-- **第三部分：Claude Code Skills**
+- **Claude Code Skills**
   - Skills 與 Slash Commands 的差異
   - 建立自訂 Skills 與進階功能
 - **實作練習**
@@ -63,7 +63,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # Codex CLI
 
 ---
@@ -142,7 +141,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # MCP（Model Context Protocol）
 
 ---
@@ -244,7 +242,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # Skills
 
 ---
