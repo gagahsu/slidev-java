@@ -761,6 +761,32 @@ java StudentIntro
 -->
 
 ---
+
+# 總結
+
+- **檔名必須與 `public class` 名稱完全一致（含大小寫）** — 這是最容易踩到的第一個地雷
+- **編譯用 `javac`，執行用 `java`（不加 `.class`）** — 兩個步驟、兩個不同指令
+- **程式結構順序固定：`package` → `import` → `class` → `main`** — `main` 是 JVM 啟動時尋找的進入點
+- **命名慣例：類別 Pascal Case，方法／變數 camelCase，常數全大寫底線分隔**
+- **三種註解各有用途** — `//` 單行說明、`/* */` 多行或暫時關閉程式碼、`/** */` 產生 Javadoc API 文件
+
+<!--
+我們把這一章整理成五個重點。
+
+第一，檔名跟 `public class` 名稱要完全一致，包括大小寫，這是新手最常踩到的第一個雷。
+
+第二，編譯跟執行是兩個步驟：`javac` 負責編譯出 `.class`，`java` 負責執行，而且執行的時候不能加 `.class`。
+
+第三，程式的結構順序是固定的：`package`、`import`、`class`、`main`，`main` 方法是 JVM 啟動時真正尋找的進入點。
+
+第四，命名慣例：類別名稱用 Pascal Case，方法和變數用 camelCase，常數全大寫用底線分隔——這是團隊合作時的共同語言。
+
+第五，三種註解各有各的場合：`//` 用在簡短的單行說明，`/* */` 用在比較長的說明或暫時關閉程式碼，`/** */` 則是可以產生 API 文件的 Javadoc。
+
+這五點加起來，就是讀懂任何一份 Java 程式碼所需要的基本骨架。下一章我們要開始深入變數跟資料型態了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

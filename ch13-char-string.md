@@ -1683,6 +1683,38 @@ layout: default
 -->
 
 ---
+
+# 總結
+
+- **`Character` 判斷方法都是 `static`**：`isDigit()`、`isLetter()`（中文也算字母）、`isWhitespace()` 等，用 `Character.方法名()` 呼叫
+- **建立字串優先用雙引號字面值，不要 `new String(...)`** — `new` 出來的物件位址不同，會讓 `==` 得到意外結果
+- **搜尋、擷取家族**：`indexOf()`／`lastIndexOf()` 找位置、`substring(begin, end)` 是「含頭不含尾」、`contains()`／`startsWith()`／`endsWith()`／`matches()` 各司其職
+- **`null` 與空字串是兩回事**：呼叫方法前務必先檢查非 `null`，`isBlank()` 比 `isEmpty()` 更能抓出純空白的無效輸入
+- **比較字串內容一律用 `equals()`，絕不用 `==`**；不分大小寫比較用 `equalsIgnoreCase()`；排序用 `compareTo()`
+- **取代、刪空白、格式化各有專屬方法**：`replace()`／`replaceAll()`、`trim()`／`strip()`、`String.format()`／`formatted()`
+- **大量拼接字串要用 `StringBuilder`，不要用 `+` 在迴圈裡疊字串** — `String` 不可變，`+` 會產生大量用過即丟的暫存物件
+
+<!--
+我們把這一章整理成七個重點。
+
+第一，Character 類別的判斷方法都是 static，一定要寫成 Character.isDigit(ch) 這種形式；特別記得中文字在 isLetter() 底下也算字母。
+
+第二，建立字串優先用雙引號字面值，盡量避免 new String(...)，因為 new 出來的物件位址跟字面值不同，會讓 == 判斷得到意外的 false。
+
+第三，搜尋跟擷取是這章份量最重的部分：indexOf 和 lastIndexOf 分別從前、從後找位置；substring(begin, end) 的規則是「含頭不含尾」，這是最容易寫錯一位的地方；contains、startsWith、endsWith、matches 則各自處理不同的搜尋情境。
+
+第四，null 安全是很多 bug 的源頭：呼叫任何 String 方法之前，一定要先確認變數不是 null；isBlank() 比 isEmpty() 更嚴格，能抓出使用者只打了空白這種無效輸入。
+
+第五，字串比較的鐵律是內容比較用 equals()，絕對不要用 ==，因為 == 比的是記憶體位址；不分大小寫用 equalsIgnoreCase()；要排序的話用 compareTo()。
+
+第六，取代、刪空白、格式化都有各自對應的方法：replace 系列處理字元或子字串取代，trim 跟 strip 處理頭尾空白（strip 對 Unicode 支援更完整），String.format 跟 formatted 則是格式化輸出的兩種寫法。
+
+第七，如果要在迴圈裡大量拼接字串，一定要用 StringBuilder，不要用 + 號，因為 String 是不可變的，每次 += 都會偷偷建立一個新物件，效能會嚴重下降。
+
+這七點加起來，就是這一章字元與字串類別的完整地圖。如果對字串池、Text Block、或是更深入的 StringBuilder 方法有興趣，歡迎參考本章的進階自學內容，下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

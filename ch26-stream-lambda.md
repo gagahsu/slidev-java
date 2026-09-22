@@ -1103,6 +1103,35 @@ System.out.println("及格總分：" + total); // 479
 -->
 
 ---
+
+# 總結
+
+- **Lambda 是匿名函式**，把「一個動作」直接當參數傳遞，取代冗長的匿名類別寫法
+- **四大內建函數式介面**：`Predicate`（判斷，`.test()`）、`Function`（轉換，`.apply()`）、`Consumer`（執行不回傳，`.accept()`）、`Supplier`（不輸入只產出，`.get()`）
+- **方法參考 `::`** 是 Lambda 的再簡化，適用於「Lambda 只是轉達現有方法呼叫」的情況
+- **Stream 是延遲執行的資料流管道** — 中間操作（`filter`／`map`／`sorted`）不會立即執行，要靠終端操作（`collect`／`forEach`／`reduce`）才會觸發，且不修改原始集合
+- **`Optional` 用來安全處理可能沒有值的結果** — `min`／`max`／`findFirst` 都回傳它，用 `orElse` 取代直接 `.get()` 更安全
+- **`Collectors` 是 Stream 的收成工具** — `toList()`／`joining()`／`groupingBy()` 最常用，JDK 16 起可用 `.toList()` 取代 `collect(Collectors.toList())`
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，Lambda 是匿名函式，讓我們不用宣告完整的類別或方法，直接把「一個動作」當作參數傳出去，取代傳統又臭又長的匿名類別寫法。
+
+第二，Java 內建四種最常用的 lambda 形狀：Predicate 負責判斷、回傳 boolean，用 test() 呼叫；Function 負責轉換、輸入轉輸出，用 apply() 呼叫；Consumer 只執行不回傳，用 accept() 呼叫；Supplier 不輸入只產出，用 get() 呼叫。這四個也正是 Stream API 每個方法背後要求的 lambda 形狀。
+
+第三，方法參考用 :: 運算子，是 Lambda 的再簡化版本——當 Lambda 裡面只是在「轉達」一個現成方法的呼叫時，可以直接引用那個方法，連箭頭都省了。
+
+第四，Stream 是一條延遲執行的資料流管道：filter、map、sorted 這些中間操作不會馬上執行，要等到 collect、forEach、reduce 這種終端操作出現才會真正觸發整條管線；而且 Stream 不會修改原始的集合，只是借用資料來加工。
+
+第五，min、max、findFirst 這些可能找不到結果的方法都回傳 Optional，代表「可能有值、也可能沒有」，直接呼叫 get() 有風險，用 orElse 給一個預設值會更穩妥。
+
+第六，Collectors 是 Stream 收成的工具箱，toList()、joining()、groupingBy() 是最常用的三個；JDK 16 之後如果只是要收集成 List，可以直接用更簡潔的 .toList()。
+
+這六點加起來，就是現代 Java 處理集合資料最常用的一套寫法。下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

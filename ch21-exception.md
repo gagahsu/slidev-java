@@ -1287,6 +1287,35 @@ static void addScore(List<Integer> scores, int score) throws InvalidScoreExcepti
 如果這題能獨立寫完，代表我們已經具備「寫出不會輕易崩潰的程式」的能力。這是業界最基本、也是最重要的素質之一——之後不管寫什麼程式，都可以回頭想想：「這裡的輸入或操作，有沒有可能出錯？出錯了我處理好了嗎？」
 -->
 ---
+
+# 總結
+
+- **程式錯誤分三種：語法錯誤、語意錯誤、執行期間錯誤** — Java 把執行期間錯誤稱為「異常（Exception）」
+- **`try-catch` 是異常處理的基本語法**，多個 catch 依序比對，較具體的異常類別要寫在前面
+- **`finally` 不論是否發生異常都會執行**，即使 try/catch 有 `return` 也一樣，常用來關閉資源
+- **`try-with-resources` 自動關閉實作 `AutoCloseable` 的資源**（如 `Scanner`），不需手動呼叫 `close()`
+- **`throw` 是動作、在方法內部拋出一個異常物件；`throws` 是宣告、寫在方法簽名處列出可能拋出的異常類別**
+- **自訂異常類別要繼承 `Exception`**，可以加入自己的欄位（如差額、不合法的分數）方便呼叫端取得更多資訊
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，程式錯誤分成語法錯誤、語意錯誤、執行期間錯誤三種，Java 把「執行期間錯誤」稱為異常，這也是這一整章要對付的對象。
+
+第二，try-catch 是處理異常最基本的語法，try 裡放可能出錯的程式碼，catch 負責應變；如果有多個 catch 區塊，範圍較具體的異常類別一定要寫在前面，範圍較廣的寫在後面。
+
+第三，finally 區塊不管 try 裡有沒有發生異常都一定會執行，即使 try 或 catch 裡寫了 return 也一樣，最常見的用途是關閉資源。
+
+第四，try-with-resources 讓實作 AutoCloseable 的資源（像 Scanner）在離開 try 區塊時自動關閉，不需要我們自己在 finally 裡手動呼叫 close()。
+
+第五，throw 和 throws 容易搞混：throw 是一個動作，寫在方法內部，主動拋出一個異常物件；throws 是一個宣告，寫在方法簽名的地方，告訴呼叫端這個方法可能丟出哪些異常類別。
+
+第六，如果 Java 內建的異常類別不夠用，可以自己定義異常類別，只要繼承 Exception，就能擁有異常該有的能力，還可以加入自己需要的欄位，例如差額或不合法的分數，讓呼叫端能透過 getter 取得更多資訊。
+
+這六點加起來，就是異常處理的完整概念。下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

@@ -92,7 +92,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-1 for 迴圈語法
+# for 迴圈語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -120,7 +120,7 @@ for (initialization; condition; update) {
 
 ---
 
-# 6-1 for 迴圈範例
+# for 迴圈範例
 
 ```java
 for (int i = 1; i <= 5; i++) {
@@ -145,7 +145,7 @@ for (int i = 1; i <= 5; i++) {
 
 ---
 
-# 6-1 Enhanced for-each 迴圈
+# Enhanced for-each 迴圈
 
 | 元素 | 說明 |
 | --- | --- |
@@ -167,7 +167,7 @@ for (dataType variable : arrayOrCollection) {
 
 ---
 
-# 6-1 for-each 範例
+# for-each 範例
 
 ```java
 int[] scores = {85, 92, 78, 95, 88};
@@ -274,7 +274,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-2 巢狀 for 迴圈結構
+# 巢狀 for 迴圈結構
 
 | 元素 | 說明 |
 | --- | --- |
@@ -303,7 +303,7 @@ for (int i = 1; i <= 3; i++) {
 
 ---
 
-# 6-2 九九乘法表
+# 九九乘法表
 
 ```java
 for (int i = 1; i <= 9; i++) {
@@ -420,7 +420,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-3 while 迴圈語法
+# while 迴圈語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -444,7 +444,7 @@ while (condition) {
 
 ---
 
-# 6-3 while 迴圈範例
+# while 迴圈範例
 
 ```java
 int i = 1;
@@ -471,7 +471,7 @@ while (i <= 5) {
 
 ---
 
-# 6-4 巢狀 while 迴圈
+# 巢狀 while 迴圈
 
 ```java
 int i = 1;
@@ -574,7 +574,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-5 do-while 迴圈語法
+# do-while 迴圈語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -598,7 +598,7 @@ do {
 
 ---
 
-# 6-5 do-while vs while 對比
+# do-while vs while 對比
 
 | 比較項目 | while | do-while |
 | --- | --- | --- |
@@ -614,7 +614,7 @@ do {
 
 ---
 
-# 6-5 do-while 範例
+# do-while 範例
 
 ```java
 int i = 10;
@@ -723,7 +723,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-6 無限迴圈
+# 無限迴圈
 
 | 寫法 | 說明 |
 | --- | --- |
@@ -748,7 +748,7 @@ while (true) {
 
 ---
 
-# 6-6 for(;;) 無限迴圈
+# for(;;) 無限迴圈
 
 ```java
 int count = 0;
@@ -779,7 +779,7 @@ System.out.println("執行了 " + count + " 次"); // 3
 
 ---
 
-# 6-7 break 敘述
+# break 敘述
 
 | 元素 | 說明 |
 | --- | --- |
@@ -811,7 +811,7 @@ for (int i = 1; i <= 10; i++) {
 
 ---
 
-# 6-8 continue 敘述
+# continue 敘述
 
 | 元素 | 說明 |
 | --- | --- |
@@ -944,7 +944,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-9 Scanner 輸入驗證語法
+# Scanner 輸入驗證語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -971,7 +971,7 @@ int value = sc.nextInt();
 
 ---
 
-# 6-9 輸入驗證完整範例
+# 輸入驗證完整範例
 
 ```java
 Scanner sc = new Scanner(System.in);
@@ -1001,7 +1001,7 @@ System.out.println("年齡：" + age);
 
 ---
 
-# 6-9 while(true) + break 輸入模式
+# while(true) + break 輸入模式
 
 ```java
 Scanner sc = new Scanner(System.in);
@@ -1107,7 +1107,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-10 累加與計數
+# 累加與計數
 
 | 應用 | 說明 | 初始值 |
 | --- | --- | --- |
@@ -1136,7 +1136,7 @@ for (int i = 1; i <= 100; i++) {
 
 ---
 
-# 6-10 找最大與最小值
+# 找最大與最小值
 
 ```java
 int[] nums = {34, 17, 89, 45, 23};
@@ -1245,7 +1245,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-11 雞兔同籠
+# 雞兔同籠
 
 已知籠中共有 35 個頭、94 條腿，求雞和兔各幾隻？
 
@@ -1395,6 +1395,38 @@ for (int i = 1; i <= n; i++) {
 帶讀關鍵行：別忘了每跑完一列內層迴圈後，要呼叫 `System.out.println()` 換行，否則所有數字會擠在同一行。
 
 預期結果：印出五行由窄到寬的數字金字塔，跟題目給的圖形一致。這題也是這一章的綜合練習——同時用到了 `for` 迴圈、巢狀迴圈，以及累加計數的概念。
+-->
+
+---
+
+# 總結
+
+- **`for` 迴圈把初始化、條件、更新寫在同一行**，適合已知執行次數的情境；`for-each` 是走訪陣列/集合的精簡版，只能讀不能改
+- **巢狀迴圈是「外層跑一次、內層跑一整輪」**，總次數是外層 × 內層，層數越多執行次數膨脹越快
+- **`while` 先檢查條件再執行，最少 0 次**；**`do-while` 先執行再檢查，保證至少 1 次**，適合選單這類情境
+- **無限迴圈（`while(true)`／`for(;;)`）一定要安排 `break` 出口**；`break` 整個跳出迴圈，`continue` 只跳過本次、迴圈繼續跑
+- **`Scanner` 搭配 `hasNextInt()` 可以做輸入驗證**，過濾掉非預期格式的輸入，避免程式直接崩潰
+- **累加、計數、找最大最小值是迴圈最常見的應用模式**，可以在同一個迴圈裡一次算完多個統計值
+- **雞兔同籠示範「窮舉法」** — 不解聯立方程式，直接讓迴圈一個個試，往往比手推數學公式更直覺
+
+<!--
+我們把這一章整理成七個重點。
+
+第一，for 迴圈把「從哪裡開始、跑到什麼時候停、每次怎麼前進」三件事寫在同一行，適合已經知道要跑幾次的情境；如果只是單純想把陣列或集合裡每個元素都看一遍，for-each 寫法更精簡，但要注意它只能讀取、不能修改，也拿不到索引。
+
+第二，巢狀迴圈就是迴圈裡面再放一個迴圈，外層每跑一次，內層就要完整跑一輪，所以總執行次數是外層次數乘上內層次數，層數疊得越多，執行次數會用相乘的方式快速膨脹。
+
+第三，while 是先檢查條件再執行，如果一開始條件就不成立，裡面的程式碼可能一次都不會跑；do-while 剛好相反，先執行一次再檢查條件，保證至少會執行一次，像顯示選單這種「至少要先讓使用者看到一次」的情境就很適合。
+
+第四，如果想讓迴圈一直跑下去，可以用 while(true) 或 for(;;)，但一定要在裡面安排一個 break 出口，不然程式會卡死；break 是整個離開迴圈，continue 則是只跳過這一輪剩下的程式碼，迴圈本身還是會繼續跑下一輪。
+
+第五，Scanner 搭配 hasNextInt() 可以在讀取之前先確認輸入格式對不對，格式不對就用 next() 丟棄並提示重新輸入，這種「輸入驗證」能讓程式不會因為使用者打錯格式就直接崩潰。
+
+第六，累加、計數、找最大最小值是迴圈最常見的三種應用，而且這些統計值都可以放在同一個迴圈裡一次算完，不需要為每個項目各寫一個迴圈，這也是迴圈應用時很重要的效率概念。
+
+第七，雞兔同籠這個經典題目，示範了「窮舉法」的威力——與其解聯立方程式，不如讓電腦從 0 開始一個個試，找到符合條件的答案就用 break 停下來。
+
+這七點加起來，就是讓程式「重複做事」所需要的完整工具箱。下一章我們要進入陣列了！
 -->
 
 ---

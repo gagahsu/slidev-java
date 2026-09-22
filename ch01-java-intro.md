@@ -887,6 +887,35 @@ layout: default
 -->
 
 ---
+
+# 總結
+
+- **Java 誕生於 1995 年，由 Sun Microsystems 發表**，設計理念是 Write Once, Run Anywhere，現由 Oracle 維護
+- **James Gosling 是「Java 之父」** — 親自設計語言規格，並撰寫第一版 javac 編譯器與 JVM 原型
+- **Java 8（2014）是重要分水嶺** — Lambda 表達式、Stream API、新日期時間 API；本課程採用最新 LTS：Java 21
+- **Java SE 是 EE / ME 的基礎核心**，本課程聚焦 Java SE
+- **JDK ⊃ JRE ⊃ JVM** — 開發要用 JDK，因為只有它包含 javac 等開發工具
+- **跨平台的關鍵是 Bytecode + JVM** — Bytecode 平台中立，JVM 平台相依，兩者搭配才能「一次撰寫，到處執行」
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，Java 1995 年由 Sun 發表，設計理念是「一次撰寫，到處執行」，現在由 Oracle 維護。
+
+第二，James Gosling 是 Java 之父，不只設計語言規格，也親自寫了第一版 javac 和 JVM 原型。
+
+第三，版本演進裡最重要的是 Java 8，帶來 Lambda 和 Stream API；本課程用的是目前最新的 LTS 版本 Java 21。
+
+第四，三大平台裡我們專注在 Java SE，因為它是 EE 和 ME 的基礎核心。
+
+第五，JDK/JRE/JVM 的包含關係，也是面試最常被問的基本題：JDK 包含 JRE，JRE 包含 JVM，身為開發者一定要裝 JDK。
+
+第六，跨平台原理靠的是 Bytecode 加 JVM 的分工：Bytecode 走到哪都一樣，JVM 各地裝各地的版本。
+
+這六點加起來，就是 Java 的「身分背景」。下一章我們就要正式動手寫程式了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

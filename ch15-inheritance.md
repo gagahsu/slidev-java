@@ -1292,6 +1292,35 @@ DTO（Data Transfer Object）——在系統之間傳遞資料的物件——用
 -->
 
 ---
+
+# 總結
+
+- **`extends` 建立繼承關係**，子類別自動擁有父類別的屬性與方法；建立子類別物件時，**父類別的建構方法一定先執行**
+- **存取修飾符決定可見範圍**：父類別屬性慣用 `protected`；`super()` 呼叫父類別建構方法、`super.方法名()` 呼叫父類別方法，`final` 類別／方法禁止被繼承／覆寫
+- **IS-A 用繼承（`extends`），HAS-A 用屬性（聚合或組合）** — 聚合是物件從外部傳入、可獨立存在，組合是物件在內部自建、生命週期綁定擁有者
+- **Override 要繼承關係、方法簽名相同；Overload 不需繼承、參數必須不同** — `static` 方法不參與多形（方法隱藏是靜態綁定，看宣告型態）
+- **執行時期多形三要件**：有繼承、子類別 Override、父類別變數參考子類別物件（Upcasting）；要拿回子類別專屬方法需 Downcasting，建議搭配 `instanceof` 或 Pattern Matching 避免 `ClassCastException`
+- **`record` 讓純資料類別一行搞定**，自動產生建構方法、getter、`equals`、`hashCode`、`toString`
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，extends 建立繼承關係，子類別自動擁有父類別的屬性和方法，不用重複寫；而且建立子類別物件時，Java 一定會先執行父類別的建構方法，再執行子類別自己的，這個順序是固定的。
+
+第二，存取修飾符決定誰能看到屬性和方法，父類別屬性通常設成 protected，讓子類別能直接存取但外部不能亂改；super() 用來呼叫父類別建構方法（必須放第一行）、super.方法名() 用來呼叫父類別被覆寫的方法；final 則可以禁止類別被繼承、方法被覆寫。
+
+第三，IS-A 和 HAS-A 是判斷該用繼承還是屬性的關鍵：IS-A 用 extends（狗是一種動物）；HAS-A 是把物件當成欄位，聚合是物件從外部傳入、可以脫離擁有者獨立存在，組合是物件在擁有者內部自建、生命週期完全綁定。
+
+第四，Override 跟 Overload 是最常考的一組概念：Override 需要繼承關係，方法名稱、參數、回傳型態都要相同（或協變）；Overload 不需要繼承，靠參數個數、型態、順序不同來區分。特別注意 static 方法不參與多形，這叫方法隱藏，是靜態綁定，看的是變數宣告型態，不是物件實際型態。
+
+第五，執行時期多形需要三個條件：要有繼承關係、子類別要 Override 父類別方法、父類別變數要參考子類別物件，這就是向上轉型（Upcasting）。如果想拿回子類別專屬的方法，要向下轉型（Downcasting），建議先用 instanceof 或現代的 Pattern Matching for instanceof 語法確認型態，避免執行時拋出 ClassCastException。
+
+第六，record 是 JDK 16 之後的新語法，專門用來簡化純資料類別，只要宣告欄位，編譯器就會自動產生建構方法、getter、equals、hashCode、toString，DTO 這類資料傳遞物件用 record 特別合適。
+
+這六點加起來，就是這一章繼承與多形的完整地圖。如果對靜態／動態綁定的底層細節、巢狀類別、Sealed Classes 有興趣，歡迎參考本章的進階自學內容，下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

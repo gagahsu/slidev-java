@@ -84,7 +84,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-1 數學常數
+# 數學常數
 
 `java.lang.Math` 是 Java 內建的數學工具類別，無需 import，所有方法皆為 `static`。
 
@@ -123,7 +123,7 @@ System.out.println(area);      // 78.53981633974483
 layout: default
 ---
 
-# 10-2 Math.random()
+# Math.random()
 
 `Math.random()` 回傳範圍為 **[0.0, 1.0)** 的 `double` 值（含 0，不含 1）。
 
@@ -223,7 +223,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-3 max() / min()
+# max() / min()
 
 | 方法 | 說明 | 支援型別 |
 | --- | --- | --- |
@@ -256,7 +256,7 @@ System.out.println(clamped);             // 100
 layout: default
 ---
 
-# 10-4 abs()：求絕對值
+# abs()：求絕對值
 
 | 方法 | 說明 | 支援型別 |
 | --- | --- | --- |
@@ -417,7 +417,7 @@ System.out.println(Math.floor(2.7));  // 2.0
 layout: default
 ---
 
-# 10-5 round()：四捨五入
+# round()：四捨五入
 
 `Math.round()` 採傳統四捨五入，0.5 一律向正無限大取整。
 
@@ -452,7 +452,7 @@ System.out.println(Math.round(-2.5));  // -2 (往正無限大)
 layout: default
 ---
 
-# 10-6 rint()：Banker's Rounding
+# rint()：Banker's Rounding
 
 `Math.rint()` 回傳最接近的整數值（型別為 `double`），0.5 時取最近的**偶數**。
 
@@ -487,7 +487,7 @@ System.out.println(Math.rint(2.7));  // 3.0
 layout: default
 ---
 
-# 10-7 ceil() / floor()
+# ceil() / floor()
 
 | 方法 | 說明 | 回傳型別 |
 | --- | --- | --- |
@@ -585,7 +585,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-8 一般數學運算方法
+# 一般數學運算方法
 
 | 方法 | 說明 |
 | --- | --- |
@@ -606,7 +606,7 @@ layout: default
 layout: default
 ---
 
-# 10-8 一般數學運算 — 範例
+# 一般數學運算 — 範例
 
 ```java
 System.out.println(Math.pow(2, 10));    // 1024.0
@@ -691,7 +691,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-10 Random 類別
+# Random 類別
 
 `java.util.Random` 提供更豐富的亂數功能，需要 `import java.util.Random`。
 
@@ -716,7 +716,7 @@ layout: default
 layout: default
 ---
 
-# 10-10 Random 類別 — 範例
+# Random 類別 — 範例
 
 ```java
 import java.util.Random;
@@ -971,6 +971,35 @@ System.out.printf("BMI：%.1f%n", rounded);
 <!--
 【解說要點】
 記得身高要換成公尺！不要拿 170 去除，不然你的 BMI 會變成 0.000...，那你就真的成仙了。取小數點一位的小撇步是先乘以 10，取整後再除以 10。
+-->
+
+---
+
+# 總結
+
+- **`Math` 類別所有方法皆為 `static`**，無需 `new`，也不用 `import`，直接 `Math.方法名()` 呼叫
+- **`Math.random()` 回傳 [0.0, 1.0) 的浮點數**，公式 `(int)(Math.random() * 範圍) + 最小值` 可換算成指定範圍的整數
+- **`max()` / `min()` 可組合做數值限制（Clamping）**，`abs()` 求絕對值，但要注意 `Integer.MIN_VALUE` 的溢位邊界案例
+- **捨入方法有四種，各有適合場合**：`round()` 一般四捨五入（0.5 向正無限大）、`rint()` 是 Banker's Rounding（0.5 取最近偶數）、`ceil()` 無條件進位、`floor()` 無條件捨去
+- **`pow()`、`sqrt()`、`cbrt()`、`exp()`、`log()`、`log10()` 涵蓋次方、開方、指數與對數運算**，Java 沒有 `log2`，需用換底公式 `Math.log(x) / Math.log(2)`
+- **`java.util.Random` 比 `Math.random()` 更強大**：可直接產生整數／布林值，還能指定種子讓亂數序列可重現
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，Math 類別的所有方法都是 static，不需要 new、也不需要 import，直接用 Math.方法名() 呼叫就好，這也是為什麼 new Math() 會編譯錯誤。
+
+第二，Math.random() 是最基本的亂數來源，回傳 0 到 1 之間（不含 1）的浮點數，搭配公式 (int)(Math.random() * 範圍大小) + 最小值，就能換算出任何範圍的整數。
+
+第三，max() 和 min() 搭配使用可以做數值限制（Clamping），把數值鎖在某個區間內；abs() 用來求絕對值，但要記得 Math.abs(Integer.MIN_VALUE) 這個特殊的整數溢位邊界案例。
+
+第四，捨入方法不是只有一種：round() 是我們熟悉的四捨五入，0.5 一律向正無限大；rint() 是銀行家捨入法，0.5 時取最近的偶數，適合長期累加、避免系統性偏差的場合；ceil() 和 floor() 則分別是無條件進位跟無條件捨去。
+
+第五，pow()、sqrt()、cbrt()、exp()、log()、log10() 這幾個方法，涵蓋了次方、開平方、開立方、指數跟對數運算，如果要算以 2 為底的對數，記得用換底公式自己組合出來。
+
+第六，java.util.Random 是比 Math.random() 更完整的工具，可以直接產生整數、布林值，還可以指定種子（seed），讓亂數序列在每次執行時都完全一樣，這在測試或需要重現結果的場景特別重要。
+
+這六點加起來，就是這一章數學與亂數工具的完整地圖。下一章我們要繼續往下走了！
 -->
 
 ---

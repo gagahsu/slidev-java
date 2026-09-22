@@ -87,7 +87,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-1 程式設計的專有名詞
+# 程式設計的專有名詞
 
 | 名詞 | 英文 | 說明 |
 | --- | --- | --- |
@@ -110,7 +110,7 @@ layout: default
 
 ---
 
-# 4-1 程式設計的專有名詞 — 範例
+# 程式設計的專有名詞 — 範例
 
 ```java
 int a = 5;       // a 是運算元
@@ -198,7 +198,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-2 指定運算子的特殊用法
+# 指定運算子的特殊用法
 
 指定運算子 `=` 的結合方向是**由右至左**，因此可以進行鏈式賦值：
 
@@ -224,7 +224,7 @@ System.out.println(c); // 0
 
 ---
 
-# 4-3 基本數學運算子
+# 基本數學運算子
 
 | 運算子 | 名稱 | 說明 | 範例（a=10, b=3） |
 | --- | --- | --- | --- |
@@ -248,7 +248,7 @@ System.out.println(c); // 0
 
 ---
 
-# 4-3 基本數學運算 — 範例
+# 基本數學運算 — 範例
 
 ```java
 int a = 10, b = 3;
@@ -278,7 +278,7 @@ System.out.println(x / y);  // 3.3333333333333335
 
 ---
 
-# 4-3 Math 類別常用方法
+# Math 類別常用方法
 
 | 方法 | 說明 | 範例 |
 | --- | --- | --- |
@@ -300,7 +300,7 @@ System.out.println(x / y);  // 3.3333333333333335
 
 ---
 
-# 4-3 Math 類別 — 範例
+# Math 類別 — 範例
 
 ```java
 System.out.println(Math.abs(-10));      // 10
@@ -328,7 +328,7 @@ System.out.println(area);              // 78.53981633974483
 
 ---
 
-# 4-4 複合指定運算子
+# 複合指定運算子
 
 | 運算子 | 等效寫法 | 說明 |
 | --- | --- | --- |
@@ -348,7 +348,7 @@ System.out.println(area);              // 78.53981633974483
 
 ---
 
-# 4-4 複合指定運算子 — 範例
+# 複合指定運算子 — 範例
 
 ```java
 int score = 100;
@@ -476,7 +476,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-5 比較（關係）運算子
+# 比較（關係）運算子
 
 | 運算子 | 說明 | 範例（a=5, b=3） | 結果 |
 | --- | --- | --- | --- |
@@ -501,7 +501,7 @@ layout: default
 
 ---
 
-# 4-5 邏輯運算子
+# 邏輯運算子
 
 | 運算子 | 名稱 | 說明 | 範例 |
 | --- | --- | --- | --- |
@@ -523,7 +523,7 @@ layout: default
 
 ---
 
-# 4-5 邏輯運算子 — 範例
+# 邏輯運算子 — 範例
 
 ```java
 int score = 85;
@@ -625,7 +625,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-6 自動型態提升（Numeric Promotion）
+# 自動型態提升（Numeric Promotion）
 
 當兩個不同型態的數值進行運算時，Java 會自動提升到較大的型態：
 
@@ -652,7 +652,7 @@ Java 在做運算時很「怕吵架」——如果一個 int 跟一個 double �
 
 ---
 
-# 4-6 強制型態轉換（Casting）
+# 強制型態轉換（Casting）
 
 當要把大型態轉為小型態時，需要**明確強制轉型**，可能有精度損失：
 
@@ -755,7 +755,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-7 Scanner 類別基本方法
+# Scanner 類別基本方法
 
 | 方法 | 說明 |
 | --- | --- |
@@ -778,7 +778,7 @@ Scanner 可以想成是程式的「耳朵」，負責接收使用者從鍵盤輸
 
 ---
 
-# 4-7 Scanner 基本輸入 — 範例
+# Scanner 基本輸入 — 範例
 
 ```java
 import java.util.Scanner;
@@ -810,7 +810,7 @@ scanner.close();
 
 ---
 
-# 4-7 字串轉數值（parseInt / parseDouble）
+# 字串轉數值（parseInt / parseDouble）
 
 | 方法 | 說明 | 範例 |
 | --- | --- | --- |
@@ -913,7 +913,7 @@ Java 的函式庫可以想像成一座巨大的圖書館：有些書放在我們
 layout: default
 ---
 
-# 4-8 import 與 java.lang 套件
+# import 與 java.lang 套件
 
 | 套件 | 說明 | 需要 import？ |
 | --- | --- | --- |
@@ -998,7 +998,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-9 程式敘述的結合與分行
+# 程式敘述的結合與分行
 
 Java 的敘述以 `;` 為結束，不依賴換行。因此可以：
 
@@ -1089,7 +1089,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-10 專題一：溫度轉換（°C ↔ °F）
+# 專題一：溫度轉換（°C ↔ °F）
 
 | 公式 | 說明 |
 | --- | --- |
@@ -1122,7 +1122,7 @@ sc.close();
 
 ---
 
-# 4-10 專題二：高斯數學（1 + 2 + ... + n）
+# 專題二：高斯數學（1 + 2 + ... + n）
 
 計算從 1 加到 n 的總和，使用**高斯公式** `sum = n × (n + 1) / 2`：
 
@@ -1259,6 +1259,38 @@ System.out.println(excellent ? "全優" : "未達全優");
 ⚠️ 易錯點：如果寫成 total / 3 而不是 total / 3.0，會因為整數除法而失去小數部分，算出來的平均分數會不準確，這跟前面 BMI 練習裡「除以 100 vs 100.0」的坑是一樣的道理，務必養成習慣，多看一眼除號兩邊的型態。
 
 完成這個練習，代表我們已經能把這一章學到的運算子——數學運算、複合指定、比較、邏輯——綜合運用在一個實際的小程式裡了。
+-->
+
+---
+
+# 總結
+
+- **operand／operator／expression／statement 是溝通的共同語言** — 運算元被運算，運算子做動作，兩者組成運算式，加上分號變敘述
+- **整數除法會直接截去小數，`%` 取餘數很實用**；`Math` 類別內建 `abs`、`pow`、`sqrt`、`round` 等常用數學方法
+- **複合指定運算子（`+=`、`-=`...）是「先算再存回自己」的簡寫**
+- **比較運算子永遠回傳布林值，邏輯運算子 `&&`／`\|\|` 有短路求值特性**，能避免除以零這類錯誤
+- **型態轉換分兩種**：窄轉寬自動提升（如 `int→double`），寬轉窄要強制轉型且可能失真或溢位
+- **`Scanner` 讀輸入時要注意 `nextInt()` 後接 `nextLine()` 的換行殘留問題**；使用者輸入永遠是文字，要用 `parseInt`／`parseDouble` 轉換才能運算
+- **`java.lang` 自動匯入，其他套件都要明確 `import`**，程式敘述以分號斷句、不依賴換行
+
+<!--
+我們把這一章整理成七個重點。
+
+第一，operand、operator、expression、statement 這四個詞，是我們之後溝通的共同語言：運算元是被操作的對象，運算子是操作的動作，兩者組成運算式，運算式加上分號就是一條完整的敘述。
+
+第二，整數除法會直接截掉小數，要用取餘數 % 才能知道剩下多少；遇到次方、平方根、四捨五入這類需求，Math 類別都有現成的方法可以用，不用自己手刻公式。
+
+第三，複合指定運算子像 += 、-= ，其實就是「自己加上某個值再存回自己」的懶人寫法，效果跟寫完整算式一模一樣。
+
+第四，比較運算子算出來永遠是 true 或 false；邏輯運算子 && 和 || 有短路求值的特性，左邊已經能決定結果時，右邊就不會執行，這個特性能幫我們避開除以零這類錯誤。
+
+第五，型態轉換分成兩種方向：小範圍轉大範圍是自動的、不會遺失資料；大範圍轉小範圍則要手動強制轉型，而且可能截斷小數或發生溢位。
+
+第六，用 Scanner 讀輸入時，nextInt() 讀完數字後會留下換行符號，接著呼叫 nextLine() 前要記得先消耗掉這個殘留值；另外使用者輸入永遠是文字，要用 Integer.parseInt() 或 Double.parseDouble() 轉換過，才能拿來做數學運算。
+
+第七，java.lang 套件（像 System、String、Math）是自動匯入的，其他套件都要明確寫 import；程式敘述只看分號斷句，不在乎換行，所以我們可以把過長的運算式拆成多行，讓程式碼更好讀。
+
+這七點加起來，就是讓程式「動起來」所需要的基本工具。下一章我們要進入流程控制了！
 -->
 
 ---

@@ -1073,6 +1073,35 @@ public class Main {
 -->
 
 ---
+
+# 總結
+
+- **套件是一組相關類別的集合，對應到實體目錄** — 解決命名衝突，也是存取控制的邊界單位
+- **套件命名慣例：網域反轉 + 專案 + 功能模組**，全部小寫，`package` 必須是檔案第一行有效敘述
+- **`import` 讓我們用短名稱取用類別**，`java.lang` 套件（如 `String`、`Math`）自動匯入不需要 import
+- **同名類別要用全限定名稱區分**（如 `java.util.Date` vs `java.sql.Date`），或只 import 其中一個
+- **四種存取控制修飾詞，範圍由窄到寬：`private` < 預設（package）< `protected` < `public`**
+- **封裝的標準做法：成員變數 `private`、對外操作用 `public`、給子類別用的用 `protected`**
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，套件是一組相關類別與介面的集合，對應到檔案系統裡的實體目錄，它解決了兩個問題：不同套件可以有同名類別而不衝突，而且套件本身就是存取控制的邊界之一。
+
+第二，套件命名有固定慣例：把公司或組織的網域名稱反過來寫，再加上專案名稱、功能模組，而且一定要全部小寫；package 宣告必須是檔案裡第一行有效的程式碼。
+
+第三，import 讓我們在程式碼裡直接用類別的短名稱，不用每次都寫完整路徑；java.lang 套件像 String、Math 是編譯器自動匯入的，完全不需要我們手動 import。
+
+第四，如果兩個不同套件剛好有同名類別，例如 java.util.Date 和 java.sql.Date，只能 import 其中一個，另一個要用全限定名稱寫出完整路徑。
+
+第五，也是這一章最重要的部分：四種存取控制修飾詞，範圍由窄到寬依序是 private、預設（package-private）、protected、public，這張對照表務必記熟。
+
+第六，封裝的標準做法是：成員變數一律設成 private，對外提供的操作用 public 方法（可以加驗證邏輯），準備給子類別繼承用的欄位或方法用 protected，這就是存取控制修飾詞在實務上的具體應用。
+
+這六點加起來，就是套件與存取控制的完整概念。下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

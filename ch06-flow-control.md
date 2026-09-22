@@ -76,7 +76,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 5-1 if 敘述
+# if 敘述
 
 <!--
 【開場白】
@@ -323,7 +323,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 5-2 switch 敘述
+# switch 敘述
 
 <!--
 【開場白】
@@ -495,7 +495,7 @@ switch (day) {
 
 ---
 
-# 5-2 Switch Expression（Java 14+ 箭頭語法）
+# Switch Expression（Java 14+ 箭頭語法）
 
 | 特性 | 傳統 switch | Switch Expression (Java 14+) |
 | --- | --- | --- |
@@ -671,7 +671,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 5-3 專題實作
+# 專題實作
 
 <!--
 【開場白】
@@ -942,6 +942,32 @@ if (month < 1 || month > 12) {
 <!--
 【逐步解說】
 看 `case 3: case 4: case 5:` 這三行疊在一起，最後才接 `System.out.println("春季"); break;`，這就是 fall-through 的標準用法：多個 case 共用同一段邏輯。秋季、冬季的部分用同樣的方式補完即可。
+-->
+
+---
+
+# 總結
+
+- **if / if-else / if-else if-else 鏈** — 條件依序判斷，第一個成立就執行、其餘全部跳過，鏈式判斷建議由嚴到寬排列
+- **三元運算子 `? :` 是 if-else 的精簡版**，適合單行賦值，邏輯複雜時建議改回 if-else
+- **傳統 `switch` 用 `case 值:` + `break`**，忘記 `break` 會發生 fall-through（貫穿），但也能善用貫穿讓多個 case 共用同一段邏輯
+- **Switch Expression（`case 值 ->`）是現代寫法** — 不會貫穿、可直接賦值給變數，多值 case 用逗號分隔，多行邏輯用 `yield` 回傳
+- **BMI 判斷、生肖計算、火箭倒數三個專題**，示範 if-else if 鏈與 switch expression 在真實情境的應用
+
+<!--
+我們把這一章整理成五個重點。
+
+第一，if 系列是最基本的分支工具：單純 if 是條件成立才執行，if-else 是二選一，if-else if-else 鏈則是多條件依序判斷——只要有一個條件成立，後面的就全部跳過，所以鏈式判斷建議把條件從最嚴格排到最寬鬆。
+
+第二，三元運算子 `? :` 是 if-else 的精簡版，可以直接把結果賦值給變數，適合簡單的單行邏輯；但如果邏輯變複雜，硬塞成三元運算子只會讓程式碼變難讀，這時候乖乖用 if-else 才是正解。
+
+第三，傳統 switch 用 `case 值:` 搭配 `break` 來跳出，忘記寫 break 就會「貫穿」到下一個 case，這通常是 Bug，但也可以反過來善用這個特性，讓多個 case 共用同一段輸出邏輯。
+
+第四，Java 14 之後的 Switch Expression 用箭頭 `->` 語法，天生不會貫穿，還能直接賦值給變數；多個值可以用逗號寫在同一個 case，需要多行邏輯時則用 `yield` 把結果交出來。這是業界現在偏好的現代寫法。
+
+第五，我們用 BMI 計算、生肖判斷、火箭升空倒數三個小專題，把 if-else if 鏈和 switch expression 實際應用了一次，體會這些工具在真實情境裡怎麼互相搭配。
+
+這五點加起來，就是讓程式「學會做決定」所需要的核心工具。下一章我們要進入迴圈了！
 -->
 
 ---

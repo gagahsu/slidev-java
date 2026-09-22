@@ -734,6 +734,32 @@ System.out.println("會議時間：" + meeting.format(fmt)
 -->
 
 ---
+
+# 總結
+
+- **`LocalDate` 只管日期、`LocalTime` 只管時間、`LocalDateTime` 兩者合一** — 三者都沒有時區資訊
+- **所有 `java.time` 物件都是不可變（Immutable）**，`plusDays()`、`minusMonths()` 這類方法都回傳新物件，原物件不會被改變
+- **`isBefore()` / `isAfter()` 比較日期時間先後**，`LocalDateTime.of(date, time)` 可以合併已建立的日期與時間物件，`toLocalDate()` / `toLocalTime()` 則能反過來拆解
+- **`DateTimeFormatter.ofPattern()` 負責格式化與解析**，`format()` 把物件轉字串、`parse()` 把字串轉物件，且大小寫敏感（`MM` 月份 vs `mm` 分鐘最容易搞混）
+- **選類別的原則很單純**：不需要時區就用 `LocalDate` / `LocalTime` / `LocalDateTime`；需要跨時區才用進階內容的 `ZonedDateTime`
+
+<!--
+我們把這一章整理成五個重點。
+
+第一，三個核心類別分工清楚：LocalDate 只管日期、LocalTime 只管時間、LocalDateTime 是兩者合一，但都不包含時區資訊，這是它們跟 ZonedDateTime 最大的差別。
+
+第二，java.time 底下所有物件都是不可變的，這是這一章反覆強調的重點——plusDays()、minusMonths() 這些方法執行完，原本的物件完全不會變，一定要用變數接住回傳的新物件，不然計算結果會憑空消失。
+
+第三，isBefore() 和 isAfter() 用來比較日期時間的先後順序；LocalDateTime.of(date, time) 可以把已經存在的 LocalDate 跟 LocalTime 合併成一個完整的日期時間，toLocalDate() 和 toLocalTime() 則可以反過來拆解回去。
+
+第四，DateTimeFormatter.ofPattern() 是格式化與解析的核心工具，format() 把日期時間物件轉成字串，parse() 把字串轉回物件；要特別小心大小寫，MM 是月份、mm 是分鐘，這是最容易寫錯又不容易發現的地方。
+
+第五，選擇要用哪個類別的原則很簡單：只要不需要考慮時區，就在 LocalDate、LocalTime、LocalDateTime 這三個裡面挑；真的需要跨時區處理，才需要進階自學內容裡的 ZonedDateTime。
+
+這五點加起來，就是 java.time 套件的核心用法。下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

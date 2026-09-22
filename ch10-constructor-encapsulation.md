@@ -925,6 +925,38 @@ public static boolean isPass(int score) {
 -->
 
 ---
+
+# 總結
+
+- **建構子在 `new` 物件時自動執行**，名稱必須與類別相同、不能有回傳型態；沒自己寫建構子時 Java 才會補上無參數的預設建構子
+- **建構子可以多載**，靠參數數量或型態區分；`this(...)` 能在建構子內呼叫同類別的另一個建構子，且必須是第一行
+- **封裝把欄位設為 `private`，只透過 `public` 的 getter/setter 存取**，setter 可加驗證邏輯擋掉不合法的值，只給 getter 就能做出唯讀欄位
+- **存取修飾詞由鬆到嚴：`public` → `protected` → 無修飾（package-private）→ `private`**，原則是欄位盡量用最嚴格的層級
+- **JavaBean 慣例：欄位 `private`、`getXxx()`／`setXxx()`、布林欄位用 `isXxx()`、要有無參數建構子**，這是框架（Spring、Hibernate）能自動讀寫欄位的基礎
+- **`static` 欄位是全類別共用一份**，用 `類別名稱.欄位` 存取；`static` 方法不依賴物件、不能用 `this`、不能存取 instance 成員
+- **`static { }` 初始化區塊在類別第一次載入時執行一次**，適合處理比較複雜的靜態初始化
+
+<!--
+我們把這一章整理成七個重點。
+
+第一，建構子是物件被 new 出來時自動執行的特殊方法，名稱一定要跟類別相同，而且不能宣告回傳型態，連 void 都不寫；如果我們完全沒有自己定義建構子，Java 才會自動幫忙補上一個什麼都不做的預設建構子。
+
+第二，建構子可以像一般方法一樣多載，只要參數的數量或型態不同就能區分；如果想讓多個建構子共用同一段初始化邏輯，可以用 this(...) 委託給同類別的另一個建構子，但這一定要寫在建構子的第一行。
+
+第三，封裝是把欄位設成 private，只開放 public 的 getter、setter 當作存取管道，setter 裡面可以加入驗證邏輯擋掉不合理的值，如果只提供 getter 不提供 setter，這個欄位就變成唯讀的。
+
+第四，Java 的存取修飾詞由鬆到嚴依序是 public、protected、無修飾（package-private）、private，基本原則是欄位盡量設成最嚴格的 private，除非有特別理由才放寬。
+
+第五，JavaBean 是業界常見的命名慣例：欄位全部 private，搭配 getXxx() 和 setXxx() 方法，布林型態的欄位則用 isXxx() 而不是 getXxx()，還要有一個無參數建構子——這套規則是 Spring、Hibernate 這類框架能自動讀寫物件欄位的基礎。
+
+第六，static 欄位是全類別共用的一份資料，不管建立多少個物件都共用同一份，習慣上用「類別名稱.欄位」存取；static 方法不依賴任何物件就能呼叫，也因為不屬於任何特定物件，所以不能使用 this，也不能直接存取 instance 欄位或方法。
+
+第七，static 初始化區塊會在類別第一次被載入時執行一次，通常用在比較複雜、沒辦法一行寫完的靜態變數初始化，例如讀取設定檔。
+
+這七點加起來，就是打造一個既安全又好維護的類別所需要的核心工具。下一章我們要進入繼承了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

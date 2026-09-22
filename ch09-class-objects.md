@@ -88,7 +88,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-1 類別與物件的關係
+# 類別與物件的關係
 
 物件導向程式設計（OOP）的核心思維：
 
@@ -113,7 +113,7 @@ layout: default
 
 ---
 
-# 8-1 現實世界比喻
+# 現實世界比喻
 
 以「學生」為例：
 
@@ -226,7 +226,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-2 class 語法結構
+# class 語法結構
 
 | 語法元素 | 說明 |
 | --- | --- |
@@ -256,7 +256,7 @@ class Car {
 
 ---
 
-# 8-2 建立物件與存取成員
+# 建立物件與存取成員
 
 ```java
 // 宣告參照變數並建立物件
@@ -371,7 +371,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-3 完整 Car 類別（欄位 + 方法）
+# 完整 Car 類別（欄位 + 方法）
 
 ```java
 class Car {
@@ -400,7 +400,7 @@ class Car {
 
 ---
 
-# 8-3 建立 Car 物件並操作
+# 建立 Car 物件並操作
 
 ```java
 public class Main {
@@ -520,7 +520,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-4 建立多個物件
+# 建立多個物件
 
 每次呼叫 `new` 都會在記憶體中建立一個獨立的物件：
 
@@ -551,7 +551,7 @@ c2.displayInfo(); // Honda / 時速 100
 
 ---
 
-# 8-4 物件陣列：宣告與初始化
+# 物件陣列：宣告與初始化
 
 | 步驟 | 說明 |
 | --- | --- |
@@ -581,7 +581,7 @@ cars[1].speed = 100;
 
 ---
 
-# 8-4 物件陣列遍歷
+# 物件陣列遍歷
 
 ```java
 Car[] cars = new Car[3];
@@ -702,7 +702,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-5 物件賦值 = 複製參照
+# 物件賦值 = 複製參照
 
 物件變數儲存的是**記憶體位址（參照）**，不是物件本身：
 
@@ -733,7 +733,7 @@ System.out.println(c1.speed); // 999（c1 也被改了！）
 
 ---
 
-# 8-5 參照賦值的記憶體圖解
+# 參照賦值的記憶體圖解
 
 ```mermaid {scale: 0.75}
 graph LR
@@ -760,7 +760,7 @@ graph LR
 
 ---
 
-# 8-5 null 參照
+# null 參照
 
 | 狀態 | 說明 |
 | --- | --- |
@@ -866,7 +866,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-6 方法參數：Pass by Value（一）
+# 方法參數：Pass by Value（一）
 
 Java 的方法參數傳遞**永遠是「複製值」**：
 
@@ -894,7 +894,7 @@ System.out.println(n); // 5（不受影響）
 
 ---
 
-# 8-6 方法參數：Pass by Value（二）
+# 方法參數：Pass by Value（二）
 
 ```java
 static void changeSpeed(Car c) {
@@ -928,7 +928,7 @@ System.out.println(myCar.speed); // 999（未受影響）
 
 ---
 
-# 8-6 方法多載（Overloading）
+# 方法多載（Overloading）
 
 | 規則 | 說明 |
 | --- | --- |
@@ -955,7 +955,7 @@ class Multiplier {
 
 ---
 
-# 8-6 this 關鍵字
+# this 關鍵字
 
 `this` 代表「目前這個物件自己」，主要用途：
 
@@ -1075,7 +1075,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 8-7 Local vs Instance 變數
+# Local vs Instance 變數
 
 | 變數類型 | 宣告位置 | 生命週期 | 預設值 |
 | --- | --- | --- | --- |
@@ -1104,7 +1104,7 @@ class Counter {
 
 ---
 
-# 8-7 Scope 遮蔽（Shadowing）
+# Scope 遮蔽（Shadowing）
 
 當 local 變數與 instance 變數同名時，local 會遮蔽 instance：
 
@@ -1396,6 +1396,38 @@ layout: default
 這題把整章的概念串成一條線：先用 `this`（8-6）設定建構子的欄位，再用陣列遍歷（8-4）累加成績算平均，最後用物件陣列（8-4）+ for-each 走訪每位學生並顯示資訊。
 
 提示第 4 點也示範了「直接把陣列字面值當引數傳入建構子」的寫法（`new int[]{80, 90, 70}`），這跟一般陣列宣告的差別，以及它在記憶體裡是怎麼被 Student 物件的 `scores` 欄位參照的，都是我們這一章學過的重點，可以藉這題再複習一次。
+-->
+
+---
+
+# 總結
+
+- **類別是藍圖，物件是實例** — 欄位是狀態、方法是行為，同一個類別可以建立多個獨立物件
+- **`new` 建立物件時會配置 Heap 記憶體、欄位初始化為預設值，並回傳參照**，透過「.」存取欄位與呼叫方法
+- **物件陣列 = 陣列 + `new` 物件兩層動作**：先建立陣列容器，再逐一 `new` 出每個物件，否則位置還是 `null`
+- **物件變數存的是參照（位址），不是物件本身** — `c2 = c1` 會讓兩個變數指向同一物件，`==` 比的是位址不是內容
+- **方法參數永遠是傳值** — 基本型態複製數值；物件則複製參照，修改欄位會影響外部，但重新賦值不會
+- **方法多載靠參數數量或型別區分**，僅回傳型別不同不算多載；`this` 用來在同名情況下明確指向物件自己的欄位
+- **instance 變數（欄位）有預設值、跟著物件存活；local 變數沒有預設值、只在方法執行期間存在**，同名時 local 會遮蔽 instance，需要用 `this` 區分
+
+<!--
+我們把這一章整理成七個重點。
+
+第一，類別是物件的藍圖，物件是根據類別建立出來的實例；欄位代表物件的狀態，方法代表物件的行為，同一張藍圖可以造出多個各自獨立的物件。
+
+第二，new 會在 Heap 記憶體中配置空間、把欄位設成預設值，並回傳這個物件的參照；之後用「.」運算子就能存取欄位或呼叫方法。
+
+第三，當物件數量變多時，可以用物件陣列統一管理，但要記得這是兩層動作：先建立陣列容器，再逐一 new 出每個物件，如果忘記 new，那個位置還是 null，呼叫方法會直接丟出 NullPointerException。
+
+第四，這一章最重要的觀念是：物件變數存的是參照，不是物件本身。c2 = c1 只是複製了地址，兩個變數會指向同一個物件，透過任何一個修改欄位，另一個也會看到改變；== 比較的也是「是不是同一個物件」，不是「內容是否相同」。
+
+第五，方法參數傳遞永遠是傳值——基本型態複製的是數值本身，方法內怎麼改都不會影響外部；物件複製的是參照，透過參照修改欄位會影響外部物件，但如果在方法內把參數重新指向一個全新的物件，外部變數完全不受影響。
+
+第六，方法多載讓同一個名稱可以依參數數量或型別定義多個版本，但只有回傳型別不同並不算多載；this 則是用來在方法參數跟物件欄位同名時，明確指出「這是物件自己的欄位」。
+
+第七，instance 變數宣告在類別內、方法外，只要物件存在就一直存在，而且有預設值；local 變數宣告在方法或區塊內，方法執行完就消失，而且沒有預設值、必須自己初始化。如果兩者同名，local 變數會遮蔽 instance 變數，這時候一定要用 this 才能正確存取到欄位。
+
+這七點加起來，就是物件導向程式設計最基礎的核心能力。下一章我們要進入建構子與封裝了！
 -->
 
 ---

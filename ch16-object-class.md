@@ -1115,6 +1115,38 @@ public int hashCode() {
 如果只覆寫 `equals()` 卻忘記覆寫 `hashCode()`，兩個內容相同的物件在 `equals()` 比較時是 `true`，但放進 `HashSet` 後卻可能找不到彼此，這正是這兩個方法必須「成對」覆寫的原因。
 -->
 ---
+
+# 總結
+
+- **`Object` 是所有 Java 類別的共同祖先**，位於 `java.lang`，`toString()`、`equals()`、`hashCode()`、`getClass()` 都是繼承自它
+- **`java.util.Objects`（注意多一個 s）提供 null 安全的工具方法**：`equals(a, b)`、`isNull()`／`nonNull()`、`requireNonNullElse()` 都能避免手動 `if-else` 判斷 null
+- **`hashCode()` 是物件的「門牌號碼」**，相同內容應產生相同雜湊碼；現代寫法用 `Objects.hash(欄位...)` 取代手寫演算法
+- **`equals()` 內容比較要用 `Objects.equals()`，位址比較才用 `==`**；現代寫法搭配 Pattern Matching：`if (o instanceof X other) { ... }`
+- **`equals()` 與 `hashCode()` 必須成對覆寫、使用相同欄位** — 只改一個會讓物件在 `HashMap`／`HashSet` 裡「查無此人」
+- **`toString()` 決定物件被印出的樣子**，不覆寫的話預設是難以閱讀的「類別名稱@雜湊碼」
+- **`getClass()` 取得物件實際所屬的類別**，比較比 `instanceof` 更嚴格，連子類別都視為不同類別
+
+<!--
+我們把這一章整理成七個重點。
+
+第一，Object 是所有 Java 類別的共同祖先，住在 java.lang 套件裡，我們平常用到的 toString()、equals()、hashCode()、getClass() 這些方法，全部都是從它繼承下來的。
+
+第二，java.util.Objects 這個工具類別名字只差一個 s，但用途完全不同，它提供了 null 安全的方法，像 Objects.equals()、isNull()、nonNull()、requireNonNullElse()，可以幫我們省掉很多手動判斷 null 的 if-else。
+
+第三，hashCode() 可以想成物件的門牌號碼，是集合類別能快速查找的關鍵；現代開發不再手寫雜湊演算法，改用 Objects.hash() 把要參與計算的欄位傳進去就好。
+
+第四，比較物件內容要用 equals()，絕對不要用 ==，因為 == 比的是記憶體位址；現代寫法會搭配 Pattern Matching for instanceof，把型別判斷和轉型合併成一行。
+
+第五，這一章反覆強調的鐵律：equals() 和 hashCode() 必須成對覆寫，而且要用同一組欄位，只改其中一個，物件放進 HashMap 或 HashSet 之後就可能發生「明明內容一樣卻找不到」的詭異情況。
+
+第六，toString() 決定了物件被印出來的樣子，如果不覆寫，預設格式是類別名稱加雜湊碼，完全看不出物件的實際內容，這也是為什麼幾乎每個需要被印出或寫進 log 的類別都會覆寫它。
+
+第七，getClass() 可以取得物件實際所屬的類別，用來做型別檢查時要特別注意，它比 instanceof 更嚴格，連父子類別的關係都不算「相同類別」。
+
+這七點加起來，就是 Object 類別的完整地圖。下一章我們要繼續往下走了！
+-->
+
+---
 layout: end
 ---
 

@@ -85,7 +85,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-9 迴圈標籤語法
+# 迴圈標籤語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -116,7 +116,7 @@ for (int i = 0; i < 3; i++) {
 
 ---
 
-# 6-9 標籤 continue 範例
+# 標籤 continue 範例
 
 ```java
 outer:

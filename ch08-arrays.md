@@ -79,7 +79,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 7-1 認識陣列（Array）
+# 認識陣列（Array）
 
 <!--
 【開場白】
@@ -212,7 +212,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 7-2 陣列的宣告與應用
+# 陣列的宣告與應用
 
 <!--
 【開場白】
@@ -492,7 +492,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 7-3 Java 參照資料型態
+# Java 參照資料型態
 
 <!--
 【開場白】
@@ -680,7 +680,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 7-5 多維陣列的原理
+# 多維陣列的原理
 
 <!--
 【開場白】
@@ -812,7 +812,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 7-7 二維陣列的程式應用
+# 二維陣列的程式應用
 
 <!--
 【開場白】
@@ -967,7 +967,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 7-8 專題：線性搜尋
+# 專題：線性搜尋
 
 <!--
 【開場白】
@@ -1132,6 +1132,35 @@ int[][] matrix = {
 
 ⚠️ 易錯點提醒：
 最容易搞混的就是 `i` 和 `j` 的順序，建議先在紙上畫出原矩陣和轉置矩陣的座標，確認對應關係後再寫程式。
+-->
+
+---
+
+# 總結
+
+- **陣列儲存固定數量、相同型別的元素**，索引從 `0` 開始，最後一格是 `length - 1`，超出範圍會拋 `ArrayIndexOutOfBoundsException`
+- **`new` 建立的陣列有固定預設值**（數字型 `0`、`boolean` 為 `false`、物件為 `null`），可以用傳統 `for` 或 `for-each` 走訪
+- **`Arrays` 工具類別包辦排序、印出、填值、複製、比較**（`sort`、`toString`、`fill`、`copyOf`、`equals`），使用前記得 `import java.util.Arrays`
+- **陣列是參照型態，變數存的是 Heap 上的位址** — `int[] b = a;` 只是複製位址，兩者會共用同一塊資料，要獨立複製須用 `Arrays.copyOf`
+- **二維陣列本質是「陣列的陣列」**，走訪要用巢狀迴圈，`matrix[i].length` 是第 i 列的長度、`matrix.length` 是總列數
+- **線性搜尋從頭到尾逐一比對**，找到回傳索引、找不到回傳 `-1`，這是搜尋函式的業界通用慣例
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，陣列是儲存固定數量、相同型別元素的資料結構，索引從 0 開始算，最後一個元素的索引是 length 減 1，如果存取超出這個範圍，會直接拋出 ArrayIndexOutOfBoundsException。
+
+第二，用 new 建立陣列時，每個元素都會有固定的預設值：數字型別是 0，boolean 是 false，物件型別則是 null；要走訪整個陣列，可以用傳統 for（有索引）或 for-each（單純讀取，更精簡）。
+
+第三，Arrays 這個工具類別幫我們包辦了排序、印出內容、填值、複製、比較這些常見操作，分別是 sort、toString、fill、copyOf、equals，使用前記得先 import java.util.Arrays。
+
+第四，這一章最重要的觀念：陣列是參照型態，變數本身存的是 Heap 上的位址，不是資料本身。所以 int[] b = a; 只是複製了「地址」，a 和 b 會共用同一塊資料，改 b 也會影響 a；如果想要兩個獨立的陣列，要改用 Arrays.copyOf。
+
+第五，Java 的二維陣列其實是「陣列的陣列」，走訪要用巢狀迴圈，外層控制列、內層控制欄；要注意 matrix[i].length 是第 i 列有幾欄，跟 matrix.length（總共幾列）是不同的東西。
+
+第六，線性搜尋是最直觀的搜尋方法，從頭到尾逐一比對，找到就回傳索引，找不到就回傳 -1——這個 -1 慣例在 Java 內建的方法（像 String.indexOf）裡也看得到。
+
+這六點加起來，就是用一個名字管理一群資料所需要的核心工具。下一章我們要進入類別與物件了！
 -->
 
 ---

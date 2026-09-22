@@ -1181,6 +1181,35 @@ System.out.println("選課人數最多：" + maxCourse + "（" + maxCount + " �
 -->
 
 ---
+
+# 總結
+
+- **Collection 介面是 List／Set 的共同基礎** — `add`、`remove`、`contains`、`size` 都是基本功，邊遍歷邊刪除要用 `Iterator.remove()`，不能用 for-each
+- **List 有序且允許重複，可用索引存取** — `get`／`set`／`add(index, e)`，宣告用介面 `List`、實例化用 `ArrayList`
+- **Set 不允許重複，且不保證順序** — 沒有 `get(index)`，`add` 遇到重複元素會回傳 `false` 並自動忽略
+- **Map 儲存鍵值對，鍵不能重複** — `put` 覆蓋舊值，遍歷優先用 `entrySet()`，找不到鍵用 `getOrDefault` 避免 `null`
+- **選用集合看操作需求** — 要順序索引用 List、要去重複用 Set、要查表對應用 Map
+- **`Collections` 工具類別提供排序、洗牌、找極值等靜態方法** — 注意跟介面 `Collection` 拼字只差一個 s
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，List 和 Set 都繼承自 Collection 介面，共用 add、remove、contains、size 這些基本方法；如果要邊遍歷邊刪除元素，一定要用 Iterator 的 remove()，直接用 for-each 邊跑邊刪會拋出 ConcurrentModificationException。
+
+第二，List 是有序、允許重複的集合，可以用索引存取，宣告時習慣用介面型態 List，實例化用 ArrayList，這是向上轉型的標準寫法。
+
+第三，Set 不允許重複元素，而且不保證順序，所以沒有 get(index) 這種方法；加入重複元素時 add 會回傳 false，代表沒有真的加進去。
+
+第四，Map 儲存的是鍵值對，鍵是唯一的，用相同的鍵再次 put 會直接覆蓋舊值；遍歷 Map 建議優先用 entrySet()，一次拿到鍵跟值，效率比先 keySet() 再逐一 get() 好；找不到鍵時，用 getOrDefault 可以避免拿到 null 而噴出例外。
+
+第五，選集合的判斷邏輯很簡單：要順序、要用索引存取，用 List；要自動去重複，用 Set；要用一個值查另一個值，用 Map。
+
+第六，java.util.Collections 是操作集合的工具箱，sort、shuffle、max、min 都是常用的靜態方法，記得它跟 Collection 介面只差一個 s，別搞混了。
+
+這六點加起來，就是日常開發裡處理資料最常用到的工具。下一章我們要進入 Lambda 跟 Stream，把這些集合操作寫得更精簡了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

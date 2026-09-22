@@ -894,6 +894,35 @@ layout: default
 -->
 
 ---
+
+# 總結
+
+- **每種基本型態都有對應的包裝類別**（`int`→`Integer`、`char`→`Character`），把值物件化才能放進集合、呼叫方法
+- **自動裝箱／拆箱（Autoboxing/Unboxing）** 讓基本型態與包裝類別可以直接互相指派，背後由編譯器自動呼叫 `valueOf()` / `intValue()`
+- **包裝類別比較內容要用 `equals()`，不能用 `==`** — `==` 比的是位址；`Integer` 有 -128~127 的快取，會讓 `==` 結果反直覺
+- **拆箱 `null` 的包裝類別會拋出 `NullPointerException`** — 運算前務必先判斷是否為 `null`
+- **`Integer` 提供常數（`MAX_VALUE`）與工具方法**（`parseInt`、`max`、`compare`），`Double`、`Boolean`、`Character` 也各有對應方法
+- **`parseXxx` 遇到非法字串會丟 `NumberFormatException`**，常搭配 `try-catch` 做輸入驗證
+
+<!--
+我們把這一章整理成六個重點。
+
+第一，Java 為每一種基本型態都準備了對應的包裝類別，因為集合框架和物件導向的方法呼叫都需要「物件」，而基本型態本身做不到這件事。
+
+第二，自動裝箱和自動拆箱讓我們不用手動呼叫 valueOf()、intValue()，編譯器會在背後自動幫我們轉換，讓程式碼簡潔很多，像 ArrayList<Integer> 放入 int 值就是最常見的應用場景。
+
+第三，包裝類別是物件，比較數值內容一定要用 equals()，不能用 ==；尤其 Integer 有 -128 到 127 的快取機制，會讓小數字的 == 意外變成 true，但超出範圍就是 false，這是最容易踩到的陷阱。
+
+第四，如果包裝類別變數是 null，卻直接拿去做數學運算觸發自動拆箱，會直接拋出 NullPointerException，處理從資料庫或外部來源拿到的數值時，運算前一定要先檢查是否為 null。
+
+第五，Integer 提供了 MAX_VALUE、MIN_VALUE 等邊界常數，還有 parseInt、max、min、compare 這些工具方法；Double、Boolean、Character 也都各自有對應的方法可以用。
+
+第六，parseInt、parseDouble 這類轉換方法，遇到格式不合法的字串會拋出 NumberFormatException，實務上常搭配 try-catch 來驗證使用者輸入是否為合法數字。
+
+這六點加起來，就是包裝類別的完整概念。下一章我們要繼續往下走了！
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
