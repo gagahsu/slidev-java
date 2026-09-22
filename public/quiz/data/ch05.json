@@ -1,0 +1,48 @@
+{
+  "chapter": "ch05",
+  "title": "Ch05 程式基本運算",
+  "questions": [
+    {
+      "id": "ch05-001",
+      "type": "single",
+      "question": "觀察下面這段程式碼：\nint width = 4;\nint height = 5;\nint area = width * height;\n\n關於這段程式碼中各個部分的名稱，下列哪一個說法是正確的？",
+      "options": [
+        "width * height 是一條 statement（敘述）",
+        "* 是 operand（運算元）",
+        "width 和 height 是 operand（運算元）",
+        "int area = width * height; 是一個 expression（運算式）"
+      ],
+      "answer": 2,
+      "explanation": "width 和 height 是被運算的對象，正是 operand（運算元）的定義。width * height 是 expression（運算式），* 是 operator（運算子），int area = width * height; 才是完整的 statement（敘述）。",
+      "page": 172
+    },
+    {
+      "id": "ch05-002",
+      "type": "single",
+      "question": "關於 Java 的 import 與套件，下列哪一個說法是正確的？",
+      "options": [
+        "Scanner 屬於 java.lang 套件，所以不需要 import 就能使用",
+        "System、String、Math 都屬於 java.lang 套件，編譯器會自動匯入，不需手動 import",
+        "使用 import java.util.*; 是業界最推薦的寫法，因為一次匯入最方便",
+        "一個程式只要寫了 import java.util.Scanner;，就可以不用 import 也能使用 java.io 套件裡的類別"
+      ],
+      "answer": 1,
+      "explanation": "System、String、Math 都屬於 java.lang，這是 Java 最核心的套件，編譯器會自動匯入。Scanner 屬於 java.util，需明確 import；業界實務建議明確指定類別而非用 *；各套件的 import 彼此獨立。",
+      "page": 202
+    },
+    {
+      "id": "ch05-003",
+      "type": "single",
+      "question": "關於下面這段 Java 程式碼，請問執行後的輸出結果是什麼？\nint a = 1; int b = 2; int c = 3;\ndouble result = a\n              + b\n              - c;\nSystem.out.println(result);",
+      "options": [
+        "編譯錯誤，因為一行不能寫多個敘述",
+        "編譯錯誤，因為運算式不能跨行",
+        "0",
+        "0.0"
+      ],
+      "answer": 3,
+      "explanation": "a + b - c 算出來是 0，但因為存進的是 double 變數 result，println 會印出 0.0。一行多敘述用 ; 分隔合法；Java 只看分號判斷敘述結束，不依賴換行，跨行運算式合法。",
+      "page": 204
+    }
+  ]
+}

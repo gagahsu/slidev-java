@@ -134,54 +134,7 @@ System.out.println(c); // 8
 預期結果：印出 8。
 -->
 
----
-layout: default
----
-
-# 練習 1：程式設計的專有名詞
-### 認證模擬題（單選）
-
-觀察下面這段程式碼：
-
-```java
-int width = 4;
-int height = 5;
-int area = width * height;
-```
-
-關於這段程式碼中各個部分的名稱，下列哪一個說法是**正確**的？
-
-A. `width * height` 是一條 statement（敘述）
-B. `*` 是 operand（運算元）
-C. `width` 和 `height` 是 operand（運算元）
-D. `int area = width * height;` 是一個 expression（運算式）
-
-<!--
-【出題動機】
-這題想確認大家是不是真的能分辨 operand（運算元）、operator（運算子）、expression（運算式）、statement（敘述）這四個專有名詞，而不是只會背定義，要能對應到實際的程式碼上。
-
-【解題引導】
-先找出這段程式碼裡，哪些是「被運算的對象」，哪些是「運算的符號」，哪一段「會產生一個值」，哪一行是「以分號結尾的完整指令」。把這四個角色分別圈出來，答案就清楚了。
--->
-
----
-layout: default
----
-
-# 練習 1：程式設計的專有名詞
-### 解析
-
-**正確答案：C**
-
-- A. ❌ `width * height` 是 expression（運算式），因為它會產生一個值（`20`），但本身沒有以分號結尾，不是完整的 statement
-- B. ❌ `*` 是 operator（運算子），代表「乘法」這個動作，不是被運算的對象
-- C. ✅ `width` 和 `height` 是被運算的對象，正是 operand（運算元）的定義
-- D. ❌ `int area = width * height;` 是一條完整的 statement（敘述），因為它以分號結尾；其中 `width * height` 才是 expression（運算式）
-
-<!--
-【帶讀解法】
-這題的關鍵在於把抽象定義對應回真實程式碼：`width` 和 `height` 是「被操作的東西」（operand）；`*` 是「操作的動作」（operator）；`width * height` 兩者合起來會算出一個值，這就是 expression；最後加上 `int area = ... ;` 變成一條完整指令，就是 statement。記住這個對應關係，之後在 Code Review 或閱讀文件時，看到這幾個英文術語就不會再霧裡看花了。
--->
+<a href="/quiz/index.html?chapter=ch05&amp;question=ch05-001" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -942,46 +895,7 @@ Scanner sc = new Scanner(System.in);
 💼 業界實務：盡量避免使用 import java.util.*; 這種「把整間店都搬回家」的寫法，明確指定需要的類別（例如 import java.util.Scanner;），可以讓程式碼更清晰、也更容易管理依賴關係。
 -->
 
----
-layout: default
----
-
-# 練習 5：import 與套件
-### 認證模擬題（單選）
-
-關於 Java 的 `import` 與套件，下列哪一個說法是**正確**的？
-
-A. `Scanner` 屬於 `java.lang` 套件，所以不需要 `import` 就能使用
-B. `System`、`String`、`Math` 都屬於 `java.lang` 套件，編譯器會自動匯入，不需手動 `import`
-C. 使用 `import java.util.*;` 是業界最推薦的寫法，因為一次匯入最方便
-D. 一個程式只要寫了 `import java.util.Scanner;`，就可以不用 `import` 也能使用 `java.io` 套件裡的類別
-
-<!--
-【出題動機】
-這題想確認大家是不是分得清楚 java.lang（自動匯入）跟其他套件（需要手動 import）的差別，這是初學者很容易混淆的地方。
-
-【解題引導】
-先想一想：哪些類別是「打開就能用」的？再想想 import java.util.*; 這種寫法，業界實務上是鼓勵還是不鼓勵？最後注意一下，import 一個套件，對另一個套件有沒有影響。
--->
-
----
-layout: default
----
-
-# 練習 5：import 與套件
-### 解析
-
-**正確答案：B**
-
-- A. ❌ `Scanner` 屬於 `java.util` 套件，必須 `import java.util.Scanner;` 才能使用
-- B. ✅ `System`、`String`、`Math` 都屬於 `java.lang` 套件，這個套件是 Java 最核心的部分，編譯器會自動幫我們匯入
-- C. ❌ 業界實務剛好相反，明確指定需要的類別（如 `import java.util.Scanner;`）才是建議寫法，`import java.util.*;` 會讓依賴關係變得不清楚
-- D. ❌ 每個套件的 `import` 是獨立的，匯入 `java.util.Scanner` 不會讓 `java.io` 套件裡的類別跟著變成可用
-
-<!--
-【帶讀解法】
-這題的核心觀念是：`java.lang` 是「內建 App」，其他套件（包括 `java.util`、`java.io`）都是「需要額外安裝」的，各自獨立，匯入一個套件不會影響另一個套件的可用性。記住這個分類，之後看到編譯錯誤說「找不到符號」，第一個該檢查的就是 import 有沒有寫對。
--->
+<a href="/quiz/index.html?chapter=ch05&amp;question=ch05-002" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -1025,54 +939,7 @@ Java 在判斷一條敘述是否結束時，只看「分號」，完全不在乎
 💼 業界實務：雖然技術上可以把所有程式碼擠成一行，但一個有經驗的工程師通常會選擇在較大的運算子前面換行，讓程式碼讀起來更有層次。這種排版上的講究，其實也是專業素養的一部分。
 -->
 
----
-layout: default
----
-
-# 練習 6：程式敘述的結合與分行
-### 認證模擬題（單選）
-
-關於下面這段 Java 程式碼，請問執行後的輸出結果是什麼？
-
-```java
-int a = 1; int b = 2; int c = 3;
-double result = a
-              + b
-              - c;
-System.out.println(result);
-```
-
-A. 編譯錯誤，因為一行不能寫多個敘述
-B. 編譯錯誤，因為運算式不能跨行
-C. `0`
-D. `0.0`
-
-<!--
-【出題動機】
-這題想測驗大家是不是真的理解「Java 用分號判斷敘述結束，不在乎換行或空白」這個規則，順便複習一下型態提升的概念。
-
-【解題引導】
-先看看第一行的三個敘述，是不是都有用分號分隔？再看看 result 的型態宣告是什麼，這會影響最後輸出的格式喔。
--->
-
----
-layout: default
----
-
-# 練習 6：程式敘述的結合與分行
-### 解析
-
-**正確答案：D**
-
-- A. ❌ 一行多敘述只要用 `;` 分隔就是合法的（雖然不建議），所以不會編譯錯誤
-- B. ❌ Java 不依賴換行判斷敘述結束，只要整段運算式最後有 `;` 結尾就合法，跨行完全沒問題
-- C. ❌ `1 + 2 - 3` 確實等於 `0`，但因為 `result` 宣告為 `double`，輸出時會顯示成 `0.0`，不是 `0`
-- D. ✅ `a + b - c` 算出來是 `0`，但因為存進的是 `double` 變數，`println` 會印出 `0.0`
-
-<!--
-【帶讀解法】
-這題的重點有兩個：第一，Java 只看分號，不看換行，所以即使運算式拆成三行，編譯器仍然把它當成一條完整的敘述；第二，型態會影響輸出的「外觀」——同樣是 0，存在 int 裡印出來是 0，存在 double 裡印出來就是 0.0。這也提醒我們，宣告變數型態時要想清楚，這個值之後會不會需要小數。
--->
+<a href="/quiz/index.html?chapter=ch05&amp;question=ch05-003" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section

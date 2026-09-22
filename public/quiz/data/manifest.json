@@ -1,0 +1,7 @@
+{
+  "chapters": [
+    { "id": "ch01", "title": "Ch01 Java 基本觀念", "file": "ch01.json" },
+    { "id": "ch05", "title": "Ch05 程式基本運算", "file": "ch05.json" },
+    { "id": "ch13", "title": "Ch13 字元與字串", "file": "ch13.json" }
+  ]
+}

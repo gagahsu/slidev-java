@@ -106,46 +106,7 @@ class: flex flex-col justify-center items-center text-center
 至於業界實務，Java 給人的印象就是「穩」。它可能不是最潮的語言，但銀行、電商、企業後台這些需要長期維運、處理大量交易的系統，Java 一直是很常見的選擇。下方那個小提示框也說了，目前全球有超過一千萬名開發者在用它，從網頁應用、企業系統到 Android 開發都看得到它的身影。
 -->
 
----
-layout: default
----
-
-# 練習 1：認識 Java
-### 認證模擬題（單選）
-
-關於 Java 這個程式語言，下列敘述何者**正確**？
-
-- A. Java 由 Microsoft 於 1995 年發表，設計理念是 Write Once, Run Anywhere
-- B. Java 的設計理念是「一次撰寫，到處執行」，目前由 Oracle 負責維護
-- C. Java 是一種低階組合語言，主要用於嵌入式裝置
-- D. Java 自發表以來從未更新版本，目前仍是 1.0
-
-<!--
-【出題動機】
-這題把「認識 Java」那頁表格裡的幾個關鍵字（誕生年份、設計理念、維護者）混在一起，考大家有沒有把對應關係記清楚。
-
-【解題引導】
-四個選項裡，B 跟 A 的內容很像，差別在「發表公司」跟「現任維護者」——這正是表格裡最容易搞混的兩件事，回頭對照一下表格就能分辨。
--->
-
----
-layout: default
----
-
-# 練習 1：認識 Java
-### 解析
-
-**正確答案：B**
-
-- A. ❌ Java 是 **Sun Microsystems** 於 1995 年發表，不是 Microsoft
-- B. ✅ 「Write Once, Run Anywhere」是 Java 的核心設計理念，現由 **Oracle** 維護
-- C. ❌ Java 是**高階、物件導向**語言，並非低階組合語言
-- D. ❌ Java 已演進到 Java 21（LTS），版本持續更新中
-
-<!--
-【帶讀解法】
-這題的關鍵是把「誕生」「設計理念」「現任維護」三個欄位對應到正確的選項。A 選項故意把公司名稱換成 Microsoft，是最常見的混淆來源；D 選項則是測試大家是否記得 Java 持續在演進。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-001" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -181,46 +142,7 @@ class: flex flex-col justify-center items-center text-center
 ⚠️ 這裡有個常見的誤解要提醒大家：Java 跟 JavaScript 雖然名字很像，但兩者幾乎沒有關係，是完全不同的語言、不同的設計團隊。聽到「Java」跟「JavaScript」的時候，記得它們是兩個獨立的東西，不要把它們混為一談。
 -->
 
----
-layout: default
----
-
-# 練習 2：Java 的起源
-### 認證模擬題（單選）
-
-關於 Java 名稱與起源的敘述，下列何者**正確**？
-
-- A. Java 最初命名為「Oak」，因商標已被註冊而改名為 Java
-- B. Green Project 的最初目標是開發 Web 瀏覽器
-- C. Java 與 JavaScript 是由同一個團隊在同一時期設計的同一種語言
-- D. Java 這個名字來自 James Gosling 的姓氏縮寫
-
-<!--
-【出題動機】
-這題針對新手最常見的兩個誤解：「Java 跟 JavaScript 是不是同一個東西」、「Java 這名字怎麼來的」。
-
-【解題引導】
-回想「Java 的起源」的時間軸：Green Project 最初的目標是什麼？1993 年發生了什麼事，讓方向轉變？名字又是在哪個時間點、因為什麼原因改的？
--->
-
----
-layout: default
----
-
-# 練習 2：Java 的起源
-### 解析
-
-**正確答案：A**
-
-- A. ✅ Oak 因商標已被他人使用，1995 年改名為 Java（印尼咖啡產地）
-- B. ❌ Green Project 最初目標是**家電設備軟體**，1993 年才轉向網際網路應用
-- C. ❌ Java 與 JavaScript **名字相似但毫無關係**，是不同團隊、不同語言
-- D. ❌ Java 的名字來自印尼**爪哇島**（咖啡產地），與 Gosling 姓氏無關
-
-<!--
-【帶讀解法】
-這題在驗收「Java 不是 JavaScript」這個最重要的觀念，以及 Green Project → Oak → Java 這條時間線的因果關係：先有家電目標，後轉向網路，最後才因商標問題改名。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-002" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -258,46 +180,7 @@ James Gosling 不只是負責設計語言規格，他還親自參與了第一版
 業界裡，這種從語言設計到底層實作都參與過的工程師非常受到敬重——因為他們寫的程式碼，往往是整個語言生態系運作的基礎。
 -->
 
----
-layout: default
----
-
-# 練習 3：Java 之父
-### 認證模擬題（單選）
-
-下列關於 James Gosling 的敘述，何者**正確**？
-
-- A. 他是 Oracle 公司的創辦人，於 2009 年收購 Sun Microsystems
-- B. 他被稱為「Java 之父」，曾親自撰寫第一版 javac 編譯器與 JVM 原型
-- C. 他主要的貢獻是設計 JDK 工具中的 jar 封裝工具
-- D. 他從未參與 Java 語言規格的制定，僅負責行銷推廣
-
-<!--
-【出題動機】
-這題確認大家記得 Gosling 的「身分」與「具體貢獻」，避免把他跟「Oracle 收購 Sun」這個事件搞混。
-
-【解題引導】
-「Java 之父」那頁的提示框特別強調了 Gosling 不只是設計規格，還親自寫了哪些東西？
--->
-
----
-layout: default
----
-
-# 練習 3：Java 之父
-### 解析
-
-**正確答案：B**
-
-- A. ❌ 收購 Sun 的是 **Oracle 公司**（2009 年），與 Gosling 個人無關
-- B. ✅ Gosling 設計 Java 語言規格，並親自撰寫第一版 javac 編譯器與 JVM 原型
-- C. ❌ jar 只是 JDK 眾多工具之一，並非 Gosling 的代表性貢獻
-- D. ❌ 他正是 Java 語言規格、JVM 原型與核心類別庫的設計者
-
-<!--
-【帶讀解法】
-A 選項把「Java 之父」跟「Oracle 收購 Sun」兩個不同時間點、不同主體的事件混在一起，是常見的誤導陷阱；正確答案呼應「Java 之父」提示框「全端創造者」的描述。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-003" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -356,46 +239,7 @@ Java 從 1995 年發表到現在，已經經歷了二十幾個版本的演進。
 下方提示框特別說明了 LTS（Long-Term Support，長期支援）這個概念。簡單來說，LTS 版本會持續提供安全性更新比較長的時間，企業在選擇要用哪個版本時，通常會優先選 LTS，避免用到剛發布不久、還不夠穩定的版本。表格裡標了星號的 Java 8、11、17、21 都是 LTS 版本，本課程採用目前最新的 LTS——Java 21。
 -->
 
----
-layout: default
----
-
-# 練習 4：Java 發展史
-### 認證模擬題（單選）
-
-下列關於 Java 版本演進的敘述，何者**正確**？
-
-- A. Java 5 引入了 Lambda 表達式與 Stream API
-- B. Java 8 引入了泛型（Generics）與增強 for 迴圈
-- C. Java 8 引入 Lambda 表達式、Stream API 與新日期時間 API，是重要分水嶺
-- D. Java 9 是第一個 LTS（長期支援）版本
-
-<!--
-【出題動機】
-這題考兩個版本里程碑表格中最容易張冠李戴的特性對應：Generics 是哪個版本？Lambda/Stream 又是哪個版本？
-
-【解題引導】
-表格（一）跟表格（二）分別列出了 1995~2011 與 2014~2023 的里程碑，把「年份」「版本」「重要事件」三欄對齊看，再判斷選項。
--->
-
----
-layout: default
----
-
-# 練習 4：Java 發展史
-### 解析
-
-**正確答案：C**
-
-- A. ❌ 泛型（Generics）是 **Java 5**（2004）引入的，Lambda/Stream 是 Java 8
-- B. ❌ Generics 與增強 for 迴圈是 **Java 5**，不是 Java 8
-- C. ✅ Java 8（2014，LTS）帶來 Lambda、Stream API、新日期時間 API，是重要分水嶺
-- D. ❌ Java 9 **不是** LTS；LTS 版本是 8、11、17、21
-
-<!--
-【帶讀解法】
-A、B 選項把 Java 5 跟 Java 8 的代表特性互換，這是版本時間線題型最常見的出題手法；D 選項則是測試大家是否記得 LTS 版本的判斷依據（表格裡標星號 ⭐ 的才是）。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-004" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -430,46 +274,7 @@ Java 依照應用場景分成三大平台：Java SE、Java EE（現在改名叫 
 下方提示框提到，本課程聚焦在 Java SE。這點很重要——SE 是其他兩個平台的基礎，把 SE 的基本功打好，之後要往 Spring Boot 或是其他企業級框架延伸，會順利很多。
 -->
 
----
-layout: default
----
-
-# 練習 5：Java 的三大平台
-### 認證模擬題（單選）
-
-某公司同時擁有企業內部的 Web 後台系統，以及一套嵌入式控制裝置韌體，兩者都使用 Java 開發。下列敘述何者**正確**？
-
-- A. Java EE 與 Java ME 各自獨立開發，與 Java SE 沒有任何關係
-- B. Java SE 是 Java EE 與 Java ME 的基礎核心，兩者皆建立在 SE 之上
-- C. Java ME 的功能比 Java SE 更完整，是 SE 的超集
-- D. 企業 Web 後台應使用 Java ME，嵌入式裝置應使用 Java EE
-
-<!--
-【出題動機】
-這題用一個情境，測試大家是否理解三大平台「彼此獨立 vs 彼此基於」的關係，以及哪個平台對應哪種應用場景。
-
-【解題引導】
-「Java 的三大平台」那張表格的「應用場景」欄位，以及提示框裡 SE 是「基礎核心」這句話，是這題的關鍵。
--->
-
----
-layout: default
----
-
-# 練習 5：Java 的三大平台
-### 解析
-
-**正確答案：B**
-
-- A. ❌ Java SE 是 EE、ME 的**基礎核心**，三者並非完全獨立
-- B. ✅ Java SE 提供最核心的語言功能，Java EE（企業 Web）與 Java ME（嵌入式）都建立在 SE 之上
-- C. ❌ Java ME 是**精簡版**，功能比 SE 少，不是超集
-- D. ❌ 應用場景對調：企業 Web 後台對應 **Java EE**，嵌入式裝置對應 **Java ME**
-
-<!--
-【帶讀解法】
-這題的核心是「基礎 vs 擴充」的方向：SE 在下面當地基，EE 跟 ME 各自往不同方向（企業服務 / 嵌入式精簡）往上蓋，D 選項則是把兩個應用場景的對應關係左右互換，測試是否真的理解而不是死記表格列順序。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-005" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -503,6 +308,8 @@ class: flex flex-col justify-center items-center text-center
 
 ⚠️ 這裡有個常見誤解要提醒大家：只裝 JRE 是不夠的，因為裡面沒有編譯器，我們寫完的程式碼沒辦法編譯成 Bytecode。身為開發者，我們安裝的一定是 JDK——它已經包含了 JRE 和 JVM，一次到位。
 -->
+
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-006" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 
@@ -579,46 +386,7 @@ layout: default
 JDK 包含 JRE、JRE 包含 JVM，這個包含關係要能立刻講出來——這是最基本也最常被問的面試題。
 -->
 
----
-layout: default
----
-
-# 練習 6：JDK / JRE / JVM
-### 認證模擬題（單選）
-
-小華在一台新電腦上只安裝了 JRE，撰寫好 `Hello.java` 後，執行 `javac Hello.java` 卻出現「找不到指令」的錯誤。下列說明何者**正確**？
-
-- A. JRE = JVM + 標準類別庫，但不含 javac 等開發工具，需安裝 JDK 才能編譯
-- B. javac 是作業系統內建指令，與 JDK/JRE/JVM 都無關，需另外下載
-- C. JRE 已經包含 javac，問題出在檔名大小寫不一致
-- D. 只要安裝 JVM，就能使用 javac 編譯程式
-
-<!--
-【出題動機】
-這題用一個生活化的「裝錯軟體」情境，檢驗大家是否記得 JDK ⊃ JRE ⊃ JVM 的包含關係，以及「開發」跟「執行」分別需要哪一層。
-
-【解題引導】
-「認識 Java SE 平台的 JDK / JRE / JVM」提示框直接寫出了包含關係，以及哪一層才有編譯器；對照「JDK 主要工具」那張表，javac 屬於哪一層？
--->
-
----
-layout: default
----
-
-# 練習 6：JDK / JRE / JVM
-### 解析
-
-**正確答案：A**
-
-- A. ✅ JRE = JVM + 標準類別庫，用於**執行**；JDK = JRE + 開發工具（含 javac），用於**開發**
-- B. ❌ javac 是 **JDK** 提供的編譯工具，不是作業系統內建指令
-- C. ❌ JRE **不包含** javac，這跟檔名大小寫無關
-- D. ❌ JVM 只負責**執行** Bytecode，不含編譯器；javac 屬於 JDK 才有的工具
-
-<!--
-【帶讀解法】
-這題對應「認識 Java SE 平台的 JDK / JRE / JVM」的⚠️提醒：身為開發者一定要安裝 JDK，因為它才包含 javac。三個錯誤選項分別測試「包含關係搞反」「來源搞錯」「跟無關因素掛勾」三種常見誤解。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-009" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -687,46 +455,7 @@ public class Hello {
 ⚠️ 這裡有個容易出錯的地方：檔名 `Hello.java` 的大小寫要跟裡面的類別名稱 `Hello` 完全一致，因為 Java 對檔名跟類別名稱是有嚴格對應規則的，大小寫不一致會直接編譯失敗。之後我們自己建立檔案時，記得檢查這一點。
 -->
 
----
-layout: default
----
-
-# 練習 7：Java 跨平台原理
-### 認證模擬題（單選）
-
-關於 Java 的「Write Once, Run Anywhere」(WORA) 原理，下列敘述何者**正確**？
-
-- A. `.java` 原始碼可以直接在各作業系統上執行，不需要編譯
-- B. `.class` Bytecode 是平台中立的，但需要各平台安裝對應版本的 JVM 才能執行
-- C. `.class` Bytecode 是平台相依的，必須針對 Windows、macOS、Linux 各自編譯一份
-- D. JVM 是平台中立的，因此同一個 JVM 可以直接安裝在任何作業系統上執行
-
-<!--
-【出題動機】
-這題的核心在分辨「Bytecode」跟「JVM」誰是「平台中立」、誰是「平台相依」——這兩者剛好相反，是最容易答錯的地方。
-
-【解題引導】
-「Java 跨平台原理」提示框用了一句話精確定義這個關係，回頭找找看「中立」跟「相依」分別形容的是哪一個。
--->
-
----
-layout: default
----
-
-# 練習 7：Java 跨平台原理
-### 解析
-
-**正確答案：B**
-
-- A. ❌ `.java` 必須先經過 `javac` **編譯**成 `.class` Bytecode 才能執行
-- B. ✅ Bytecode 平台中立、JVM 平台相依：同一份 Bytecode 搭配不同平台的 JVM 即可執行
-- C. ❌ 方向相反：Bytecode 是**平台中立**的，不需要針對各平台分別編譯
-- D. ❌ 方向相反：**JVM 才是平台相依**的，需要各平台安裝對應版本
-
-<!--
-【帶讀解法】
-C、D 選項都是把「中立」跟「相依」的角色對調，這是這個概念最常見的出題陷阱。記住口訣：「Bytecode 走到哪都一樣，JVM 各地裝各地的版本」。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-007" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -785,46 +514,7 @@ class: flex flex-col justify-center items-center text-center
 整體來看，這八個特色其實彼此都有關聯——簡單好讀的語法、物件導向的設計、跨平台的執行方式，再加上安全和高效能的保障，這些就是 Java 能在業界站穩三十年的原因。
 -->
 
----
-layout: default
----
-
-# 練習 8：Java 語言的特色
-### 認證模擬題（單選）
-
-下列關於 Java 語言特色的敘述，何者**正確**？
-
-- A. Java 採用手動記憶體管理，開發者需自行呼叫 free() 釋放物件
-- B. JIT（Just-In-Time）編譯技術會將常執行的熱點程式碼即時轉換為機器碼，提升效能
-- C. Java 為了簡化語法，移除了強型別檢查
-- D. Java 不支援多執行緒，需透過第三方函式庫才能並發處理
-
-<!--
-【出題動機】
-這題針對「Robust」「高效能」這兩個特色裡最容易誤解的細節：記憶體管理由誰負責？JIT 在做什麼？
-
-【解題引導】
-「Java 語言的特色」第二頁的提示框特別解釋了 GC 跟手動 free() 的差異；JIT 那一格的說明則點出「熱點程式碼」這個關鍵字。
--->
-
----
-layout: default
----
-
-# 練習 8：Java 語言的特色
-### 解析
-
-**正確答案：B**
-
-- A. ❌ Java 由 JVM **自動垃圾回收（GC）**，開發者不需手動呼叫 free()
-- B. ✅ JIT 會將熱點程式碼即時編譯為機器碼，是 Java「高效能」特色的關鍵
-- C. ❌ Java 是**強型別**語言，型別檢查是其「強健（Robust）」特色的一部分
-- D. ❌ Java **內建支援多執行緒**，是其八大特色之一
-
-<!--
-【帶讀解法】
-這題把「強健」「高效能」兩個特色的具體機制（GC、JIT）跟錯誤的反向描述放在一起，測試是否記得「Java 自動處理、不需手動介入」這個共通脈絡。
--->
+<a href="/quiz/index.html?chapter=ch01&amp;question=ch01-008" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 layout: section
@@ -839,52 +529,7 @@ class: flex flex-col justify-center items-center text-center
 這一章的八個小節都走過一遍了，最後用一題綜合題，把版本、平台、JDK/JRE/JVM 這幾個概念串在一起。
 -->
 
----
-layout: default
----
-
-# 練習 9 (綜合)：新進工程師的環境設置
-### 認證模擬題（單選）
-
-公司要求新進工程師在一台全新電腦上，安裝可以「開發並執行」Java 程式的環境，並指定使用具有長期支援（LTS）的版本。下列做法何者**最合適**？
-
-- A. 只安裝 JRE，並選用 Java 9（六個月一版的最新版本）
-- B. 安裝 JDK，並選用具 LTS 標記的版本（如 Java 17），因 JDK 已包含編譯與執行所需的完整工具
-- C. 安裝 JVM 即可，因為 JVM 已內含編譯器與標準類別庫
-- D. 安裝 Java EE，因為 EE 是 SE 的進階版，功能比 SE 更完整
-
-<!--
-【任務鋪陳】
-這一題串連了三個小節的概念：JDK/JRE/JVM 的包含關係（JDK / JRE / JVM）、LTS 版本的判斷（Java 發展史），以及 SE/EE/ME 三大平台的定位（Java 的三大平台）。
-
-【引導思考】
-「開發」這個動作需要哪一層工具？「具有 LTS 標記」要從哪張表格裡找？Java EE 跟 Java SE 之間，是「取代」還是「建立在...之上」的關係？
-
-【等待與觀察】
-給大家 3 分鐘。如果卡住，建議先把 A、C、D 三個選項裡「明顯違反包含關係」的部分圈出來，剩下的就是答案。
--->
-
----
-layout: default
----
-
-# 練習 9 (綜合)：新進工程師的環境設置
-### 解析
-
-**正確答案：B**
-
-- A. ❌ 只裝 JRE **無法編譯**程式（缺 javac）；且 Java 9 **不是** LTS 版本
-- B. ✅ JDK = JRE + 開發工具（含 javac），具備「開發＋執行」完整能力；Java 17 是 LTS 版本
-- C. ❌ JVM 只負責執行 Bytecode，**不含**編譯器與完整標準類別庫（那是 JRE 才有的）
-- D. ❌ Java EE 是建立在 Java SE **之上**的企業擴充，並非 SE 的「進階版」，也無法取代 SE 開發環境
-
-<!--
-【帶讀解法】
-這題把整章的核心知識點收斂成一個實務情境：選 B 的理由同時涉及「JDK ⊃ JRE ⊃ JVM」的包含關係，以及「LTS 版本怎麼判斷」兩個知識點；A、C、D 則分別違反了這兩條規則的其中一條，或是把 SE/EE 的關係搞反。
-
-💼 業界實務：
-新環境設置時，「裝 JDK、選 LTS 版本」幾乎是業界的標準動作——這也是為什麼本課程一開頭就把這幾個概念講清楚的原因。
--->
+<a href="/quiz/index.html?chapter=ch01" target="_blank" title="認證模擬題練習" style="position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: white; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;">📝</a>
 
 ---
 

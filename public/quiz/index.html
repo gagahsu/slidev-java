@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>認證模擬題練習</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="home-link">← 返回課程目錄</a>
+    <h1>認證模擬題練習</h1>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="chapter">章節練習</button>
+    <button class="tab-btn" data-tab="flashcard">閃卡</button>
+    <button class="tab-btn" data-tab="mixed">綜合練習</button>
+  </nav>
+
+  <main>
+    <section id="tab-chapter" class="tab-panel active">
+      <div class="chapter-select">
+        <label for="chapter-picker">選擇章節：</label>
+        <select id="chapter-picker"></select>
+      </div>
+      <div id="chapter-quiz" class="quiz-area"></div>
+    </section>
+
+    <section id="tab-flashcard" class="tab-panel">
+      <div class="chapter-select">
+        <label for="flashcard-picker">選擇章節：</label>
+        <select id="flashcard-picker"></select>
+      </div>
+      <div id="flashcard-area" class="flashcard-area"></div>
+    </section>
+
+    <section id="tab-mixed" class="tab-panel">
+      <div class="mixed-controls">
+        <button id="mixed-start">開始綜合測驗（隨機抽題）</button>
+        <button id="mixed-clear-wrong">清除錯題收藏</button>
+      </div>
+      <div id="mixed-quiz" class="quiz-area"></div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

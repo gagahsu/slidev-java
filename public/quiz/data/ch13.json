@@ -1,0 +1,22 @@
+{
+  "chapter": "ch13",
+  "title": "Ch13 字元與字串",
+  "questions": [
+    {
+      "id": "ch13-001",
+      "type": "single",
+      "question": "下列哪個方法可以取得字串的長度？",
+      "options": ["length()", "size()", "count()", "len()"],
+      "answer": 0,
+      "explanation": "String 的 length() 方法回傳字元數，注意不是屬性也不是 length（陣列才用 .length）。"
+    },
+    {
+      "id": "ch13-002",
+      "type": "single",
+      "question": "\"Hello\".charAt(1) 的結果是？",
+      "options": ["H", "e", "l", "o"],
+      "answer": 1,
+      "explanation": "charAt(1) 取索引 1 的字元，索引從 0 開始，故為 'e'。"
+    }
+  ]
+}

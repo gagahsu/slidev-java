@@ -376,6 +376,15 @@ style: |
       <div class="chapter-subtitle">OOP &amp; Encapsulation × AI</div>
     </Link>
   </div>
+  <div style="height: 2px; width: 240px; background: linear-gradient(90deg, #5eada0, #a7d9d0); border-radius: 2px; margin-top: 2rem; margin-bottom: 0.5rem;"></div>
+  <p style="color: #5eada0; font-size: 1.1rem; font-weight: 700; margin-bottom: 0;">練習</p>
+  <div class="chapter-grid">
+    <a href="/quiz/index.html" class="chapter-card">
+      <div class="chapter-num">📝</div>
+      <div>認證模擬題練習</div>
+      <div class="chapter-subtitle">Quiz &amp; Flashcards</div>
+    </a>
+  </div>
 </div>
 
 ---
