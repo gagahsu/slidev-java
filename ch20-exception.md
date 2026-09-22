@@ -1200,14 +1200,20 @@ static BaseRes parseAge(String input) {
 }
 ```
 
-- `BaseRes` 只需要簡單的欄位 + 建構子 + getter，不必繼承任何例外類別
-- 兩種輸入都不會讓程式中止，都能拿到一個 `BaseRes` 物件
-
 <!--
 【帶讀解法】
 跟本章「objMapper」範例幾乎一樣的結構：try 裡做有風險的事，成功回傳 200，catch 裡用 e.getMessage() 當作動態訊息塞進固定的 400 代碼。
 這就是業界最常見的「統一錯誤格式」寫法。
 -->
+---
+layout: default
+---
+
+# 練習 3-2：解題提示 — 補充說明
+
+- `BaseRes` 只需要簡單的欄位 + 建構子 + getter，不必繼承任何例外類別
+- 兩種輸入都不會讓程式中止，都能拿到一個 `BaseRes` 物件
+
 ---
 layout: default
 ---
@@ -1254,17 +1260,27 @@ enum BorrowResult {
 }
 ```
 
+<!--
+【帶讀解法】
+這題其實是把整章的積木組裝起來：
+1. 自訂例外（第二部分）－ BookNotAvailableException
+2. enum 錯誤代碼（第三部分）－ BorrowResult
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：解題提示 — 補充說明
+
 - `borrowBook` 先用迴圈找出 `bookId` 在陣列中的索引；找不到就 `throw new BookNotAvailableException(BorrowResult.NOT_FOUND.getMessage())`
 - `try (Scanner sc = new Scanner(System.in)) { while (...) {...} }`，讀到 `"exit"` 就 `break`
 - 每次借閱都包一層 `try { borrowBook(...); System.out.println("借閱成功"); } catch (BookNotAvailableException e) { System.out.println(e.getMessage()); } finally { System.out.println("本次查詢結束"); }`
 
 <!--
 【帶讀解法】
-這題其實是把整章的積木組裝起來：
-1. 自訂例外（第二部分）－ BookNotAvailableException
-2. throw/throws（第二部分）－ borrowBook 拋出例外
-3. try-with-resources（第二部分）－ 管理 Scanner
-4. enum 錯誤代碼（第三部分）－ BorrowResult
+3. throw/throws（第二部分）－ borrowBook 拋出例外
+4. try-with-resources（第二部分）－ 管理 Scanner
 
 【最後叮嚀】
 如果這題你能獨立寫完，代表你已經具備「寫出不會輕易崩潰的程式」的能力。這是業界最基本，也是最重要的素質之一。

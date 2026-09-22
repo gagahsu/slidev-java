@@ -410,7 +410,7 @@ layout: default
 ---
 
 # 練習 1-2：解題提示
-### 提示說明
+### 提示說明（1）weekdays 不可變
 
 ```java
 List<String> weekdays = List.of("一", "二", "三", "四", "五", "六", "日");
@@ -419,7 +419,20 @@ try {
 } catch (UnsupportedOperationException e) {
     System.out.println("weekdays 不可變：" + e);
 }
+```
 
+<!--
+【帶讀解法】
+`List.of()` 建出來的清單直接呼叫 `add()` 就會拋出 `UnsupportedOperationException`，這是 immutable collection 的正字標記。
+-->
+
+---
+layout: default
+---
+
+# 練習 1-2：解題提示 — 範例（2）copy 也不可變
+
+```java
 List<String> mutable = new ArrayList<>();
 mutable.add("A");
 mutable.add("B");
@@ -430,7 +443,20 @@ try {
 } catch (UnsupportedOperationException e) {
     System.out.println("copy 不可變：" + e);
 }
+```
 
+<!--
+【帶讀解法】
+`List.copyOf(mutable)` 產生的 `copy` 跟 `List.of()` 一樣不可變，對它呼叫 `add()` 同樣會拋出例外。
+-->
+
+---
+layout: default
+---
+
+# 練習 1-2：解題提示 — 範例（3）正本與影印件互不影響
+
+```java
 mutable.add("C"); // 正本仍可修改
 System.out.println("mutable: " + mutable);
 System.out.println("copy: " + copy);
@@ -438,8 +464,7 @@ System.out.println("copy: " + copy);
 
 <!--
 【帶讀解法】
-兩次 add() 都會拋出 `UnsupportedOperationException`，這是 immutable collection 的正字標記。
-最後一步是關鍵：`mutable.add("C")` 完全沒問題，而 `copy` 仍然停留在複製當下的內容 `[A, B]`，兩者互不影響。
+`mutable.add("C")` 完全沒問題，而 `copy` 仍然停留在複製當下的內容 `[A, B]`，兩者互不影響。
 -->
 
 ---
@@ -907,7 +932,7 @@ layout: default
 ---
 
 # 練習 3-2：解題提示
-### 提示說明
+### 提示說明（1）建立資料、聯集
 
 ```java
 Set<String> basketball = new HashSet<>(List.of("小明","小華","小美","阿強"));
@@ -917,7 +942,21 @@ Set<String> boardgame  = new HashSet<>(List.of("小華","阿強","阿傑","小�
 Set<String> union = new HashSet<>(basketball);
 union.addAll(boardgame);
 System.out.println("聯集：" + union);
+```
 
+<!--
+【帶讀解法】
+三種集合運算都遵循同一個套路：先複製一份（`new HashSet<>(原集合)`），再對複製品呼叫 addAll / retainAll / removeAll，避免改到原始資料。
+聯集 `addAll`：把兩邊的人都併進來。
+-->
+
+---
+layout: default
+---
+
+# 練習 3-2：解題提示 — 範例（2）交集、差集
+
+```java
 // 交集
 Set<String> inter = new HashSet<>(basketball);
 inter.retainAll(boardgame);
@@ -931,7 +970,7 @@ System.out.println("差集：" + diff);
 
 <!--
 【帶讀解法】
-三種集合運算都遵循同一個套路：先複製一份（`new HashSet<>(原集合)`），再對複製品呼叫 addAll / retainAll / removeAll，避免改到原始資料。
+交集 `retainAll`：只保留兩邊都有的人。
 差集 `removeAll`：把「兩邊都有的人」從複製品中踢掉，剩下的就是「只有我這邊有」的人。
 -->
 
@@ -1211,7 +1250,7 @@ layout: default
 ---
 
 # 練習 4-2：解題提示
-### 提示說明
+### 提示說明（1）計數
 
 ```java
 String[] words = {"apple","banana","apple","orange","banana","apple"};
@@ -1221,7 +1260,21 @@ for (String w : words) {
     count.put(w, count.getOrDefault(w, 0) + 1);
 }
 System.out.println(count); // TreeMap：依字母順序
+```
 
+<!--
+【帶讀解法】
+`count.getOrDefault(w, 0) + 1`：第一次出現時 Map 裡沒有 w，`getOrDefault` 給你 0，加 1 後變成 1；之後每次出現就在原本的次數上 +1。
+換成 `HashMap` 結果內容相同，但順序會變得不可預期；`TreeMap` 永遠按字母排序輸出。
+-->
+
+---
+layout: default
+---
+
+# 練習 4-2：解題提示 — 範例（2）找出出現最多次的單字
+
+```java
 String maxWord = null;
 int maxCount = 0;
 for (var entry : count.entrySet()) {
@@ -1235,8 +1288,7 @@ System.out.println("出現最多次：" + maxWord + "（" + maxCount + " 次）"
 
 <!--
 【帶讀解法】
-`count.getOrDefault(w, 0) + 1`：第一次出現時 Map 裡沒有 w，`getOrDefault` 給你 0，加 1 後變成 1；之後每次出現就在原本的次數上 +1。
-換成 `HashMap` 結果內容相同，但順序會變得不可預期；`TreeMap` 永遠按字母排序輸出。
+邊遍歷 `entrySet()` 邊比較，用 `maxWord`／`maxCount` 記住目前看過次數最多的單字，是找最大值最直覺的寫法。
 -->
 
 ---
@@ -1461,7 +1513,7 @@ layout: default
 ---
 
 # 綜合練習：解題提示
-### 提示說明
+### 提示說明（1）enroll 方法
 
 ```java
 static void enroll(Map<String, List<String>> map, String course, String student) {
@@ -1470,20 +1522,60 @@ static void enroll(Map<String, List<String>> map, String course, String student)
     }
     map.get(course).add(student);
 }
+```
 
-// 統計不重複學生數
+<!--
+【帶讀解法】
+enroll：先檢查課程是否存在於 Map 中，不存在就先放一個空的 ArrayList 進去，再把學生加進該 List。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：解題提示 — 範例（2）統計不重複學生數
+
+```java
 Set<String> allStudents = new HashSet<>();
 for (List<String> students : courseEnrollment.values()) {
     allStudents.addAll(students);
 }
 System.out.println("不重複學生數：" + allStudents.size());
+```
 
-// 排序印出每門課名單 + 找出人數最多的課程
-String maxCourse = null;
-int maxCount = -1;
+<!--
+【帶讀解法】
+把所有課程的名單通通 addAll 進同一個 HashSet，重複的姓名自然會被吃掉。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：解題提示 — 範例（3）排序印出每門課名單
+
+```java
 for (var entry : courseEnrollment.entrySet()) {
     Collections.sort(entry.getValue());
     System.out.println(entry.getKey() + "：" + entry.getValue());
+}
+```
+
+<!--
+【帶讀解法】
+entrySet 遍歷時直接對 `entry.getValue()`（也就是那個 List）呼叫 sort，原地排序，再印出。
+-->
+
+---
+layout: default
+---
+
+# 綜合練習：解題提示 — 範例（4）找出人數最多的課程
+
+```java
+String maxCourse = null;
+int maxCount = -1;
+for (var entry : courseEnrollment.entrySet()) {
     if (entry.getValue().size() > maxCount) {
         maxCount = entry.getValue().size();
         maxCourse = entry.getKey();
@@ -1494,10 +1586,8 @@ System.out.println("選課人數最多：" + maxCourse + "（" + maxCount + " �
 
 <!--
 【帶讀解法】
-1. enroll：先檢查課程是否存在於 Map 中，不存在就先放一個空的 ArrayList 進去，再把學生加進該 List。
-2. 不重複學生數：把所有課程的名單通通 addAll 進同一個 HashSet，重複的姓名自然會被吃掉。
-3. entrySet 遍歷時直接對 `entry.getValue()`（也就是那個 List）呼叫 sort，原地排序。
-4. 用兩個變數 maxCourse / maxCount 邊遍歷邊比較，是找最大值最直覺的寫法。
+用兩個變數 maxCourse / maxCount 邊遍歷邊比較，是找最大值最直覺的寫法。
+（這裡拆成獨立迴圈方便逐步講解；實務上也可以跟上一步的排序印出合併成同一個迴圈。）
 
 【最後叮嚀】
 這題用到的全部都是這一章教過的東西，沒有任何魔法。如果卡關，回去翻翻對應的小節投影片，答案都在裡面。
