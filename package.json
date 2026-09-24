@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "ch02":  "slidev ch02-env-setup.md",
-    "ch13":  "slidev ch13-char-string.md",
-    "ch14":  "slidev ch14-regex.md",
+    "ch09":  "slidev ch09-methods.md",
+    "ch14":  "slidev ch14-char-string.md",
+    "ch15":  "slidev ch15-regex.md",
     "dev":   "slidev index.md",
     "build": "slidev build index.md",
     "export:all": "node scripts/export-all.mjs"

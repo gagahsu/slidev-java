@@ -144,6 +144,18 @@ static String describe(Object o) {
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+Pattern Matching for switch 學完了，別急著翻到下一節，先動手把型別比對、條件守衛跟 null 分支這幾招兜在一起寫寫看，這樣等等接觸 Sealed Class 的時候，才會更有感覺。
+-->
+
+---
 layout: default
 ---
 

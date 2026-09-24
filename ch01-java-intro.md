@@ -691,6 +691,32 @@ public class Hello {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：換一台電腦，Bytecode 卻不能跑？
+
+同學把自己電腦編譯好的 `.class` 檔傳給用舊版 JDK 的朋友，對方執行卻跳出 `UnsupportedClassVersionError`——Bytecode 不是應該哪裡都能跑嗎？
+
+**要用的 Prompt：**
+
+> 我用新版 JDK 編譯出的 `.class` 檔案，拿到別人電腦上用 `java` 指令執行，
+> 卻跳出「UnsupportedClassVersionError」，這是什麼問題？
+> 請解釋原因，並說明跟「Bytecode 平台中立」這句話有沒有衝突。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>常見誤解：</b> Bytecode 平台中立指的是「不挑作業系統」，不代表挑不出版本——執行的 JVM 版本必須大於或等於編譯時使用的 JDK 版本，這也是換電腦、換伺服器時最容易踩到的地雷。
+</div>
+
+<!--
+【操作提示】
+現場示範：用高版本 javac 編譯一支程式，改用低版本的 java 指令執行（或用 AI 模擬這個錯誤訊息），讓大家看到「平台中立」不等於「版本無限制」。
+
+【收斂一句話】
+Bytecode 跨作業系統沒問題，但跨 JDK 版本不一定行——版本落差才是換電腦常見的真正地雷。
+-->
+
+---
+layout: default
+---
+
 # 練習 7：Java 跨平台原理
 ### 認證模擬題（單選）
 
@@ -789,6 +815,31 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
+# 🎬 AI 協作時刻：AI 說的「安全」是同一種安全嗎？
+
+Java 常被說是「安全的語言」，但「安全」到底指什麼？先讓 AI 講一次，再回頭跟投影片對答案。
+
+**要用的 Prompt：**
+
+> 請解釋 Java 為什麼被認為是「安全（Secure）」的程式語言，
+> 列出至少 2 個具體機制，並各用一句話說明它防止了什麼問題。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>別照單全收：</b> AI 的回答不一定完整或準確，請對照「Java 核心特色（一）」那頁提到的 <b>沙盒機制（Sandbox）</b> 與 <b>Bytecode 驗證</b> 這兩個關鍵字，檢查 AI 有沒有講到、有沒有講錯的地方。
+</div>
+
+<!--
+【操作提示】
+把 AI 的回答列出來，逐條對照投影片「安全（Secure）」那一格的說明，看看 AI 有沒有漏掉 Sandbox 或 Bytecode 驗證其中一個機制。
+
+【收斂一句話】
+AI 給的答案不是標準答案，養成用課本內容反查 AI 說法的習慣，才是真正的批判性使用 AI。
+-->
+
+---
+layout: default
+---
+
 # 練習 8：Java 語言的特色
 ### 認證模擬題（單選）
 
@@ -827,23 +878,10 @@ layout: default
 -->
 
 ---
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 課堂練習
-# Practice
-
-<!--
-【段落轉換】
-這一章的八個小節都走過一遍了，最後用一題綜合題，把版本、平台、JDK/JRE/JVM 這幾個概念串在一起。
--->
-
----
 layout: default
 ---
 
-# 練習 9 (綜合)：新進工程師的環境設置
+# 練習 9：新進工程師的環境設置
 ### 認證模擬題（單選）
 
 公司要求新進工程師在一台全新電腦上，安裝可以「開發並執行」Java 程式的環境，並指定使用具有長期支援（LTS）的版本。下列做法何者**最合適**？
@@ -868,7 +906,7 @@ layout: default
 layout: default
 ---
 
-# 練習 9 (綜合)：新進工程師的環境設置
+# 練習 9：新進工程師的環境設置
 ### 解析
 
 **正確答案：B**

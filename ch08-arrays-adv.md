@@ -178,6 +178,18 @@ jagged[1][3] = 99;
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+不規則陣列跟 GC 的觀念都講完了，先別急著往下滑，來動手寫一題，把「每組人數不同」這種真實情境用不規則陣列存起來，順便回頭想想陣列用完之後，記憶體是怎麼被回收的。
+-->
+
+---
 layout: default
 ---
 

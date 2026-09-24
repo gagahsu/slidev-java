@@ -7,10 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 pnpm dev              # Start single dev server at localhost:3030 (all chapters)
 pnpm run ch02         # Start only Ch02 環境安裝
-pnpm run ch13         # Start only Ch13 字元與字串
-pnpm run ch14         # Start only Ch14 正規表達式
+pnpm run ch14         # Start only Ch14 字元與字串
+pnpm run ch15         # Start only Ch15 正規表達式
 pnpm build            # Build to dist/ for deployment
-pnpm run export:all   # Export all chapter decks to dist/*.pdf (accepts "ch14" or "14-25")
+pnpm run export:all   # Export all chapter decks to dist/*.pdf (accepts "ch15" or "15-26")
 ```
 
 Package manager is **pnpm** (not npm/yarn). The `.npmrc` sets `shamefully-hoist=true` required by Slidev.
@@ -24,8 +24,8 @@ This is a **Slidev** presentation project. All slide files live at the root leve
 
 ### Slide Decks
 All decks use the `penguin` theme and are named `ch<NN>-<slug>.md`:
-- `ch01-java-intro.md` … `ch27-course-review.md` — 基礎版, one per chapter
-- `ch04-…-adv.md` … `ch26-…-adv.md` — 進階／自學版, paired with the basic deck (routeAlias `chNNadv`)
+- `ch01-java-intro.md` … `ch28-course-review.md` — 基礎版, one per chapter
+- `ch04-…-adv.md` … `ch27-…-adv.md` — 進階／自學版, paired with the basic deck (routeAlias `chNNadv`)
 - `demo-oop-encapsulation.md` — 特別篇 (routeAlias `demo-oop`)
 
 Chapter numbers are dense and 1-indexed; the deck number, the `routeAlias`, and the `Ch N` label on
@@ -48,12 +48,12 @@ Slidev navigation uses `routeAlias` + Slidev's `<Link>` component (NOT `<RouterL
 
 ```yaml
 # In slide frontmatter:
-routeAlias: ch13
+routeAlias: ch14
 ```
 
 ```html
 <!-- In slide HTML: -->
-<Link to="ch13">Go to Ch13</Link>
+<Link to="ch14">Go to Ch14</Link>
 <Link to="home">← 返回目錄</Link>
 ```
 

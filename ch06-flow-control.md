@@ -258,6 +258,18 @@ layout: default
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+if-else、三元運算子、switch 這些分支工具都學過了，接下來這一整段就是把它們實際拿出來用——從單一 if 判斷，到傳統 switch 搭配 fall-through，再到現代化的 Switch Expression，每一題都對應到我們剛剛講過的某個重點，寫完這幾題，這一章的分支邏輯就真的是你的了。
+-->
+
+---
 layout: default
 ---
 
@@ -826,6 +838,31 @@ for (int i = 10; i >= 0; i--) {
 
 【預期結果】
 從 10 開始倒數，10~4 印出「N...」，3~1 印出「N... 準備！」，最後 0 印出「🚀 點火！升空！」。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：BMI 算出來都是 0，哪裡錯了？
+
+這是專題實作最常見的debug情境：程式能編譯、能執行，數字卻永遠不對，還沒報錯反而更難發現：
+
+**要用的 Prompt：**
+
+> 我寫了 BMI 計算程式，但不管輸入什麼體重身高，結果都印出 0
+> （貼上你的程式碼），請幫我找出問題出在哪。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>兩個常見地雷：</b> ① <code>weight</code>、<code>height</code> 宣告成 <code>int</code> 做整數除法，小數部分直接消失；② 身高忘記除以 100 換算成公尺。兩者都不會報錯，只會讓答案悄悄算錯，比編譯錯誤更難抓。
+</div>
+
+<!--
+【操作提示】
+現場示範一次：故意把 weight、height 宣告成 int，讓大家看到程式正常執行、卻印出 0，體會「沒報錯不代表沒問題」。
+
+【收斂一句話】
+能執行不等於答案對——型態選錯或單位沒換算，是專題實作階段最容易忽略、也最考驗細心的 bug。
 -->
 
 ---

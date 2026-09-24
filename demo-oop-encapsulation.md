@@ -468,7 +468,7 @@ layout: end
 ### 有問題嗎？我們可以現場問 AI 🙋
 
 <div class="mt-6 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left" style="max-width: 560px; margin-left: auto; margin-right: auto;">
-📚 <b>想學完整版？</b> 本章概念的完整教學：<b>Ch 9 類別與物件</b>、<b>Ch 10 物件建構與封裝</b>
+📚 <b>想學完整版？</b> 本章概念的完整教學：<b>Ch 10 類別與物件</b>、<b>Ch 11 物件建構與封裝</b>
 </div>
 
 <!--

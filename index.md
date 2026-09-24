@@ -130,96 +130,101 @@ style: |
     </Link>
     <Link to="ch09" class="chapter-card">
       <div class="chapter-num">Ch 9</div>
-      <div>類別與物件</div>
-      <div class="chapter-subtitle">Class &amp; Objects</div>
+      <div>方法</div>
+      <div class="chapter-subtitle">Methods</div>
     </Link>
     <Link to="ch10" class="chapter-card">
       <div class="chapter-num">Ch 10</div>
-      <div>物件建構與封裝</div>
-      <div class="chapter-subtitle">Constructor &amp; Encapsulation</div>
+      <div>類別與物件</div>
+      <div class="chapter-subtitle">Class &amp; Objects</div>
     </Link>
     <Link to="ch11" class="chapter-card">
       <div class="chapter-num">Ch 11</div>
-      <div>Math 和 Random 類別</div>
-      <div class="chapter-subtitle">Math &amp; Random</div>
+      <div>物件建構與封裝</div>
+      <div class="chapter-subtitle">Constructor &amp; Encapsulation</div>
     </Link>
     <Link to="ch12" class="chapter-card">
       <div class="chapter-num">Ch 12</div>
-      <div>日期與時間的類別</div>
-      <div class="chapter-subtitle">Date &amp; Time API</div>
+      <div>Math 和 Random 類別</div>
+      <div class="chapter-subtitle">Math &amp; Random</div>
     </Link>
     <Link to="ch13" class="chapter-card">
       <div class="chapter-num">Ch 13</div>
-      <div>字元與字串類別</div>
-      <div class="chapter-subtitle">Character &amp; String</div>
+      <div>日期與時間的類別</div>
+      <div class="chapter-subtitle">Date &amp; Time API</div>
     </Link>
     <Link to="ch14" class="chapter-card">
       <div class="chapter-num">Ch 14</div>
-      <div>正規表達式</div>
-      <div class="chapter-subtitle">Regular Expression</div>
+      <div>字元與字串類別</div>
+      <div class="chapter-subtitle">Character &amp; String</div>
     </Link>
     <Link to="ch15" class="chapter-card">
       <div class="chapter-num">Ch 15</div>
-      <div>繼承與多形</div>
-      <div class="chapter-subtitle">Inheritance &amp; Polymorphism</div>
+      <div>正規表達式</div>
+      <div class="chapter-subtitle">Regular Expression</div>
     </Link>
     <Link to="ch16" class="chapter-card">
       <div class="chapter-num">Ch 16</div>
-      <div>Object 類別</div>
-      <div class="chapter-subtitle">The Root of All Classes</div>
+      <div>繼承與多形</div>
+      <div class="chapter-subtitle">Inheritance &amp; Polymorphism</div>
     </Link>
     <Link to="ch17" class="chapter-card">
       <div class="chapter-num">Ch 17</div>
-      <div>抽象類別</div>
-      <div class="chapter-subtitle">Abstract Class</div>
+      <div>Object 類別</div>
+      <div class="chapter-subtitle">The Root of All Classes</div>
     </Link>
     <Link to="ch18" class="chapter-card">
       <div class="chapter-num">Ch 18</div>
-      <div>介面與多重繼承</div>
-      <div class="chapter-subtitle">Interface &amp; Multiple Inheritance</div>
+      <div>抽象類別</div>
+      <div class="chapter-subtitle">Abstract Class</div>
     </Link>
     <Link to="ch19" class="chapter-card">
       <div class="chapter-num">Ch 19</div>
-      <div>包裝類別</div>
-      <div class="chapter-subtitle">Wrapper Classes</div>
+      <div>介面與多重繼承</div>
+      <div class="chapter-subtitle">Interface &amp; Multiple Inheritance</div>
     </Link>
     <Link to="ch20" class="chapter-card">
       <div class="chapter-num">Ch 20</div>
-      <div>設計套件</div>
-      <div class="chapter-subtitle">Package Design</div>
+      <div>包裝類別</div>
+      <div class="chapter-subtitle">Wrapper Classes</div>
     </Link>
     <Link to="ch21" class="chapter-card">
       <div class="chapter-num">Ch 21</div>
-      <div>程式異常的處理</div>
-      <div class="chapter-subtitle">Exception Handling</div>
+      <div>設計套件</div>
+      <div class="chapter-subtitle">Package Design</div>
     </Link>
     <Link to="ch22" class="chapter-card">
       <div class="chapter-num">Ch 22</div>
-      <div>多執行緒（自學）</div>
-      <div class="chapter-subtitle">Multithreading</div>
+      <div>程式異常的處理</div>
+      <div class="chapter-subtitle">Exception Handling</div>
     </Link>
     <Link to="ch23" class="chapter-card">
       <div class="chapter-num">Ch 23</div>
-      <div>輸入與輸出（自學）</div>
-      <div class="chapter-subtitle">Java I/O</div>
+      <div>多執行緒（自學）</div>
+      <div class="chapter-subtitle">Multithreading</div>
     </Link>
     <Link to="ch24" class="chapter-card">
       <div class="chapter-num">Ch 24</div>
-      <div>壓縮與解壓縮（自學）</div>
-      <div class="chapter-subtitle">Zip &amp; Unzip</div>
+      <div>輸入與輸出（自學）</div>
+      <div class="chapter-subtitle">Java I/O</div>
     </Link>
     <Link to="ch25" class="chapter-card">
       <div class="chapter-num">Ch 25</div>
-      <div>集合框架</div>
-      <div class="chapter-subtitle">Collection Framework</div>
+      <div>壓縮與解壓縮（自學）</div>
+      <div class="chapter-subtitle">Zip &amp; Unzip</div>
     </Link>
     <Link to="ch26" class="chapter-card">
       <div class="chapter-num">Ch 26</div>
-      <div>Stream 與 Lambda</div>
-      <div class="chapter-subtitle">Modern Java API</div>
+      <div>集合框架</div>
+      <div class="chapter-subtitle">Collection Framework</div>
     </Link>
     <Link to="ch27" class="chapter-card">
       <div class="chapter-num">Ch 27</div>
+      <div>Stream 與 Lambda</div>
+      <div class="chapter-subtitle">Modern Java API</div>
+    </Link>
+    <Link to="ch28" class="chapter-card">
+      <div class="chapter-num">Ch 28</div>
       <div>全課程總複習</div>
       <div class="chapter-subtitle">Course Review</div>
     </Link>
@@ -257,110 +262,110 @@ style: |
       <div>陣列</div>
       <div class="chapter-subtitle">Arrays (Advanced)</div>
     </Link>
-    <Link to="ch09adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 9</div>
+    <Link to="ch10adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 10</div>
       <div class="chapter-badge">進階・自學</div>
       <div>類別與物件</div>
       <div class="chapter-subtitle">Class &amp; Objects (Advanced)</div>
     </Link>
-    <Link to="ch10adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 10</div>
+    <Link to="ch11adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 11</div>
       <div class="chapter-badge">進階・自學</div>
       <div>物件建構與封裝</div>
       <div class="chapter-subtitle">Constructor &amp; Encapsulation (Advanced)</div>
     </Link>
-    <Link to="ch11adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 11</div>
+    <Link to="ch12adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 12</div>
       <div class="chapter-badge">進階・自學</div>
       <div>Math 和 Random 類別</div>
       <div class="chapter-subtitle">Math &amp; Random (Advanced)</div>
     </Link>
-    <Link to="ch12adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 12</div>
+    <Link to="ch13adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 13</div>
       <div class="chapter-badge">進階・自學</div>
       <div>日期與時間的類別</div>
       <div class="chapter-subtitle">Date &amp; Time API (Advanced)</div>
     </Link>
-    <Link to="ch13adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 13</div>
+    <Link to="ch14adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 14</div>
       <div class="chapter-badge">進階・自學</div>
       <div>字元與字串類別</div>
       <div class="chapter-subtitle">Character &amp; String (Advanced)</div>
     </Link>
-    <Link to="ch14adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 14</div>
+    <Link to="ch15adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 15</div>
       <div class="chapter-badge">進階・自學</div>
       <div>正規表達式</div>
       <div class="chapter-subtitle">Regular Expression (Advanced)</div>
     </Link>
-    <Link to="ch15adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 15</div>
+    <Link to="ch16adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 16</div>
       <div class="chapter-badge">進階・自學</div>
       <div>繼承與多形</div>
       <div class="chapter-subtitle">Inheritance &amp; Polymorphism (Advanced)</div>
     </Link>
-    <Link to="ch16adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 16</div>
+    <Link to="ch17adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 17</div>
       <div class="chapter-badge">進階・自學</div>
       <div>Object 類別</div>
       <div class="chapter-subtitle">The Root of All Classes (Advanced)</div>
     </Link>
-    <Link to="ch17adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 17</div>
+    <Link to="ch18adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 18</div>
       <div class="chapter-badge">進階・自學</div>
       <div>抽象類別</div>
       <div class="chapter-subtitle">Abstract Class (Advanced)</div>
     </Link>
-    <Link to="ch18adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 18</div>
+    <Link to="ch19adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 19</div>
       <div class="chapter-badge">進階・自學</div>
       <div>介面與多重繼承</div>
       <div class="chapter-subtitle">Interface &amp; Multiple Inheritance (Advanced)</div>
     </Link>
-    <Link to="ch19adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 19</div>
+    <Link to="ch20adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 20</div>
       <div class="chapter-badge">進階・自學</div>
       <div>包裝類別</div>
       <div class="chapter-subtitle">Wrapper Classes (Advanced)</div>
     </Link>
-    <Link to="ch20adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 20</div>
+    <Link to="ch21adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 21</div>
       <div class="chapter-badge">進階・自學</div>
       <div>設計套件</div>
       <div class="chapter-subtitle">Package Design (Advanced)</div>
     </Link>
-    <Link to="ch21adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 21</div>
+    <Link to="ch22adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 22</div>
       <div class="chapter-badge">進階・自學</div>
       <div>程式異常的處理</div>
       <div class="chapter-subtitle">Exception Handling (Advanced)</div>
     </Link>
-    <Link to="ch22adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 22</div>
+    <Link to="ch23adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 23</div>
       <div class="chapter-badge">進階・自學</div>
       <div>多執行緒</div>
       <div class="chapter-subtitle">Multithreading (Advanced)</div>
     </Link>
-    <Link to="ch23adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 23</div>
+    <Link to="ch24adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 24</div>
       <div class="chapter-badge">進階・自學</div>
       <div>輸入與輸出</div>
       <div class="chapter-subtitle">Java I/O (Advanced)</div>
     </Link>
-    <Link to="ch24adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 24</div>
+    <Link to="ch25adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 25</div>
       <div class="chapter-badge">進階・自學</div>
       <div>壓縮與解壓縮</div>
       <div class="chapter-subtitle">Zip &amp; Unzip (Advanced)</div>
     </Link>
-    <Link to="ch25adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 25</div>
+    <Link to="ch26adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 26</div>
       <div class="chapter-badge">進階・自學</div>
       <div>集合框架</div>
       <div class="chapter-subtitle">Collection Framework (Advanced)</div>
     </Link>
-    <Link to="ch26adv" class="chapter-card chapter-card-adv">
-      <div class="chapter-num">Ch 26</div>
+    <Link to="ch27adv" class="chapter-card chapter-card-adv">
+      <div class="chapter-num">Ch 27</div>
       <div class="chapter-badge">進階・自學</div>
       <div>Stream 與 Lambda</div>
       <div class="chapter-subtitle">Modern Java API (Advanced)</div>
@@ -401,75 +406,79 @@ src: ./ch08-arrays.md
 ---
 
 ---
-src: ./ch09-class-objects.md
+src: ./ch09-methods.md
 ---
 
 ---
-src: ./ch10-constructor-encapsulation.md
+src: ./ch10-class-objects.md
 ---
 
 ---
-src: ./ch11-math-random.md
+src: ./ch11-constructor-encapsulation.md
 ---
 
 ---
-src: ./ch12-datetime.md
+src: ./ch12-math-random.md
 ---
 
 ---
-src: ./ch13-char-string.md
+src: ./ch13-datetime.md
 ---
 
 ---
-src: ./ch14-regex.md
+src: ./ch14-char-string.md
 ---
 
 ---
-src: ./ch15-inheritance.md
+src: ./ch15-regex.md
 ---
 
 ---
-src: ./ch16-object-class.md
+src: ./ch16-inheritance.md
 ---
 
 ---
-src: ./ch17-abstract-class.md
+src: ./ch17-object-class.md
 ---
 
 ---
-src: ./ch18-interface.md
+src: ./ch18-abstract-class.md
 ---
 
 ---
-src: ./ch19-wrapper.md
+src: ./ch19-interface.md
 ---
 
 ---
-src: ./ch20-package.md
+src: ./ch20-wrapper.md
 ---
 
 ---
-src: ./ch21-exception.md
+src: ./ch21-package.md
 ---
 
 ---
-src: ./ch22-thread.md
+src: ./ch22-exception.md
 ---
 
 ---
-src: ./ch23-io.md
+src: ./ch23-thread.md
 ---
 
 ---
-src: ./ch24-zip.md
+src: ./ch24-io.md
 ---
 
 ---
-src: ./ch25-collection.md
+src: ./ch25-zip.md
 ---
 
 ---
-src: ./ch26-stream-lambda.md
+src: ./ch26-collection.md
+---
+
+---
+src: ./ch27-stream-lambda.md
 ---
 
 ---
@@ -493,78 +502,78 @@ src: ./ch08-arrays-adv.md
 ---
 
 ---
-src: ./ch09-class-objects-adv.md
+src: ./ch10-class-objects-adv.md
 ---
 
 ---
-src: ./ch10-constructor-encapsulation-adv.md
+src: ./ch11-constructor-encapsulation-adv.md
 ---
 
 ---
-src: ./ch11-math-random-adv.md
+src: ./ch12-math-random-adv.md
 ---
 
 ---
-src: ./ch12-datetime-adv.md
+src: ./ch13-datetime-adv.md
 ---
 
 ---
-src: ./ch13-char-string-adv.md
+src: ./ch14-char-string-adv.md
 ---
 
 ---
-src: ./ch14-regex-adv.md
+src: ./ch15-regex-adv.md
 ---
 
 ---
-src: ./ch15-inheritance-adv.md
+src: ./ch16-inheritance-adv.md
 ---
 
 ---
-src: ./ch16-object-class-adv.md
+src: ./ch17-object-class-adv.md
 ---
 
 ---
-src: ./ch17-abstract-class-adv.md
+src: ./ch18-abstract-class-adv.md
 ---
 
 ---
-src: ./ch18-interface-adv.md
+src: ./ch19-interface-adv.md
 ---
 
 ---
-src: ./ch19-wrapper-adv.md
+src: ./ch20-wrapper-adv.md
 ---
 
 ---
-src: ./ch20-package-adv.md
+src: ./ch21-package-adv.md
 ---
 
 ---
-src: ./ch21-exception-adv.md
+src: ./ch22-exception-adv.md
 ---
 
 ---
-src: ./ch22-thread-adv.md
+src: ./ch23-thread-adv.md
 ---
 
 ---
-src: ./ch23-io-adv.md
+src: ./ch24-io-adv.md
 ---
 
 ---
-src: ./ch24-zip-adv.md
+src: ./ch25-zip-adv.md
 ---
 
 ---
-src: ./ch25-collection-adv.md
+src: ./ch26-collection-adv.md
 ---
 
 ---
-src: ./ch26-stream-lambda-adv.md
+src: ./ch27-stream-lambda-adv.md
 ---
 
 ---
-src: ./ch27-course-review.md
+src: ./ch28-course-review.md
 ---
 

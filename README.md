@@ -8,20 +8,20 @@
 
 | 章節 | 主題 | 章節 | 主題 |
 | --- | --- | --- | --- |
-| Ch 1 | 基本觀念 | Ch 15 | 繼承與多形 |
-| Ch 2 | 開發環境安裝 | Ch 16 | Object 類別 |
-| Ch 3 | Java 程式從零開始 | Ch 17 | 抽象類別 |
-| Ch 4 | Java 語言基礎 | Ch 18 | 介面與多重繼承 |
-| Ch 5 | 程式基本運算 | Ch 19 | 包裝類別 |
-| Ch 6 | 程式流程控制 | Ch 20 | 設計套件 |
-| Ch 7 | 迴圈控制 | Ch 21 | 程式異常的處理 |
-| Ch 8 | 陣列 | Ch 22 | 多執行緒（自學） |
-| Ch 9 | 類別與物件 | Ch 23 | 輸入與輸出（自學） |
-| Ch 10 | 物件建構與封裝 | Ch 24 | 壓縮與解壓縮（自學） |
-| Ch 11 | Math 和 Random 類別 | Ch 25 | 集合框架 |
-| Ch 12 | 日期與時間的類別 | Ch 26 | Stream 與 Lambda |
-| Ch 13 | 字元與字串類別 | Ch 27 | 全課程總複習 |
-| Ch 14 | 正規表達式 | | |
+| Ch 1 | 基本觀念 | Ch 16 | 繼承與多形 |
+| Ch 2 | 開發環境安裝 | Ch 17 | Object 類別 |
+| Ch 3 | Java 程式從零開始 | Ch 18 | 抽象類別 |
+| Ch 4 | Java 語言基礎 | Ch 19 | 介面與多重繼承 |
+| Ch 5 | 程式基本運算 | Ch 20 | 包裝類別 |
+| Ch 6 | 程式流程控制 | Ch 21 | 設計套件 |
+| Ch 7 | 迴圈控制 | Ch 22 | 程式異常的處理 |
+| Ch 8 | 陣列 | Ch 23 | 多執行緒（自學） |
+| Ch 10 | 類別與物件 | Ch 24 | 輸入與輸出（自學） |
+| Ch 11 | 物件建構與封裝 | Ch 25 | 壓縮與解壓縮（自學） |
+| Ch 12 | Math 和 Random 類別 | Ch 26 | 集合框架 |
+| Ch 13 | 日期與時間的類別 | Ch 27 | Stream 與 Lambda |
+| Ch 14 | 字元與字串類別 | Ch 28 | 全課程總複習 |
+| Ch 15 | 正規表達式 | | |
 
 每張投影片皆使用 `penguin` 主題，內建課堂練習與解題提示頁，教材以繁體中文撰寫，並搭配英文標題。
 
@@ -43,16 +43,16 @@ pnpm install
 ```bash
 pnpm dev              # 啟動單一 dev server，網址 localhost:3030，含全部章節
 pnpm run ch02         # 只啟動 Ch02 環境安裝
-pnpm run ch13         # 只啟動 Ch13 字元與字串
-pnpm run ch14         # 只啟動 Ch14 正規表達式
+pnpm run ch14         # 只啟動 Ch14 字元與字串
+pnpm run ch15         # 只啟動 Ch15 正規表達式
 pnpm build            # 建置到 dist/ 供部署
-pnpm run export:all   # 匯出所有章節投影片為 dist/*.pdf（可帶參數 "ch14" 或 "14-25"）
+pnpm run export:all   # 匯出所有章節投影片為 dist/*.pdf（可帶參數 "ch15" 或 "14-25"）
 ```
 
 ## 專案結構
 
 - `index.md` — 目錄頁（Portal），透過 `src:` 匯入所有章節投影片，是 `pnpm dev` 的進入點
-- `ch<NN>-<slug>.md` — 各章節「基礎版」投影片（`ch01-java-intro.md` … `ch27-course-review.md`）
+- `ch<NN>-<slug>.md` — 各章節「基礎版」投影片（`ch01-java-intro.md` … `ch28-course-review.md`）
 - `ch<NN>-<slug>-adv.md` — 對應章節「進階／自學版」投影片，`routeAlias` 為 `chNNadv`
 - `demo-oop-encapsulation.md` — 特別篇（`routeAlias` 為 `demo-oop`）
 - `public/img/<topic>/` — 章節截圖，從 root path 引用，例如 `<img src="/img/env/jdk-01-download.png">`

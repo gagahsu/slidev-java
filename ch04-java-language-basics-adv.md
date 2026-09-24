@@ -215,6 +215,18 @@ price * qty 是負數 -3703.5，搭配 `(,.2f` 會印成 `(3,703.50)`，括號�
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+古古前面帶大家把 printf 的寬度、精確度、千分位、正負號、括號這些旗標一個一個拆開來看，現在換大家把這些旗標組合起來，動手排出真正整齊的報表格式。
+-->
+
+---
 layout: default
 ---
 

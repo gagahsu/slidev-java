@@ -196,6 +196,45 @@ for (int score : scores) {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：for 迴圈的差一錯誤
+
+陣列迴圈最常見的錯誤就是條件寫成 `<=` 而不是 `<`，跑出 `ArrayIndexOutOfBoundsException`：
+
+**要用的 Prompt：**
+
+> 我寫了這段用 for 迴圈走訪陣列的程式，執行時噴出
+> ArrayIndexOutOfBoundsException，請幫我找出問題所在，
+> 並解釋為什麼陣列索引的合法範圍是這樣：
+> {貼上你的程式碼}
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>常見地雷：</b> 陣列合法索引是 <code>0</code> 到 <code>length - 1</code>，條件寫成 <code>i <= nums.length</code> 就是典型的「差一錯誤」（off-by-one）。
+</div>
+
+<!--
+【操作提示】
+現場故意把練習 1 的程式碼條件改成 `i <= nums.length`，讓學生先看到崩潰畫面，再貼給 AI 除錯，對照 AI 講的原因跟課堂教的是否一致。
+
+【收斂一句話】
+陣列邊界永遠用 length - 1 檢查，AI 除錯的答案也要回頭對照「合法索引範圍」這個規則驗證。
+-->
+
+---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+傳統 for 跟 for-each 都上手了，接下來這一連串練習，會把 for、while、do-while，還有 break、continue 這些工具，一題一題實際串起來用，寫完大家對迴圈的掌握度會扎實很多。
+-->
+
+---
+layout: default
+---
+
 # 練習 1：偶數加總與索引印出
 ### 任務說明
 
@@ -643,6 +682,33 @@ do {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：while vs do-while 猜輸出
+
+`while` 跟 `do-while` 最容易搞混的就是「執行順序」跟「忘記更新變數造成無窮迴圈」：
+
+**要用的 Prompt：**
+
+> 請針對 while 忘記更新條件變數（造成無窮迴圈）、
+> 以及 do-while 條件一開始就是 false 但仍先執行一次，
+> 出 3 題「猜輸出結果」的程式碼考題，先不要公布答案，
+> 等我回答完再核對。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>常見地雷：</b> <code>while</code> 是先檢查再執行、最少 0 次；<code>do-while</code> 是先執行再檢查、最少 1 次——兩者搞混會導致選單少顯示一次，或迴圈完全不執行。
+</div>
+
+<!--
+【操作提示】
+現場讓學生先猜答案，特別是「忘記寫 count--」的無窮迴圈題，猜完再實際跑一次程式碼驗證（記得先設定執行次數上限，避免真的卡住）。
+
+【收斂一句話】
+while 先驗票再上車、do-while 先上車再補票，忘記更新變數是無窮迴圈最常見的兇手。
+-->
+
+---
+layout: default
+---
+
 # 練習 4：簡易選單系統
 ### 任務說明
 
@@ -1033,6 +1099,33 @@ System.out.println("結束輸入");
 layout: default
 ---
 
+# 🎬 AI 協作時刻：Scanner 輸入驗證除錯
+
+使用者打了文字進去，程式卻預期整數，很容易直接噴例外崩潰：
+
+**要用的 Prompt：**
+
+> 我寫的 Scanner 輸入驗證程式，使用者只要打了非數字的文字，
+> 程式就會噴出 InputMismatchException 直接崩潰，
+> 請幫我找出問題並修正，讓程式能持續提示重新輸入：
+> {貼上你的程式碼}
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>常見地雷：</b> 忘記在 <code>nextInt()</code> 之前用 <code>hasNextInt()</code> 檢查，或忘記用 <code>sc.next()</code> 丟棄無效輸入，都會讓迴圈卡死或直接崩潰。
+</div>
+
+<!--
+【操作提示】
+現場示範一段「沒有驗證直接 nextInt()」的程式，故意輸入文字讓它崩潰，再貼給 AI 除錯，對照 AI 加回來的 hasNextInt() 檢查跟課堂教的寫法是否一致。
+
+【收斂一句話】
+Scanner 讀整數前一定要先 hasNextInt() 把關，讀到不對的格式要用 next() 丟棄，不然不是崩潰就是卡住。
+-->
+
+---
+layout: default
+---
+
 # 練習 6：輸入驗證與累加
 ### 任務說明
 
@@ -1291,6 +1384,33 @@ for (int chicken = 0; chicken <= heads; chicken++) {
 這張表是整章的重點整理，把三種迴圈放在一起對照，幫助我們建立「該用哪一種」的選擇直覺。
 
 💼 業界實務：簡單來說——已經知道明確次數，用 `for`；不確定次數但有停止條件，用 `while`；需要「先做一次再判斷」（例如選單），用 `do-while`。選對工具，程式會更清楚易讀。
+-->
+
+---
+layout: default
+---
+
+# 🎬 AI 協作時刻：AI 寫的 FizzBuzz 一定對嗎？
+
+FizzBuzz 這類「多重條件判斷」的題目，AI 給的答案也可能踩到判斷順序的陷阱：
+
+**要用的 Prompt：**
+
+> 請 AI 幫我檢查這段 FizzBuzz 邏輯有沒有問題，
+> 並解釋為什麼判斷順序很重要：
+> {貼上你的程式碼}
+> 但先不要照抄答案，自己動手跑一次、對照課堂教的規則驗證。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>提醒：</b> AI 給的答案不會自動是對的，如果 <code>i % 3</code> 或 <code>i % 5</code> 寫在 <code>i % 15</code> 前面，FizzBuzz 永遠不會出現——這種邏輯錯誤 AI 也可能寫錯，要自己動手驗證。
+</div>
+
+<!--
+【操作提示】
+現場請 AI 生成一版 FizzBuzz，故意選一個判斷順序寫錯的版本（或請學生自己觀察 AI 給的程式碼順序），實際跑一次看 50 以內有沒有印出正確的 FizzBuzz。
+
+【收斂一句話】
+AI 給的程式碼不是標準答案，遇到多重條件判斷更要自己動手跑一次，對照「嚴格條件放前面」的原則驗證。
 -->
 
 ---

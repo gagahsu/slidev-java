@@ -78,7 +78,6 @@ layout: default
 - **安裝 Eclipse**
 - **讓 Eclipse 認得 JDK**
 - **跑出第一支程式**
-- **課堂練習**
 
 <!--
 先看一下這一章的地圖。
@@ -94,7 +93,6 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 為什麼需要安裝開發環境
-# Why Set Up an Environment
 
 <!--
 我們先花幾分鐘講「為什麼」。
@@ -214,7 +212,6 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 安裝 JDK
-# Eclipse Temurin 21 (LTS)
 
 <!--
 好，觀念講完了，我們開始動手。
@@ -394,7 +391,6 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 確認環境變數
-# Environment Variables
 
 <!--
 接下來這一段，我們要確認剛剛安裝精靈幫我們設定的環境變數有沒有生效。
@@ -542,7 +538,6 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 驗證 JDK 安裝
-# Verify the Installation
 
 <!--
 設定都看過了，現在來做最後一件事：實際下指令驗證。
@@ -654,63 +649,11 @@ where java 會告訴你：系統實際上是從哪個資料夾找到 java.exe �
 -->
 
 ---
-layout: default
----
-
-# 練習 1：JDK 安裝驗收
-### 任務說明
-
-在自己的電腦上完成以下三件事，並把畫面截圖：
-
-1. 開啟一個**全新**的命令提示字元，執行 `java -version`，確認版本為 21
-2. 執行 `where java`，記錄 `java.exe` 的完整路徑
-3. 打開環境變數視窗，找出 `JAVA_HOME` 的值，並回答：它的結尾有沒有 `\bin`？
-
-<!--
-第一個練習，就是把剛剛教的東西自己做一遍。
-
-第一題和第二題是下指令。特別提醒，一定要開新的命令提示字元。
-
-第三題我要大家去看 JAVA_HOME 的值，然後回答它結尾有沒有 backslash bin。這題不是在考記憶力，是要大家真的去看一眼自己電腦上的設定，因為之後裝 Eclipse 就會用到這個路徑。
-
-做完之後我們對答案，看看有沒有人的環境跟別人不一樣。
--->
-
----
-layout: default
----
-
-# 練習 1：解題提示
-### 提示說明
-
-1. 環境變數改過之後，舊的命令提示字元讀到的還是舊設定 → 一定要**關掉重開**
-2. `where java` 若輸出**多行**，代表電腦上有多個 JDK，**第一行**才是實際生效的那個
-3. `JAVA_HOME` 的正確格式：
-
-```text
-✅ C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot
-❌ C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot\bin
-```
-
-<!--
-給大家三個提示。
-
-第一，如果指令沒反應，先確認是不是視窗沒重開，這是最常見的原因。
-
-第二，where java 如果吐出好幾行，不要慌，那代表你電腦上不只一份 JDK。真正生效的是第一行，因為系統找到第一個就停了。
-
-第三，JAVA_HOME 的正確寫法我直接列在畫面上，上面打勾的是對的，下面打叉的是錯的。差別只有結尾那個 bin。
-
-如果你的是錯的，現在就順手改掉，不然等一下設 Eclipse 會卡住。
--->
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # 安裝 Eclipse
-# Eclipse IDE for Java Developers
 
 <!--
 JDK 這一段告一段落，恭喜大家，最麻煩的部分已經過了。
@@ -907,7 +850,6 @@ class: flex flex-col justify-center items-center text-center
 ---
 
 # 讓 Eclipse 認得 JDK 21
-# Installed JREs
 
 <!--
 Eclipse 開起來了，但還不能馬上開始寫程式。
@@ -1029,66 +971,11 @@ JRE name 那格會自動幫你填好，不用改。確認完按 Finish。
 -->
 
 ---
-layout: default
----
-
-# 練習 2：Eclipse 設定驗收
-### 任務說明
-
-在 Eclipse 中完成以下確認，並把畫面截圖：
-
-1. 打開 `Window → Preferences → Java → Installed JREs`
-2. 確認清單中有一筆 **jdk-21**，且**前面的核取方塊已勾選**
-3. 點選該筆後按 `Edit`，記錄 `JRE home` 的完整路徑
-4. 回答：這個路徑跟你在練習 1 記下的 `JAVA_HOME` 是不是同一個？
-
-<!--
-第二個練習，驗收 Eclipse 的設定。
-
-前三題都是照著剛剛的步驟走一次，確認設定有存進去。
-
-第四題比較有意思：我要大家比對 Eclipse 裡的 JRE home，跟練習 1 記下來的 JAVA_HOME，是不是同一個資料夾。
-
-為什麼要問這個？因為這兩個是兩套獨立的設定，Eclipse 不會自動去讀 JAVA_HOME。它們指到同一個地方是最單純、最不會出事的狀態。
-
-如果你發現兩個不一樣，現在改過來，不然之後在命令列跑跟在 Eclipse 裡跑，可能會得到不同結果，那種問題很難查。
--->
-
----
-layout: default
----
-
-# 練習 2：解題提示
-### 提示說明
-
-1. 設定視窗左上角有搜尋框，直接打 `JRE` 就能跳到該頁
-2. `JRE home` 選對的判斷方法：下方 **JRE system libraries 清單有內容**（空的就是選錯層）
-3. 兩者路徑應該一致：
-
-```text
-JAVA_HOME  = C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot
-JRE home   = C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot
-```
-
-<!--
-三個提示。
-
-第一，Preferences 裡面項目太多，用左上角搜尋框最快。
-
-第二，怎麼知道 JRE home 有沒有選對？看下面那片函式庫清單有沒有東西。有一堆 jar 就是對的，空空如也就是選錯層了，通常是多選了一層 bin。
-
-第三，畫面上直接列出兩個應該一致的路徑給大家對照。
-
-如果不一致也不是世界末日，但建議統一，維護上單純很多。
--->
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
 # 跑出第一支程式
-# Your First Program
 
 <!--
 最後一段，也是最有成就感的一段。
@@ -1171,7 +1058,7 @@ class: flex flex-col justify-center items-center text-center
 </div>
 
 <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>package 是什麼：</b> 用來分類程式碼的資料夾，避免不同來源的類別名稱撞在一起。第 20 章會詳細介紹。輸入完 Name 後，點擊 <b>Finish</b> 完成建立。
+💡 <b>package 是什麼：</b> 用來分類程式碼的資料夾，避免不同來源的類別名稱撞在一起。第 21 章會詳細介紹。輸入完 Name 後，點擊 <b>Finish</b> 完成建立。
 </div>
 
 <!--
@@ -1183,7 +1070,7 @@ package 是什麼？簡單講就是分類用的資料夾。
 
 還有一個更實際的理由：如果你寫了一個 Student 類別，別人也寫了一個 Student，兩個放在一起就撞名了。有了 package，一個叫 hello.Student，一個叫 school.Student，就分得開。
 
-這個觀念第 20 章會完整講，現在先照著做就好。
+這個觀念第 21 章會完整講，現在先照著做就好。
 
 打好名字之後按 Finish。
 -->
@@ -1300,139 +1187,6 @@ Run As 底下可能有好幾個選項，我們選 Java Application 這一個。
 上一章講的那些理論，在這一行輸出裡全部走過一遍了。
 
 如果 Console 沒有出現東西，先確認三件事：Console 面板有沒有被關掉、程式有沒有存檔、還有 main 方法是不是真的存在。
--->
-
----
-layout: default
----
-
-# 練習 3：從零建立第二個專案
-### 任務說明
-
-不看投影片，自己從頭做一次：
-
-1. 建立新專案 `MyFirstApp`
-2. 在其中建立 package `intro`
-3. 建立 class `Welcome`，記得勾選 `main` 方法
-4. 讓程式輸出你的名字與今天的日期，例如：`我是王小明，今天是 2026/08/06`
-5. 執行並在 Console 看到結果
-
-<!--
-第三個練習，我要大家把投影片蓋起來，自己從頭做一次。
-
-為什麼要再做一次？因為剛剛是跟著我一步一步點，那叫「照做」，不叫「會了」。自己走一遍才知道哪一步其實沒記住。
-
-這次專案名稱叫 MyFirstApp，package 叫 intro，類別叫 Welcome。輸出的內容改成你自己的名字跟今天的日期。
-
-注意一下三個名稱的大小寫慣例：專案跟類別是大駝峰，package 全部小寫。這在第 3 章跟第 20 章會正式講，現在先照著做，養成習慣。
-
-做完舉手，我過去看。
--->
-
----
-layout: default
----
-
-# 練習 3：解題提示
-### 提示說明
-
-1. 輸出中文沒問題，Eclipse 預設編碼是 UTF-8
-2. 印出多段文字，可以用 `+` 把字串接起來
-3. 參考寫法：
-
-```java
-public static void main(String[] args) {
-    System.out.println("我是王小明，今天是 2026/08/06");
-}
-```
-
-<!--
-三個提示。
-
-第一，中文可以直接印，不用做任何設定。Eclipse 新版預設就是 UTF-8 編碼。如果你的中文變成亂碼，那是舊版設定的問題，可以到 Preferences 搜尋 encoding 改成 UTF-8。
-
-第二，如果你想把好幾段文字接起來，用加號就可以。例如雙引號我是雙引號 加 name 加 雙引號今天是雙引號。字串相接第 13 章會詳細講。
-
-第三，畫面上給了一個最簡單的參考寫法，整句話直接寫死在雙引號裡面，這樣最不容易出錯。
-
-想挑戰的同學可以試試看用變數存名字，再接起來印。
--->
-
----
-layout: section
-class: flex flex-col justify-center items-center text-center
----
-
-# 課堂練習
-# Practice
-
-<!--
-最後一個綜合練習，把這一章的東西整個串起來。
--->
-
----
-layout: default
----
-
-# 練習 4 (綜合)：新電腦環境健檢
-### 任務說明
-
-公司發了一台新電腦給你，同事說「Java 環境我幫你裝好了」。但你執行程式時出現：
-
-```text
-'javac' 不是內部或外部命令、可執行的程式或批次檔。
-```
-
-請寫出你的**排查順序**（至少三個步驟），說明每一步要檢查什麼、用什麼指令或畫面確認。
-
-<!--
-最後一個練習，這是一個情境題，模擬你以後真的會遇到的狀況。
-
-同事跟你說 Java 都裝好了，結果你一跑就噴錯，說找不到 javac。
-
-我要大家寫出「排查順序」——不是叫你重裝，是要你像工程師一樣，一步一步縮小範圍，找出問題到底在哪。
-
-這一題沒有唯一答案，但有好的答案跟不好的答案。好的答案會從「最可能、最容易確認」的開始查。
-
-大家先自己想兩分鐘，等一下我們一起討論。
-
-提示一下：這一章我們教過的驗證指令有兩個，環境變數有兩個，這四樣東西就是你的工具。
--->
-
----
-layout: default
----
-
-# 練習 4 (綜合)：解題提示
-### 提示說明
-
-| 順序 | 檢查什麼 | 怎麼確認 |
-| --- | --- | --- |
-| 1 | 命令提示字元是不是舊的 | 關掉，重開一個新的再試 |
-| 2 | JDK 到底有沒有裝 | 到 `C:\Program Files` 看有沒有 JDK 資料夾 |
-| 3 | `Path` 有沒有 JDK 的 `bin` | 環境變數視窗 → `Path` → 編輯 |
-| 4 | 找到的是不是正確那一份 | `where java`、`java -version` |
-
-<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>常見陷阱：</b> 同事只裝了 <b>JRE</b> 沒裝 JDK — 這時 <code>java</code> 有反應，但 <code>javac</code> 沒有。
-</div>
-
-<!--
-我們對一下答案。
-
-第一步先重開命令提示字元，因為這個最快、最不花力氣，而且真的很常是原因。工程師排查問題有個原則：先試成本最低的。
-
-第二步確認 JDK 到底有沒有裝，直接去 Program Files 看資料夾。同事說裝好了，但眼見為憑。
-
-第三步看 Path 裡面有沒有 JDK 的 bin。到這裡通常就找到答案了。
-
-第四步用 where java 和 java -version 確認找到的是哪一份。
-
-最後我要特別講畫面下面那個陷阱，這一題最漂亮的答案就是它：同事可能只裝了 JRE，沒裝 JDK。
-
-這種情況的特徵很好認——你打 java 有反應，打 javac 卻說找不到。為什麼？因為 JRE 裡面有 java 但沒有 javac。
-
-如果你在面試或工作上能一眼看出這個，代表你真的懂 JDK 跟 JRE 的差別了。
 -->
 
 ---

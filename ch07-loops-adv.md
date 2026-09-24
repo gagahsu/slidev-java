@@ -144,6 +144,18 @@ for (int i = 0; i < 3; i++) {
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+迴圈標籤的語法看起來簡單，但 break 標籤跟 continue 標籤的差異，一定要自己動手寫一次才會真的分清楚，接下來就換個條件，讓大家實際體會一下標籤如何精準控制多層迴圈。
+-->
+
+---
 layout: default
 ---
 

@@ -610,7 +610,7 @@ System.out.println(s.substring(1, 4)); // "ell"
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 String 完整的方法庫在 <b>Ch 13 字元與字串類別</b> 中詳細介紹。
+💡 String 完整的方法庫在 <b>Ch 14 字元與字串類別</b> 中詳細介紹。
 </div>
 
 <!--
@@ -840,6 +840,32 @@ double area = PI * r * r;
 layout: default
 ---
 
+# 🎬 AI 協作時刻：AI 幫你取的常數名稱，你會照抄嗎？
+
+請 AI 幫忙把神秘數字改成常數很方便，但 AI 取的命名不一定符合 Java 的慣例，照單全收反而養成壞習慣：
+
+**要用的 Prompt：**
+
+> 這段程式碼有一些直接寫死的數字（貼上你的程式碼），
+> 請幫我找出所有 magic number，並建議改成 static final 常數，
+> 包含建議的常數名稱。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>別照單全收：</b> AI 建議的常數名稱不一定完全遵守「全大寫、底線分隔」的慣例，採用前記得對照「常數的好處」那頁自己檢查、微調命名。
+</div>
+
+<!--
+【操作提示】
+把 AI 建議的常數名稱列出來，跟「變數命名規則」跟「常數的好處」兩頁的命名慣例逐一核對，抓出不符合慣例的地方。
+
+【收斂一句話】
+AI 能幫你找出哪裡是神秘數字，但命名是否符合團隊慣例，還是要靠自己把關。
+-->
+
+---
+layout: default
+---
+
 # 練習 4：消除神秘數字
 ### 任務說明
 
@@ -948,6 +974,31 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
+# 🎬 AI 協作時刻：printf 噴出 IllegalFormatConversionException？
+
+轉換字元跟引數型態對不上，`printf` 不會在編譯期擋下來，而是執行到那一行才爆炸：
+
+**要用的 Prompt：**
+
+> 我執行這段程式碼時出現「IllegalFormatConversionException: d != java.lang.Double」
+> 錯誤（貼上你的 printf 那一行），請幫我找出問題並解釋原因。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>對應關係要記熟：</b> <code>%d</code> 只能對應整數（int/long），<code>%f</code> 才是浮點數；型態對不上，程式在編譯階段完全看不出問題，是執行到那一行才噴例外。
+</div>
+
+<!--
+【操作提示】
+現場故意把 double 變數傳給 %d，讓大家看到程式先正常編譯、執行到那一行才報錯，體會「編譯過不代表沒問題」。
+
+【收斂一句話】
+printf 的轉換字元要跟引數型態一一對應，對不上是執行期才會爆的錯，編譯器不會先幫你擋下來。
+-->
+
+---
+layout: default
+---
+
 # 練習 5：個人資料卡
 ### 任務說明
 
@@ -1016,8 +1067,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 課堂練習
-# Practice
+# 實作綜合練習
 
 <!--
 【段落轉換】

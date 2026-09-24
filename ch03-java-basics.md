@@ -391,6 +391,32 @@ System.out.printf("%.2f%n", 3.14159); // 3.14（換行）
 layout: default
 ---
 
+# 🎬 AI 協作時刻：為什麼找不到 main 方法？
+
+把 `main` 方法的關鍵字漏寫或寫錯一個字，JVM 就會直接說「找不到進入點」，這是新手最常撞見的執行期錯誤之一：
+
+**要用的 Prompt：**
+
+> 我執行 `java HelloWorld` 時出現「Error: Main method not found in class HelloWorld,
+> please define the main method as: public static void main(String[] args)」，
+> 我的程式碼是：{貼上你的程式碼}，請幫我找出問題出在哪一個關鍵字。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>記住這句話：</b> <code>public static void main(String[] args)</code> 五個部分缺一不可，漏掉 <code>static</code> 或把 <code>main</code> 拼錯，JVM 就找不到程式該從哪裡開始執行。
+</div>
+
+<!--
+【操作提示】
+現場故意把 main 方法的 static 拿掉，執行給大家看錯誤訊息長什麼樣子，再把訊息貼給 AI 驗證。
+
+【收斂一句話】
+main 方法簽名是 JVM 跟我們之間的固定約定，五個關鍵字一個都不能少、不能錯。
+-->
+
+---
+layout: default
+---
+
 # 練習 2：抓出結構與命名問題
 ### 任務說明
 
@@ -629,6 +655,32 @@ layout: default
 layout: default
 ---
 
+# 🎬 AI 協作時刻：三種註解你分得清楚嗎？
+
+`//`、`/* */`、`/** */` 長得都很像，但用錯場合會讓程式碼變得又亂又沒用，考前先讓 AI 幫你出題自我測驗：
+
+**要用的 Prompt：**
+
+> 請針對 Java 的三種註解（單行 `//`、多行 `/* */`、文件註解 `/** */`），
+> 出 3 題「這段程式碼該用哪一種註解」的情境題給我，先別公布答案，
+> 等我回答完再一起核對。
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>常被忽略的細節：</b> Javadoc（<code>/** */</code>）一定要緊貼在 class 或方法定義的正上方，才會被 <code>javadoc</code> 工具讀到；位置放錯，產生出來的文件內容就會是空的。
+</div>
+
+<!--
+【操作提示】
+拿到 AI 出的 3 題後，先讓學生自己選答案，再逐題核對，特別點出 Javadoc 那題容易漏掉「位置」這個限制。
+
+【收斂一句話】
+三種註解的差別不只是符號不同，更是「給誰看」跟「放在哪」的差別，位置放錯 Javadoc 就會失效。
+-->
+
+---
+layout: default
+---
+
 # 練習 4：寫一段有完整註解的程式
 ### 任務說明
 
@@ -685,8 +737,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 課堂練習
-# Practice
+# 實作綜合練習
 
 <!--
 【段落轉換】

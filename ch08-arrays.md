@@ -160,6 +160,18 @@ System.out.println(scores[4]); // 88
 -->
 
 ---
+layout: section
+class: flex flex-col justify-center items-center text-center
+---
+
+# 實作綜合練習
+
+<!--
+【段落轉換】
+陣列的索引概念講完了，光聽不夠，接下來這一連串練習會從最基本的存取，一路練到排序、複製、二維陣列跟搜尋，每一題都是這一章的某個重點，動手寫過一遍才會真的內化。
+-->
+
+---
 layout: default
 ---
 
@@ -757,6 +769,34 @@ for (int i = 0; i < matrix.length; i++) {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：二維陣列索引搞混了
+
+`matrix.length` 跟 `matrix[i].length` 是新手最容易搞混的一對，也常常把 `matrix[i][j]` 的 `i`、`j` 用反：
+
+**要用的 Prompt：**
+
+> 我寫的二維陣列巢狀迴圈跑出
+> ArrayIndexOutOfBoundsException，矩陣明明是 3x3，
+> 請幫我找出問題出在哪一行，並解釋
+> matrix.length 跟 matrix[i].length 的差別：
+> {貼上你的程式碼}
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>常見地雷：</b> <code>matrix.length</code> 是「列數」，<code>matrix[i].length</code> 是「第 i 列的欄數」——兩者混用，或把 <code>matrix[i][j]</code> 寫成 <code>matrix[j][i]</code>，都會導致索引錯誤。
+</div>
+
+<!--
+【操作提示】
+現場故意把內層迴圈條件寫成 `j < matrix.length`（而不是 `matrix[i].length`），用一個非正方形矩陣測試，讓學生看到崩潰後再貼給 AI 分析。
+
+【收斂一句話】
+走訪二維陣列時，外層用 matrix.length 控制列數，內層一定要用 matrix[i].length 控制當前這一列的欄數。
+-->
+
+---
+layout: default
+---
+
 # 練習 4：每列總分
 ### 任務說明
 
@@ -1043,6 +1083,34 @@ if (idx != -1) {
 layout: default
 ---
 
+# 🎬 AI 協作時刻：AI 的「優化建議」一定適合嗎？
+
+請 AI 幫忙看線性搜尋／找最大值的程式碼時，AI 常常會建議「先排序再處理」，但這不一定符合題目限制：
+
+**要用的 Prompt：**
+
+> 請 AI 幫我看看這段找最大值（或線性搜尋）的程式碼
+> 有沒有可以優化的地方：{貼上你的程式碼}
+> 如果 AI 建議先用 Arrays.sort() 排序，
+> 請你自己判斷：這樣做會不會改變原始陣列的順序？
+> 只找一次的情境，排序真的比較快嗎？
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+⚠️ <b>提醒：</b> AI 的建議不會自動正確——<code>Arrays.sort()</code> 會直接改變原始陣列順序，而且排序是 O(n log n)，只找一次最大值用線性掃描 O(n) 反而更划算，要自己判斷是否符合題目限制。
+</div>
+
+<!--
+【操作提示】
+現場請 AI 針對練習 6「找出最大值」給優化建議，如果 AI 提到排序，追問學生：這個做法符合題目「不可使用 Arrays.sort()」的限制嗎？順便討論時間複雜度的取捨。
+
+【收斂一句話】
+AI 給的優化建議要對照題目限制跟情境判斷，排序不是萬用解法，也可能違反題目要求或改變原始資料。
+-->
+
+---
+layout: default
+---
+
 # 練習 6：找出最大值
 ### 任務說明
 
@@ -1160,7 +1228,7 @@ int[][] matrix = {
 
 第六，線性搜尋是最直觀的搜尋方法，從頭到尾逐一比對，找到就回傳索引，找不到就回傳 -1——這個 -1 慣例在 Java 內建的方法（像 String.indexOf）裡也看得到。
 
-這六點加起來，就是用一個名字管理一群資料所需要的核心工具。下一章我們要進入類別與物件了！
+這六點加起來，就是用一個名字管理一群資料所需要的核心工具。下一章我們要進入方法了！
 -->
 
 ---
