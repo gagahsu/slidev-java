@@ -162,6 +162,73 @@ LinkedList 不只是 List，它還身兼 Deque（雙端佇列），可以從兩�
 -->
 
 ---
+
+# 補充：List 也有頭尾操作了
+
+`addFirst`／`addLast` 不是 `LinkedList`／`Deque` 的專利。JDK 21 起，`List` 介面本身透過 `SequencedCollection` 就有這些方法，`ArrayList` 也能直接呼叫。
+
+```java
+List<String> list = new ArrayList<>(List.of("B", "C"));
+list.addFirst("A"); // ArrayList 也能用
+list.addLast("D");
+System.out.println(list); // [A, B, C, D]
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>ArrayList</b> 的 addFirst/addLast 要搬移陣列，是 O(n)；<b>LinkedList</b> 才是真正 O(1)，頭尾操作頻繁時還是優先選 LinkedList
+</div>
+
+<!--
+【回顧】
+上一頁講 LinkedList 身兼 Deque，可以雙端操作，容易讓人誤會這是 LinkedList 專屬的能力。
+
+【核心說明】
+其實 JDK 21 把 addFirst/addLast/getFirst/getLast/removeFirst/removeLast 這組方法定義在更上層的 SequencedCollection 介面，而 List 本身就繼承了它，所以 ArrayList 現在也可以直接呼叫。
+
+【生活化比喻】
+就像原本只有「快車道」（LinkedList）能走的捷徑，現在「普通車道」（ArrayList）也開放通行了，只是普通車道走這條路還是比較塞（O(n)），快車道依然暢通無阻（O(1)）。
+
+⚠️ 易錯點：
+不要看到 ArrayList 能呼叫 addFirst 就以為效能跟 LinkedList 一樣好。底層資料結構沒變，ArrayList 頭尾操作本質還是「搬移陣列」，只是語法變方便了。
+
+💼 業界實務：
+面試如果被問「ArrayList 有沒有 addFirst？」，JDK 21 後的正確答案是「有，但效能是 O(n)，真正需要頻繁頭尾操作還是選 LinkedList」。
+-->
+
+---
+
+# 補充：reversed() — 反轉視圖
+
+`SequencedCollection` 提供 `reversed()`，回傳一個「反過來看」的視圖，`List`、`Deque`、`LinkedHashSet` 都能用。
+
+```java
+List<Integer> nums = new ArrayList<>(List.of(1, 2, 3));
+List<Integer> rev = nums.reversed();
+System.out.println(rev);   // [3, 2, 1]
+
+nums.add(4);
+System.out.println(rev);   // [4, 3, 2, 1] — 視圖同步變動
+```
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <code>reversed()</code> 回傳的是「視圖」（view），不是新集合的複製品——原集合改動，視圖也會跟著變
+</div>
+
+<!--
+【核心說明】
+以前想倒著看一個 List，常見寫法是 `Collections.reverse(list)`（原地反轉，會改動原本順序）或自己寫迴圈從後面印。JDK 21 的 reversed() 給了第三種選擇：不改動原集合，直接給你一個「反過來排」的視圖。
+
+【生活化比喻】
+這就像看一面鏡子：鏡子裡的影像是反的，但你本人（原集合）動一下，鏡子裡的影像（reversed 視圖）也會跟著動，鏡子本身沒有另外複製一個你出來。
+
+⚠️ 易錯點：
+`reversed()` 不是複製，是「視圖」。原集合修改後，反轉視圖看到的內容也會跟著改變，這跟 subList() 的「分身」概念類似，要小心。
+
+💼 業界實務：
+想從最新到最舊顯示一份時間排序的 List（例如聊天訊息），以前要手動反轉，現在直接 `messages.reversed()` 就能拿到倒序視圖，程式碼更簡潔。
+-->
+
+---
 layout: default
 ---
 
@@ -249,6 +316,38 @@ TreeSet 不准放 `null`。因為它要幫元素排隊，但它不知道 `null` 
 
 💼 業界實務：
 除非你需要「自動排序」或「記住插入順序」這類額外能力，否則一律用 HashSet，它的效能是王者。
+-->
+
+---
+
+# 補充：LinkedHashSet 也是 SequencedSet
+
+JDK 21 起，`LinkedHashSet` 額外實作了 `SequencedSet`，多了 addFirst/addLast/reversed()；`TreeSet` 雖然也繼承（透過 SortedSet），但排序方式由比較器決定，addFirst/addLast 反而會直接報錯。
+
+```java
+LinkedHashSet<String> lhs = new LinkedHashSet<>(List.of("B", "C"));
+lhs.addFirst("A");         // 合法，插到最前面
+System.out.println(lhs);   // [A, B, C]
+
+TreeSet<String> ts = new TreeSet<>(List.of("B", "C"));
+// ts.addFirst("A");       // 丟出 UnsupportedOperationException
+```
+
+<!--
+【回顧】
+上一頁比較了 HashSet / LinkedHashSet / TreeSet 三兄弟的順序差異，這頁要補上 JDK 21 帶來的新變化。
+
+【核心說明】
+LinkedHashSet 本來就是「照插入順序排列」，現在正式升級成 SequencedSet，可以直接用 addFirst/addLast 插隊，或用 reversed() 拿到倒序視圖。
+
+【生活化比喻】
+LinkedHashSet 就像排隊排好好的隊伍，現在多了「插隊到最前面」的合法通道；TreeSet 則像自動依身高排序的隊伍，你沒辦法指定誰站第一個，順序永遠由排序規則決定，所以呼叫 addFirst 直接被拒絕。
+
+⚠️ 易錯點：
+`TreeSet` 呼叫 `addFirst()`／`addLast()` 會拋出 `UnsupportedOperationException`，因為它的順序是「比較器決定」，不是「你想放哪就放哪」，這跟 List、LinkedHashSet 的行為完全不同。
+
+💼 業界實務：
+如果需求是「插入順序 + 偶爾要插隊到最前面」，選 LinkedHashSet；如果需求是「永遠自動排序」，選 TreeSet，但不要期待它支援 addFirst/addLast。
 -->
 
 ---

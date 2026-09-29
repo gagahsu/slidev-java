@@ -4,8 +4,18 @@
 
 public class Exercise1_2_DivideErrorTypes {
 
-    static int divide(int a, int b) {
-        return a / b;
+    public static String divide(int a, int b) {
+    	try {
+            return Integer.toString(a / b);
+        } catch (ArithmeticException e) {
+        	System.out.println("異常：" + e);
+            System.out.println("toString：" + e.toString());
+            System.out.println("getMessage：" + e.getMessage());
+            e.printStackTrace();
+            return "執行除法運算時須避開除數為0的";
+        }
+    	
+    	
     }
 
     public static void main(String[] args) {
@@ -14,7 +24,7 @@ public class Exercise1_2_DivideErrorTypes {
         System.out.println("這行不會被執行到");
 
         // 語法錯誤範例（無法編譯，僅供說明，請勿取消註解）：
-        // int x = 5
+         int x = 5;
 
         // 語意錯誤範例（能編譯執行，但邏輯錯誤）：
         // int total = a - b;  // 想算總和卻用減法

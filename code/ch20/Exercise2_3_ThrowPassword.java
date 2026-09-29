@@ -2,14 +2,16 @@
 // 密碼長度必須在 5–8 個字元之間
 // 長度不符時使用 throw 拋出 StringIndexOutOfBoundsException
 
+import java.io.IOException;
+
 public class Exercise2_3_ThrowPassword {
 
-    private static void pwdCheck(String pwdStr) throws StringIndexOutOfBoundsException {
+    private static void pwdCheck(String pwdStr) throws IOException {
         if (pwdStr.length() >= 5 && pwdStr.length() <= 8) {
             System.out.println("密碼驗證成功：" + pwdStr);
         } else {
             System.out.println("密碼驗證失敗：" + pwdStr);
-            throw new StringIndexOutOfBoundsException("密碼長度不符規定");
+            throw new IOException("密碼長度不符規定");
         }
     }
 
@@ -18,12 +20,13 @@ public class Exercise2_3_ThrowPassword {
 
         for (String pwd : passwords) {
             try {
-                pwdCheck(pwd);
+            	pwdCheck(pwd);
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("捕捉到ArrayIndexOutOfBoundsException異常：" + e.getMessage());
             } catch (Exception e) {
 				System.out.println("捕捉到Exception異常：" + e);
 			}
+        	
         }
     }
 }

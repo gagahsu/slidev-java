@@ -455,32 +455,6 @@ Throwable
 -->
 
 ---
-layout: default
----
-
-# 🎬 AI 協作時刻：面試常考題實戰
-
-「Checked 跟 Unchecked exception 差在哪？」是新手面試很愛問的題目，趁現在把答案練到能脫口而出：
-
-**要用的 Prompt：**
-
-> 我是 Java 初學者，請用「面試官問、我回答」的方式，
-> 幫我出一題「Checked Exception 跟 Unchecked Exception 的差異」的模擬面試題，
-> 先讓我自己回答，再告訴我哪裡答得不夠完整。
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>面試準備技巧：</b> 讓 AI 扮演面試官、自己先作答再對答案，比死背定義更容易記住、也更貼近真實面試情境。
-</div>
-
-<!--
-【操作提示】
-現場找一位同學先口頭回答看看，再把回答貼給 AI 對照，看 AI 會補充哪些沒講到的重點（例如編譯期強制處理 vs 執行期才會發現）。
-
-【收斂一句話】
-背定義不如練習「被問到的當下答得出來」——這才是面試真正考驗的能力。
--->
-
----
 
 # try-catch 語法
 
@@ -868,32 +842,6 @@ try (scanner) {
 layout: default
 ---
 
-# 🎬 AI 協作時刻：為什麼資源沒關會出事？
-
-try-with-resources 看起來只是少寫幾行 `close()`，但背後的風險比想像中嚴重，問問 AI：
-
-**要用的 Prompt：**
-
-> 如果我用 Scanner 或 FileInputStream 讀取資源之後忘記關閉，
-> 實際上會發生什麼問題？請舉一個新手容易忽略、但正式專案中會踩雷的例子，
-> 100 字以內說明。
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>養成習慣：</b> 資源沒關閉不會馬上讓程式當掉，但長期執行會慢慢把系統資源耗盡——這也是為什麼 try-with-resources 值得養成預設寫法的習慣。
-</div>
-
-<!--
-【操作提示】
-可以順便讓 AI 舉一個「資源沒關閉」實際造成當機或效能下降的案例（例如檔案控點用盡、資料庫連線池被塞滿），讓學生感受到這不是紙上談兵的規則。
-
-【收斂一句話】
-try-with-resources 省的不只是幾行程式碼，是幫我們擋掉「資源洩漏」這種難以察覺、卻會慢慢拖垮系統的問題。
--->
-
----
-layout: default
----
-
 # 練習 4：try-with-resources
 ### 任務說明
 
@@ -1109,39 +1057,6 @@ void withdraw(int amt) throws NotEnoughException {
 範例中的 `withdraw` 方法示範了兩者如何配合：方法宣告 `throws NotEnoughException`（事先告知），方法內部在條件成立時 `throw new NotEnoughException(...)`（實際動作）。
 -->
 ---
-layout: default
----
-
-# 🎬 AI 協作時刻：throw 跟 throws 到底差在哪？
-
-多一個 `s` 差很多，但初學者常常兩個字打混了，甚至以為只是拼法不同：
-
-**要用的 Prompt：**
-
-> 我搞不清楚這兩個關鍵字：
-> ```java
-> {貼上你的程式碼，例如：
-> void withdraw(int amt) throws NotEnoughException {
->     if (amt > balance)
->         throw new NotEnoughException("餘額不足");
-> }}
-> ```
-> 請解釋 `throw` 和 `throws` 分別寫在哪裡、做什麼事，
-> 並設計 3 題選擇題考我分辨「這裡該用 throw 還是 throws」，
-> 先別公布答案，等我回答後再告訴我對不對。
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-⚠️ <b>易混淆點：</b> <code>throw</code> 寫在方法<b>內部</b>，後面接一個異常<b>物件</b>（動作）；<code>throws</code> 寫在方法<b>宣告</b>處，後面接異常<b>類別</b>（宣告，可多個）。記法：throw 是「丟」，throws 是「說我可能會丟」。
-</div>
-
-<!--
-【操作提示】
-可以請同學實際作答 AI 出的 3 題選擇題，再一起核對答案，看看哪一種混淆最常發生（通常是分不清後面該接物件還是類別）。
-
-【收斂一句話】
-throw 是動作、在方法內部；throws 是宣告、在方法簽名——位置不同，接的東西也不同。
--->
----
 
 # 自訂異常類別
 
@@ -1215,40 +1130,6 @@ try {
 
 【預期結果】
 依序印出「try區塊」→「catch區塊」→「MyException：我定義的MyException發生了 異常訊息」，再加上 `printStackTrace()` 的回溯紀錄。
--->
----
-layout: default
----
-
-# 🎬 AI 協作時刻：什麼情況才需要自訂異常？
-
-`MyException`、`NotEnoughException` 都是我們自己定義的，但新手常常兩個問題搞不清楚：什麼時候該自訂、以及自訂之後該不該自己 catch：
-
-**要用的 Prompt：**
-
-> 我剛學會自訂異常類別，像這樣：
-> ```java
-> {貼上你的程式碼，例如：
-> class NotEnoughException extends Exception {
->     private int shortAmount;
->     NotEnoughException(int shortAmount) { this.shortAmount = shortAmount; }
->     public int getShortAmount() { return shortAmount; }
-> }}
-> ```
-> 請幫我判斷：什麼情況下應該自己寫一個異常類別，
-> 而不是直接用 Java 內建的 Exception 或 RuntimeException？
-> 用「銀行存款不足」這個情境舉例說明，並提醒我常見的錯誤用法。
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-⚠️ <b>批判性檢查：</b> AI 的答案不一定完全對，記得回頭核對投影片內容——自訂異常的重點在於「Java 沒有對應名稱、但業務邏輯上需要區分」的錯誤情境，並不是每個 if 判斷都值得自訂一個新的 Exception 類別，濫用反而會讓程式碼變得難以維護。
-</div>
-
-<!--
-【操作提示】
-可以請同學把 AI 給的判斷準則，拿去對照「密碼長度驗證」（用內建 `StringIndexOutOfBoundsException` 即可）跟「存款不足」（需要額外的差額資訊，適合自訂）這兩個練習，實際比較差異。
-
-【收斂一句話】
-自訂異常的關鍵不是「能不能」，而是「Java 內建的類別能不能裝下我需要的業務資訊」——裝不下才需要自己定義。
 -->
 ---
 layout: section

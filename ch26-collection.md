@@ -167,6 +167,42 @@ graph TD
 
 ---
 
+# 補充：JDK 21 的 SequencedCollection
+
+Java 21 在 `Collection` 與 `List`／`Set` 之間，多插入了一層 `SequencedCollection` 介面。
+
+```
+Collection
+  └─ SequencedCollection
+        ├─ List           （ArrayList、LinkedList…）
+        └─ SequencedSet
+              ├─ LinkedHashSet
+              └─ SortedSet → TreeSet
+```
+
+- **`List` 現在繼承 `SequencedCollection`** — 具備「有第一個、有最後一個」的順序概念
+- **`HashSet` 不算** — 沒有固定順序，不是 SequencedSet；`LinkedHashSet`、`TreeSet` 才算
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 這一層介面統一了「有頭有尾」的操作方法，後面的 List 章節會看到實際的新方法
+</div>
+
+<!--
+【回顧】
+剛剛那張介面家族樹，是 Java 21 之前的樣子。Java 21 之後，Java 官方發現 List、Deque、LinkedHashSet 這些「有順序」的集合，其實都該共享一組「操作第一個、最後一個元素」的方法，卻各自長出不同的 API，語法很不統一。
+
+【概念定義】
+所以 Java 21 新增了 `SequencedCollection`（有序集合）介面，插在 `Collection` 跟 `List`／`Set` 中間，專門定義「有第一個、有最後一個」的集合該有哪些共同方法。
+
+【生活化比喻】
+這就像捷運月台的兩端：不管是哪一條線，「第一節車廂」跟「最後一節車廂」的操作方式現在都統一了，不用每條線各自記一套規則。
+
+⚠️ 易錯點：
+`HashSet` 沒有固定順序，所以它不算 SequencedSet；只有「有明確順序」的 `LinkedHashSet`、`TreeSet` 才繼承這個介面。
+-->
+
+---
+
 # Collection 介面常用方法
 
 | 方法名稱 | 說明 |
@@ -427,30 +463,66 @@ System.out.println(sub);         // [煉獄, 炭治郎]
 -->
 
 ---
-layout: default
----
 
-# 🎬 AI 協作時刻：ArrayList 內部到底怎麼存資料？
+# List 新方法：SequencedCollection API
 
-面試最愛問「ArrayList 跟 LinkedList 差在哪」，與其死背答案，不如請 AI 用畫面講給你聽：
+JDK 21 起，`List` 直接繼承 `SequencedCollection`，多了這些「頭尾操作」方法：
 
-**要用的 Prompt：**
-
-> 請用「書架」跟「藏寶圖尋寶」兩種比喻，
-> 分別解釋 ArrayList 跟 LinkedList 的內部儲存方式，
-> 並說明為什麼 `get(index)` 在 ArrayList 比較快、
-> 在中間 `add`/`remove` 卻是 LinkedList 比較快。
+| 方法名稱 | 說明 |
+| --- | --- |
+| `addFirst(E e)` | 加到最前面 |
+| `addLast(E e)` | 加到最後面 |
+| `getFirst()` | 取得第一個元素 |
+| `getLast()` | 取得最後一個元素 |
+| `removeFirst()` | 移除並回傳第一個元素 |
+| `removeLast()` | 移除並回傳最後一個元素 |
+| `reversed()` | 回傳反轉順序的視圖 |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>面試常考：</b> 答不出「為什麼快」只答得出「哪個快」，在面試官眼裡差很多——這個 prompt 幫你把「為什麼」補齊。
+💡 以前只有 <code>LinkedList</code>（Deque）才有頭尾操作，現在 <code>ArrayList</code> 也能直接呼叫，但頭尾操作牽涉搬移陣列，效能是 O(n)，不像 LinkedList 是 O(1)
 </div>
 
 <!--
-【操作提示】
-現場貼給 AI，讓學生看它怎麼用「書架連續格子」vs「藏寶圖一張接一張」比喻兩種資料結構的差異。
+【回顧】
+前面幾頁我們都是用 get/set/add(index, e) 這種「指定索引」的方式操作 List。
 
-【收斂一句話】
-選哪個 List 不是背答案，而是看「你比較常做什麼操作」——這正是面試官想聽到的思考過程。
+【核心說明】
+JDK 21 之後，List 因為繼承了 SequencedCollection，多了一組「不用算索引」的頭尾操作方法，直接說「加到最前面」「加到最後面」就好，不用再自己算 0 或 size()-1。
+
+【生活化比喻】
+這就像排隊隊伍多了「插隊到最前面」跟「排到最後面」的快捷按鈕，不用再自己數是第幾個位置。
+
+⚠️ 易錯點：
+ArrayList 底層是陣列，addFirst 這種「加到最前面」還是得把整包資料往後搬一格，效能是 O(n)；如果常常要頭尾操作，還是 LinkedList 比較合適，這部分進階自學內容會再深入比較。
+
+💼 業界實務：
+面試常考「List 現在有沒有 addFirst？」，JDK 21 之後答案是「有，透過 SequencedCollection 繼承而來」。
+-->
+
+---
+
+# List 新方法 — 範例
+
+```java
+List<String> queue = new ArrayList<>(List.of("B", "C"));
+
+queue.addFirst("A");
+queue.addLast("D");
+System.out.println(queue);            // [A, B, C, D]
+
+System.out.println(queue.getFirst()); // "A"
+System.out.println(queue.reversed()); // [D, C, B, A]
+```
+
+<!--
+【帶讀導覽】
+我們用一個排隊佇列來看這幾個新方法怎麼用。
+
+【逐步解說】
+一開始隊伍是 B、C；`addFirst("A")` 讓 A 插到最前面；`addLast("D")` 讓 D 排到最後面；`getFirst()` 直接拿到目前排最前面的人；`reversed()` 給我們一個「反過來看」的視圖，原始的 queue 本身順序不變。
+
+【預期結果】
+依序印出 `[A, B, C, D]`、`"A"`、`[D, C, B, A]`。
 -->
 
 ---
@@ -593,33 +665,6 @@ System.out.println(names.isEmpty());          // true
 
 💼 業界實務：
 `contains` 在 `HashSet` 是 O(1)，比 `List.contains` 的 O(n) 快非常多，這是兩者效能上最大的差異之一。
--->
-
----
-layout: default
----
-
-# 🎬 AI 協作時刻：HashSet 為什麼沒把重複的擋掉？
-
-明明是同樣內容的物件，丟進 `HashSet` 卻沒被判定成重複，`contains()` 也一直找不到——這是 `Set` 最常見的地雷，拿去問 AI：
-
-**要用的 Prompt：**
-
-> 我寫了這段 code，把內容相同的自訂物件放進 HashSet，
-> 結果 size() 沒有變少、contains() 也回傳 false，
-> 明明看起來是「重複」的資料。請幫我找出問題：
-> {貼上你的程式碼}
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-⚠️ <b>易踩雷：</b> `HashSet` 判斷「重不重複」靠的是 <code>equals()</code> 和 <code>hashCode()</code>，自訂類別沒有覆寫的話，就算欄位值一樣也會被當成不同物件。
-</div>
-
-<!--
-【操作提示】
-現場示範一個自訂類別（例如 Visitor）沒有覆寫 equals/hashCode，放進 HashSet 後重複資料沒被擋掉，讓學生把這段 code 貼給 AI 找問題。
-
-【收斂一句話】
-`Set` 的「不允許重複」是靠 equals/hashCode 判斷的，不是靠肉眼看起來像不像。
 -->
 
 ---
@@ -819,34 +864,6 @@ for (String key : scores.keySet()) {
 layout: default
 ---
 
-# 🎬 AI 協作時刻：HashMap 到底有沒有順序？
-
-把資料 `put` 進 `HashMap`，`keySet()` 印出來的順序常常跟你 `put` 的順序不一樣，這是不是 bug？問問 AI：
-
-**要用的 Prompt：**
-
-> 我用 HashMap 依序 put 了 A、B、C，
-> 但印出來的順序卻不是 A、B、C。這是正常的嗎？
-> 請解釋 HashMap 為什麼不保證順序，
-> 並告訴我如果我需要「保持插入順序」或「自動排序」，
-> 應該分別改用哪個 Map？
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>面試常考：</b> 「HashMap 有沒有順序」是junior面試經典送分題，答錯很可惜，答對能立刻加分。
-</div>
-
-<!--
-【操作提示】
-可以現場把某位同學寫的 HashMap 範例貼給 AI，讓它指出「你以為的順序」跟「實際的順序」不一定一樣。
-
-【收斂一句話】
-HashMap 不保證順序是設計上的取捨，不是 bug；真的需要順序，換 LinkedHashMap 或 TreeMap 就好。
--->
-
----
-layout: default
----
-
 # 練習 4：成績統計系統
 ### 任務說明
 
@@ -991,34 +1008,6 @@ layout: default
 
 【補充】
 資深工程師的選擇流程通常是：`ArrayList` → `HashMap` → `HashSet`。如果這三樣不能解決問題，才會考慮其他變化型，那部分留給進階自學內容。
--->
-
----
-layout: default
----
-
-# 🎬 AI 協作時刻：拿到題目，該選哪個集合？
-
-面試常出一個情境題，考你會不會選對集合。試著把情境丟給 AI，看你的答案對不對：
-
-**要用的 Prompt：**
-
-> 情境：我要記錄「今天進場的所有訪客名字」，
-> 訪客可能重複進出好幾次、順序不重要，
-> 但我需要能快速查詢「某個人今天有沒有來過」。
-> 請問我該用 List、Set 還是 Map？為什麼？
-> 換個情境：如果我改成要記錄「每個訪客進場了幾次」呢？
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>帶回家用：</b> 遇到任何新情境，都可以套這個 prompt 讓 AI 陪你練習「選集合」的判斷邏輯。
-</div>
-
-<!--
-【操作提示】
-先讓學生自己猜答案（Set / Map），再貼給 AI 核對，順便問第二個情境（Map<String, Integer> 計數），練習「同一群資料，需求變了、選擇也要跟著變」。
-
-【收斂一句話】
-選集合沒有標準答案，關鍵是看「你要對這批資料做什麼操作」，這正是這張選用指南表格背後的邏輯。
 -->
 
 ---

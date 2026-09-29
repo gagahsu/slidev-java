@@ -13,7 +13,7 @@ class Vehicle {
     }
 }
 
-class Car extends Vehicle {
+class Automatic extends Vehicle {
     private Engine engine = new Engine(); // HAS-A：聚合關係
 
     public void drive() {
@@ -24,10 +24,10 @@ class Car extends Vehicle {
 
 public class Exercise2_CarIsAHasA {
     public static void main(String[] args) {
-        Car car = new Car();
-        car.run();   // 繼承自 Vehicle（IS-A）
-        car.drive(); // 委派給 Engine（HAS-A）
+    	Automatic auto = new Automatic();
+    	auto.run();   // 繼承自 Vehicle（IS-A）
+    	auto.drive(); // 委派給 Engine（HAS-A）
 
-        System.out.println(car instanceof Vehicle); // true，驗證 IS-A 關係
+        System.out.println(auto instanceof Vehicle); // true，驗證 IS-A 關係
     }
 }

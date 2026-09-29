@@ -7,6 +7,9 @@ public class CollectionIterator {
 
     public static void main(String[] args) {
         List<String> fruits = new ArrayList<>(List.of("蘋果", "香蕉", "橘子", "葡萄"));
+        
+        List<String> fruits_2 = new ArrayList<>();
+        fruits_2.add("蘋果"); fruits_2.add("香蕉"); fruits_2.add("橘子"); fruits_2.add("葡萄");
 
         // 1. 印出 size()
         System.out.println("數量：" + fruits.size());

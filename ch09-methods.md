@@ -754,32 +754,6 @@ public static void processOrder(String name, double price, int qty) {
 -->
 
 ---
-layout: default
----
-
-# 🎬 AI 協作時刻：這個方法該不該拆？
-
-寫程式時常常拿不準「這個方法是不是做太多事了」，這時候可以直接把方法貼給 AI 幫忙檢查：
-
-**要用的 Prompt：**
-
-> 這是我寫的一個 Java 方法，請幫我檢查它有沒有「做超過一件事」的問題，
-> 如果有，請告訴我可以拆成哪幾個更小的方法，並說明拆分後的職責分別是什麼。
-> （附上自己寫的方法程式碼）
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>易忽略的細節：</b>AI 給的拆分建議不一定要照單全收，重點是理解「為什麼要拆」——先自己判斷方法名稱是不是要用「和」才能說完，再對照 AI 的建議調整。
-</div>
-
-<!--
-【操作提示】
-可以現場拿一個學生自己寫的、稍微長一點的方法丟給 AI，實際比對 AI 建議的拆分方式跟今天學到的「一個方法做好一件事」原則是否一致。
-
-【收斂一句話】
-AI 很適合當「第二雙眼睛」幫忙檢查方法職責，但判斷標準（名字說不清楚、要用「和」才能描述）自己要先內化，才不會變成盲目照抄 AI 的建議。
--->
-
----
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---

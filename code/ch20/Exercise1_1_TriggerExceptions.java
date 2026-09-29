@@ -5,15 +5,15 @@
 public class Exercise1_1_TriggerExceptions {
     public static void main(String[] args) {
         // 1. NullPointerException：對 null 的字串呼叫 length()
-        String s = null;
+        String s = "null";
         System.out.println(s.length());
 
         // 2. ArrayIndexOutOfBoundsException：存取陣列不存在的索引
-        // int[] arr = new int[3];
-        // System.out.println(arr[5]);
+         int[] arr = new int[6];
+         System.out.println(arr[5]);
 
         // 3. NumberFormatException：將非數字字串轉成整數
-        // int n = Integer.parseInt("Java");
-        // System.out.println(n);
+         int n = Integer.parseInt("123");
+         System.out.println(n);
     }
 }
