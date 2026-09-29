@@ -1,0 +1,14 @@
+{
+  "title": 6.168,
+  "div_arraylist": 2.496,
+  "al_struct": 13.8,
+  "al_add": 15.48,
+  "al_update": 9.576,
+  "al_delete": 10.776,
+  "div_linkedlist": 2.544,
+  "ll_struct": 13.296,
+  "ll_add": 17.4,
+  "ll_update": 15.312,
+  "ll_delete": 14.184,
+  "ending": 9.408
+}

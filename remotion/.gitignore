@@ -1,0 +1,4 @@
+node_modules/
+out/
+narration/audio/
+narration/narration_full.wav
