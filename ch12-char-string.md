@@ -80,7 +80,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 字元 Character 類別
 
 <!--
@@ -240,7 +239,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 字串的建立
 
 <!--
@@ -483,7 +481,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # String 類別的方法
 
 <!--
@@ -1517,7 +1514,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # StringBuffer 與 StringBuilder
 
 <!--

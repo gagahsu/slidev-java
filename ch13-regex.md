@@ -63,15 +63,15 @@ layout: default
 
 # Outline
 
-- **第一部分：基礎字元符號**
+- **基礎字元符號**
   - `\d`、`\w`、`\s`、`.`、`[]`、`[^]`、跳脫符號、`|`
-- **第二部分：量次與分組**
+- **量次與分組**
   - `?`、`*`、`+`、`{}`、量次總表、貪婪/懶惰、`()`、反向引用、具名分組
-- **第三部分：位置與進階符號**
+- **位置與進階符號**
   - `^`、`$`、`\b`、`(?i)`、環視斷言
-- **第四部分：String 類別常用方法**
+- **String 類別常用方法**
   - `matches()`、`split()`、`replaceFirst()`、`replaceAll()`
-- **第五部分：正規表達式套件**
+- **正規表達式套件**
   - `java.util.regex` — `Pattern` 與 `Matcher`
 - **實作練習**
 
@@ -90,7 +90,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 基礎字元符號
 
 <!--
@@ -468,7 +467,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 量次與分組
 
 <!--
@@ -854,7 +852,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # 位置與進階符號
 
 <!--
@@ -1003,7 +1000,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # String 類別常用方法
 
 <!--
@@ -1099,7 +1095,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
 # 正規表達式套件
 # `java.util.regex`
 

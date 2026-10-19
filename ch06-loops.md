@@ -58,18 +58,18 @@ layout: default
 
 # Outline
 
-- **6-1 for 迴圈** — 基本語法、流程、enhanced for-each
-- **6-2 巢狀 for 迴圈** — 九九乘法表
-- **6-3 while 迴圈**
-- **6-4 巢狀 while 迴圈**
-- **6-5 do-while 迴圈** — 至少執行一次
-- **6-6 無限迴圈** — `while(true)`、`for(;;)`
-- **6-7 break 敘述** — 跳出迴圈
-- **6-8 continue 敘述** — 跳過本次迭代
-- **6-9 迴圈標籤（label）** — 跳出多層迴圈
-- **6-10 Scanner 輸入檢查** — while 驗證使用者輸入
-- **6-11 迴圈應用** — 累加、計數、最大最小值
-- **6-12 專題** — 圓周率估算、雞兔同籠、國王的麥粒
+- **for 迴圈** — 基本語法、流程、enhanced for-each
+- **巢狀 for 迴圈** — 九九乘法表
+- **while 迴圈**
+- **巢狀 while 迴圈**
+- **do-while 迴圈** — 至少執行一次
+- **無限迴圈** — `while(true)`、`for(;;)`
+- **break 敘述** — 跳出迴圈
+- **continue 敘述** — 跳過本次迭代
+- **迴圈標籤（label）** — 跳出多層迴圈
+- **Scanner 輸入檢查** — while 驗證使用者輸入
+- **迴圈應用** — 累加、計數、最大最小值
+- **專題** — 圓周率估算、雞兔同籠、國王的麥粒
 
 <!--
 【核心說明】
@@ -84,7 +84,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # for 迴圈
 
 <!--
@@ -96,7 +95,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-1 for 迴圈語法
+# for 迴圈語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -127,7 +126,7 @@ for 迴圈有三個大關卡。
 
 ---
 
-# 6-1 for 迴圈範例
+# for 迴圈範例
 
 ```java
 for (int i = 1; i <= 5; i++) {
@@ -150,7 +149,7 @@ for (int i = 1; i <= 5; i++) {
 
 ---
 
-# 6-1 Enhanced for-each 迴圈
+# Enhanced for-each 迴圈
 
 | 元素 | 說明 |
 | --- | --- |
@@ -174,7 +173,7 @@ for (dataType variable : arrayOrCollection) {
 
 ---
 
-# 6-1 for-each 範例
+# for-each 範例
 
 ```java
 int[] scores = {85, 92, 78, 95, 88};
@@ -199,7 +198,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 巢狀 for 迴圈
 
 <!--
@@ -211,7 +209,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-2 巢狀 for 迴圈結構
+# 巢狀 for 迴圈結構
 
 | 元素 | 說明 |
 | --- | --- |
@@ -241,7 +239,7 @@ for (int i = 1; i <= 3; i++) {
 
 ---
 
-# 6-2 九九乘法表
+# 九九乘法表
 
 ```java
 for (int i = 1; i <= 9; i++) {
@@ -266,7 +264,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # while 迴圈
 
 <!--
@@ -278,7 +275,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-3 while 迴圈語法
+# while 迴圈語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -305,7 +302,7 @@ while (condition) {
 
 ---
 
-# 6-3 while 迴圈範例
+# while 迴圈範例
 
 ```java
 int i = 1;
@@ -330,7 +327,7 @@ while (i <= 5) {
 
 ---
 
-# 6-4 巢狀 while 迴圈
+# 巢狀 while 迴圈
 
 ```java
 int i = 1;
@@ -359,7 +356,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # do-while 迴圈
 
 <!--
@@ -371,7 +367,7 @@ do-while 是那種「先做了再說」的性格。它保證任務至少會執�
 layout: default
 ---
 
-# 6-5 do-while 迴圈語法
+# do-while 迴圈語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -398,7 +394,7 @@ do {
 
 ---
 
-# 6-5 do-while vs while 對比
+# do-while vs while 對比
 
 | 比較項目 | while | do-while |
 | --- | --- | --- |
@@ -413,7 +409,7 @@ do {
 
 ---
 
-# 6-5 do-while 範例
+# do-while 範例
 
 ```java
 int i = 10;
@@ -441,7 +437,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
 # 無限迴圈與迴圈控制
 
 <!--
@@ -453,7 +448,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-6 無限迴圈
+# 無限迴圈
 
 | 寫法 | 說明 |
 | --- | --- |
@@ -481,7 +476,7 @@ while (true) {
 
 ---
 
-# 6-6 for(;;) 無限迴圈
+# for(;;) 無限迴圈
 
 ```java
 int count = 0;
@@ -505,7 +500,7 @@ System.out.println("執行了 " + count + " 次"); // 3
 
 ---
 
-# 6-7 break 敘述
+# break 敘述
 
 | 元素 | 說明 |
 | --- | --- |
@@ -533,7 +528,7 @@ break 就是「我要離職！」。
 
 ---
 
-# 6-8 continue 敘述
+# continue 敘述
 
 | 元素 | 說明 |
 | --- | --- |
@@ -564,7 +559,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第六部分
 # 迴圈標籤（Label）
 
 <!--
@@ -576,7 +570,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-9 迴圈標籤語法
+# 迴圈標籤語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -608,7 +602,7 @@ for (int i = 0; i < 3; i++) {
 
 ---
 
-# 6-9 標籤 continue 範例
+# 標籤 continue 範例
 
 ```java
 outer:
@@ -635,7 +629,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第七部分
 # Scanner 輸入檢查
 
 <!--
@@ -647,7 +640,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-10 Scanner 輸入驗證語法
+# Scanner 輸入驗證語法
 
 | 元素 | 說明 |
 | --- | --- |
@@ -674,7 +667,7 @@ hasNextInt() 就像是個過濾網。
 
 ---
 
-# 6-10 輸入驗證完整範例
+# 輸入驗證完整範例
 
 ```java
 Scanner sc = new Scanner(System.in);
@@ -699,7 +692,7 @@ System.out.println("年齡：" + age);
 
 ---
 
-# 6-10 while(true) + break 輸入模式
+# while(true) + break 輸入模式
 
 ```java
 Scanner sc = new Scanner(System.in);
@@ -727,7 +720,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第八部分
 # 迴圈應用
 
 <!--
@@ -739,7 +731,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-11 累加與計數
+# 累加與計數
 
 | 應用 | 說明 | 初始值 |
 | --- | --- | --- |
@@ -766,7 +758,7 @@ for (int i = 1; i <= 100; i++) {
 
 ---
 
-# 6-11 找最大與最小值
+# 找最大與最小值
 
 ```java
 int[] nums = {34, 17, 89, 45, 23};
@@ -794,7 +786,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第九部分
 # 專題應用
 
 <!--
@@ -806,7 +797,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 6-12 估算圓周率（萊布尼茨公式）
+# 估算圓周率（萊布尼茨公式）
 
 萊布尼茨級數：π/4 = 1 - 1/3 + 1/5 - 1/7 + ...
 
@@ -831,7 +822,7 @@ System.out.printf("π ≈ %.6f%n", pi * 4);
 
 ---
 
-# 6-12 雞兔同籠
+# 雞兔同籠
 
 已知籠中共有 35 個頭、94 條腿，求雞和兔各幾隻？
 
@@ -855,7 +846,7 @@ for (int chicken = 0; chicken <= heads; chicken++) {
 
 ---
 
-# 6-12 國王的麥粒
+# 國王的麥粒
 
 棋盤 64 格，第 n 格放 2^(n-1) 粒小麥，總計多少粒？
 

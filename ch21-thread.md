@@ -61,26 +61,26 @@ layout: default
 <div class="grid grid-cols-2 gap-6 mt-4">
 <div>
 
-**第一部分：執行緒基礎**
+**執行緒基礎**
 - Program / Process / Thread
 - 多工作業 Multitasking
 - Java 的多執行緒
 - 執行緒的生命週期
 
-**第二部分：建立執行緒**
+**建立執行緒**
 - 建立執行緒（三種方法）
 - Java 執行緒工作原理
 
 </div>
 <div>
 
-**第三部分：執行緒控制**
+**執行緒控制**
 - Thread.sleep()
 - Thread.join()
 - setPriority() 優先順序
 - setDaemon() 守護執行緒
 
-**第四部分：同步與進階**
+**同步與進階**
 - synchronized 同步
 - 匿名類別
 - 同步區塊
@@ -101,8 +101,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
-## 執行緒基礎
+# 執行緒基礎
 
 <!--
 第一部分將介紹多執行緒的基礎概念，包括 Program、Process、Thread 的差異，以及多工作業的原理。
@@ -254,8 +253,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
-## 建立執行緒
+# 建立執行緒
 
 <!--
 第二部分介紹三種建立執行緒的方式：繼承 Thread 類別、實作 Runnable 介面，以及 Java 8 之後的 Lambda 表達式。
@@ -443,8 +441,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
-## 執行緒控制
+# 執行緒控制
 
 <!--
 第三部分介紹四個常用的執行緒控制方法：sleep()、join()、setPriority() 與 setDaemon()。
@@ -641,8 +638,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
-## 同步機制
+# 同步機制
 
 <!--
 第四部分是本章最重要的核心：當多個執行緒共享資源時，如何用同步機制保護資料的一致性。
@@ -838,8 +834,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
-## 進階議題
+# 進階議題
 
 <!--
 第五部分探討兩個進階主題：死結（Deadlock）的成因與預防，以及執行緒間通信的 wait/notify 機制。

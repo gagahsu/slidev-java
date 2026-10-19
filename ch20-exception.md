@@ -63,12 +63,12 @@ layout: default
 
 # Outline
 
-- **第一部分：認識程式錯誤的類別**
-- **第二部分：處理異常方法**
+- **認識程式錯誤的類別**
+- **處理異常方法**
   - try-catch / finally / try-with-resources
   - Throwable 類別方法
   - throw / throws / 自訂異常類別
-- **第三部分：自定義錯誤代碼和訊息**
+- **自定義錯誤代碼和訊息**
 - **實作練習**
 
 <!--
@@ -80,7 +80,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 認識程式錯誤的類別
 
 <!--
@@ -302,7 +301,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 處理異常方法
 
 <!--
@@ -1030,7 +1028,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # 自定義錯誤代碼和訊息
 
 <!--

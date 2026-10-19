@@ -60,14 +60,14 @@ layout: default
 
 # Outline
 
-- **第一部分：集合框架概覽**
+- **集合框架概覽**
   - 什麼是集合框架、介面層次
   - Collection 介面常用方法
-- **第二部分：List 介面**
+- **List 介面**
   - ArrayList、LinkedList 特性與常用方法
-- **第三部分：Set 介面**
+- **Set 介面**
   - HashSet、LinkedHashSet、TreeSet 比較
-- **第四部分：Map 介面**
+- **Map 介面**
   - HashMap、LinkedHashMap、TreeMap 比較與遍歷
 - **選用指南與 Collections 工具類別**
 - **實作練習**
@@ -87,7 +87,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 集合框架概覽
 
 <!--
@@ -447,7 +446,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # List 介面
 
 <!--
@@ -726,7 +724,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # Set 介面
 
 <!--
@@ -981,7 +978,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # Map 介面
 
 <!--

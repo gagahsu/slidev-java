@@ -58,9 +58,9 @@ layout: default
 
 # Outline
 
-- **5-1 if 敘述**：if / if-else / if-else if-else 鏈、三元運算子 `? :`
-- **5-2 switch 敘述**：傳統 switch、Java 14+ switch expression、switch 搭配字串、Java 17 Pattern Matching
-- **5-3 專題實作**：BMI 計算、生肖判斷、火箭升空倒數
+- **if 敘述**：if / if-else / if-else if-else 鏈、三元運算子 `? :`
+- **switch 敘述**：傳統 switch、Java 14+ switch expression、switch 搭配字串、Java 17 Pattern Matching
+- **專題實作**：BMI 計算、生肖判斷、火箭升空倒數
 - **練習題**：2 題（任務說明 + 解題提示各一張）
 
 <!--
@@ -76,8 +76,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
-# 5-1 if 敘述
+# if 敘述
 
 <!--
 【開場白】
@@ -228,8 +227,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
-# 5-2 switch 敘述
+# switch 敘述
 
 <!--
 【開場白】
@@ -491,8 +489,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
-# 5-3 專題實作
+# 專題實作
 
 <!--
 【開場白】

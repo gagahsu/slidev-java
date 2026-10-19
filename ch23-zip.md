@@ -61,14 +61,14 @@ layout: default
 <div class="grid grid-cols-2 gap-4 mt-4">
 <div>
 
-**第一部分：套件基礎**
+**套件基礎**
 - java.util.zip 套件概觀
 - ZIP 檔案結構概念
 - ZipEntry 核心方法
 - ZipOutputStream 核心方法
 - ZipInputStream vs ZipFile
 
-**第二部分：壓縮操作**
+**壓縮操作**
 - 壓縮單一檔案
 - 壓縮多個檔案
 - 壓縮整個目錄
@@ -76,12 +76,12 @@ layout: default
 </div>
 <div>
 
-**第三部分：解壓縮操作**
+**解壓縮操作**
 - 用 ZipInputStream 解壓縮
 - 用 ZipFile 讀取 ZIP
 - Zip Slip 安全防護
 
-**第四部分：現代寫法**
+**現代寫法**
 - NIO + ZIP File System
 
 **練習與 Q&A**
@@ -102,8 +102,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
-## java.util.zip 套件概觀
+# java.util.zip 套件概觀
 
 <!--
 【章節開場】
@@ -267,8 +266,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
-## 壓縮 (Zip) 檔案
+# 壓縮 (Zip) 檔案
 
 <!--
 【章節開場】
@@ -486,8 +484,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
-## 解壓縮 (Unzip) 檔案
+# 解壓縮 (Unzip) 檔案
 
 <!--
 【章節開場】
@@ -661,8 +658,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
-## NIO + ZIP File System（Java 11+）
+# NIO + ZIP File System（Java 11+）
 
 <!--
 【章節開場】

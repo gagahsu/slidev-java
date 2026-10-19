@@ -60,14 +60,14 @@ layout: default
 
 # Outline
 
-- **1-1 認識 Java**
-- **1-2 Java 的起源**
-- **1-3 Java 之父**
-- **1-4 Java 發展史**
-- **1-5 Java 的三大平台**
-- **1-6 認識 Java SE 平台的 JDK / JRE / JVM**
-- **1-7 Java 跨平台原理**
-- **1-8 Java 語言的特色**
+- **認識 Java**
+- **Java 的起源**
+- **Java 之父**
+- **Java 發展史**
+- **Java 的三大平台**
+- **認識 Java SE 平台的 JDK / JRE / JVM**
+- **Java 跨平台原理**
+- **Java 語言的特色**
 
 <!--
 【核心說明】
@@ -82,7 +82,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-1
 # 認識 Java
 
 <!--
@@ -121,7 +120,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-2
 # Java 的起源
 
 <!--
@@ -160,7 +158,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-3
 # Java 之父
 
 <!--
@@ -201,7 +198,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-4
 # Java 發展史
 
 <!--
@@ -265,7 +261,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-5
 # Java 的三大平台
 
 <!--
@@ -305,7 +300,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-6
 # JDK / JRE / JVM
 
 <!--
@@ -403,7 +397,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-7
 # Java 跨平台原理
 
 <!--
@@ -481,7 +474,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 1-8
 # Java 語言的特色
 
 <!--

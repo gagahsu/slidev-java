@@ -58,11 +58,11 @@ layout: default
 
 # Outline
 
-- **9-1 建構方法（Constructor）**
+- **建構方法（Constructor）**
   - 預設建構子 / 自定義建構子 / 多載 / this() / vs 一般方法
-- **9-2 封裝（Encapsulation）**
+- **封裝（Encapsulation）**
   - 資料隱藏 / private + getter/setter / 存取修飾詞 / JavaBean 慣例
-- **9-3 static 關鍵字**
+- **static 關鍵字**
   - 類別變數 / 靜態方法 / static 初始化區塊 / Singleton 設計模式
 - **練習題**
 
@@ -82,7 +82,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 建構方法 Constructor
 
 <!--
@@ -349,7 +348,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 封裝 Encapsulation
 
 <!--
@@ -550,7 +548,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # static 關鍵字
 
 <!--

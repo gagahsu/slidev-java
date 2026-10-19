@@ -60,11 +60,11 @@ layout: default
 
 # Outline
 
-- **3-1 認識變數（Variable）**
-- **3-2 基本資料型態（Primitive Data Types）**
-- **3-3 字串（String）資料型態**
-- **3-4 常數（Constant）的觀念**
-- **3-5 精準控制格式化的輸出**
+- **認識變數（Variable）**
+- **基本資料型態（Primitive Data Types）**
+- **字串（String）資料型態**
+- **常數（Constant）的觀念**
+- **精準控制格式化的輸出**
 
 <!--
 【核心說明】
@@ -79,7 +79,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 3-1
 # 認識變數
 
 <!--
@@ -209,7 +208,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 3-2
 # 基本資料型態
 
 <!--
@@ -404,7 +402,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 3-3
 # 字串（String）資料型態
 
 <!--
@@ -504,7 +501,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 3-4
 # 常數（Constant）的觀念
 
 <!--
@@ -594,7 +590,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 3-5
 # 精準控制格式化的輸出
 
 <!--

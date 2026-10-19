@@ -60,9 +60,9 @@ layout: default
 
 # Outline
 
-- **2-1 我的第一個 Java 程式**
-- **2-2 解析 Java 的程式結構**
-- **2-3 程式註解**
+- **我的第一個 Java 程式**
+- **解析 Java 的程式結構**
+- **程式註解**
 
 <!--
 【核心說明】
@@ -77,7 +77,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 2-1
 # 我的第一個 Java 程式
 
 <!--
@@ -177,7 +176,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 2-2
 # 解析 Java 的程式結構
 
 <!--
@@ -324,7 +322,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 2-3
 # 程式註解
 
 <!--

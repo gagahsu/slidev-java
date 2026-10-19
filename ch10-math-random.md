@@ -58,17 +58,17 @@ layout: default
 
 # Outline
 
-- **10-1 數學常數：Math.PI、Math.E**
-- **10-2 隨機數：Math.random()，指定範圍整數**
-- **10-3 max() / min()：比較兩數大小**
-- **10-4 abs()：求絕對值**
-- **10-5 round()：四捨五入（回傳 long/int）**
-- **10-6 rint()：最接近整數值（Banker's Rounding）**
-- **10-7 ceil() / floor()：無條件進位 / 捨去**
-- **10-8 一般數學運算：pow()、sqrt()、cbrt()、exp()、log()、log10()**
-- **10-9 三角函數：sin()、cos()、tan()、toRadians()、toDegrees()**
-- **10-10 Random 類別**
-- **10-11 專題：Haversine 地球兩點距離**
+- **數學常數：Math.PI、Math.E**
+- **隨機數：Math.random()，指定範圍整數**
+- **max() / min()：比較兩數大小**
+- **abs()：求絕對值**
+- **round()：四捨五入（回傳 long/int）**
+- **rint()：最接近整數值（Banker's Rounding）**
+- **ceil() / floor()：無條件進位 / 捨去**
+- **一般數學運算：pow()、sqrt()、cbrt()、exp()、log()、log10()**
+- **三角函數：sin()、cos()、tan()、toRadians()、toDegrees()**
+- **Random 類別**
+- **專題：Haversine 地球兩點距離**
 
 <!--
 【核心說明】
@@ -80,7 +80,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # Math 類別基礎
 
 <!--
@@ -92,7 +91,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-1 數學常數
+# 數學常數
 
 `java.lang.Math` 是 Java 內建的數學工具類別，無需 import，所有方法皆為 `static`。
 
@@ -133,7 +132,7 @@ Math 類別就像是你的專屬計算機，它住在 java.lang 裡面，這是 
 layout: default
 ---
 
-# 10-2 Math.random()
+# Math.random()
 
 `Math.random()` 回傳範圍為 **[0.0, 1.0)** 的 `double` 值（含 0，不含 1）。
 
@@ -178,7 +177,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 比較與絕對值
 
 <!--
@@ -190,7 +188,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-3 max() / min()
+# max() / min()
 
 | 方法 | 說明 | 支援型別 |
 | --- | --- | --- |
@@ -224,7 +222,7 @@ max 和 min 就是幫你挑大的、選小的。支援各種數字型態，非�
 layout: default
 ---
 
-# 10-4 abs()：求絕對值
+# abs()：求絕對值
 
 | 方法 | 說明 | 支援型別 |
 | --- | --- | --- |
@@ -261,7 +259,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # 捨入方法詳解
 
 <!--
@@ -324,7 +321,7 @@ System.out.println(Math.floor(2.7));  // 2.0
 layout: default
 ---
 
-# 10-5 round()：四捨五入
+# round()：四捨五入
 
 `Math.round()` 採傳統四捨五入，0.5 一律向正無限大取整。
 
@@ -357,7 +354,7 @@ round 的回傳型別很特別，傳 float 回 int，傳 double 回 long。
 layout: default
 ---
 
-# 10-6 rint()：Banker's Rounding
+# rint()：Banker's Rounding
 
 `Math.rint()` 回傳最接近的整數值（型別為 `double`），0.5 時取最近的**偶數**。
 
@@ -393,7 +390,7 @@ System.out.println(Math.rint(2.7));  // 3.0
 layout: default
 ---
 
-# 10-7 ceil() / floor()
+# ceil() / floor()
 
 | 方法 | 說明 | 回傳型別 |
 | --- | --- | --- |
@@ -423,7 +420,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # 數學運算方法
 
 <!--
@@ -435,7 +431,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-8 一般數學運算方法
+# 一般數學運算方法
 
 | 方法 | 說明 |
 | --- | --- |
@@ -458,7 +454,7 @@ Math.pow(2, 10) 就是把 2 複製 10 個連乘。在電腦世界，這就是 10
 layout: default
 ---
 
-# 10-8 一般數學運算 — 範例
+# 一般數學運算 — 範例
 
 ```java
 System.out.println(Math.pow(2, 10));    // 1024.0
@@ -483,7 +479,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
 # 三角函數
 
 <!--
@@ -495,7 +490,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-9 三角函數方法
+# 三角函數方法
 
 | 方法 | 說明 |
 | --- | --- |
@@ -520,7 +515,7 @@ layout: default
 layout: default
 ---
 
-# 10-9 三角函數 — 範例
+# 三角函數 — 範例
 
 ```java
 // toRadians 將度數轉為弧度，再傳入三角函數
@@ -551,7 +546,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第六部分
 # Random 類別
 
 <!--
@@ -563,7 +557,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-10 Random 類別
+# Random 類別
 
 `java.util.Random` 提供更豐富的亂數功能，需要 `import java.util.Random`。
 
@@ -588,7 +582,7 @@ Math.random() 就像路邊的投幣抽獎機；Random 類別就像是拉斯維�
 layout: default
 ---
 
-# 10-10 Random 類別 — 範例
+# Random 類別 — 範例
 
 ```java
 import java.util.Random;
@@ -649,7 +643,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第七部分
 # 專題：地球兩點距離
 
 <!--
@@ -661,7 +654,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 10-11 Haversine 公式
+# Haversine 公式
 
 **問題：** 已知兩地的經緯度，如何計算地球表面的直線距離？
 
@@ -691,7 +684,7 @@ final double R = 6371; // 地球半徑（公里）
 layout: default
 ---
 
-# 10-11 Haversine 實作 (一)
+# Haversine 實作 (一)
 
 ```java
 static double haversine(double val) {
@@ -720,7 +713,7 @@ static double calcDistance(double lat1, double lon1,
 layout: default
 ---
 
-# 10-11 Haversine 實作 (二) — 測試
+# Haversine 實作 (二) — 測試
 
 ```java
 // 台北 (25.033, 121.565)  →  東京 (35.689, 139.692)

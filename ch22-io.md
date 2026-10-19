@@ -61,15 +61,15 @@ layout: default
 <div class="grid grid-cols-2 gap-4 mt-4">
 <div>
 
-**第一部分：串流基礎**
+**串流基礎**
 - 認識串流 (Stream)
 - InputStream / OutputStream 類別圖
 
-**第二部分：Byte I/O**
+**Byte I/O**
 - FileInputStream / FileOutputStream
 - BufferedInputStream / BufferedOutputStream
 
-**第三部分：字元 I/O**
+**字元 I/O**
 - Writer 和 Reader 類別層次
 - FileReader / FileWriter
 - BufferedReader / BufferedWriter
@@ -77,12 +77,12 @@ layout: default
 </div>
 <div>
 
-**第四部分：系統 I/O**
+**系統 I/O**
 - System 類別
 - PrintStream 類別
 - Console 類別
 
-**第五部分：檔案管理**
+**檔案管理**
 - File 類別
 
 **練習與 Q&A**
@@ -103,8 +103,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
-## 串流基礎
+# 串流基礎
 
 <!--
 【章節開場】
@@ -262,8 +261,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
-## Byte I/O
+# Byte I/O
 
 <!--
 【章節開場】
@@ -459,8 +457,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
-## 字元 I/O
+# 字元 I/O
 
 <!--
 【章節開場】
@@ -719,8 +716,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
-## 系統 I/O
+# 系統 I/O
 
 <!--
 【章節開場】
@@ -867,8 +863,7 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
-## 檔案管理
+# 檔案管理
 
 <!--
 【章節開場】

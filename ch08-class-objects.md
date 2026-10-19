@@ -47,30 +47,29 @@ layout: default
 
 # Outline
 
-- **8-1 認識物件與類別**：類別是藍圖、物件是實例
-- **8-2 定義類別與物件**：class 語法、欄位、方法、new 建立物件
-- **8-3 類別的基本實例**：完整 Car 類別範例
-- **8-4 多個物件的應用**：物件陣列與遍歷
-- **8-5 參照資料型態**：複製參照、null 參照
-- **8-6 再談方法**：pass by value、多載、this 關鍵字
-- **8-7 變數的有效範圍**：local vs instance scope
-- **8-8 匿名陣列**：`new int[]{1,2,3}` 直接傳入方法
-- **8-9 遞迴式方法**：base case、factorial
-- **8-10 河內塔問題**：遞迴解法
+- **認識物件與類別**：類別是藍圖、物件是實例
+- **定義類別與物件**：class 語法、欄位、方法、new 建立物件
+- **類別的基本實例**：完整 Car 類別範例
+- **多個物件的應用**：物件陣列與遍歷
+- **參照資料型態**：複製參照、null 參照
+- **再談方法**：pass by value、多載、this 關鍵字
+- **變數的有效範圍**：local vs instance scope
+- **匿名陣列**：`new int[]{1,2,3}` 直接傳入方法
+- **遞迴式方法**：base case、factorial
+- **河內塔問題**：遞迴解法
 
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 認識物件與類別
 
 ---
 layout: default
 ---
 
-# 8-1 類別與物件的關係
+# 類別與物件的關係
 
 物件導向程式設計（OOP）的核心思維：
 
@@ -87,7 +86,7 @@ layout: default
 
 ---
 
-# 8-1 現實世界比喻
+# 現實世界比喻
 
 以「學生」為例：
 
@@ -111,14 +110,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 定義類別與物件
 
 ---
 layout: default
 ---
 
-# 8-2 class 語法結構
+# class 語法結構
 
 | 語法元素 | 說明 |
 | --- | --- |
@@ -140,7 +138,7 @@ class Car {
 
 ---
 
-# 8-2 建立物件與存取成員
+# 建立物件與存取成員
 
 ```java
 // 宣告參照變數並建立物件
@@ -164,14 +162,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # 類別的基本實例
 
 ---
 layout: default
 ---
 
-# 8-3 完整 Car 類別（欄位 + 方法）
+# 完整 Car 類別（欄位 + 方法）
 
 ```java
 class Car {
@@ -192,7 +189,7 @@ class Car {
 
 ---
 
-# 8-3 建立 Car 物件並操作
+# 建立 Car 物件並操作
 
 ```java
 public class Main {
@@ -218,14 +215,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # 類別含多個物件的應用
 
 ---
 layout: default
 ---
 
-# 8-4 建立多個物件
+# 建立多個物件
 
 每次呼叫 `new` 都會在記憶體中建立一個獨立的物件：
 
@@ -248,7 +244,7 @@ c2.displayInfo(); // Honda / 時速 100
 
 ---
 
-# 8-4 物件陣列：宣告與初始化
+# 物件陣列：宣告與初始化
 
 | 步驟 | 說明 |
 | --- | --- |
@@ -270,7 +266,7 @@ cars[1].speed = 100;
 
 ---
 
-# 8-4 物件陣列遍歷
+# 物件陣列遍歷
 
 ```java
 Car[] cars = new Car[3];
@@ -295,14 +291,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
 # 類別的參照資料型態
 
 ---
 layout: default
 ---
 
-# 8-5 物件賦值 = 複製參照
+# 物件賦值 = 複製參照
 
 物件變數儲存的是**記憶體位址（參照）**，不是物件本身：
 
@@ -323,7 +318,7 @@ System.out.println(c1.speed); // 999（c1 也被改了！）
 
 ---
 
-# 8-5 參照賦值的記憶體圖解
+# 參照賦值的記憶體圖解
 
 ```mermaid {scale: 0.75}
 graph LR
@@ -342,7 +337,7 @@ graph LR
 
 ---
 
-# 8-5 null 參照
+# null 參照
 
 | 狀態 | 說明 |
 | --- | --- |
@@ -365,14 +360,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第六部分
 # 再談方法
 
 ---
 layout: default
 ---
 
-# 8-6 方法參數：Pass by Value（一）
+# 方法參數：Pass by Value（一）
 
 Java 的方法參數傳遞**永遠是「複製值」**：
 
@@ -392,7 +386,7 @@ System.out.println(n); // 5（不受影響）
 
 ---
 
-# 8-6 方法參數：Pass by Value（二）
+# 方法參數：Pass by Value（二）
 
 ```java
 static void changeSpeed(Car c) {
@@ -416,7 +410,7 @@ System.out.println(myCar.speed); // 999（未受影響）
 
 ---
 
-# 8-6 方法多載（Overloading）
+# 方法多載（Overloading）
 
 | 規則 | 說明 |
 | --- | --- |
@@ -435,7 +429,7 @@ class Multiplier {
 
 ---
 
-# 8-6 this 關鍵字
+# this 關鍵字
 
 `this` 代表「目前這個物件自己」，主要用途：
 
@@ -461,14 +455,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第七部分
 # 變數的有效範圍
 
 ---
 layout: default
 ---
 
-# 8-7 Local vs Instance 變數
+# Local vs Instance 變數
 
 | 變數類型 | 宣告位置 | 生命週期 | 預設值 |
 | --- | --- | --- | --- |
@@ -489,7 +482,7 @@ class Counter {
 
 ---
 
-# 8-7 Scope 遮蔽（Shadowing）
+# Scope 遮蔽（Shadowing）
 
 當 local 變數與 instance 變數同名時，local 會遮蔽 instance：
 
@@ -514,14 +507,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第八部分
 # 匿名陣列
 
 ---
 layout: default
 ---
 
-# 8-8 匿名陣列（Anonymous Array）
+# 匿名陣列（Anonymous Array）
 
 | 概念 | 說明 |
 | --- | --- |
@@ -540,7 +532,7 @@ printSum(new int[]{1, 2, 3});
 
 ---
 
-# 8-8 匿名陣列範例
+# 匿名陣列範例
 
 ```java
 static void printSum(int[] arr) {
@@ -565,14 +557,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第九部分
 # 遞迴式方法設計
 
 ---
 layout: default
 ---
 
-# 8-9 遞迴的基本概念
+# 遞迴的基本概念
 
 | 元素 | 說明 |
 | --- | --- |
@@ -586,7 +577,7 @@ layout: default
 
 ---
 
-# 8-9 Factorial 階乘範例
+# Factorial 階乘範例
 
 ```java
 static int factorial(int n) {
@@ -610,7 +601,7 @@ graph TD
 
 ---
 
-# 8-9 遞迴呼叫堆疊展開
+# 遞迴呼叫堆疊展開
 
 以 `factorial(4)` 為例，呼叫與回傳過程：
 
@@ -636,14 +627,13 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第十部分
 # 河內塔問題
 
 ---
 layout: default
 ---
 
-# 8-10 河內塔問題說明
+# 河內塔問題說明
 
 | 規則 | 說明 |
 | --- | --- |
@@ -666,7 +656,7 @@ static void hanoi(int n, char from, char aux, char to) {
 
 ---
 
-# 8-10 河內塔遞迴邏輯
+# 河內塔遞迴邏輯
 
 以 n=3 為例，遞迴思維：
 
@@ -686,7 +676,7 @@ graph TD
 
 ---
 
-# 8-10 執行 hanoi(3) 的輸出
+# 執行 hanoi(3) 的輸出
 
 ```java
 hanoi(3, 'A', 'B', 'C');

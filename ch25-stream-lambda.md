@@ -81,7 +81,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # Lambda 運算式
 
 <!--
@@ -351,7 +350,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 方法參考
 # Method Reference
 
@@ -428,7 +426,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # Stream API
 
 <!--

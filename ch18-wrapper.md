@@ -76,7 +76,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 包裝類別概念
 
 <!--
@@ -146,7 +145,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 自動裝箱與自動拆箱
 
 <!--
@@ -318,7 +316,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # Integer 類別的常用方法
 
 <!--
@@ -484,7 +481,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # 其他包裝類別方法
 
 <!--

@@ -58,11 +58,11 @@ layout: default
 
 # Outline
 
-- **11-1 舊版 Date 類別（java.util.Date）**
+- **舊版 Date 類別（java.util.Date）**
   - new Date()、getTime()、SimpleDateFormat
   - 為何 Date 被淘汰
 
-- **11-2 新版日期時間類別（java.time）**
+- **新版日期時間類別（java.time）**
   - LocalDate、LocalTime、LocalDateTime
   - ZonedDateTime 與 ZoneId
   - DateTimeFormatter：格式化與解析
@@ -82,7 +82,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 舊版 Date 類別
 ## java.util.Date
 
@@ -216,7 +215,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 新版日期時間類別
 ## java.time 套件（Java 8+）
 

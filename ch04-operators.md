@@ -58,18 +58,18 @@ layout: default
 
 # Outline
 
-- **4-1 程式設計的專有名詞**（運算元、運算子、運算式、敘述）
-- **4-2 指定運算子的特殊用法**（鏈式賦值）
-- **4-3 基本數學運算**（+, -, *, /, %; 整數除法; Math 類別）
-- **4-4 複合指定運算子**（+=, -=, *=, /=, %=）
-- **4-5 布林／比較／邏輯運算子**（短路求值）
-- **4-6 位元運算**（&, |, ^, ~, <<, >>, >>>）
-- **4-7 運算子優先順序表**
-- **4-8 資料型態轉換**（自動提升、強制轉型）
-- **4-9 資料的轉換與輸入**（Scanner、Integer.parseInt）
-- **4-10 import 與 java.lang 套件**
-- **4-11 程式敘述的結合與分行**
-- **4-12 專題：溫度轉換 / 高斯數學**
+- **程式設計的專有名詞**（運算元、運算子、運算式、敘述）
+- **指定運算子的特殊用法**（鏈式賦值）
+- **基本數學運算**（+, -, *, /, %; 整數除法; Math 類別）
+- **複合指定運算子**（+=, -=, *=, /=, %=）
+- **布林／比較／邏輯運算子**（短路求值）
+- **位元運算**（&, |, ^, ~, <<, >>, >>>）
+- **運算子優先順序表**
+- **資料型態轉換**（自動提升、強制轉型）
+- **資料的轉換與輸入**（Scanner、Integer.parseInt）
+- **import 與 java.lang 套件**
+- **程式敘述的結合與分行**
+- **專題：溫度轉換 / 高斯數學**
 
 <!--
 【核心說明】
@@ -84,7 +84,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第一部分
 # 程式設計的專有名詞
 
 <!--
@@ -96,7 +95,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-1 程式設計的專有名詞
+# 程式設計的專有名詞
 
 | 名詞 | 英文 | 說明 |
 | --- | --- | --- |
@@ -122,7 +121,7 @@ operand（運算元）就像是「受害者」。operator（運算子）就像�
 
 ---
 
-# 4-1 程式設計的專有名詞 — 範例
+# 程式設計的專有名詞 — 範例
 
 ```java
 int a = 5;       // a 是運算元
@@ -149,7 +148,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第二部分
 # 指定運算子與數學運算
 
 <!--
@@ -161,7 +159,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-2 指定運算子的特殊用法
+# 指定運算子的特殊用法
 
 指定運算子 `=` 的結合方向是**由右至左**，因此可以進行鏈式賦值：
 
@@ -190,7 +188,7 @@ a = b = c = 0; 這就像是排隊。先讓 c 變成 0，然後 b 跟著 c 變 0�
 
 ---
 
-# 4-3 基本數學運算子
+# 基本數學運算子
 
 | 運算子 | 名稱 | 說明 | 範例（a=10, b=3） |
 | --- | --- | --- | --- |
@@ -217,7 +215,7 @@ a = b = c = 0; 這就像是排隊。先讓 c 變成 0，然後 b 跟著 c 變 0�
 
 ---
 
-# 4-3 基本數學運算 — 範例
+# 基本數學運算 — 範例
 
 ```java
 int a = 10, b = 3;
@@ -245,7 +243,7 @@ System.out.println(x / y);  // 3.3333333333333335
 
 ---
 
-# 4-3 Math 類別常用方法
+# Math 類別常用方法
 
 | 方法 | 說明 | 範例 |
 | --- | --- | --- |
@@ -270,7 +268,7 @@ Math.round 是四捨五入，但它回傳的是 long 型態。如果你想把它
 
 ---
 
-# 4-3 Math 類別 — 範例
+# Math 類別 — 範例
 
 ```java
 System.out.println(Math.abs(-10));      // 10
@@ -296,7 +294,7 @@ Math.PI 是圓周率，別自己寫 3.14，那樣不專業。
 
 ---
 
-# 4-4 複合指定運算子
+# 複合指定運算子
 
 | 運算子 | 等效寫法 | 說明 |
 | --- | --- | --- |
@@ -319,7 +317,7 @@ score += 20; 就是「我的分數加 20 分」。比 score = score + 20; 寫起
 
 ---
 
-# 4-4 複合指定運算子 — 範例
+# 複合指定運算子 — 範例
 
 ```java
 int score = 100;
@@ -345,7 +343,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第三部分
 # 布林、比較與邏輯運算子
 
 <!--
@@ -357,7 +354,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-5 比較（關係）運算子
+# 比較（關係）運算子
 
 | 運算子 | 說明 | 範例（a=5, b=3） | 結果 |
 | --- | --- | --- | --- |
@@ -383,7 +380,7 @@ layout: default
 
 ---
 
-# 4-5 邏輯運算子
+# 邏輯運算子
 
 | 運算子 | 名稱 | 說明 | 範例 |
 | --- | --- | --- | --- |
@@ -410,7 +407,7 @@ layout: default
 
 ---
 
-# 4-5 邏輯運算子 — 範例
+# 邏輯運算子 — 範例
 
 ```java
 int score = 85;
@@ -437,7 +434,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第四部分
 # 位元運算子
 
 <!--
@@ -449,7 +445,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-6 位元邏輯運算子
+# 位元邏輯運算子
 
 | 運算子 | 名稱 | 說明 |
 | --- | --- | --- |
@@ -480,7 +476,7 @@ System.out.println(~a);     // -6 (位元全反)
 
 ---
 
-# 4-6 位元移位運算子
+# 位元移位運算子
 
 | 運算子 | 名稱 | 說明 | 等效 |
 | --- | --- | --- | --- |
@@ -512,7 +508,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第五部分
 # 運算子優先順序
 
 <!--
@@ -524,7 +519,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-7 運算子優先順序表（高 → 低）
+# 運算子優先順序表（高 → 低）
 
 | 優先順序 | 運算子 | 結合方向 |
 | --- | --- | --- |
@@ -541,7 +536,7 @@ layout: default
 
 ---
 
-# 4-7 運算子優先順序表（續）
+# 運算子優先順序表（續）
 
 | 優先順序 | 運算子 | 結合方向 |
 | --- | --- | --- |
@@ -572,7 +567,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第六部分
 # 資料型態轉換
 
 <!--
@@ -584,7 +578,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-8 自動型態提升（Numeric Promotion）
+# 自動型態提升（Numeric Promotion）
 
 當兩個不同型態的數值進行運算時，Java 會自動提升到較大的型態：
 
@@ -613,7 +607,7 @@ byte + byte 竟然會變成 int！這是 Java 為了計算速度做的設計。�
 
 ---
 
-# 4-8 強制型態轉換（Casting）
+# 強制型態轉換（Casting）
 
 當要把大型態轉為小型態時，需要**明確強制轉型**，可能有精度損失：
 
@@ -646,7 +640,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第七部分
 # 資料的轉換與輸入
 
 <!--
@@ -658,7 +651,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-9 Scanner 類別基本方法
+# Scanner 類別基本方法
 
 | 方法 | 說明 |
 | --- | --- |
@@ -683,7 +676,7 @@ Scanner 是你的「接聽器」。
 
 ---
 
-# 4-9 Scanner 基本輸入 — 範例
+# Scanner 基本輸入 — 範例
 
 ```java
 import java.util.Scanner;
@@ -710,7 +703,7 @@ scanner.close();
 
 ---
 
-# 4-9 字串轉數值（parseInt / parseDouble）
+# 字串轉數值（parseInt / parseDouble）
 
 | 方法 | 說明 | 範例 |
 | --- | --- | --- |
@@ -739,7 +732,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第八部分
 # import 與套件
 
 <!--
@@ -751,7 +743,7 @@ Java 的函式庫就像一間巨大的圖書館。有的書就在你口袋，有
 layout: default
 ---
 
-# 4-10 import 與 java.lang 套件
+# import 與 java.lang 套件
 
 | 套件 | 說明 | 需要 import？ |
 | --- | --- | --- |
@@ -787,7 +779,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第九部分
 # 程式敘述的結合與分行
 
 <!--
@@ -799,7 +790,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-11 程式敘述的結合與分行
+# 程式敘述的結合與分行
 
 Java 的敘述以 `;` 為結束，不依賴換行。因此可以：
 
@@ -833,7 +824,6 @@ layout: section
 class: flex flex-col justify-center items-center text-center
 ---
 
-# 第十部分
 # 專題實作
 
 <!--
@@ -845,7 +835,7 @@ class: flex flex-col justify-center items-center text-center
 layout: default
 ---
 
-# 4-12 專題一：溫度轉換（°C ↔ °F）
+# 專題一：溫度轉換（°C ↔ °F）
 
 | 公式 | 說明 |
 | --- | --- |
@@ -873,7 +863,7 @@ sc.close();
 
 ---
 
-# 4-12 專題二：高斯數學（1 + 2 + ... + n）
+# 專題二：高斯數學（1 + 2 + ... + n）
 
 計算從 1 加到 n 的總和，使用**高斯公式** `sum = n × (n + 1) / 2`：
 
