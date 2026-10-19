@@ -772,7 +772,7 @@ java UnzipReport <archive.zip> <輸出目錄>
 解壓縮完成！
   檔案數量：15 / 目錄數量：3
   總原始大小：1,234,567 bytes
-  總壓縮大小：456,789 bytes / 壓縮比：62.98%
+  總壓縮大小：456,789 bytes / 壓縮比：63.00%
 ```
 
 **需求：**使用 `ZipFile` 讀取、統計 `getSize()` 與 `getCompressedSize()`、加入 Zip Slip 安全防護

@@ -858,12 +858,12 @@ for (int i = 1; i <= 64; i++) {
     total += grains;
     grains *= 2;
 }
-System.out.println("總麥粒數：" + total);
+System.out.println("總麥粒數：" + Long.toUnsignedString(total));
 // 18446744073709551615（≈ 1.8 × 10^19）
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>注意溢位：</b>必須使用 <code>long</code>（64 位元），若使用 <code>int</code>（32 位元）會發生整數溢位，結果完全錯誤。
+💡 <b>注意溢位：</b><code>int</code> 只到約 21 億，必須用 <code>long</code>。但總數 2⁶⁴ − 1 仍超過 <code>long</code> 上限（約 9.2 × 10¹⁸），直接印會得到 <code>-1</code>；用 <code>Long.toUnsignedString()</code> 以無號方式才能印出正確值。
 </div>
 
 <!--
@@ -871,11 +871,13 @@ System.out.println("總麥粒數：" + total);
 
 程式用 grains 記錄這一格的麥粒數，每一圈加進 total，再把 grains 乘以 2。
 
-真正的答案大約是 1.8 乘以 10 的 19 次方，這個數字大到連 long 都存不下。最後幾格加總時，long 也會溢位，所以實際執行結果並不是投影片上這個數字。要精確計算，需要用到之後會學的 BigInteger。
+答案是 2 的 64 次方減 1，大約 1.8 乘以 10 的 19 次方。這個數字遠遠超過 int 的範圍，所以一定要用 long。但它其實連 long 的上限都超過了，long 最大大約是 9.2 乘以 10 的 18 次方，直接印出 total 會得到負 1。
+
+還好這個數字剛好能用 64 個位元表示，只是要當成「沒有正負號」的數字來看。所以印出時用 Long.toUnsignedString，就能得到正確的結果。如果數字再更大，就要用到之後會學的 BigInteger。
 
 這個例子告訴我們，以倍數成長的數字，很快就會超出變數能存的範圍，選擇型態時一定要注意。
 
-【講師】投影片上標示的輸出 18446744073709551615 超過 long 上限，實際執行會溢位印出 -1，可現場執行示範。
+【講師】可現場把 Long.toUnsignedString 拿掉執行，讓學生看到印出 -1。
 -->
 
 ---

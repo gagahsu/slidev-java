@@ -434,7 +434,7 @@ String 有三個重要特性。
 | `str.charAt(i)` | 取得索引 i 的字元 |
 | `str.substring(begin, end)` | 擷取子字串 [begin, end-1] |
 | `str.toUpperCase()` | 轉大寫 |
-| `str.toLowerCase()` | 转小寫 |
+| `str.toLowerCase()` | 轉小寫 |
 
 ```java
 String s = "Hello";
