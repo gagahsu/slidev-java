@@ -48,15 +48,13 @@ style: |
 </div>
 
 <!--
-【開場白】
-各位碼農、肝帝們大家好！今天我們要來認識 Java 界的「始祖巨人」——Object 類別。不管你平時寫的是什麼高級的微服務還是拉跨的練習題，你的類別祖先通通都是它。這章學不好，你的 equals() 就會像渣男的諾言一樣不可靠，HashMap 更是會直接中風給你看。
+大家好，這一章的主題是 Object 類別。
 
-【為什麼要學這個？】
-Object 是所有 Java 類別的共同祖先，就像所有人類都有 DNA 一樣。搞清楚 Object 的方法，你才能真正掌握物件的「靈魂」。不然你寫的物件在集合（Collections）裡就像失蹤人口，明明在那裡卻永遠找不到。
+上一章我們學了繼承。其實在 Java 裡，就算沒有寫 extends，每個類別都有一個共同的祖先，就是 Object。我們一直在用的 toString、equals，都是從它繼承來的。
 
-【今天學完你會能做什麼】
-學完之後你就能像個資深老鳥一樣，優雅地覆寫 equals()、hashCode()、toString()。以後看到「兩個內容一樣的物件 `==` 卻是 false」這種低級 bug，你就可以用關懷弱勢的眼神看著你的同事。
+這一章我們會認識 Object 提供的方法，學會正確地覆寫 equals 和 hashCode。這兩個方法如果寫錯，物件放進集合裡就會出現很難發現的錯誤。
 -->
+
 ---
 layout: default
 ---
@@ -72,12 +70,11 @@ layout: default
 - **其他 Object 方法** — `getClass()`、`clone()`、`finalize()`
 
 <!--
-【帶讀大綱】
-今天的大綱很簡單：先拜見老祖宗 Object，然後認識它的現代化小助手 Objects 工具類。接著我們會深入探討 Java 面試的三大神題：toString()、hashCode() 和 equals()。最後再聊聊那個被大家嫌棄到不行的 finalize()。
+這一章我們會先認識 Object 類別，以及處理 null 很方便的 Objects 工具類別。
 
-【重點預告】
-今天的重頭戲是 equals() 和 hashCode() 的「生死契約」。如果你只改其中一個而不改另一個，你的程式就會出現「靈異現象」，這種 bug 往往要修到天亮。
+接著是這一章的重點：hashCode 和 equals，包括它們之間的約定，以及用現代 Java 的寫法實作。然後是 toString，以及 record 如何自動幫我們產生這些方法。最後介紹 getClass、clone 和已經被淘汰的 finalize。
 -->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -86,9 +83,9 @@ class: flex flex-col justify-center items-center text-center
 # 認識 Object 類別
 
 <!--
-【段落轉換】
-現在我們正式進入 Java 的「族譜查詢系統」，看看這個萬物起源的 Object 到底是何方神聖。
+我們先來認識 Object 類別，看看它在 Java 的類別體系裡，扮演什麼角色。
 -->
+
 ---
 layout: default
 ---
@@ -105,15 +102,13 @@ layout: default
 </div>
 
 <!--
-【核心說明】
-java.lang.Object 是 Java 的最高頂點。在 Java 世界裡，沒有物件能逃過它的五指山。
+Object 類別位於 java.lang 套件，完整名稱是 java.lang.Object。
 
-【生活化比喻】
-這就像是生物學上的「碳基生命」。不管你是阿貓、阿狗還是你的前任，只要是生命，基本組成都一樣。Object 就定義了 Java 物件最基本的生存技能：像是「自我介紹（toString）」和「鑑定身份（equals）」。
+「它是所有 Java 類別的父類別。」不管是 JDK 內建的類別，還是我們自己寫的類別，都直接或間接繼承了 Object，所以都擁有它的 public 和 protected 方法，也可以依照需要覆寫這些方法。
 
-💼 業界實務：
-雖然 IDE 可以自動生成這些方法，但如果你不理解背後的邏輯，自動生成的程式碼對你來說就像是咒語，出錯時你連在哪裡翻車都不知道。
+因為 Object 在 java.lang 裡，所以不需要 import，就能使用 toString、hashCode、equals 這些方法。
 -->
+
 ---
 
 # 隱含繼承 Object 類別
@@ -133,12 +128,11 @@ class Animal extends Object {
 ```
 
 <!--
-【帶讀程式碼】
-你看這兩段程式碼，第二段寫 extends Object 其實是多此一舉，就像你不需要在履歷上寫「我是地球人」一樣，Java 編譯器懂你的心，會自動幫你補上。
+所有類別都會隱含地繼承 Object。
 
-⚠️ 學生常見誤解：
-有學生問：「如果我已經 extends Animal 了，還會繼承 Object 嗎？」孩子，這叫「隔代遺傳」。Animal 繼承 Object，你繼承 Animal，所以你還是 Object 的孫子。在 Java 世界，誰也別想當「野生的類別」。
+所以左邊這個沒有寫 extends 的 Animal，和右邊寫了 extends Object 的 Animal，是完全一樣的。如果我們沒有指定父類別，編譯器會自動幫我們加上 extends Object。
 -->
+
 ---
 
 # Java 類別的繼承關係
@@ -153,12 +147,13 @@ class Animal extends Object {
 | 自訂類別（如 `Animal`） | `Object` | 所有自訂類別 |
 
 <!--
-【帶讀表格】
-看看這個名單：String、Scanner、Animal... 全都是 Object 的後代。這說明了什麼？說明了 Object 真的很忙，要管這麼多子子孫孫。
+我們常用的類別，最上層都是 Object。
 
-【互動引導】
-所以現在你知道為什麼隨便拿一個物件，後面打個點（.），就會出現一堆莫名其妙的方法了吧？那不是魔法，那是繼承下來的「家產」。
+String 直接繼承 Object；StringBuffer 先繼承 AbstractStringBuilder，再間接繼承 Object；Scanner 也是直接繼承 Object。我們自己寫的 Animal 類別，同樣是 Object 的子類別。
+
+所以在 Java 裡，任何物件都可以用 Object 型別的變數來接收，這是多形最極致的應用。
 -->
+
 ---
 
 # Object 常用方法
@@ -173,15 +168,11 @@ class Animal extends Object {
 | `final Class<?> getClass()` | 傳回物件所屬的類別 |
 
 <!--
-【帶讀表格】
-這四個就是我們今天的四大天王：
-- hashCode()：物件的「門牌號碼」。
-- equals()：物件的「DNA 鑑定」。
-- toString()：物件的「名片」。
-- getClass()：物件的「身分證」，看你到底是哪家出產的。
+Object 有好幾個方法，這一章會重點介紹這四個。
 
-這幾個方法是開發者的必修課，沒學好就像是沒拿駕照就上高速公路。
+hashCode 回傳物件的雜湊碼，equals 比較兩個物件是否相同，toString 回傳代表這個物件的字串，getClass 則回傳物件所屬的類別。
 -->
+
 ---
 
 # Objects 工具類別 (JDK 7+)
@@ -195,15 +186,13 @@ class Animal extends Object {
 | `requireNonNull(obj)` | 檢查是否為 null，為空則拋出異常 |
 
 <!--
-【核心說明】
-注意喔！Object 是老祖宗，Objects（加了 s）是那個幫老祖宗打雜的「現代小助手」。
+在介紹這些方法之前，先認識一個很實用的工具類別：Objects，多了一個 s。
 
-⚠️ 學生常見誤解：
-名字差一個 s，地位差很多。不要在繼承的時候寫 extends Objects，那會讓你顯得像是在寫 JavaScript 一樣隨性。
+要注意它和 Object 不一樣，它位於 java.util 套件，是 Java 7 加入的工具類別，提供許多靜態方法，幫助我們安全地處理 null。
 
-💼 業界實務：
-在業界，直接用 a.equals(b) 是很危險的行為，因為如果 a 是 null，你的程式就直接當機（NPE）。用 Objects.equals(a, b) 才是專業老鳥的做法，優雅又不噴錯。
+例如 Objects.equals，比較兩個物件時會自動處理 null 的情況；Objects.hash 可以根據多個欄位產生雜湊碼；requireNonNull 會檢查物件是否為 null，如果是，就拋出例外。
 -->
+
 ---
 
 # Objects 工具類別 — 範例
@@ -222,14 +211,13 @@ System.out.println(Objects.equals(s1, s2)); // false
 ```
 
 <!--
-【帶讀程式碼】
-看這行註解掉的程式碼，如果你敢在 s1 是 null 的時候呼叫它，Java 就敢直接死給你看。NullPointerException（NPE）可是佔了開發者 80% 的崩潰來源。
+看範例，s1 是 null，s2 是 Java。
 
-但用了 Objects.equals()，它會先溫柔地檢查一下 s1 是不是 null。如果是，它就回傳 false，而不是直接報警。這就是所謂的「防禦性編程」。
+如果直接寫 s1.equals s2，因為 s1 是 null，程式會拋出 NullPointerException。改用 Objects.equals，它會先檢查 null，所以能安全地回傳 false。
 
-💼 業界實務：
-如果你在 Code Review 的時候看到有人還在寫 if (a != null && a.equals(b))，請把這張投影片甩在他臉上。
+比較兩個可能是 null 的物件時，用 Objects.equals 就不用自己寫一堆檢查。
 -->
+
 ---
 
 # Objects.isNull() 與 nonNull()
@@ -251,15 +239,13 @@ System.out.println(Objects.isNull(null)); // true
 ```
 
 <!--
-【帶讀說明】
-這兩個方法基本上就是為了讓你的 Stream 寫起來更像人話。
+Objects 還有 isNull 和 nonNull 兩個方法，分別判斷物件是不是 null。
 
-【帶讀程式碼】
-list.stream().filter(Objects::nonNull) 把 null 過濾掉，只留下 "Java" 和 "Python"。
+直接寫兩個等號 null 也可以，但這兩個方法的好處，是可以直接當作判斷條件，交給 Stream 使用。
 
-💼 業界實務：
-從資料庫或 API 取回的資料常有 null，在 Stream 處理前先過濾 null 是好習慣。
+看範例，清單裡有一個 null。用 filter 搭配 Objects::nonNull，就能把 null 過濾掉，只印出 Java 和 Python。這種寫法在後面學 Stream 時會很常看到。
 -->
+
 ---
 
 # Objects.requireNonNullElse()
@@ -278,15 +264,13 @@ String v = Objects.requireNonNullElseGet(
 ```
 
 <!--
-【核心說明】
-這招叫做「備胎計畫」。如果你要的東西沒來（null），那就用我準備好的預設值。
+requireNonNullElse 可以在物件是 null 時，提供一個預設值。
 
-【帶讀程式碼】
-input 是 null？沒關係，我們叫他「訪客」。這比寫一堆 if-else 簡潔多了。
+看範例，如果 input 是 null，name 就會是「訪客」；否則就是 input 本身。
 
-💼 業界實務：
-requireNonNullElseGet 更好用，因為它只有在真正需要備胎的時候才去執行那個 supplier（例如去資料庫撈資料）。這叫「懶加載」，能省一點資源是一點。
+requireNonNullElseGet 的差別，是第二個參數傳入的是一段程式，只有在真的是 null 時才會執行。像範例裡從資料庫載入資料這種比較耗時的操作，就適合用它，避免不必要的計算。
 -->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -295,9 +279,9 @@ class: flex flex-col justify-center items-center text-center
 # 哈希碼與 hashCode()
 
 <!--
-【段落轉換】
-接下來要聊聊「哈希碼」。這不是哈利波特的咒語，而是 Java 裡用來管帳的「門牌號碼系統」。
+接下來是雜湊碼，以及 hashCode 方法。
 -->
+
 ---
 layout: default
 ---
@@ -314,15 +298,15 @@ layout: default
 </div>
 
 <!--
-【核心說明】
-hashCode() 就是把你的物件丟進一台「絞肉機」，出來後變成一個數字。這個數字就是它的「雜湊碼」。
+Hash 的原意是「切碎、混合」，就像把資料打散之後，重新組合成一個數字。
 
-【生活化比喻】
-想像你去超市寄放行李，店員會給你一個號碼牌（hashCode），然後把你的包包放在對應的櫃子（Bucket）。下次你拿號碼牌來，店員一眼就能看到在哪，而不需要把所有櫃子打開檢查一遍。這就是為什麼 HashMap 找東西飛快的原因。
+hashCode 方法會依照某種演算法，把物件的資訊轉換成一個整數，這個整數就是雜湊碼。它主要的目的，是讓集合可以更快速地找到資料。
 
-💼 業界實務：
-如果你的 hashCode() 寫得太爛，所有物件的 hash 值都一樣，那 HashMap 就會退化成一個慢得要死的 List。面試官最喜歡問：「如果我的 hashCode() 永遠回傳 1 會發生什麼事？」記得回答：「那效能會爆炸。」
+我們可以把它想成圖書館的索書號：有了索書號，就能直接走到對應的書架，不用一本一本翻。
+
+要注意，Object 預設的 hashCode 是由 JVM 決定的，並不保證等於物件的記憶體位址。
 -->
+
 ---
 
 # hashCode() 基本規則
@@ -334,12 +318,11 @@ hashCode() 就是把你的物件丟進一台「絞肉機」，出來後變成一
 | 不同物件（預設 Object） | 通常傳回**不同** hash 值 |
 
 <!--
-【帶讀表格】
-hashCode 的規則就像是「算命」：
-1. 算命師不變，你提供的資料不變，算出來的命（hash 值）就必須一樣。
-2. 換個算命師（不同的演算法），就算資料一樣，結果通常也不同。
-3. 預設情況下，每個人都是獨立的靈魂（不同的物件），算出來的結果通常也不一樣。
+hashCode 有幾個基本規則。
+
+同一種演算法，對相同的值，一定會得到相同的雜湊碼。但不同的類別使用不同的演算法，就算看起來是相同的值，雜湊碼也不一定相同。至於 Object 預設的版本，不同的物件通常會得到不同的雜湊碼。
 -->
+
 ---
 
 # hashCode() — 初探
@@ -358,12 +341,13 @@ System.out.println(str2.hashCode()); // 70822
 </div>
 
 <!--
-【帶讀程式碼】
-"Foo" 算出來的結果就是 70822，不多也不少。這說明了 String 類別很乖，它覆寫了 Object 的預設行為，改用「內容」來算命。
+我們實際看看。
 
-⚠️ 重點：
-如果你不覆寫 hashCode()，那 str1 和 str2 就算是內容一樣，也會因為是「不同人」而拿到不同的號碼牌。
+str1 和 str2 的內容都是 Foo，它們呼叫的都是 String 的 hashCode，所以得到相同的結果，70822。
+
+String 已經覆寫了 hashCode，它是依照字串的內容計算的，所以只要內容一樣，雜湊碼就一樣。
 -->
+
 ---
 
 # hashCode() — 不同類別的比較
@@ -383,9 +367,13 @@ System.out.println(intObj.hashCode()); // 10
 </div>
 
 <!--
-【帶讀程式碼】
-你看，Integer 10 的 hashCode 竟然就是 10。這說明 Integer 的算法很「懶」，直接拿值當結果。而 String 的算法就比較努力一點，算出了 70822。這再次證明了：演算法不同，結果就沒法比。
+再看不同類別的情況。
+
+字串 Foo 的雜湊碼是 70822，而整數 10 的雜湊碼就是 10。String 和 Integer 各自覆寫了 hashCode，用的是不同的演算法。
+
+所以雜湊碼只有在同一個類別裡比較才有意義。
 -->
+
 ---
 
 # 現代化的 hashCode() 實作
@@ -401,12 +389,11 @@ System.out.println(intObj.hashCode()); // 10
 </div>
 
 <!--
-【核心說明】
-如果你還在手寫 `31 * result + (s == null ? 0 : s.hashCode())` 這種上古咒語，請趕快更新一下大腦。
+如果我們自己寫的類別需要覆寫 hashCode，現在已經不需要自己設計複雜的演算法了，直接用 Objects.hash，把相關的欄位傳進去，它就會算出品質不錯的雜湊碼。
 
-⚠️ 關鍵原則：
-如果你在 equals() 裡用了 id 和 email 來比較，那 hashCode() 裡也必須用這兩個欄位。這叫「進出平衡」，不然 HashMap 會找你算帳。
+下面的原則非常重要：「equals 裡用哪些欄位判斷相等，hashCode 就必須用相同的欄位。」兩者一定要一致，等一下我們會看到為什麼。
 -->
+
 ---
 
 # 現代化的 hashCode() — 範例
@@ -432,9 +419,13 @@ class User {
 ```
 
 <!--
-【帶讀程式碼】
-用 Objects.hash(id, email) 就行了，它會幫你處理好所有的數學計算和 null 檢查。省下來的時間可以用來多喝杯咖啡，或是提早下班。
+看實際的寫法。
+
+User 類別有 id 和 email 兩個欄位。覆寫 hashCode 時，只要一行，把 id 和 email 傳給 Objects.hash 就好了。
+
+如果之後判斷相等的欄位改變了，記得 hashCode 也要跟著改。
 -->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -443,9 +434,9 @@ class: flex flex-col justify-center items-center text-center
 # equals() 方法
 
 <!--
-【段落轉換】
-現在我們進入「物件導向三大謎團」之一：equals() 方法。搞不清楚它，你就會一直問為什麼 1+1 不等於 2。
+接下來是 equals 方法，它決定了兩個物件怎樣才算「相等」。
 -->
+
 ---
 
 # `==` 與 `equals()` 的差異
@@ -467,16 +458,13 @@ System.out.println(s1.equals(s2)); // true（內容相同）
 </div>
 
 <!--
-【帶讀表格】
-`==` 比的是「門牌位址」：你們是不是住在同一間房？
-`equals()` 比的是「內容」：你們是不是長得一模一樣？
+我們先複習兩個等號和 equals 的差別。
 
-【帶讀程式碼】
-s1 和 s2 就像是兩份一模一樣的合約，雖然內容（"Java"）一樣，但它們是印在兩張不同的紙上（不同的物件），所以用 `==` 比會是 false。
+兩個等號比較的是參照，也就是兩個變數是不是指向同一個物件。equals 比較的則是內容，而且可以依照需要覆寫。
 
-⚠️ 超常見 bug：
-字串用 `==` 比較！這簡直是 Java 初學者的「成人禮」，沒踩過這個坑別說你寫過 Java。但拜託，踩一次就好。
+看範例，s1 和 s2 都用 new 建立，內容都是 Java。兩個等號是 false，因為它們是不同的物件；equals 是 true，因為內容相同。
 -->
+
 ---
 layout: default
 ---
@@ -503,11 +491,13 @@ System.out.println(a1.equals(a3)); // true
 ```
 
 <!--
-【帶讀程式碼】
-原生的 equals() 其實就是個廢物，它的行為跟 `==` 一模一樣。如果你的類別不覆寫它，那它就會繼續執行這個「除非是同一個物件否則就不相等」的教條主義。
+但要注意，Object 原本的 equals，其實也是比較參照。
 
-💡 所以，如果你希望你的「員工」物件只要員工編號一樣就算相等，你就得手動教 Object 怎麼做人。
+看範例，a1 和 a2 的名字和年齡完全一樣，但因為是兩個不同的物件，equals 的結果是 false。只有 a3 和 a1 指向同一個物件時，equals 才是 true。
+
+所以，如果我們希望「內容相同就算相等」，就必須自己覆寫 equals。
 -->
+
 ---
 
 # String 的 equals() — 內容比較
@@ -526,12 +516,11 @@ System.out.println(s1.equals(s2)); // true
 | `String`（Override） | 字串內容 | 內容相同 → `true` |
 
 <!--
-【帶讀表格說明】
-String 類別之所以好用，就是因為它已經幫你把 equals() 覆寫好了。它會逐字檢查每個字元是否一樣，非常有耐心。
+String 之所以可以用 equals 比較內容，是因為它已經覆寫了 equals。
 
-【重點】
-記住：除了 primitive 型態（如 int, char），其他物件要比較內容，一律用 equals()。如果你在專案裡寫 `if (str == "admin")`，我會考慮幫你申請轉職去寫 HTML。
+表格整理了兩者的差別：Object 預設的 equals 比較參照，不同物件就是 false；String 覆寫之後比較字串內容，內容相同就是 true。
 -->
+
 ---
 
 # 現代化的 equals() 實作 (JDK 16+)
@@ -559,15 +548,13 @@ public boolean equals(Object o) {
 </div>
 
 <!--
-【帶讀程式碼】
-這是現代化老鳥的寫法。
-第一步：如果是同一個位址，直接過，效能最高。
-第二步：用新的 instanceof 寫法，不但檢查型別，還順便幫你把 o 轉型成 User other。以前還要寫兩行，現在一行搞定，舒服！
-第三步：用 Objects.equals 比欄位。
+我們來看現代的 equals 寫法，搭配上一章學的 instanceof 模式比對。
 
-⚠️ 再次警告：
-這章講到現在，我已經說過三次了：覆寫 equals() 一定要覆寫 hashCode()！如果這兩位吵架（行為不一致），HashMap 就會罷工。
+第一步，如果是同一個物件，直接回傳 true。第二步，用 instanceof 判斷 o 是不是 User，同時把它轉型成變數 other。第三步，用 Objects.equals 逐一比較欄位，這樣就算欄位是 null 也不會出錯。如果型別不符，就回傳 false。
+
+最後的提醒非常重要：「覆寫了 equals，就一定要同時覆寫 hashCode。」
 -->
+
 ---
 
 # equals() 與 hashCode() 的合約
@@ -583,9 +570,13 @@ public boolean equals(Object o) {
 </div>
 
 <!--
-【核心說明】
-這就是著名的「Java 生存合約」。
+equals 和 hashCode 之間，有一個必須遵守的約定。
+
+第一，如果兩個物件 equals 相等，它們的 hashCode 就必須相同。第二，反過來不一定成立，hashCode 相同的兩個物件，equals 不一定相等，這叫做碰撞。第三，所以覆寫 equals 時，一定要同時覆寫 hashCode。
+
+最常見的錯誤，就是只覆寫了 equals，忘了 hashCode，結果物件放進 HashSet 或 HashMap 之後，會找不到。
 -->
+
 ---
 
 # equals() 與 hashCode() 合約 — 反例（類別定義）
@@ -612,9 +603,11 @@ class User {
 ```
 
 <!--
-【帶讀程式碼】
-先看這個破損的 User 類別。equals() 寫得很正確，但偏偏漏掉了 hashCode()。接下來我們來看看這個失誤會造成什麼慘烈的後果。
+我們用一個反例來看看會發生什麼事。
+
+這個 User 類別正確地覆寫了 equals，用 id 和 email 判斷兩個使用者是否相同。但是，它故意沒有覆寫 hashCode。
 -->
+
 ---
 
 # equals() 與 hashCode() 合約 — 反例（驗證）
@@ -638,10 +631,15 @@ System.out.println(set.contains(u2)); // false！（hashCode 未覆寫）
 </div>
 
 <!--
-【帶讀程式碼】
-看這個慘劇：u1 和 u2 內容一樣，equals 是 true。但因為沒改 hashCode，u1 的門牌是 123，u2 的門牌是 456。
-當你問 HashSet：「有沒有 u2 啊？」它會跑去 456 號房看，結果空空如也，它就回傳 false。但明明 u1 就在 123 號房住得好好的啊！這就是為什麼你的物件在 Set 裡會「鬧失蹤」。
+我們建立兩個內容完全相同的 User，用 equals 比較，結果是 true，看起來沒問題。
+
+接著把 u1 放進 HashSet，再問 HashSet 有沒有包含 u2，結果卻是 false。
+
+原因是 HashSet 會先用 hashCode 決定要去哪個位置找。u1 和 u2 的 hashCode 是 Object 預設的版本，兩者不同，所以 HashSet 根本找錯了地方，連 equals 都沒有機會執行。
+
+就像圖書館的書，索書號寫錯了，書明明在館裡，卻永遠找不到。
 -->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -650,9 +648,9 @@ class: flex flex-col justify-center items-center text-center
 # toString() 方法
 
 <!--
-【段落轉換】
-最後來點輕鬆的：toString()。這就是物件的「自我介紹」。
+接下來是 toString 方法，它決定了物件被印出來時，會顯示什麼內容。
 -->
+
 ---
 layout: default
 ---
@@ -672,12 +670,13 @@ System.out.println(a);            // 也會自動呼叫 toString()
 </div>
 
 <!--
-【帶讀程式碼】
-如果你不覆寫 toString()，Java 預設印出來的東西就像是亂碼。Animal@1b6d3586 到底是什麼鬼？是貓還是狗？沒人知道。
+Object 預設的 toString，回傳的格式是類別名稱、小老鼠，再加上十六進位的雜湊碼，例如 Animal 小老鼠一串數字。
 
-⚠️ 常見誤解：
-不需要寫 .toString()。當你 System.out.println(a) 時，Java 其實在偷懶，它會自動幫你補上 .toString()。
+另外，用 println 直接印出物件時，Java 會自動呼叫它的 toString。
+
+但這種預設的格式，對我們來說幾乎沒有意義，看不出這隻動物的名字和年齡。所以通常會覆寫 toString。
 -->
+
 ---
 
 # Override toString() — 範例
@@ -701,12 +700,13 @@ System.out.println(a); // Name: Foo, Age: 1
 ```
 
 <!--
-【帶讀程式碼】
-這才是人看的東西嘛！覆寫 toString() 就像是給物件穿衣服，讓它出門見人的時候體面一點。
+我們幫 Animal 覆寫 toString，回傳名字和年齡組成的字串。
 
-💼 業界實務：
-日誌（Log）是開發者的命脈。如果你的 DTO 沒覆寫 toString()，發生問題時你翻開 Log 只會看到一堆「User@2a3b4c」，那你真的會想把電腦砸了。
+這樣直接印出 a，就會看到 Name: Foo, Age: 1，一目了然。
+
+在除錯或記錄日誌時，清楚的 toString 能省下很多時間。實務上，大部分存放資料的類別都會覆寫它，IDE 也可以自動產生。
 -->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -715,9 +715,9 @@ class: flex flex-col justify-center items-center text-center
 # Records 與 Object 方法
 
 <!--
-【段落轉換】
-JDK 16 帶來了一個「懶人福音」：Records。
+剛才我們看到，toString、equals 和 hashCode 都需要自己覆寫，其實有一個更簡單的方法：record。
 -->
+
 ---
 layout: default
 ---
@@ -741,15 +741,13 @@ System.out.println(p1); // Point[x=10, y=20]
 ```
 
 <!--
-【帶讀表格】
-Records 簡直是物件導向界的「泡麵」，熱水一泡（一行宣告）就能吃。它自動幫你把剛才我們講得口乾舌燥的 toString、equals、hashCode 通通寫好了。
+上一章介紹過的 record，會自動幫我們覆寫這三個重要的方法。
 
-【帶讀程式碼】
-record Point(int x, int y) {}。沒了，真的就這一行。你再也不用在 IDE 裡對著滑鼠狂點「Generate...」了。
+toString 會顯示類別名稱和所有屬性的值；equals 會比較所有屬性的內容；hashCode 也會依照所有屬性來計算，而且兩者一定一致。
 
-💼 業界實務：
-如果你還在用 Java 8，請為你自己默哀三秒鐘。如果你已經用了新版 Java，請大量使用 Record，它可以幫你的專案瘦身 30%。
+看範例，Point 只寫了一行，印出 p1 就是 Point 中括號 x 等於 10、y 等於 20。對於純粹存放資料的類別，用 record 是最簡單、也最不容易出錯的做法。
 -->
+
 ---
 layout: section
 class: flex flex-col justify-center items-center text-center
@@ -758,9 +756,9 @@ class: flex flex-col justify-center items-center text-center
 # 其他 Object 方法
 
 <!--
-【段落轉換】
-最後，我們快速掃描一下那些「名氣很大但實用度堪憂」的方法。
+最後，我們看看 Object 的其他幾個方法。
 -->
+
 ---
 layout: default
 ---
@@ -778,12 +776,11 @@ System.out.println(obj.getClass());
 ```
 
 <!--
-【帶讀程式碼】
-getClass() 就是在問物件：「你媽是誰？」它會回傳一個 Class 物件。
+getClass 會回傳物件所屬的類別，型別是 Class 物件。
 
-💼 業界實務：
-這方法在寫「框架」的時候非常有用。像是 Spring 或 Hibernate，它們會用 getClass() 來看你的物件長什麼樣子，然後自動幫你生成 SQL 或處理依賴注入。
+看範例，對 MyClass 的物件呼叫 getClass，印出來的就是 class MyClass。
 -->
+
 ---
 
 # getClass() — 常用操作
@@ -800,11 +797,11 @@ System.out.println(obj.getClass().getName());
 ```
 
 <!--
-【帶讀表格】
-如果你只需要類別的名字（例如要做 Log 紀錄），那就呼叫 getName()。
+getClass 回傳的 Class 物件，還可以進一步取得更多資訊。最常用的是 getName，取得類別名稱的字串。
 
-常見用途：有些人喜歡用這個來代替 instanceof，但請注意，getClass() 的比較是非常嚴格的，連子類別都不認喔。
+如果類別放在套件裡，getName 會回傳包含套件的完整名稱。在記錄日誌，或是需要依照物件的實際型別做不同處理時，getClass 就很有用。
 -->
+
 ---
 
 # clone() 方法與 Cloneable 介面
@@ -825,16 +822,13 @@ class Coord implements Cloneable {
 ```
 
 <!--
-【核心說明】
-clone() 方法是用來「複製」物件的。但它很矯情，你必須先實作一個空的 Cloneable 介面，不然它會報錯。
+clone 方法可以複製一個物件。要使用它，類別必須實作 Cloneable 介面。這個介面裡沒有任何方法，只是一個標記，表示這個類別允許被複製。
 
-關鍵概念：
-- 淺層複製：只複製表皮，內部如果還有其他物件，那兩個人還是共用同一個。
-- 深層複製：這才是真正的「影分身」，連裡面的東西都各做一份新的。
+複製分成兩種。淺層複製，基本型別的欄位會複製值，但物件型別的欄位只複製參照，兩份物件會共用同一個子物件。深層複製，則連物件欄位也一起複製，兩份完全獨立。
 
-⚠️ 警告：
-clone() 是 Java 設計最失敗的地方之一。它有很多坑，連《Effective Java》作者 Josh Bloch 都建議大家別用。
+看範例，Coord 實作了 Cloneable，覆寫 clone 方法，呼叫 super.clone 完成複製。
 -->
+
 ---
 
 # clone() — 淺層複製的陷阱
@@ -862,13 +856,15 @@ o2.pet = new Pet("旺財"); // 現在 o1, o2 的 pet 各自獨立
 </div>
 
 <!--
-【帶讀程式碼】
-你看這個慘烈的現場。你以為把老闆複製了一份，就能讓複製人去遛狗。結果沒想到兩個老闆共用同一隻狗（pet）！
-複製人改了狗的名字叫「小白」，原本老闆的「旺財」就莫名其妙失蹤了。這就是淺層複製的恐怖之處。
+我們看淺層複製的陷阱。
 
-【如何避免】
-別用 clone()！去寫個 Copy Constructor（複製建構子）吧，那才是現代開發者的救贖。
+Owner 有一個 pet 欄位。把 o1 複製成 o2 之後，比較兩者的 pet，結果是 true，代表它們共用同一隻寵物。所以把 o2 的寵物改名成小白，o1 的寵物也跟著變成了小白。
+
+要避免這個問題，就要深層複製，自己重新建立一隻新的 Pet，讓兩者各自獨立。
+
+clone 的規則比較複雜，所以實務上，更建議用複製建構子，也就是傳入另一個物件，在建構子裡自己複製每個欄位。
 -->
+
 ---
 
 # finalize() 方法的廢棄 (JDK 9+)
@@ -884,15 +880,13 @@ o2.pet = new Pet("旺財"); // 現在 o1, o2 的 pet 各自獨立
 </div>
 
 <!--
-【核心說明】
-finalize() 就像是物件的「臨終遺言」。但問題是，你永遠不知道 GC 什麼時候會過來幫你處理後事，有時候甚至直到程式結束都沒人來。
+Object 還有一個 finalize 方法，原本是用來在物件被垃圾回收之前，做一些清理工作。
 
-【為什麼廢棄？】
-因為它又慢又不靠譜，還會拖累 JVM。就像是那種說要幫你洗碗，結果洗了三天還沒洗好的室友。
+但它從 Java 9 開始就被標記為不建議使用，Java 18 更標記為預計移除。原因是它的執行時間無法確定，可能影響效能，甚至造成死結。
 
-💼 業界實務：
-如果你有檔案或連線要關，請用 try-with-resources。如果你還在用 finalize()，你就是在給自己挖坑。
+需要釋放檔案、網路連線這類資源時，應該改用 try-with-resources 搭配 AutoCloseable 介面，之後的例外處理章節會介紹。在現代的 Java 開發中，不要覆寫或依賴 finalize。
 -->
+
 ---
 layout: default
 ---
@@ -915,15 +909,17 @@ class Employee {
 3. **進階**：Override `hashCode()`，使屬性相同的物件回傳相同 hash 值
 
 <!--
-【出題前的鋪陳】
-各位工程師們，現在來點動手的。我們來寫個 Employee 類別，看看我們能不能讓兩個一樣的員工不要「鬧雙胞」。
+接下來我們動手練習。
 
-【問題引導】
-先試試看什麼都不寫，印出 hashCode。然後加上 Objects.hash() 覆寫，看看奇蹟會不會發生。
+請建立一個 Employee 類別，有姓名、年齡和國家三個欄位。先建立兩個屬性完全相同的物件，印出它們的 hashCode，觀察 Object 預設的行為。
 
-【等待與觀察】
-給大家 3 分鐘。如果 3 分鐘內寫不出來，那你可能需要再喝一瓶蠻牛。
+進階挑戰是覆寫 hashCode，讓屬性相同的物件，回傳相同的雜湊碼。
+
+我們先暫停一下，自己動手試試看。
+
+【講師】給學生約 10 分鐘實作，可延伸要求一併覆寫 equals。
 -->
+
 ---
 layout: default
 ---
@@ -948,14 +944,15 @@ public int hashCode() {
 3. **驗證結果**：Override 後，屬性相同的物件應回傳**相同** hashCode
 
 <!--
-【帶讀解法】
-解法很簡單：
-第一步，看著那兩個不一樣的數字感嘆一下人生的無常。
-第二步，用 Objects.hash(name, age, country) 把它們鎖在一起。
+我們來看提示。
 
-⚠️ 進階思考：
-如果這兩個員工 hashCode 一樣了，那它們的 equals() 也要是一樣的喔！不然它們就是「住在一起但互不相認的陌生人」，這在 HashMap 裡會出事的。
+用 new Employee 建立兩個物件，分別印出 hashCode。因為 Object 預設的 hashCode 是依照物件本身產生的，兩個不同的物件，結果通常不一樣。
+
+接著覆寫 hashCode，用 Objects.hash 傳入姓名、年齡和國家。重新執行，屬性相同的兩個物件，就會得到相同的雜湊碼。
+
+記得，實務上覆寫 hashCode 時，也要用相同的欄位覆寫 equals。
 -->
+
 ---
 layout: end
 ---
@@ -964,6 +961,11 @@ layout: end
 ### 下一章見！
 
 <!--
-[依脈絡推斷]
-下課！記得回家把那兩個吵架的方法（equals 和 hashCode）和好。如果你不理它們，Bug 就會理你。我們下一章「抽象類別」見！
+這一章我們認識了所有類別的共同祖先：Object。
+
+Objects 工具類別可以安全地處理 null。hashCode 讓集合能快速找到資料，equals 決定物件是否相等，兩者一定要用相同的欄位一起覆寫，否則放進 HashSet 和 HashMap 會出問題。toString 讓物件印出有意義的內容。如果是單純存放資料的類別，用 record 就能自動產生這些方法。
+
+我們下一章見。
+
+【講師】開放 Q&A。
 -->
