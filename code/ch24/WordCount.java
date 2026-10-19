@@ -8,11 +8,19 @@ public class WordCount {
     public static void main(String[] args) {
         String[] words = {"apple", "banana", "apple", "orange", "banana", "apple"};
 
-        Map<String, Integer> count = new TreeMap<>(); // 改用 new HashMap<>() 觀察順序差異
+        // HashMap：不保證順序
+        Map<String, Integer> hashCount = new HashMap<>();
+        for (String w : words) {
+            hashCount.put(w, hashCount.getOrDefault(w, 0) + 1);
+        }
+        System.out.println("HashMap：" + hashCount);
+
+        // TreeMap：依 key 字母順序
+        Map<String, Integer> count = new TreeMap<>();
         for (String w : words) {
             count.put(w, count.getOrDefault(w, 0) + 1);
         }
-        System.out.println(count);
+        System.out.println("TreeMap：" + count);
 
         String maxWord = null;
         int maxCount = 0;

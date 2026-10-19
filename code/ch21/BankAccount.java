@@ -47,7 +47,8 @@ public class BankAccount {
         for (Thread t : threads) t.join();
 
         System.out.println("\n最終餘額：" + account.getBalance());
-        // 理論：1000 + 5*200 = 2000，最多可提 6 次 300 = 1800，剩 200
-        // 實際結果因執行順序不同而異，但 synchronized 保證不會出現 race condition
+        // 理論：存款總額 1000 + 5*200 = 2000，5 次提款全部成功時剩 500
+        // 若提款先於存款執行，餘額不足會讓部分提款失敗（最多剩 1100）
+        // 最終餘額因執行順序而異，但 synchronized 保證不會出現 race condition
     }
 }

@@ -984,7 +984,7 @@ layout: default
 ### 提示說明
 
 1. `filter(...).count()` 計算數量
-2. `max(Comparator.naturalOrder()).getAsInt()` 取最大值
+2. `max(Comparator.naturalOrder()).get()` 取最大值（回傳 `Optional<Integer>`）
 3. 先 filter 再 `mapToInt(Integer::intValue).average()`
 
 ```java

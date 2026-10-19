@@ -1113,7 +1113,7 @@ layout: default
 車在公路上跑
 ```
 
-> ⚠️ **注意：** `Runnable` 與 `java.lang.Runnable`（多執行緒用）名稱相同，在預設套件中宣告自訂 `Runnable` 介面時兩者不會衝突，但實際開發中建議使用不同名稱避免混淆。
+> ⚠️ **注意：** `Runnable` 與 `java.lang.Runnable`（多執行緒用）名稱相同。自訂的 `Runnable` 能編譯，但會遮蔽同套件內所有程式看到的 `java.lang.Runnable`，建議改用不同名稱（範例程式使用 `MyRunnable`）。
 
 <!--
 【出題前的鋪陳】

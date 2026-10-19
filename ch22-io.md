@@ -1149,9 +1149,9 @@ Carol,92,76,84
 
 **預期輸出：**
 ```
-Alice  : 84.33
-Bob    : 84.33
-Carol  : 84.00
+Alice   : 84.33
+Bob     : 84.33
+Carol   : 84.00
 ```
 
 **需求：** 使用 `BufferedReader` + `FileReader`，`readLine()` 逐行讀取，`split(",")` 切割欄位，`try-with-resources` 管理資源。

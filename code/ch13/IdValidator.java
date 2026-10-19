@@ -13,16 +13,17 @@ public class IdValidator {
     // 基本版：任意英文字母開頭
     private static final String BASIC_REGEX = "[A-Za-z][12]\\d{8}";
 
-    // 進階版：排除 6 都首字母（(?i) 讓整個表達式不分大小寫）
-    private static final String ADVANCED_REGEX = "(?i)[^abdefh][12]\\d{8}";
+    // 進階版：只允許非 6 都首字母 C、G、I~Z（(?i) 讓整個表達式不分大小寫）
+    // 注意：不能寫 [^abdefh]，否定集合會讓數字、符號也通過
+    private static final String ADVANCED_REGEX = "(?i)[cgi-z][12]\\d{8}";
 
     public static void main(String[] args) {
         String[] samples = {
             "A123456789",  // ❌ 進階版（A = 台北，6都）、✅ 基本版
             "C123456789",  // ✅ 兩版皆合法
-            "Z999999991",  // ✅ 兩版皆合法
+            "Z299999991",  // ✅ 兩版皆合法
             "A300000000",  // ❌ 性別碼不是 1 或 2
-            "1A23456789",  // ❌ 第一碼不是字母
+            "1123456789",  // ❌ 第一碼不是字母（[^abdefh] 會誤判為合法）
             "c198765432",  // ✅ 兩版（小寫字母轉換）
         };
 

@@ -7,6 +7,10 @@ public class ScoreReport {
 
     public static void main(String[] args) throws IOException {
         String filename = args.length >= 1 ? args[0] : "scores.csv";
+        // 在 Eclipse 中工作目錄是 code/，找不到時改讀 ch22/scores.csv
+        if (args.length == 0 && !new File(filename).exists()) {
+            filename = "ch22/scores.csv";
+        }
 
         // try-with-resources 自動關閉 BufferedReader
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {

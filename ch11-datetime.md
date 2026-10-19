@@ -813,7 +813,7 @@ layout: default
 請撰寫程式，完成以下轉換任務：
 
 **任務 A — 格式化輸出：**
-將現在時間以 `yyyy 年 MM 月 dd 日 HH:mm:ss（E）` 格式印出，例如：`2024 年 05 月 13 日 10:30:00（星期一）`
+將現在時間以 `yyyy 年 MM 月 dd 日 HH:mm:ss（EEEE）` 格式印出，例如：`2024 年 05 月 13 日 10:30:00（星期一）`
 
 **任務 B — 解析字串：**
 將字串 `"2024/05/13 10:30"` 解析為 `LocalDateTime` 物件，並分別印出年份、月份和星期幾
@@ -829,8 +829,9 @@ layout: default
 ### 提示說明
 
 **任務 A 提示：**
-1. 建立 `DateTimeFormatter.ofPattern("yyyy 年 MM 月 dd 日 HH:mm:ss（E）")`
+1. 建立 `DateTimeFormatter.ofPattern("yyyy 年 MM 月 dd 日 HH:mm:ss（EEEE）", Locale.TRADITIONAL_CHINESE)`
 2. `LocalDateTime.now().format(formatter)`
+3. `E` 輸出縮寫「週一」，`EEEE` 輸出全名「星期一」
 
 **任務 B 提示：**
 1. 建立 `DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")`

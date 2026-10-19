@@ -13,7 +13,7 @@ public class BirthdayCountdown {
         LocalDate birthday = LocalDate.of(today.getYear(), 5, 20);
 
         // 若今年生日已過，改算明年生日
-        if (birthday.isBefore(today) || birthday.isEqual(today)) {
+        if (birthday.isBefore(today)) {
             birthday = birthday.plusYears(1);
         }
 

@@ -10,14 +10,15 @@ import java.util.Locale;
 public class DateTimeFormatterDemo {
     public static void main(String[] args) {
         // 任務 A：格式化輸出
-        // 使用 Locale.TRADITIONAL_CHINESE 讓 E 模式輸出中文星期
+        // 使用 Locale.TRADITIONAL_CHINESE 讓星期以中文輸出
+        // E 輸出縮寫「週一」，EEEE 輸出全名「星期一」
         DateTimeFormatter fmtA = DateTimeFormatter.ofPattern(
-            "yyyy 年 MM 月 dd 日 HH:mm:ss（E）",
+            "yyyy 年 MM 月 dd 日 HH:mm:ss（EEEE）",
             Locale.TRADITIONAL_CHINESE
         );
         System.out.println("任務 A - 格式化輸出：");
         System.out.println(LocalDateTime.now().format(fmtA));
-        // e.g. 2024 年 05 月 13 日 10:30:00（週一）
+        // e.g. 2024 年 05 月 13 日 10:30:00（星期一）
 
         // 任務 B：解析字串
         System.out.println("\n任務 B - 解析字串：");

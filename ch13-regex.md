@@ -1602,7 +1602,7 @@ layout: default
 給大家思考 2 分鐘。
 
 【解說要點】
-進階版的排除 6 都字母，用 [^abdefh] 加上 (?i) 忽略大小寫是很聰明的組合。
+進階版的排除 6 都字母，小心 [^abdefh] 的陷阱：否定集合會連數字、符號都放行（1123456789 也會通過）。正確做法是直接列出允許的字母 [cgi-z]，再加上 (?i) 忽略大小寫。
 -->
 ---
 layout: default
@@ -1620,11 +1620,11 @@ layout: default
 System.out.println(id.matches("[A-Za-z][12]\\d{8}"));
 
 // 進階版（排除6都首字母 A B D E F H）
-System.out.println(id.matches("(?i)[^abdefh][12]\\d{8}"));
+System.out.println(id.matches("(?i)[cgi-z][12]\\d{8}"));
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <code>(?i)</code> 讓整個表達式忽略大小寫，搭配 <code>[^abdefh]</code> 排除6都字母
+💡 <code>(?i)</code> 讓整個表達式忽略大小寫，<code>[cgi-z]</code> 只列出非 6 都的字母；若寫成 <code>[^abdefh]</code>，數字和符號也會被放行
 </div>
 
 <!--
@@ -1634,12 +1634,13 @@ System.out.println(id.matches("(?i)[^abdefh][12]\\d{8}"));
 - 第 2 碼：[12] 只有 1 或 2
 - 後 8 碼：\d{8}
 
-進階版：(?i)[^abdefh][12]\d{8}
+進階版：(?i)[cgi-z][12]\d{8}
 - (?i) 讓整個表達式不分大小寫
-- [^abdefh] 排除 6 都字母（A B D E F H）
+- [cgi-z] 只允許 C、G、I～Z，等於排除 6 都字母（A B D E F H）
+- 不用 [^abdefh]：否定集合會讓 1、# 這類非字母也通過
 
 💡 提示：
-(?i) 讓 [^abdefh] 同時排除大小寫，所以不用寫 [^ABDEFHabdefh]，更簡潔。
+(?i) 讓 [cgi-z] 同時涵蓋大小寫，所以不用寫 [cgi-zCGI-Z]，更簡潔。
 -->
 ---
 layout: default

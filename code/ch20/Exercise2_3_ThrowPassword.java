@@ -19,11 +19,9 @@ public class Exercise2_3_ThrowPassword {
         for (String pwd : passwords) {
             try {
                 pwdCheck(pwd);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("捕捉到ArrayIndexOutOfBoundsException異常：" + e.getMessage());
-            } catch (Exception e) {
-				System.out.println("捕捉到Exception異常：" + e);
-			}
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.println("錯誤：" + e.getMessage());
+            }
         }
     }
 }
