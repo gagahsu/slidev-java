@@ -5,7 +5,6 @@
   "scripts": {
     "ch12":  "slidev ch12-char-string.md",
     "ch13":  "slidev ch13-regex.md",
-    "ch13g": "slidev ch13-regex-gemini.md",
     "dev":   "slidev index.md",
     "build": "slidev build index.md",
     "export:all": "node scripts/export-all.mjs"

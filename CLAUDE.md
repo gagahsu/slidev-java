@@ -2,15 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Branches
+
+This checkout is the **`work` branch** (git worktree at `my-clas-work/`), used for 工作教學.
+It was branched from tag `v0.1.0`; the channel version lives on `main` in `../my-clas/`.
+The two lines are **never merged into each other**.
+
+- Chapter numbering here follows `v0.1.0` (Ch01–25, no basic/advanced split). It differs from `main`,
+  which inserted Ch02 環境安裝 / Ch09 方法 and renumbered later chapters.
+- Port fixes from `main` only via small, focused `git cherry-pick`s; expect conflicts from renamed files.
+- Release tags for this line: `work-v1.x` (not `v0.x`).
+- Pushing `work` does not deploy GitHub Pages (Pages deploys from `main` only).
+
 ## Commands
 
 ```bash
-pnpm dev              # Start single dev server at localhost:3030
-pnpm run ch12         # Start only Ch12 (localhost:3030)
-pnpm run ch13         # Start only Ch13 (localhost:3031)
-pnpm run ch13g        # Start only Ch13G (localhost:3032)
+pnpm dev              # Start single dev server at localhost:3030 (all chapters)
+pnpm run ch12         # Start only Ch12 字元與字串
+pnpm run ch13         # Start only Ch13 正規表達式
 pnpm build            # Build to dist/ for deployment
-pnpm export           # Export slides to PDF
+pnpm run export:all   # Export chapter decks to PDF (scripts/export-all.mjs)
 ```
 
 Package manager is **pnpm** (not npm/yarn). The `.npmrc` sets `shamefully-hoist=true` required by Slidev.
@@ -23,9 +34,13 @@ This is a **Slidev** presentation project. All slide files live at the root leve
 - `index.md` — Portal page (目錄頁) with chapter navigation cards. Imports all chapter decks via `src:`.
 
 ### Slide Decks
-- `ch12-char-string.md` — Ch12 字元與字串類別, uses `penguin` theme
-- `ch13-regex.md` — Ch13 正規表達式, uses `penguin` theme
-- `ch13-regex-gemini.md` — Ch13G 正規表達式 (Gemini 版), uses `penguin` theme
+All decks use the `penguin` theme and are named `ch<NN>-<slug>.md`, one per chapter:
+`ch01-java-intro.md` … `ch25-stream-lambda.md` (Ch01–25, no `-adv` decks on this branch).
+
+The deck number, `routeAlias`, and the `Ch N` label on the index card should agree.
+Exception: `ch17-interface.md` uses `routeAlias: interface` (linked from `index.md` as `<Link to="interface">`).
+
+Speaker scripts live in `scripts/chNN-script.md`.
 
 ### Vue Components
 - `global-bottom.vue` — Footer rendered on every slide showing page X/Y
