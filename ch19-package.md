@@ -48,14 +48,11 @@ style: |
 </div>
 
 <!--
-【開場白】
-嘿各位，準備好要「整理房間」了嗎？今天的主題是「套件 (Package)」。
+大家好，這一章的主題是套件，英文是 package。
 
-【為什麼要學這個？】
-想像一下，如果你把所有的程式碼類別都丟在同一個資料夾，就像把襪子、內褲、領帶跟髒衣服通通塞在同一個抽屜。你要找東西的時候，會想哭吧？套件就是你的收納神器，讓你的程式碼看起來像有無印良品的風格。
+當程式越寫越大，類別從幾個變成幾百個，全部放在同一個地方，就會像一個沒有分類的資料夾，很難找，還可能遇到兩個類別剛好同名的問題。
 
-【今天學完你會能做什麼】
-學完這堂課，你就不再是那個程式碼亂丟的小屁孩了。你會知道怎麼優雅地分類程式碼、怎麼用 import 召喚它們，還能學會「存取控制」，就像是在程式碼周圍蓋圍牆，決定誰能進來參觀，誰連門縫都看不到。
+套件就是組織程式碼的容器，它也決定了誰能存取什麼。學完這一章，我們就能用套件整理專案結構，並用存取修飾詞控制類別之間的存取權限。
 -->
 
 ---
@@ -73,8 +70,9 @@ layout: default
 - **課堂練習**
 
 <!--
-【帶讀大綱】
-今天的行程很豐富：先教你怎麼分類，再教你怎麼召喚別人的工具。最後，也是最精華的部分——存取控制。這部分面試超愛問，如果你答不出來，面試官可能會覺得你連自家的門鎖都搞不清楚。
+這一章我們會先認識套件，以及它的命名慣例。接著學怎麼建立套件、怎麼用 import 匯入其他套件的類別。
+
+然後認識 JDK 常用的標準套件，再把四種存取修飾詞完整整理一次。最後簡單介紹 Java 9 的模組系統，並用一題練習，實際設計一個有套件結構的小專案。
 -->
 
 ---
@@ -86,8 +84,7 @@ class: flex flex-col justify-center items-center text-center
 # What Is a Package?
 
 <!--
-【段落轉換】
-先了解套件是什麼、解決什麼問題。
+我們先來認識套件，看看它解決了哪些問題。
 -->
 
 ---
@@ -106,14 +103,11 @@ layout: default
 </div>
 
 <!--
-【帶讀說明】
-套件 = 目錄 + 命名空間 + 存取控制邊界。
+套件是一組相關類別和介面的集合，在檔案系統裡，它對應的就是資料夾。
 
-【命名衝突範例】
-你有沒有遇過在公司裡有兩個「小強」？如果沒分部門，你大喊一聲「小強」，兩個都會回頭。但在 Java 裡，我們可以有 工程部.小強 和 行政部.小強，完美避開這種尷尬。
+它主要解決兩個問題。第一是命名衝突：不同套件裡，可以有同名的類別。例如 java.util 和 java.sql 裡，都有一個叫 Date 的類別，因為放在不同的套件，所以不會衝突。第二是存取控制：套件是 Java 控制存取權限的邊界之一。
 
-💼 業界實務：
-在 Spring Boot 專案，我們會把 Controller 放一堆，Service 放一堆。這不是為了好玩，是為了當專案變大時，你不會在幾百個檔案裡迷路到懷疑人生。
+就像電腦裡的資料夾，不同資料夾裡可以有同名的檔案，彼此不會互相干擾。
 -->
 
 ---
@@ -130,13 +124,13 @@ layout: default
 - JDK 標準套件以 `java.` 或 `javax.` 開頭
 
 <!--
-【帶讀表格】
-套件命名用「反轉的網域名稱」，避免和別人的套件衝突。google.com → com.google。
+套件的命名有一套業界慣例。
 
-【常見問題】
-為什麼要倒著寫？因為 google.com 是唯一的。如果你寫 com.google，全世界都知道這是 Google 的地盤。如果你隨便寫個 my.app，哪天不小心跟別人的專案撞名了，編譯器就會讓你體驗什麼叫做「命名大亂鬥」。
+最外層用公司或組織的網域名稱反過來寫，例如 google.com 就寫成 com.google。第二層是專案或產品的名稱，再往下則是各個功能模組。
 
-⚠️ 命名規則：全小寫，不能有大寫和底線。寫成 Com.Google 或 com_google 都是違反慣例的。
+為什麼要用網域？因為網域在全世界是唯一的，用它當開頭，就不會和別人的套件撞名。
+
+另外，套件名稱全部用小寫，不使用底線或大寫。JDK 的標準套件，則是以 java 或 javax 開頭。
 -->
 
 ---
@@ -148,8 +142,7 @@ class: flex flex-col justify-center items-center text-center
 # Creating Packages
 
 <!--
-【段落轉換】
-知道什麼是套件之後，來學怎麼建立套件。
+接下來，我們看看怎麼建立一個套件。
 -->
 
 ---
@@ -177,11 +170,11 @@ public class Student {
 ```
 
 <!--
-【帶讀語法】
-package 宣告一定要放在第一行！它就像是你家地址，一定要寫在信封的最前面。
+在原始碼檔案的第一行，用 package 宣告這個類別屬於哪個套件。前面只能有空行或註解。
 
-【重要規則】
-如果你把它放在類別中間，編譯器會噴一堆錯誤訊息，就像是在罵你：「你家地址寫在信紙背面是想寄給誰？」
+看範例，Student 類別屬於 com.example.model 套件。
+
+另外，一個 .java 檔案，只能屬於一個套件。
 -->
 
 ---
@@ -204,10 +197,13 @@ src/
 - 沒有宣告 `package` 的類別屬於**預設套件（default package）**，不建議在正式專案使用
 
 <!--
-【帶讀目錄結構】
-com.example.model 對應 com/example/model/ 目錄，類別 Student.java 就放在那個目錄下。
+套件的名稱，會對應到實際的資料夾結構，名稱裡的每一個點，就是一層資料夾。
 
-⚠️ 常見錯誤：新手最常犯的錯就是：檔案放在資料夾 A，但 package 寫 B。Java 會覺得你在搞詐騙，直接拒絕編譯。記得，地址要跟人住的地方對得上，OK？
+看這張圖，com.example.model 套件裡的 Student，就要放在 com、example、model 這三層資料夾裡；com.example.service 套件的 StudentService，則放在 service 資料夾。
+
+套件名稱和資料夾的路徑，一定要完全對應，否則編譯或執行時，就會找不到類別。
+
+沒有宣告 package 的類別，會屬於預設套件。我們前面的範例大多是這樣寫的，但在正式的專案裡不建議這麼做。
 -->
 
 ---
@@ -219,8 +215,7 @@ class: flex flex-col justify-center items-center text-center
 # Importing Packages
 
 <!--
-【段落轉換】
-建立了套件之後，怎麼在其他類別裡使用別的套件的類別？用 import。
+建立好套件之後，要使用其他套件的類別，就需要 import。
 -->
 
 ---
@@ -249,11 +244,11 @@ public class StudentService {
 </div>
 
 <!--
-【帶讀語法】
-import 就像是召喚術。你要用別家的類別，就得先大喊一聲它的名字。
+import 讓我們在程式裡，可以直接使用類別的簡短名稱，不用每次都寫出完整的套件路徑。
 
-【不用 import 的情況】
-java.lang 裡的類別（像 String、System）是 Java 送你的 VIP 服務，不用召喚，它們隨時待命。這就像是你在家裡叫爸媽，不用報身分證字號一樣。
+import 要寫在 package 宣告之後、類別宣告之前。看範例，StudentService 匯入了 model 套件的 Student，以及 java.util 的 ArrayList 和 List，接著就能直接使用這些名稱。
+
+java.lang 套件裡的類別，例如 String 和 Math，編譯器會自動匯入，所以不需要寫 import。
 -->
 
 ---
@@ -272,11 +267,11 @@ import java.util.*;   // 匯入 java.util 下所有 public 類別
 | 業界慣例 | 推薦（可讀性高） | 不建議（可讀性低） |
 
 <!--
-【帶讀表格】
-萬用字元 * 看起來很帥，就像是大喊「通通給我過來！」
+import 也可以用星號，一次匯入某個套件裡所有的 public 類別。
 
-【業界慣例】
-但業界其實不愛這招。因為當你寫 import java.util.*; 時，沒人知道你到底用了什麼。這就像是你去超市大喊「我要這排所有的東西！」結果結帳時才發現你根本沒錢買。建議還是一個一個 import，清清楚楚，明明白白。
+這兩種寫法在效能上沒有任何差別，因為編譯之後的結果是一樣的。但用星號比較容易引入同名的類別，造成命名衝突，讀程式的人也不容易看出某個類別是從哪裡來的。
+
+所以業界的慣例，是逐一匯入需要的類別。大部分 IDE 也會自動幫我們整理好。
 -->
 
 ---
@@ -303,11 +298,11 @@ public class Circle {
 ```
 
 <!--
-【帶讀語法】
-靜態匯入是給懶人用的極致功能。
+import static 是靜態匯入，可以直接使用某個類別的靜態成員，不用再寫類別名稱。
 
-【適用時機】
-以前要寫 Math.sqrt()，現在用了靜態匯入，直接寫 sqrt()。聽起來很高級，但別用太兇，否則別人看你的程式碼會以為你在寫什麼神祕的咒語，完全看不出這些方法是從哪來的。
+看範例，匯入了 Math 的 PI、sqrt 和 pow 之後，計算面積時可以直接寫 PI 乘以 pow，不需要寫成 Math.PI 和 Math.pow。
+
+不過要適度使用。如果靜態匯入太多，讀程式的人會不知道某個方法是從哪個類別來的。
 -->
 
 ---
@@ -334,11 +329,11 @@ public class Demo {
 </div>
 
 <!--
-【帶讀程式碼】
-如果你真的倒楣到兩個套件的類別撞名了（比如兩個 Date），你就得寫全名。
+也可以不使用 import，直接寫出完整的類別名稱，包含套件路徑，這叫做全限定名稱。
 
-【解決衝突的策略】
-這就像是你要區分「台北的王小明」和「台中的王小明」，你得把地名全唸出來。麻煩是麻煩了點，但至少不會認錯人。
+看範例，宣告 ArrayList 時，直接寫成 java.util.ArrayList。
+
+這種寫法最適合的情況，是要同時使用兩個同名的類別。例如這裡同時用到 java.util 的 Date 和 java.sql 的 Date，就至少要有一個寫出全名，才能區分清楚。
 -->
 
 ---
@@ -350,8 +345,7 @@ class: flex flex-col justify-center items-center text-center
 # Standard Library Packages
 
 <!--
-【段落轉換】
-JDK 提供了大量的標準套件，先認識最常用的幾個。
+接下來，我們認識 JDK 提供了哪些常用的標準套件。
 -->
 
 ---
@@ -370,11 +364,11 @@ layout: default
 | `java.sql` | 資料庫 (JDBC) | `Connection`、`Statement`、`ResultSet` |
 
 <!--
-【帶讀表格】
-這些是 Java 內建的「大禮包」。
+這張表列出了 JDK 最常用的幾個套件。
 
-【重點記住】
-java.util 是你每天的下午茶，裡面有 Scanner、ArrayList。java.io 是處理檔案的。記住這些，你就有了基本的「Java 生存工具箱」。
+java.lang 是核心套件，包含 String、Math、Integer 和 System，會自動匯入。java.util 是工具和集合框架，例如 ArrayList、HashMap 和 Scanner。java.io 是傳統的輸入輸出，java.nio 則是新版的輸入輸出和檔案系統 API。java.net 處理網路，java.sql 則用來連接資料庫。
+
+這些套件在後面的章節都會陸續用到。
 -->
 
 ---
@@ -392,8 +386,9 @@ JDK 8 引入全新的日期時間 API，取代 `java.util.Date`：
 | `DateTimeFormatter` | 格式化/解析日期時間字串 |
 
 <!--
-【帶讀表格】
-求求你們，別再用舊的 java.util.Date 了！它設計得跟迷宮一樣。
+我們在日期時間那一章學過的 java.time，也是一個標準套件，它是 Java 8 加入的新版日期時間 API。
+
+裡面的 LocalDate 是日期，LocalTime 是時間，LocalDateTime 是日期加時間，ZonedDateTime 帶有時區，DateTimeFormatter 則用來格式化和解析。
 -->
 
 ---
@@ -410,8 +405,9 @@ System.out.println(fmt);
 ```
 
 <!--
-💼 業界實務：
-JDK 8 以後的 java.time 套件才是王道。它不會讓你算時間算到想撞牆。如果你在面試時說你還在用舊的 Date，面試官可能會問你現在是不是還在用撥接上網。
+看一個簡單的範例複習一下。
+
+匯入 LocalDate 和 DateTimeFormatter 之後，取得今天的日期，再用年斜線月斜線日的格式輸出。注意 DateTimeFormatter 在 java.time.format 這個子套件裡，所以 import 的路徑要寫完整。
 -->
 
 ---
@@ -423,8 +419,7 @@ class: flex flex-col justify-center items-center text-center
 # Access Modifiers
 
 <!--
-【段落轉換】
-這是今天最重要的部分。存取控制修飾詞決定「誰能看到什麼」，是封裝（Encapsulation）的核心機制。
+接下來，我們把四種存取修飾詞完整整理一次。學過套件之後，對它們的範圍會更清楚。
 -->
 
 ---
@@ -443,11 +438,11 @@ layout: default
 - 存取範圍：`private` < 預設（package）< `protected` < `public`
 
 <!--
-【帶讀表格】
-這張表是今天最值錢的東西！四種修飾詞，決定你的隱私等級。
+Java 有四種存取等級。
 
-【記憶方法】
-private 是你藏在床底下的日記；package 是你家人可以看到的客廳；protected 是你留給子孫的遺產；public 則是你在臉書發的公開貼文（全世界都看得到，包括你老闆）。
+private 只有同一個類別可以存取。不寫任何修飾詞，是預設的套件等級，同一個套件裡的類別都可以存取。protected 除了同一個套件，不同套件的子類別也可以存取。public 則是任何地方都可以存取。
+
+所以範圍由小到大，依序是 private、預設、protected，最後是 public。
 -->
 
 ---
@@ -474,11 +469,9 @@ public class BankAccount {
 ```
 
 <!--
-【核心說明】
-private 就是「非誠勿擾」。
+private 是最嚴格的限制，只有同一個類別裡可以存取。
 
-【帶讀程式碼】
-銀行帳戶的餘額（balance）一定要 private！你總不希望路人甲可以直接修改你的餘額吧？要改錢，得走 deposit 方法，裡面有保全（if 檢查）幫你把關。這就是封裝，這就是專業！
+它主要用在兩個地方：成員變數，以及只在類別內部使用的方法。看範例，BankAccount 的 balance 是 private，外部只能透過 deposit 和 getBalance 存取。log 方法也是 private，因為它只是內部記錄用的工具，不需要讓外面知道。
 -->
 
 ---
@@ -505,11 +498,11 @@ public class StringUtils {
 ```
 
 <!--
-【帶讀程式碼】
-不寫修飾詞，就是預設。這在 Java 裡有個名字叫「Package-private」。
+不加任何修飾詞，就是預設的套件等級，也叫做 package-private。同一個套件裡的所有類別可以存取，套件外的類別則不行。
 
-【設計意涵】
-這就像是同一個辦公室的同事可以互相借筆，但隔壁大樓的人（別的套件）就不能隨便進來拿東西。這對於隱藏那些不想讓外人看到的雜事很有用。
+看範例，Helper 類別沒有寫 public，所以只有 com.example.util 套件裡的類別能使用它。同一個套件的 StringUtils，可以呼叫 Helper.format。
+
+這樣的設計，可以把只供套件內部使用的輔助類別隱藏起來，對外只公開 StringUtils。
 -->
 
 ---
@@ -543,11 +536,11 @@ public class Dog extends Animal {
 ```
 
 <!--
-【核心說明】
-protected 是給子孫的福利。
+protected 主要是為了繼承而設計的。
 
-【帶讀程式碼】
-即便你在別的資料夾（套件），只要你認我當爸爸（繼承），你就能用我的東西。這就像是傳家寶，只傳給自家人，路人甲只能在外面流口水。
+同一個套件的類別可以存取它；而且，不同套件的子類別，也可以存取。
+
+看範例，Animal 在 animal 套件，它的 name 和 breathe 都是 protected。Dog 在另一個 pet 套件，但因為 Dog 繼承了 Animal，所以在 Dog 裡面，可以直接使用 name，也能呼叫 breathe。
 -->
 
 ---
@@ -574,11 +567,11 @@ public class Student {
 ```
 
 <!--
-【核心說明】
-public 就是大放送！
+public 是完全開放，任何套件的任何類別都可以存取。
 
-⚠️ 一個檔案最多一個 public 類別：
-這規矩就像是一山不容二虎，一個 .java 檔案只能有一個 public 類別。如果你想多放幾個，它們就只能當個低調的普通類別，不能冠上 public 的名號。
+要注意一條規則：每個 .java 檔案，最多只能有一個 public 類別，而且類別名稱必須和檔名一樣。
+
+看範例，Student 是 public 類別，建構子和 getter 也是 public，讓其他套件都能使用；但欄位仍然是 private，維持封裝。
 -->
 
 ---
@@ -597,11 +590,11 @@ public 就是大放送！
 </div>
 
 <!--
-【帶讀表格】
-這點很多人會搞混：最外層的類別不能是 private。
+這張表整理了存取修飾詞可以用在哪裡。
 
-⚠️ 常見誤區：
-你想想，如果你把整個類別設成 private，那除了它自己，誰都看不到它，那它寫出來是要幹嘛？自我安慰嗎？所以類別最嚴格只能到「預設」。
+成員變數、方法和建構子，四種修飾詞都可以使用。但最外層的類別，只能是 public 或預設的套件等級，不能宣告成 private 或 protected。
+
+private 和 protected 的類別，只能出現在其他類別的內部，也就是之前學過的內部類別。
 -->
 
 ---
@@ -616,8 +609,9 @@ public 就是大放送！
 | 內部工具方法用 `private` | 實作細節隱藏在類別內 |
 
 <!--
-【核心設計思維】
-封裝不只是「把變數設 private」，而是「控制存取，保護資料完整性」。
+這張表整理了封裝設計的原則。
+
+成員變數用 private，保護資料，不讓外部直接修改。對外提供的方法用 public，透過方法控制存取，還可以在裡面加入驗證的邏輯。只給子類別使用的方法用 protected。只在類別內部使用的工具方法，則用 private 隱藏起來。
 -->
 
 ---
@@ -638,8 +632,11 @@ public class Temperature {
 ```
 
 <!--
-【帶讀程式碼】
-你看溫度計的範例。如果 celsius 是 public，有人給它設個 -500 度，那這支溫度計就直接突破物理極限了。透過 setCelsius 方法，我們可以先檢查一下對方是不是在講鬼話，這就是專業工程師的自我修養。
+我們用溫度類別來看看這些原則。
+
+celsius 是 private，外部不能直接修改。setCelsius 是 public，但在設定之前，會先檢查溫度是否低於絕對零度，如果是，就拋出例外，拒絕這個不合理的值。
+
+另外，getFahrenheit 是由攝氏溫度計算出來的，外部只要呼叫方法，不需要知道它是怎麼換算的。這就是封裝的好處。
 -->
 
 ---
@@ -651,8 +648,7 @@ class: flex flex-col justify-center items-center text-center
 # Java Platform Module System — JDK 9
 
 <!--
-【段落轉換】
-JDK 9 之後，Java 搞了一個更高層級的「模組系統」。這就像是從「整理抽屜」升級到「整理整個倉庫」。
+最後，我們簡單認識 Java 9 加入的模組系統，英文縮寫是 JPMS。
 -->
 
 ---
@@ -672,8 +668,11 @@ layout: default
 </div>
 
 <!--
-【問題說明】
-模組系統解決了「Classpath 地獄」。以前你可能會有三個不同版本的同一個 JAR 包，編譯器就像在抽籤一樣，抽到哪個算哪個，搞得大家很崩潰。
+套件雖然能整理程式碼，但在大型專案裡，還是有一些限制。
+
+第一，大型專案可能用到幾百個函式庫，版本衝突很難管理。第二，存取控制不夠精確，public 的類別對整個程式都看得見，沒辦法限制只開放給某些套件。第三，JDK 本身太龐大，就算是小型裝置，也要帶著整個 JDK。
+
+模組就是一組套件的集合，它會明確宣告「我提供了什麼」以及「我需要什麼」，讓相依關係變得清楚。
 -->
 
 ---
@@ -700,11 +699,11 @@ module com.example.myapp {
 | `exports` | 宣告哪些套件對外開放 |
 
 <!--
-【帶讀語法】
-module-info.java 是模組的宣告檔。
+模組用一個叫 module-info.java 的檔案來宣告，放在模組的根目錄。
 
-【精確控制】
-你可以精確到說：我的這個套件，只開放給隔壁的 ui 模組看，其他人通通不准看！這比 public 更有威嚴，簡直就是程式碼界的 VIP 俱樂部。
+看範例，module 後面是模組名稱。requires 宣告這個模組依賴哪些模組，例如資料庫的 java.sql。exports 宣告哪些套件要對外開放。最後一行 exports 加上 to，表示 service 套件只開放給指定的 ui 模組。
+
+沒有被 exports 的套件，就算裡面的類別是 public，其他模組也無法使用。
 -->
 
 ---
@@ -730,11 +729,13 @@ java --describe-module java.base
 ```
 
 <!--
-【帶讀說明】
-現在連 Java 自己都模組化了。
+從 Java 9 開始，JDK 本身也模組化了。
 
-【實際影響】
-如果你只需要做數學運算，你就不用帶著整個 java.desktop 那種笨重的圖形介面。這讓你的程式可以瘦身，在雲端跑起來更輕快。
+java.base 是所有模組的基礎，包含 java.lang 和 java.util，會自動被引入。其他的例如 java.sql 處理資料庫，java.desktop 處理圖形介面。
+
+我們可以用 java 加上 list-modules 參數，查看目前 JDK 有哪些模組。
+
+模組系統主要用在大型專案和函式庫開發，初學階段知道有這個概念就可以了。
 -->
 
 ---
@@ -746,8 +747,7 @@ class: flex flex-col justify-center items-center text-center
 # Practice
 
 <!--
-【段落轉換】
-來做練習，把今天學的套件與存取控制實際操作一次。
+接下來，我們用一題練習，實際設計一個有套件結構的專案。
 -->
 
 ---
@@ -768,11 +768,13 @@ layout: default
 3. 建立 `com.school.Main`，建立 `Student` 物件並呼叫 `StudentService`
 
 <!--
-【出題目的】
-英雄們，來動動手吧！
+這一題要設計一個簡單的學生管理系統。
 
-【引導思考】
-設計一個學生系統。想想看，學生的名字這種隱私應該放哪種修飾詞？（除非你想讓他被霸凌）學號這種公開資訊又該放哪？去吧，建立你的套件王國！
+第一，在 com.school.model 套件裡建立 Student 類別，name 是 private，grade 是 protected，studentId 是 public，並提供 public 的建構子、getter 和 setter。第二，在 com.school.service 套件裡建立 StudentService，匯入 Student，提供 printInfo 方法印出學生資訊。第三，在 com.school 套件裡建立 Main，實際建立學生並呼叫 StudentService。
+
+我們先暫停一下，自己動手試試看。
+
+【講師】給學生約 20 分鐘實作，留意資料夾結構是否與套件名稱對應。
 -->
 
 ---
@@ -802,8 +804,9 @@ public class Student {
 ```
 
 <!--
-【帶讀解法】
-Student 類別就像是一張名片。記得要把該藏的藏好，該給的給足。
+我們來看解答，先看 Student。
+
+第一行宣告 package com.school.model。三個欄位依照要求，分別是 private、protected 和 public。建構子和 getter、setter 都是 public，讓其他套件可以使用。
 -->
 
 ---
@@ -828,8 +831,11 @@ public class StudentService {
 ```
 
 <!--
-【帶讀解法】
-當你在不同套件時，import 召喚術就要派上用場了。
+接著是 StudentService。
+
+它在 service 套件，所以要先 import com.school.model.Student。printInfo 方法裡，studentId 是 public，可以直接存取；name 是 private，要透過 getName；grade 是 protected，StudentService 既不在同一個套件，也不是子類別，所以同樣要透過 getGrade。
+
+這裡正好驗證了不同存取等級的差別。
 -->
 
 ---
@@ -854,8 +860,11 @@ public class Main {
 ```
 
 <!--
-【重要觀念】
-就算你用了 protected，如果你不在繼承鏈裡，你還是得乖乖透過 getter/setter 存取。別以為你跟它是鄰居就能隨便進去別人家臥室啊！
+最後是 Main。
+
+它匯入了 Student 和 StudentService，建立一個學號 S001、名字炭治郎、2 年級的學生，再交給 StudentService 印出資訊。
+
+三個類別分別放在三個套件，各自負責不同的工作，這就是一個專案最基本的結構。
 -->
 
 ---
@@ -866,11 +875,13 @@ class: flex flex-col justify-center items-center text-center
 # Q & A
 
 <!--
-【收尾】
-今天我們從整理抽屜聊到整理倉庫，還學會了怎麼蓋圍牆。
+這一章我們學會了用套件組織程式碼。
 
-【核心帶走重點】
-記得：變數設 private，方法設 public，沒事多用 java.time。如果你能做到這三點，你的程式碼就不會像是一場災難了。有問題儘管問，我不收門票！
+套件對應到資料夾，名稱用反轉的網域開頭，全部小寫。用 package 宣告類別屬於哪個套件，用 import 使用其他套件的類別，java.lang 會自動匯入。
+
+四種存取等級由小到大是 private、預設、protected 和 public。設計類別時，欄位用 private，對外的方法用 public。Java 9 的模組系統，則能更精確地控制套件之間的相依和存取。
+
+【講師】開放 Q&A。
 -->
 
 ---
@@ -881,6 +892,7 @@ layout: end
 ### 套件組織程式碼，存取控制保護封裝邊界
 
 <!--
-【結束語】
-套件讓你的程式碼有組織，修飾詞讓你的程式碼有尊嚴。下課！別忘了把你的程式碼收納好啊！
+套件組織程式碼，存取控制守住封裝的邊界。
+
+下一章，我們要學習例外處理。我們下一章見。
 -->
