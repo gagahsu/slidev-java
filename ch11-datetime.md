@@ -42,14 +42,11 @@ style: |
 </div>
 
 <!--
-【開場白】
-大家好！今天我們要聊一個讓所有程式員都頭痛的主題：時間。有人說時間是把殺豬刀，但在 Java 裡，時間有時候更像是一把亂飛的迴力鏢。今天我要帶大家從舊版的坑洞裡爬出來，走進 Java 8 以後的「現代時間」新世界。
+大家好，這一章的主題是日期與時間。
 
-【為什麼要學這個？】
-寫程式不可能不碰時間。不管是紀錄使用者什麼時候登入、算算特價還剩幾秒，還是算出老闆下次生日（方便討好他），你都需要精確地控制日期跟時間。
+計算還有幾天到期、記錄訂單的建立時間、安排跨國會議，幾乎每個系統都會處理到日期和時間。但日期時間的細節其實很多：月份有大有小、有閏年，還有時區。
 
-【今天學完你會能做什麼】
-學完這章，你不會再被 0 到 11 月搞瘋，你會學會怎麼優雅地格式化時間，還能輕鬆算出兩個日期之間隔了幾天幾小時。
+這一章我們會先看舊版的 Date 類別，了解它為什麼被淘汰，再學 Java 8 之後的 java.time 套件。學完之後，我們就能正確地建立、計算和格式化日期時間。
 -->
 
 ---
@@ -73,8 +70,11 @@ layout: default
 - **練習題**
 
 <!--
-【核心說明】
-我們會先簡單看看「舊時代的眼淚」——Date 類別，看看它到底有多難用。接著我們會進入重點：Java 8 推出的 java.time 套件，學會 LocalDate、LocalDateTime 這些現代工具。最後，我們會學怎麼在新舊 API 之間架起橋樑。
+這一章分成兩大部分。
+
+第一部分是舊版的 java.util.Date，包括基本用法、用 SimpleDateFormat 格式化，以及它被淘汰的原因。
+
+第二部分是新版的 java.time 套件，包括 LocalDate、LocalTime、LocalDateTime 和有時區的 ZonedDateTime，接著是格式化工具 DateTimeFormatter、計算時間差的 Duration 和 Period，以及新舊 API 之間怎麼轉換。最後有兩題練習。
 -->
 
 ---
@@ -86,8 +86,7 @@ class: flex flex-col justify-center items-center text-center
 ## java.util.Date
 
 <!--
-【段落轉換】
-第一部分，我們先來看看舊版的 Date。雖然它被淘汰了，但在維護舊系統時還是會遇到它。
+我們先從舊版的 Date 類別開始。雖然新專案已經不用它了，但在很多既有的系統裡，還是會看到它。
 -->
 
 ---
@@ -116,14 +115,11 @@ System.out.println(now.getTime()); // 毫秒時間戳記，例如 1715644800000
 </div>
 
 <!--
-【核心說明】
-這就是 java.util.Date。它誕生於 Java 1.0。大家想像一下 1995 年的網速，就能理解這東西有多古老。
+java.util.Date 代表一個時間點。用 new Date 建立物件，就代表「現在」。
 
-【生活化比喻】
-new Date() 就像是按了一下馬錶，記錄下那一秒。它其實存的是一個很大的長整數（毫秒）。
+它內部其實記錄的是一個毫秒數：從 1970 年 1 月 1 日零點，也就是 UTC 時間起算，到現在經過了多少毫秒。這個數字叫做 Unix 時間戳記，呼叫 getTime 就能取得。
 
-【程式世界怎麼用】
-如果你接手的是十年前的老專案，你一定會看到它。雖然它被嫌棄，但它目前還是 Java 世界的「通用語言」，很多舊的資料庫驅動還在用它。
+看範例，直接印出 now，會得到一串可以閱讀的日期時間；印出 getTime，則是一個很長的數字，就是那個毫秒數。
 -->
 
 ---
@@ -144,11 +140,11 @@ new Date() 就像是按了一下馬錶，記錄下那一秒。它其實存的是
 </div>
 
 <!--
-【核心說明】
-Date 本身印出來很醜，所以我們需要 SimpleDateFormat 來幫它化妝。
+要把 Date 印成我們想要的格式，舊版的做法是使用 SimpleDateFormat，搭配格式符號。
 
-⚠️ 學生常見誤解：
-注意大小寫！MM 是月份（Month），mm 是分鐘（minute）。如果你寫錯，你會發現現在是 2024 年 59 月，那真的是見鬼了。還有 HH 是 24 小時制，如果你用 hh，下午一點會變成 01，這在紀錄 log 時會讓你找 Bug 找到哭。
+yyyy 是四位數的年份，大寫的 MM 是月份，dd 是日期，大寫的 HH 是 24 小時制的小時，小寫的 mm 和 ss 是分鐘和秒，E 是星期幾。
+
+下面的提醒非常重要：「大小寫代表不同的意思。」大寫 MM 是月份，小寫 mm 是分鐘；大寫 HH 是 24 小時制，小寫 hh 是 12 小時制。把月份寫成小寫 mm，是很常見的錯誤，印出來的會是分鐘數。
 -->
 
 ---
@@ -175,11 +171,11 @@ Date parsed = sdf.parse("2024/05/13 10:30:00");
 ```
 
 <!--
-【逐步解說】
-format 是把物件變字串（化妝），parse 是把字串變物件（卸妝）。
+SimpleDateFormat 有兩個主要的方法。format 把 Date 轉成字串，parse 則反過來，把字串解析成 Date。
 
-⚠️ 學生常見誤解：
-parse 非常容易拋出錯誤（ParseException）。只要字串裡多一個空格、少一個斜線，程式就直接崩潰給你看。這就是為什麼我們說 Date 很難搞。
+看範例，先用年月日時分秒的格式建立 sdf。format 傳入目前時間，就會得到像 2024/05/13 10:30:00 這樣的字串。parse 則把同樣格式的字串，轉回 Date 物件。
+
+要注意，如果字串的格式和設定不一樣，parse 會拋出 ParseException，所以實際使用時要處理這個例外，之後的章節會學到怎麼處理。
 -->
 
 ---
@@ -199,14 +195,13 @@ parse 非常容易拋出錯誤（ParseException）。只要字串裡多一個空
 </div>
 
 <!--
-【核心說明】
-為什麼我們要捨棄 Date？因為它設計得簡直是個災難。
+那為什麼 Date 會被淘汰？它有幾個明顯的設計問題。
 
-【生活化比喻】
-Date 的月份是從 0 開始的，所以 12 月在 Java 裡是 11。年份更扯，要加 1900。這就像是你去買飲料，店員說「這杯 0 元」，結果結帳是 1900 元一樣荒謬。
+第一，SimpleDateFormat 不是執行緒安全的，多個執行緒同時使用同一個物件時，可能會得到錯誤的結果。第二，月份從 0 開始，getMonth 回傳的一月是 0、十二月是 11，非常容易出錯。第三，getYear 回傳的是西元年減掉 1900，2024 年會得到 124。
 
-💼 業界實務：
-最致命的是「執行緒不安全」。如果你在多執行緒環境（比如 Spring Boot 伺服器）裡共用同一個 SimpleDateFormat，你的日期會亂跳，這在金融系統裡可是會出人命的（或者是被開除）。
+另外，相關的類別分散在不同的套件，而且 Date 物件可以被修改，難以確保資料不被意外改動。
+
+所以從 Java 8 開始，官方建議改用 java.time 套件。
 -->
 
 ---
@@ -218,8 +213,7 @@ class: flex flex-col justify-center items-center text-center
 ## java.time 套件（Java 8+）
 
 <!--
-【段落轉換】
-第二部分，我們來學現代化的 java.time 套件。它解決了舊版的所有痛點。
+接下來，我們進入 Java 8 推出的新版日期時間 API，也就是 java.time 套件。
 -->
 
 ---
@@ -242,11 +236,13 @@ layout: default
 </div>
 
 <!--
-【核心說明】
-Java 8 推出的 java.time 套件是參考了非常有名的 Joda-Time 庫。它把所有缺點都改掉了。
+這張表比較了新舊兩套 API。
 
-【生活化比喻】
-如果 Date 是那種要自己調齒輪的老式掛鐘，java.time 就是現在的智慧型手錶，功能強大又不會出錯。
+java.time 的物件全部都是不可變的，所以天生就是執行緒安全的。月份是 1 到 12，符合直覺。所有類別都集中在同一個套件，命名一致，讀起來也很流暢。
+
+時區有專門的 ZonedDateTime 和 ZoneId 來處理；計算時間差，也有 Duration 和 Period 可以直接使用，不用再自己把毫秒相減。
+
+所以原則是：「新專案直接使用 java.time。」如果要和使用 Date 的舊系統互動，再透過 Instant 轉換就好。
 -->
 
 ---
@@ -258,8 +254,7 @@ class: flex flex-col justify-center items-center text-center
 ## 只有日期，沒有時間
 
 <!--
-【段落轉換】
-LocalDate：處理日曆上的日期，不管幾點鐘。
+我們先看最常用的 LocalDate。它只有日期，沒有時間，適合用來表示生日、假日這類資料。
 -->
 
 ---
@@ -275,6 +270,12 @@ layout: default
 | `LocalDate.parse("yyyy-MM-dd")` | 從字串解析 |
 | `isBefore(other)` | 是否在指定日期之前 |
 | `isAfter(other)` | 是否在指定日期之後 |
+
+<!--
+建立 LocalDate 有三種常見的方式：now 取得今天的日期；of 傳入年、月、日，建立指定的日期；parse 則把年月日格式的字串，解析成日期。
+
+比較兩個日期時，可以用 isBefore 判斷是否在另一個日期之前，用 isAfter 判斷是否在之後。
+-->
 
 ---
 
@@ -292,14 +293,11 @@ System.out.println(birthday.isBefore(today)); // true
 ```
 
 <!--
-【核心說明】
-LocalDate 只有日期。非常適合用來存生日、發薪日。你不需要知道你是幾點幾分出生的，只要知道是哪天就好。
+我們看實際的寫法。
 
-【生活化比喻】
-這就像是日曆上撕下來的那一頁。它不知道現在幾點，它只知道今天是哪一天。
+today 是今天的日期。birthday 用 of 建立 2000 年 5 月 20 日，注意這裡的 5 就是五月，不像舊版 Date 要寫成 4。parsed 從字串 2024-01-15 解析而來。
 
-【逐步解說】
-LocalDate.now() 抓今天，LocalDate.of(2000, 5, 20) 建立特定日期。看！這裡的 5 月就是 5，不用再減 1 了，感動吧？
+最後判斷 birthday 是否在 today 之前，結果是 true。整段程式讀起來就像在讀英文句子，這就是 java.time 設計得很直覺的地方。
 -->
 
 ---
@@ -313,6 +311,14 @@ LocalDate.now() 抓今天，LocalDate.of(2000, 5, 20) 建立特定日期。看�
 | `plusYears(n)` | 加 n 年 |
 | `getDayOfWeek()` | 取得星期幾（DayOfWeek 列舉）|
 | `getDayOfMonth()` | 取得當月幾號 |
+
+<!--
+LocalDate 也提供了加減日期的方法：plusDays 加幾天，minusMonths 減幾個月，plusYears 加幾年，同樣的命名規則也適用於其他單位。
+
+另外，getDayOfWeek 可以取得這一天是星期幾，getDayOfMonth 可以取得是這個月的幾號。
+
+這些加減方法會自動處理大小月和閏年。例如 1 月 31 日加一個月，會得到 2 月的最後一天，不需要我們自己判斷。
+-->
 
 ---
 
@@ -329,11 +335,11 @@ System.out.println(dow.getValue()); // 1（週一=1，週日=7）
 ```
 
 <!--
-【逐步解說】
-它提供了很方便的加減法，比如 plusDays(7) 就是一週後。
+我們看範例。today 加 7 天，得到下週的同一天；減 1 個月，得到上個月的同一天。
 
-💼 業界實務：
-注意！java.time 所有的物件都是「不可變（Immutable）」的。也就是說，today.plusDays(7) 不會改變 today 本身，而是回傳一個新的物件。這在程式開發中非常重要，可以避免很多莫名其妙的副作用。
+要特別注意，LocalDate 是不可變的物件，plusDays 不會修改 today 本身，而是回傳一個新的日期。所以一定要用變數把結果接起來，例如這裡的 nextWeek。只寫 today.plusDays 7 卻沒有接住結果，today 是不會改變的。
+
+最後用 getDayOfWeek 取得 2024 年 5 月 20 日是星期幾，結果是 MONDAY。它的 getValue 是 1，星期一是 1，星期日是 7。
 -->
 
 ---
@@ -345,8 +351,7 @@ class: flex flex-col justify-center items-center text-center
 ## 只有時間，沒有日期
 
 <!--
-【段落轉換】
-LocalTime：處理時鐘上的時間，不管哪一天。
+接下來是 LocalTime，它和 LocalDate 剛好相反，只有時間，沒有日期。
 -->
 
 ---
@@ -363,6 +368,14 @@ layout: default
 | `plusHours(n)` | 加 n 小時 |
 | `minusMinutes(n)` | 減 n 分鐘 |
 | `getHour()` / `getMinute()` | 取得時 / 分 |
+
+<!--
+LocalTime 的用法和 LocalDate 很像。
+
+now 取得目前時間，of 指定時和分，parse 從字串解析。加減時間用 plusHours、minusMinutes 這類方法，取出時和分則用 getHour 和 getMinute。
+
+學會了 LocalDate，LocalTime 幾乎不需要額外記憶，這也是 java.time 命名一致的好處。
+-->
 
 ---
 
@@ -381,11 +394,9 @@ System.out.println(end.getHour()); // 16
 ```
 
 <!--
-【核心說明】
-LocalTime 就是只有時間，沒有日期。
+看範例，meeting 是下午 2 點 30 分，加上 2 小時之後，end 就是 4 點 30 分，getHour 會得到 16。
 
-【生活化比喻】
-這就是你的鬧鐘。你設定早上 7 點起床，你不管那天是星期幾。這就是 LocalTime 的概念。
+每天的營業時間、鬧鐘設定這類不需要日期的資料，就很適合用 LocalTime。
 -->
 
 ---
@@ -397,8 +408,7 @@ class: flex flex-col justify-center items-center text-center
 ## 日期 + 時間，但無時區
 
 <!--
-【段落轉換】
-LocalDateTime：日期和時間都有，但缺乏時區資訊。
+如果同時需要日期和時間，就用 LocalDateTime。不過要注意，它沒有時區資訊。
 -->
 
 ---
@@ -414,6 +424,12 @@ layout: default
 | `LocalDateTime.of(date, time)` | 合併 LocalDate 與 LocalTime |
 | `toLocalDate()` | 拆出日期部分 |
 | `toLocalTime()` | 拆出時間部分 |
+
+<!--
+LocalDateTime 一樣可以用 now 取得現在，或用 of 指定年月日時分。
+
+它還可以把現成的 LocalDate 和 LocalTime 合併成一個 LocalDateTime；反過來，也能用 toLocalDate 和 toLocalTime 拆出日期和時間的部分。
+-->
 
 ---
 
@@ -432,11 +448,9 @@ System.out.println(combined); // 2024-05-13T10:30
 ```
 
 <!--
-【核心說明】
-日期加時間，但還是沒有時區。
+看範例，dt 直接指定 2024 年 5 月 13 日 10 點 30 分。下面則是先建立日期 d 和時間 t，再用 of 把它們合併。
 
-【生活化比喻】
-這就像是約會通知：「我們週五下午兩點在星巴克見」。如果你們都在台北，這沒問題。但如果你約的是西雅圖的正妹，那你就會被放鳥，因為你們的時間不一樣。
+印出 combined，會看到日期和時間中間有一個大寫的 T，這是國際標準 ISO 8601 的日期時間格式。
 -->
 
 ---
@@ -448,8 +462,7 @@ class: flex flex-col justify-center items-center text-center
 ## 含時區的日期時間
 
 <!--
-【段落轉換】
-ZonedDateTime：處理跨國業務必備，包含完整的時區資訊。
+當系統要服務不同國家的使用者時，就要考慮時區。這時候要用的是 ZonedDateTime。
 -->
 
 ---
@@ -465,6 +478,12 @@ layout: default
 | `ZonedDateTime.now(zoneId)` | 指定時區的現在時間 |
 | `ZonedDateTime.of(ldt, zoneId)` | 將 LocalDateTime 加上時區 |
 | `getZone()` | 取得時區資訊 |
+
+<!--
+ZoneId 代表一個時區，用「區域斜線城市」的格式建立，例如 Asia/Taipei。systemDefault 則可以取得電腦目前設定的時區。
+
+ZonedDateTime 是帶有時區的日期時間。用 now 傳入時區，可以取得那個時區的現在時間；也可以用 of，把一個 LocalDateTime 加上時區。getZone 則可以取得它的時區資訊。
+-->
 
 ---
 
@@ -487,11 +506,11 @@ System.out.println(zdt); // 2024-05-13T10:00+08:00[Asia/Taipei]
 </div>
 
 <!--
-【核心說明】
-這就是終極大 Boss：含時區的日期時間。
+看範例，先建立台北和巴黎兩個時區。ZonedDateTime.now 傳入台北，就是台北現在的時間。
 
-【逐步解說】
-時區 ID 通常是「大陸/城市」，比如 Asia/Taipei。不要寫什麼 CST 或 GMT+8，用正式的 ID 最準確。這就像是給你的時間貼上了一張「地區標籤」，讓全世界都知道這是在講哪裡的時間。
+接著把 2024 年 5 月 13 日上午 10 點，加上台北時區。印出來會看到 +08:00，表示比世界標準時間快 8 小時，最後中括號裡是時區名稱 Asia/Taipei。
+
+下面列出了幾個常用的時區名稱，例如東京、紐約和倫敦。
 -->
 
 ---
@@ -510,11 +529,11 @@ System.out.println(zdt); // 2024-05-13T10:00+08:00[Asia/Taipei]
 </div>
 
 <!--
-【核心說明】
-選對類別很重要，不要殺雞用牛刀。
+學了四種類別，該怎麼選擇？這張表整理了它們各自包含哪些資訊。
 
-【逐步解說】
-生日用 LocalDate，鬧鐘用 LocalTime，一般日誌紀錄用 LocalDateTime。只有需要處理「時差」時才祭出 ZonedDateTime。
+LocalDate 只有日期，適合生日、假日。LocalTime 只有時間，適合開店時間、鬧鐘。LocalDateTime 有日期和時間，適合本地的活動或資料庫裡的時間欄位。ZonedDateTime 三者都有，適合跨時區的會議和航班時刻。
+
+原則是：不需要考慮時區時，優先用 LocalDate 或 LocalDateTime；只有跨時區的系統，才需要 ZonedDateTime。
 -->
 
 ---
@@ -526,8 +545,7 @@ class: flex flex-col justify-center items-center text-center
 ## 格式化與解析
 
 <!--
-【段落轉換】
-DateTimeFormatter：新版的格式化工具，執行緒安全且更強大。
+接下來是 DateTimeFormatter，它負責把日期時間轉成我們想要的格式，也能把字串解析回日期時間。
 -->
 
 ---
@@ -550,11 +568,9 @@ layout: default
 </div>
 
 <!--
-【核心說明】
-這是 SimpleDateFormat 的接班人，它更安全、更快。
+DateTimeFormatter 的格式符號，和剛才的 SimpleDateFormat 幾乎一樣：yyyy 是年，大寫 MM 是月，dd 是日，大寫 HH 是 24 小時制，小寫 mm 和 ss 是分和秒，E 是星期幾。另外還多了時區相關的符號。
 
-💼 業界實務：
-因為它是執行緒安全的，所以在業界我們習慣把它定義成 static final 常數，大家一起用，既省記憶體又安全。
+最大的差別在於，DateTimeFormatter 是不可變的物件，可以安心地宣告成 static 常數，讓整個程式共用，不用擔心多執行緒的問題。
 -->
 
 ---
@@ -567,6 +583,12 @@ layout: default
 | `ldt.format(formatter)` | 日期時間 → 字串 |
 | `LocalDate.parse(str, formatter)` | 字串 → LocalDate |
 | `LocalDateTime.parse(str, formatter)` | 字串 → LocalDateTime |
+
+<!--
+使用方式也很簡單。
+
+先用 ofPattern 傳入格式字串，建立一個 formatter。要把日期時間轉成字串，就呼叫日期時間物件的 format 方法；要把字串轉回來，就呼叫 LocalDate 或 LocalDateTime 的 parse，並傳入同一個 formatter。
+-->
 
 ---
 
@@ -586,8 +608,11 @@ LocalDateTime parsed = LocalDateTime.parse("2024/05/13 10:30:00", fmt);
 ```
 
 <!--
-【逐步解說】
-用法跟以前差不多，但呼叫對象換成了日期物件。比如 now.format(fmt)。
+我們看實際的範例。
+
+用年月日時分秒的格式建立 fmt，接著把現在的時間 format 成字串，就會得到像 2024/05/13 10:30:00 這樣的結果。
+
+反過來，LocalDateTime.parse 傳入同樣格式的字串和 fmt，就能得到 LocalDateTime 物件。只要格式設定一次，就能來回轉換。
 -->
 
 ---
@@ -599,8 +624,7 @@ class: flex flex-col justify-center items-center text-center
 ## 計算時間差
 
 <!--
-【段落轉換】
-計算兩個時間點之間的距離。一個算時分秒，一個算年月日。
+計算兩個時間點相差多久，是很常見的需求。java.time 提供了 Duration 和 Period 兩個類別。
 -->
 
 ---
@@ -622,11 +646,11 @@ layout: default
 </div>
 
 <!--
-【核心說明】
-這是很多初學者會搞混的地方。一個是計時，一個是計日。
+這兩個類別都用來表示時間的長度，差別在於單位。
 
-【生活化比喻】
-Duration 就像是馬錶（秒數、分鐘）；Period 就像是日曆（幾年幾月幾天）。
+Duration 以秒和奈秒為單位，適合計算兩個時刻之間的時間差，例如上班時數。Period 以年、月、日為單位，適合計算兩個日期之間的差距，例如年齡。
+
+兩者都用 between 建立。可以這樣記：「Duration 算時間，Period 算日期。」
 -->
 
 ---
@@ -650,8 +674,11 @@ System.out.println(d.toMinutes());   // 510
 </div>
 
 <!--
-【逐步解說】
-想要算出加班多久領加班費？用 Duration 就對了。它會告訴你總共過了幾秒、幾分鐘。
+我們用 Duration 計算一天的上班時間。
+
+上班是早上 9 點，下班是下午 5 點 30 分。Duration.between 算出兩者的差距之後，getSeconds 得到 30600 秒，toHours 得到 8 小時，toMinutes 得到 510 分鐘。
+
+注意 toHours 是 8，因為它只取完整的小時數，剩下的 30 分鐘會被捨去。Duration 也可以用在 LocalDateTime 上，計算跨日期的時間差。
 -->
 
 ---
@@ -675,11 +702,11 @@ System.out.println(p.getDays());   // 23
 </div>
 
 <!--
-【逐步解說】
-想要算出你跟女朋友交往多久了？用 Period。它會回傳「1 年 2 個月 3 天」。
+Period 用來計算兩個日期之間相差幾年幾個月幾天。
 
-⚠️ 學生常見誤解：
-注意！getDays() 回傳的是天數的「餘數」。如果你們隔了 40 天，它會回傳 10 天（扣掉一個月 30 天）。如果你想要總天數，要用另一個類別叫 ChronoUnit。
+從 2000 年 5 月 20 日到 2024 年 5 月 13 日，相差 23 年 11 個月 23 天。
+
+要特別注意，getMonths 回傳的是扣掉整年之後「剩下的」月數，也就是 11，而不是總共經過了幾個月。如果要總月數，要用 toTotalMonths，結果是 287。這是使用 Period 時很容易誤會的地方。
 -->
 
 ---
@@ -691,8 +718,7 @@ class: flex flex-col justify-center items-center text-center
 ## java.util.Date ↔ java.time.Instant
 
 <!--
-【段落轉換】
-在新舊 API 之間架起橋樑，透過 Instant 進行轉換。
+最後，我們看看新舊 API 之間怎麼轉換。舊系統的程式常常還在使用 Date，就需要和新版的 java.time 互相轉換。
 -->
 
 ---
@@ -707,6 +733,14 @@ layout: default
 | `Instant` → `ZonedDateTime` | `instant.atZone(ZoneId.systemDefault())` |
 | `ZonedDateTime` → `LocalDate` | `.toLocalDate()` |
 | `ZonedDateTime` → `LocalDateTime` | `.toLocalDateTime()` |
+
+<!--
+新舊 API 之間的橋梁，是 Instant。它代表時間軸上一個精確的時刻。
+
+從 Date 轉成 LocalDate，要經過幾個步驟：先用 toInstant 轉成 Instant；再用 atZone 加上時區，變成 ZonedDateTime；最後再取出 LocalDate 或 LocalDateTime。
+
+為什麼要加上時區？因為同一個時刻，在台北和紐約是不同的日期和時間，一定要先決定用哪個時區來看。
+-->
 
 ---
 
@@ -728,14 +762,11 @@ LocalDateTime ldt = old.toInstant()
 ```
 
 <!--
-【核心說明】
-身為工程師，我們總是要面對現實——舊的程式碼。
+這是程式碼的寫法，三個步驟串在一起。
 
-【生活化比喻】
-Instant 就像是時空隧道裡的轉運站。不管你是從 Date 出發，還是從 LocalDateTime 出發，都要先到 Instant 轉機。
+舊的 Date 物件先呼叫 toInstant，再呼叫 atZone 加上系統預設的時區，最後用 toLocalDate 取得日期，或用 toLocalDateTime 取得日期和時間。
 
-【逐步解說】
-看到這一長串的轉換鏈了嗎？這就是為什麼我們討厭 Date。你要先 toInstant()，然後指定時區 atZone()，最後才能 toLocalDate()。
+這種把多個方法一路接下去的寫法，在 java.time 裡很常見，讀起來就像一句完整的步驟說明。
 -->
 
 ---
@@ -766,8 +797,11 @@ Date d2 = Date.from(
 </div>
 
 <!--
-【逐步解說】
-反過來也一樣，要經過 Instant。記住，Instant 是 UTC 時間，所以轉換時一定要告訴電腦你的時區在哪裡。
+反過來，從新版轉回 Date，就是把步驟倒過來，最後用 Date.from 把 Instant 轉成 Date。
+
+LocalDate 只有日期，所以要先用 atStartOfDay 補上當天的零點，變成 LocalDateTime，接著加上時區、轉成 Instant，再交給 Date.from。LocalDateTime 則可以直接加上時區，再轉成 Instant。
+
+記住，不管往哪個方向轉，中間都要經過 Instant。
 -->
 
 ---
@@ -778,8 +812,7 @@ class: flex flex-col justify-center items-center text-center
 # 練習題
 
 <!--
-【互動引導】
-學了這麼多，來動手試試吧！
+接下來，我們用兩題練習，把這一章學到的日期時間操作實際用一遍。
 -->
 
 ---
@@ -799,8 +832,13 @@ layout: default
 5. 輸出格式：`距離下次生日還有 X 天`
 
 <!--
-【互動引導】
-現在，請發揮你的工程師本色，幫自己寫一個生日倒數器。記得喔，如果今年生日過了，你要會自動算明年，不然程式會跑出負數，你的年紀就變小了（雖然我也很想）。
+第一題，計算今天到下次生日還有幾天。
+
+先取得今天的日期，設定今年的生日；如果今年的生日已經過了，就改算明年的生日。最後算出相差幾天，印出「距離下次生日還有幾天」。
+
+我們先暫停一下，自己動手試試看。
+
+【講師】給學生約 10 分鐘實作。
 -->
 
 ---
@@ -824,8 +862,11 @@ System.out.println("距離下次生日還有 " + days + " 天");
 ```
 
 <!--
-【解說要點】
-關鍵在於 isBefore 的判斷。還有，如果你想要算「總天數」，建議用 ChronoUnit.DAYS.between，這比 Period 好用多了。
+我們來看提示。
+
+用 today.getYear 取得今年的年份，建立今年的生日。接著用 isBefore 判斷生日是否在今天之前，如果是，就用 plusYears 1 改成明年，記得把結果存回變數。
+
+最後用 ChronoUnit.DAYS.between，計算兩個日期之間總共相差幾天。這裡不建議用 Period 的 getDays，因為它只會給扣掉月份之後剩下的天數。
 -->
 
 ---
@@ -844,8 +885,15 @@ layout: default
 將字串 `"2024/05/13 10:30"` 解析為 `LocalDateTime` 物件，並分別印出年份、月份和星期幾
 
 <!--
-【互動引導】
-這是最實用的練習。把時間變漂亮，或者是從髒髒的字串裡提取資訊。
+第二題是時間格式轉換，分成兩個任務。
+
+任務 A，把現在的時間印成中文格式，例如 2024 年 05 月 13 日 10:30:00，後面括號裡是星期一。
+
+任務 B，把字串 2024/05/13 10:30 解析成 LocalDateTime，再分別印出年份、月份和星期幾。
+
+一樣先暫停一下，自己動手寫寫看。
+
+【講師】給學生約 10 分鐘實作。
 -->
 
 ---
@@ -869,8 +917,11 @@ System.out.println(ldt.getDayOfWeek()); // MONDAY
 ```
 
 <!--
-【解說要點】
-解析字串時，格式一定要「一模一樣」。少一個斜線都不行！
+我們來看提示。
+
+任務 A，用 ofPattern 建立格式，第二個參數傳入繁體中文的 Locale，這樣星期才會以中文顯示。一個 E 會印出縮寫的「週一」，四個 E 則會印出完整的「星期一」。
+
+任務 B，用 yyyy/MM/dd HH:mm 的格式建立 formatter，搭配 LocalDateTime.parse 解析，再呼叫 getYear、getMonth 和 getDayOfWeek，就能取得年份、月份和星期幾。
 -->
 
 ---
@@ -889,6 +940,11 @@ class: flex flex-col justify-center items-center text-center
 - 新舊 API 互轉橋梁：`Instant`
 
 <!--
-【開場白】
-關於時間的魔法，大家還有什麼疑問嗎？如果你發現你的電腦時間不準，那可能是硬體問題，不是 Java 的鍋喔！
+這一章我們學會了處理日期與時間。
+
+舊版的 Date 有執行緒不安全、月份從 0 開始等問題，所以 Java 8 之後改用 java.time。LocalDate、LocalTime、LocalDateTime 和 ZonedDateTime，依照需不需要日期、時間和時區來選擇。DateTimeFormatter 負責格式化和解析，而且可以安心共用。Duration 計算時間差，Period 計算日期差，新舊 API 則透過 Instant 互相轉換。
+
+下一章，我們要深入學習字元與字串。
+
+【講師】開放 Q&A。
 -->
