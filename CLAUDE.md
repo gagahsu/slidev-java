@@ -2,6 +2,20 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Branches
+
+This repo maintains two long-lived lines that are **never merged into each other**:
+
+| Branch | Purpose | Local checkout |
+|---|---|---|
+| `main` | 自己頻道用的版本（current numbering, Ch01–28） | `my-clas/` |
+| `work` | 工作教學用的版本，branched from tag `v0.1.0`（old numbering, Ch01–25, no basic/advanced split） | `../my-clas-work/` (git worktree) |
+
+- Channel edits go on `main`; work-teaching edits go on `work` in the worktree.
+- Port fixes across lines only via small, focused `git cherry-pick`s — chapter files were renumbered on `main`, so expect conflicts.
+- Release tags: `main` uses `v0.x`; `work` uses `work-v1.x`.
+- GitHub Pages serves one site per repo and deploys from `main` releases; `work` does not deploy.
+
 ## Commands
 
 ```bash
