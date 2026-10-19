@@ -136,9 +136,8 @@ new Date() 就像是按了一下馬錶，記錄下那一秒。它其實存的是
 | `MM` | 兩位數月份 | 01–12 |
 | `dd` | 兩位數日期 | 01–31 |
 | `HH` | 24 小時制小時 | 00–23 |
-| `mm` | 分鐘 | 00–59 |
-| `ss` | 秒數 | 00–59 |
-| `E` | 星期幾縮寫 | Mon, Tue... |
+| `mm` / `ss` | 分鐘 / 秒數 | 00–59 |
+| `E` | 星期幾縮寫 | Mon, Tue |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>大小寫有別：</b><code>MM</code> 是月份，<code>mm</code> 是分鐘；<code>HH</code> 是 24 小時制，<code>hh</code> 是 12 小時制。
@@ -146,7 +145,7 @@ new Date() 就像是按了一下馬錶，記錄下那一秒。它其實存的是
 
 <!--
 【核心說明】
-Date 本身印出來很醜，所以 we 需要 SimpleDateFormat 來幫它化妝。
+Date 本身印出來很醜，所以我們需要 SimpleDateFormat 來幫它化妝。
 
 ⚠️ 學生常見誤解：
 注意大小寫！MM 是月份（Month），mm 是分鐘（minute）。如果你寫錯，你會發現現在是 2024 年 59 月，那真的是見鬼了。還有 HH 是 24 小時制，如果你用 hh，下午一點會變成 01，這在紀錄 log 時會讓你找 Bug 找到哭。
@@ -277,6 +276,10 @@ layout: default
 | `isBefore(other)` | 是否在指定日期之前 |
 | `isAfter(other)` | 是否在指定日期之後 |
 
+---
+
+# LocalDate 常用 API（一）— 範例
+
 ```java
 import java.time.LocalDate;
 
@@ -310,6 +313,10 @@ LocalDate.now() 抓今天，LocalDate.of(2000, 5, 20) 建立特定日期。看�
 | `plusYears(n)` | 加 n 年 |
 | `getDayOfWeek()` | 取得星期幾（DayOfWeek 列舉）|
 | `getDayOfMonth()` | 取得當月幾號 |
+
+---
+
+# LocalDate 常用 API（二）— 範例
 
 ```java
 LocalDate today = LocalDate.now();
@@ -356,6 +363,10 @@ layout: default
 | `plusHours(n)` | 加 n 小時 |
 | `minusMinutes(n)` | 減 n 分鐘 |
 | `getHour()` / `getMinute()` | 取得時 / 分 |
+
+---
+
+# LocalTime — 範例
 
 ```java
 import java.time.LocalTime;
@@ -404,6 +415,10 @@ layout: default
 | `toLocalDate()` | 拆出日期部分 |
 | `toLocalTime()` | 拆出時間部分 |
 
+---
+
+# LocalDateTime — 範例
+
 ```java
 import java.time.LocalDateTime;
 
@@ -451,6 +466,10 @@ layout: default
 | `ZonedDateTime.of(ldt, zoneId)` | 將 LocalDateTime 加上時區 |
 | `getZone()` | 取得時區資訊 |
 
+---
+
+# ZonedDateTime — 範例
+
 ```java
 import java.time.*;
 
@@ -487,7 +506,7 @@ System.out.println(zdt); // 2024-05-13T10:00+08:00[Asia/Taipei]
 | `ZonedDateTime` | ✅ | ✅ | ✅ | 跨時區會議、航班時刻 |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>原則：</b>只要不需要考慮時區，優先用 <code>LocalDate</code> / <code>LocalDateTime</code>；跨國系統或需儲存 UTC 時間，才用 <code>ZonedDateTime</code>。
+💡 <b>原則：</b>只要不需要考慮時區，優先用 <code>LocalDate</code> / <code>LocalDateTime</code>；跨國系統需處理時區時才用 <code>ZonedDateTime</code>（單純記錄 UTC 時間點可用 <code>Instant</code>）。
 </div>
 
 <!--
@@ -520,13 +539,11 @@ layout: default
 | 符號 | 說明 | 範例 |
 | --- | --- | --- |
 | `yyyy` | 四位數年份 | 2024 |
-| `MM` | 兩位數月份 | 01–12 |
-| `dd` | 兩位數日期 | 01–31 |
+| `MM` / `dd` | 月份 / 日期 | 01–12 / 01–31 |
 | `HH` | 24 小時制 | 00–23 |
-| `mm` | 分鐘 | 00–59 |
-| `ss` | 秒數 | 00–59 |
+| `mm` / `ss` | 分鐘 / 秒數 | 00–59 |
 | `E` | 星期縮寫 | Mon |
-| `z` / `VV` | 時區縮寫 / 時區 ID | UTC+8 / Asia/Taipei |
+| `z` / `VV` | 時區縮寫 / 時區 ID | CST / Asia/Taipei |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>執行緒安全：</b>DateTimeFormatter 是不可變物件，可宣告為靜態常數，安全地在多執行緒環境共用。
@@ -550,6 +567,10 @@ layout: default
 | `ldt.format(formatter)` | 日期時間 → 字串 |
 | `LocalDate.parse(str, formatter)` | 字串 → LocalDate |
 | `LocalDateTime.parse(str, formatter)` | 字串 → LocalDateTime |
+
+---
+
+# DateTimeFormatter — 範例
 
 ```java
 import java.time.*;
@@ -646,11 +667,11 @@ LocalDate today = LocalDate.of(2024, 5, 13);
 Period p = Period.between(birth, today);
 System.out.println(p.getYears());   // 23
 System.out.println(p.getMonths()); // 11
-System.out.println(p.getDays());   // 24
+System.out.println(p.getDays());   // 23
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>注意：</b><code>getYears()</code>、<code>getMonths()</code>、<code>getDays()</code> 各自取該單位的「餘數」，不是累計加總。例如 23 年 11 個月 24 天，不是 23 年 + 11 個月 = 287 個月。
+💡 <b>注意：</b><code>getYears()</code>、<code>getMonths()</code>、<code>getDays()</code> 各自取該單位的「餘數」，不是累計加總。例如 23 年 11 個月 23 天的 <code>getMonths()</code> 是 11；要總月數請用 <code>p.toTotalMonths()</code>（287）。
 </div>
 
 <!--
@@ -686,6 +707,10 @@ layout: default
 | `Instant` → `ZonedDateTime` | `instant.atZone(ZoneId.systemDefault())` |
 | `ZonedDateTime` → `LocalDate` | `.toLocalDate()` |
 | `ZonedDateTime` → `LocalDateTime` | `.toLocalDateTime()` |
+
+---
+
+# Date → LocalDate / LocalDateTime — 範例
 
 ```java
 import java.util.Date;
@@ -833,10 +858,7 @@ layout: default
 2. `LocalDateTime.now().format(formatter)`
 3. `E` 輸出縮寫「週一」，`EEEE` 輸出全名「星期一」
 
-**任務 B 提示：**
-1. 建立 `DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")`
-2. 使用 `LocalDateTime.parse("2024/05/13 10:30", formatter)`
-3. 呼叫 `.getYear()`, `.getMonth()`, `.getDayOfWeek()`
+**任務 B 提示：** 以 `ofPattern("yyyy/MM/dd HH:mm")` 搭配 `LocalDateTime.parse()` 解析，再呼叫 `.getYear()`、`.getMonth()`、`.getDayOfWeek()`
 
 ```java
 DateTimeFormatter fmt =

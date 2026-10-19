@@ -110,7 +110,7 @@ layout: default
 當你拿到一個字，你想知道它是誰。它是數字？還是字母？Character 類別就是你的身分證查驗官。
 
 【逐步解說】
-isDigit 就是看它是不是 0 到 9。注意喔，這是「字元版」的數字，如果你傳 10 進去，它會報錯，因為它是單身狗，一次只能處理一個字。
+isDigit 就是看它是不是 0 到 9。注意喔，它判斷的是「字元」'0'~'9'，如果你傳整數 10 進去，它會把 10 當成 Unicode 編碼（換行字元），回傳 false，因為它是單身狗，一次只能看一個字。
 驚喜的是 isLetter，Java 的 Unicode 支援非常好，你餵它一個「炭」字，它也會點頭說是 True。
 
 ⚠️ 學生常見誤解：
@@ -151,7 +151,7 @@ System.out.println(Character.isLetterOrDigit(c1)); // true
 
 | 方法名稱 | 說明 |
 | --- | --- |
-| `isAlphabetic(char ch)` | 是否為 Unicode 字母字元（比 `isLetter` 涵蓋更廣）|
+| `isAlphabetic(int codePoint)` | 是否為 Unicode 字母字元（比 `isLetter` 涵蓋更廣）|
 | `isWhitespace(char ch)` | 是否為 Java 定義的空白（含 `\t`、`\n`、`\r` 等控制字元）|
 | `isSpaceChar(char ch)` | 是否為 Unicode 空格字元（**不含** Tab、換行等控制字元）|
 
@@ -202,14 +202,14 @@ System.out.println(Character.isSpaceChar(fullWidthSpace)); // true
 我想強調的是那個 \u3000（全型空白）。這真的是中文開發者的惡夢。有時候使用者在網頁表單按了一個全型空白，你肉眼看不出來，但資料庫就是搜尋不到，這時候 isSpaceChar 就是你的救命恩人。
 
 ⚠️ 學生常見誤解：
-注意！字元转换方法回傳的是「新的字元」，原本傳進去的變數是不會變的喔（因為 char 是 primitive type）。
+注意！字元轉換方法回傳的是「新的字元」，原本傳進去的變數是不會變的喔（因為 char 是 primitive type）。
 -->
 
 ---
 
 # 跳脫字元 (Escape Character)
 
-控制字元（如換行、標籤）可以使用 `isISOControl()` 測試：
+控制字元（如換行、Tab）可以使用 `isISOControl()` 測試：
 
 ```java
 char ch1 = '\n'; // 換行符號（Enter 鍵效果）
@@ -220,7 +220,7 @@ System.out.println("\\t 是控制字元：" + Character.isISOControl(ch2));
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>技術細節：</b> 中文字元「炭」在 Java 中屬於字母字元 (isLetter)。
+💡 <b>常見跳脫字元：</b> <code>\n</code> 換行、<code>\t</code> Tab、<code>\\</code> 反斜線、<code>\"</code> 雙引號、<code>\'</code> 單引號；兩行皆輸出 <code>true</code>。
 </div>
 
 <!--
@@ -329,7 +329,7 @@ String tb = """
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 Text Blocks 的型別仍是 <code>String</code>，所有 String 方法都可使用。結尾的 <code>"""</code> 與內容對齊時，公共縮排會被自動移除。
+💡 Text Blocks（Java 15+）的型別仍是 <code>String</code>，所有 String 方法都可使用。各行（含結尾 <code>"""</code>）共同的前置縮排會被自動移除。
 </div>
 
 <!--
@@ -352,12 +352,13 @@ Java 終於開竅了！以前要寫一段長長的文字（像是 SQL 語法）�
 | `indent(int n)` | n > 0 每行開頭加 n 個空白；n < 0 移除每行開頭最多 \|n\| 個空白；自動補上換行 |
 
 ```java
-String text = """
-        炭治郎
-        禰豆子
-        """;
-System.out.print(text.indent(4));  // n > 0：加縮排
-System.out.print(text.indent(-4)); // n < 0：移除縮排
+String text = "炭治郎\n禰豆子";
+
+String moved = text.indent(4);      // n > 0：加縮排
+System.out.print(moved);            // "    炭治郎\n    禰豆子\n"
+
+System.out.print(moved.indent(-2)); // n < 0：移除縮排
+                                    // "  炭治郎\n  禰豆子\n"
 ```
 
 <!--
@@ -439,7 +440,7 @@ graph LR
 因此，s1 == s3 是 false，因為它們在記憶體的不同角落。但如果你比內容（用 equals），那當然還是 true。
 
 ⚠️ 學生常見誤解：
-這就是為什麼我們常說「比較字串內容要用 equals」，因為 you 永遠不知道這兩個字串是不是來自同一個「倉庫」。
+這就是為什麼我們常說「比較字串內容要用 equals」，因為你永遠不知道這兩個字串是不是來自同一個「倉庫」。
 -->
 
 ---
@@ -731,7 +732,7 @@ System.out.println(str.indexOf('e', 2)); // 10
 ```java
 String str = "Demon Slayer";
 
-// 從 right 往左找 'e'，找到最後一個
+// 從右往左找 'e'，找到最後一個
 System.out.println(str.lastIndexOf('e')); // 10
 
 // 從 index 5 開始往左找 'e'
@@ -888,7 +889,7 @@ System.out.println(str.substring(5, 8));
 
 ```java
 String str = "鬼滅之刃與禰豆子的故事";
-char[] ch = new char[15];
+char[] ch = new char[3];
 
 // 參數：(字串起, 字串終, 目標陣列, 陣列起)
 str.getChars(5, 8, ch, 0); 
@@ -1370,7 +1371,7 @@ String[] parts = sentence.split("\\s");
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>注意：</b> <code>\s</code> 屬於正規表達式 (Regex)客，在 Java 字串中需寫成 <code>"\\s"</code> (雙反斜線)。
+💡 <b>注意：</b> <code>\s</code> 屬於正規表達式 (Regex)，在 Java 字串中需寫成 <code>"\\s"</code> (雙反斜線)。
 </div>
 
 <!--
@@ -1547,8 +1548,8 @@ for(int i=0; i<100; i++) sb.append(i);
 我們來直接看程式碼的對比。StringBuilder 就是你的專屬工具籃。不管你塞多少東西，它都還是在同一個籃子裡，不會一直去買新籃子再把舊的丟掉。
 
 【逐步解說】
-左邊的寫法，每次 s += i，Java 都會偷偷幫你做：建立一個新的 String 物件、複製內容、再指向它。做 100 次就產生 100 個垃圾物件。
-而訂右邊的 StringBuilder 就像是一個「可以伸縮的籃子」。
+上面的寫法，每次 s += i，Java 都會偷偷幫你做：建立一個新的 String 物件、複製內容、再指向它。做 100 次就產生 100 個垃圾物件。
+而下面的 StringBuilder 就像是一個「可以伸縮的籃子」。
 我們一直往籃子裡丟東西（append），籃子會自己變大，但自始至終都還是同一個籃子，位址完全沒變。
 
 💼 業界實務：
@@ -1685,7 +1686,7 @@ System.out.println(sb2); // "郎治炭"
 【逐步解說】
 delete 也是包含頭不包含尾的規則。
 而我最喜歡的方法就是 reverse。
-如果你想把字串反過來寫，以前可能要寫一個複雜的迴圈，現在讓點一下 .reverse()，它就幫你倒過來了。這在做某些演算法題目時超像在作弊！
+如果你想把字串反過來寫，以前可能要寫一個複雜的迴圈，現在只要點一下 .reverse()，它就幫你倒過來了。這在做某些演算法題目時超像在作弊！
 -->
 
 ---

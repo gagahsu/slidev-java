@@ -302,8 +302,8 @@ layout: default
 
 | 功能 | Java 版本 | 說明 |
 | --- | --- | --- |
-| Constant variable | Java 7+ | 常數成員變數 |
-| Abstract methods | Java 7+ | 抽象方法 |
+| Constant variable | Java 1.0 起 | 常數成員變數 |
+| Abstract methods | Java 1.0 起 | 抽象方法 |
 | **Default methods** | **Java 8 新增** | 預設方法（有方法本體） |
 | **Static methods** | **Java 8 新增** | 靜態方法 |
 
@@ -557,8 +557,8 @@ layout: default
 
 | 功能 | Java 版本 | 說明 |
 | --- | --- | --- |
-| Constant variable | Java 7+ | 常數成員變數 |
-| Abstract methods | Java 7+ | 抽象方法 |
+| Constant variable | Java 1.0 起 | 常數成員變數 |
+| Abstract methods | Java 1.0 起 | 抽象方法 |
 | Default methods | Java 8+ | 預設方法 |
 | Static methods | Java 8+ | 靜態方法 |
 | **Private methods** | **Java 9 新增** | 私有方法 |
@@ -972,7 +972,7 @@ class D implements B, C {
 
 <!--
 【帶讀程式碼】
-你看 D 的做法。它很貪心，兩個都想要。這就是解決鑽石問題的標準流程：你自己手動把冲突的地方給補上。
+你看 D 的做法。它很貪心，兩個都想要。這就是解決鑽石問題的標準流程：你自己手動把衝突的地方給補上。
 -->
 ---
 
@@ -1030,7 +1030,7 @@ public non-sealed class Rectangle implements Shape {
 -->
 ---
 
-# Records 實作介面 (Java 16)
+# Records 實作介面 (Java 17+)
 
 Records 是隱式 `final`，天然符合 Sealed Interface `permits` 的要求，且自動生成 constructor 與 accessor：
 
@@ -1061,7 +1061,7 @@ record Rectangle(double w, double h) implements Shape {
 
 # 密封介面與 Switch 窮舉性
 
-當介面是 `sealed` 時，`switch` 可以檢查是否涵蓋所有可能的情況：
+當介面是 `sealed` 時，`switch` 模式比對（Java 21 正式功能）可以檢查是否涵蓋所有可能的情況：
 
 ```java
 public double getArea(Shape shape) {
@@ -1101,8 +1101,8 @@ layout: default
 ### 任務說明
 
 設計一套介面與類別，模擬「跑」的行為：
-1. 建立介面 `Runnable`，定義行為方法 `run()`
-2. 類別 `Human`、`Car` 都實作 `Runnable`，各自定義不同的跑法
+1. 建立介面 `MyRunnable`，定義行為方法 `run()`
+2. 類別 `Human`、`Car` 都實作 `MyRunnable`，各自定義不同的跑法
 3. `Person` 繼承 `Human`，並重新定義 `run()` 方法
 4. 執行後，將三者（Human、Person、Car）的跑法各自列印出來
 
@@ -1113,7 +1113,7 @@ layout: default
 車在公路上跑
 ```
 
-> ⚠️ **注意：** `Runnable` 與 `java.lang.Runnable`（多執行緒用）名稱相同。自訂的 `Runnable` 能編譯，但會遮蔽同套件內所有程式看到的 `java.lang.Runnable`，建議改用不同名稱（範例程式使用 `MyRunnable`）。
+> ⚠️ **注意：** 不要直接命名為 `Runnable`：它會與 `java.lang.Runnable`（多執行緒用）撞名，並遮蔽同套件內所有程式看到的 `java.lang.Runnable`，所以這裡改用 `MyRunnable`。
 
 <!--
 【出題前的鋪陳】
@@ -1134,16 +1134,16 @@ layout: default
 # 練習：設計介面階層
 ### 解題提示
 
-1. 定義介面 `Runnable`，加入抽象方法 `run()`
-2. `Human` 與 `Car` 分別 `implements Runnable`，各自 Override `run()`
+1. 定義介面 `MyRunnable`，加入抽象方法 `run()`
+2. `Human` 與 `Car` 分別 `implements MyRunnable`，各自 Override `run()`
 3. `Person extends Human`，Override `run()` 加上自己的行為
 4. `main()` 中建立三個物件，分別呼叫各自的 `run()`
 
 ```java
-interface Runnable {
+interface MyRunnable {
     void run();
 }
-class Human implements Runnable {
+class Human implements MyRunnable {
     public void run() { System.out.println("人在路上跑"); }
 }
 ```

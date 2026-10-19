@@ -194,13 +194,13 @@ package 宣告一定要放在第一行！它就像是你家地址，一定要寫
 src/
 └── com/
     └── example/
-        └── model/
-            └── Student.java    ← package com.example.model;
+        ├── model/
+        │   └── Student.java         ← package com.example.model;
         └── service/
             └── StudentService.java  ← package com.example.service;
 ```
 
-- 套件路徑與類別檔案路徑**必須完全對應**，否則編譯失敗
+- 套件路徑與類別檔案路徑**必須完全對應**，否則編譯或執行時會找不到類別
 - 沒有宣告 `package` 的類別屬於**預設套件（default package）**，不建議在正式專案使用
 
 <!--
@@ -365,7 +365,7 @@ layout: default
 | `java.lang` | 核心類別，自動匯入 | `String`、`Math`、`Integer`、`System` |
 | `java.util` | 工具類別與集合框架 | `ArrayList`、`HashMap`、`Scanner`、`Date` |
 | `java.io` | 傳統 I/O | `File`、`FileReader`、`BufferedReader` |
-| `java.nio` | 新 I/O（非阻塞） | `Path`、`Files`、`Channels` |
+| `java.nio` / `java.nio.file` | 新 I/O、檔案系統 API | `ByteBuffer`、`Path`、`Files` |
 | `java.net` | 網路 | `URL`、`Socket`、`HttpURLConnection` |
 | `java.sql` | 資料庫 (JDBC) | `Connection`、`Statement`、`ResultSet` |
 
@@ -721,11 +721,11 @@ java.desktop   ← AWT/Swing GUI
 java.net.http  ← HTTP Client（JDK 11）
 ```
 
-```java
-// 查看目前 JDK 所有模組
+```bash
+# 查看目前 JDK 所有模組
 java --list-modules
 
-// 查看特定模組的套件內容
+# 查看特定模組的套件內容
 java --describe-module java.base
 ```
 

@@ -91,7 +91,7 @@ layout: default
 
 Java 的資料型態分為兩種：
 
-- **基本型態 (Primitive type)**：`int`, `double`, `boolean`... 儲存純值，放在 Stack
+- **基本型態 (Primitive type)**：`int`, `double`, `boolean`... 儲存純值（區域變數放在 Stack）
 - **參考型態 (Reference type)**：物件，放在 Heap，可以呼叫方法
 
 ```java
@@ -121,16 +121,12 @@ Integer scoreObj = 95;    // 包裝類別，可以呼叫方法
 
 # 基本型態與包裝類別對照表
 
-| 基本型態 | 包裝類別 |
-| --- | --- |
-| `byte` | `Byte` |
-| `short` | `Short` |
-| `int` | `Integer` |
-| `long` | `Long` |
-| `float` | `Float` |
-| `double` | `Double` |
-| `char` | `Character` |
-| `boolean` | `Boolean` |
+| 基本型態 | 包裝類別 | 基本型態 | 包裝類別 |
+| --- | --- | --- | --- |
+| `byte` | `Byte` | `float` | `Float` |
+| `short` | `Short` | `double` | `Double` |
+| `int` | `Integer` | `char` | `Character` |
+| `long` | `Long` | `boolean` | `Boolean` |
 
 <!--
 【核心說明】
@@ -161,12 +157,16 @@ layout: default
 將基本型態轉換成包裝類別物件，稱為「裝箱」：
 
 ```java
-// 手動裝箱 (JDK 5 以前的舊寫法)
+// 手動裝箱（沒有自動裝箱時的寫法）
 int hp = 100;
 Integer hpObj = Integer.valueOf(hp);
 
 System.out.println(hpObj); // 100
 ```
+
+<div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
+⚠️ <code>new Integer(100)</code> 建構子自 Java 9 起棄用，Java 16 起標記為「預計移除」，請改用 <code>Integer.valueOf()</code>。
+</div>
 
 <!--
 【核心說明】

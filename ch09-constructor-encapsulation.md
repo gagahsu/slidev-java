@@ -102,10 +102,10 @@ layout: default
 | 名稱 | **必須與類別名稱相同** |
 | 回傳型態 | **沒有回傳型態**（連 void 也不寫） |
 | 呼叫時機 | 使用 `new` 建立物件時自動呼叫 |
-| 可見性 | 可為 public / private / protected |
+| 可見性 | 可為 public / protected / 不寫（套件內）/ private |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>建構子 vs 一般方法：</b>建構子不能有回傳型態、名稱必須同類別、且只能透過 new 觸發，不能直接呼叫。
+💡 <b>建構子 vs 一般方法：</b>建構子不能有回傳型態、名稱必須同類別，且只能透過 new（或在其他建構子中以 this() / super()）觸發，不能像一般方法那樣直接呼叫。
 </div>
 
 <!--
@@ -179,7 +179,7 @@ System.out.println(d.name); // 小黑
 
 <!--
 【帶讀程式碼前的鋪陳】
-如果你想要在物件一出生的時候就給它名字 and 年齡，而不是事後才在那邊改，那你就要用「自定義建構子」。
+如果你想要在物件一出生的時候就給它名字和年齡，而不是事後才在那邊改，那你就要用「自定義建構子」。
 
 【逐步解說】
 你看這行 `this.name = name;`。左邊的 `this.name` 是我們這隻狗的「臉」，右邊的 `name` 是外面傳進來的「化妝品」。這行就是把化妝品抹在臉上。
@@ -527,7 +527,7 @@ public class Person {
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>isXxx vs getXxx：</b>布林型態的 getter 使用 <code>isXxx()</code> 而非 <code>getXxx()</code>，這是 JavaBean 規範的強制要求，IDE 與框架都依此自動識別。
+💡 <b>isXxx vs getXxx：</b>布林型態的 getter 使用 <code>isXxx()</code> 而非 <code>getXxx()</code>，這是 JavaBean 規範對布林屬性的慣用寫法（getXxx 也被允許），IDE 與框架都能自動識別。
 </div>
 
 <!--
@@ -623,12 +623,12 @@ System.out.println(Dog.count); // 2
 
 # static 方法
 
-靜態方法**不依賴物件**，直接透過類別名稱呼叫，且不能存取實體欄位。
+靜態方法**不依賴物件**，直接透過類別名稱呼叫，且不能直接存取實體欄位。
 
 | 特性 | 說明 |
 | --- | --- |
 | 呼叫方式 | `類別名稱.方法名()` |
-| 存取限制 | **不能**存取 instance fields / instance methods |
+| 存取限制 | **不能直接**存取 instance fields / methods（也不能用 this） |
 | 可存取 | static 欄位、其他 static 方法、參數 |
 | 典型例子 | `Math.abs()`、`Math.max()`、`Integer.parseInt()` |
 
@@ -693,8 +693,7 @@ System.out.println(MathUtils.circleArea(5));       // 78.53...
 
 | 特性 | 說明 |
 | --- | --- |
-| 執行時機 | 類別載入時，早於任何建構子 |
-| 執行次數 | **只執行一次** |
+| 執行時機 | 類別載入時（早於任何建構子），**只執行一次** |
 | 允許數量 | 一個類別可有多個，按順序執行 |
 | 典型用途 | 初始化靜態集合、載入設定檔 |
 

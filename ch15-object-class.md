@@ -143,12 +143,12 @@ class Animal extends Object {
 
 # Java 類別的繼承關係
 
-常見類別皆以 `Object` 為父類別：
+常見類別皆直接或間接以 `Object` 為父類別：
 
 | 類別 | 父類別 | 說明 |
 | --- | --- | --- |
 | `String` | `Object` | 字串類別 |
-| `StringBuffer` | `Object` | 可變字串類別 |
+| `StringBuffer` | `AbstractStringBuilder` → `Object` | 可變字串類別（間接繼承） |
 | `Scanner` | `Object` | 輸入掃描器 |
 | 自訂類別（如 `Animal`） | `Object` | 所有自訂類別 |
 
@@ -170,7 +170,7 @@ class Animal extends Object {
 | `int hashCode()` | 傳回物件的雜湊碼 |
 | `boolean equals(Object obj)` | 比較兩個物件是否相同 |
 | `String toString()` | 傳回代表物件的字串 |
-| `final Class getClass()` | 傳回物件所屬的類別 |
+| `final Class<?> getClass()` | 傳回物件所屬的類別 |
 
 <!--
 【帶讀表格】
@@ -304,10 +304,10 @@ layout: default
 
 # 什麼是哈希碼？
 
-- **Hash（雜湊）** 源自一位數學家的名字，他發明了雜湊演算法
+- **Hash（雜湊）** 原意是「切碎、混雜」，比喻把資料打散後重新組合成一個數字
 - 主要目的：**在集合中提升搜尋效率**
 - `hashCode()` 根據演算法將物件資訊映射成一個**整數（雜湊碼）**
-- 不同 JVM 的實作與記憶體位址有關，但不保證就是位址本身
+- `Object` 預設的 `hashCode()` 由 JVM 實作決定，**不保證**等於記憶體位址
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>說明：</b> 雜湊碼有時也稱「散列值」(hash code / hash value)
@@ -330,7 +330,7 @@ hashCode() 就是把你的物件丟進一台「絞肉機」，出來後變成一
 | 情況 | 結果 |
 | --- | --- |
 | 相同的方法 + 相同的值 | 傳回**相同** hash 值 |
-| 不同的方法 + 相同的值 | 傳回**不同** hash 值 |
+| 不同的方法 + 相同的值 | **不一定**傳回相同 hash 值 |
 | 不同物件（預設 Object） | 通常傳回**不同** hash 值 |
 
 <!--
@@ -833,7 +833,7 @@ clone() 方法是用來「複製」物件的。但它很矯情，你必須先實
 - 深層複製：這才是真正的「影分身」，連裡面的東西都各做一份新的。
 
 ⚠️ 警告：
-clone() 是 Java 設計最失敗的地方之一。它有很多坑，甚至連 Java 之父 Josh Bloch 都建議大家別用。
+clone() 是 Java 設計最失敗的地方之一。它有很多坑，連《Effective Java》作者 Josh Bloch 都建議大家別用。
 -->
 ---
 
@@ -875,7 +875,7 @@ o2.pet = new Pet("旺財"); // 現在 o1, o2 的 pet 各自獨立
 
 `Object` 中還有一個 `finalize()` 方法，用於物件被 GC 回收前的清理工作。
 
-- **現況**：自 **JDK 9** 起已被標記為 **Deprecated** (廢棄)
+- **現況**：自 **JDK 9** 起標記為 **Deprecated**，**JDK 18** 起更標記為「預計移除」(forRemoval)
 - **原因**：執行時機不確定、影響效能、可能導致死鎖
 - **替代方案**：使用 **Try-with-resources** 與 **`AutoCloseable`** 介面
 
@@ -932,7 +932,7 @@ layout: default
 
 1. **建立物件並輸出 hashCode**
    - 以 `new Employee(...)` 建立兩次，分別列印 `hashCode()`
-   - Object 預設 `hashCode()` 基於記憶體位址 → 不同物件結果不同
+   - Object 預設 `hashCode()` 依物件身分產生 → 不同物件結果通常不同
 
 2. **Override hashCode()**
 

@@ -400,7 +400,7 @@ System.out.println("5".matches("[0-9&&[^67]]")); // true（是數字且非6或7�
 | `{` | `\\{` | 字面左大括號 |
 | `.` | `\\.` | 字面句點 |
 | `*` | `\\*` | 字面星號 |
-| `|` | `\\|` | 字面管道符號 |
+| `\|` | `\\\|` | 字面管道符號 |
 
 <!--
 【核心說明】
@@ -443,7 +443,7 @@ System.out.println(phone.matches("(\\d{2})-\\d{8}"));     // false，() 被視�
 | `Mary\|Tom` | 符合其中一個名字 |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 需要 AND 條件時用 <code>&&</code>（兩個 &），單個 <code>&</code> 無效果
+💡 正規表達式沒有通用的 AND 運算子；<code>&&</code> 只能寫在中括號內做字元類別交集（如 <code>[a-z&&[^aeiou]]</code>）
 </div>
 
 ```java
@@ -931,7 +931,7 @@ System.out.println("JavaScript".matches("\\bJava\\b")); // false
 <!--
 【帶讀程式碼】
 (?i) 讓 "JAVA" 也能符合 "(?i)java"，不管大小寫幾種組合都 true。
-\b 的效果：\bJava\b 只比對完整的 Java，JavaScript 不符合，因為 Java 後面緊接著非單字邊界的字元。
+\b 的效果：\bJava\b 只比對完整的 Java，JavaScript 不符合，因為 Java 後面緊接著字母 S，那個位置不是單字邊界。
 
 【互動引導】
 大家想想：如果搜尋 "cat"，"concatenate" 裡的 cat 會被找到嗎？（用 \b 就不會，不用 \b 就會）
@@ -1225,8 +1225,8 @@ Pattern.quote() 解決一個很實際的問題：當使用者輸入的字串要�
 
 | 方法 | 說明 |
 | --- | --- |
-| `asPredicate()` | 判斷**子字串**是否存在 |
-| `asMatchPredicate()` | 判斷**整個字串**是否完全符合 |
+| `asPredicate()` | 判斷**子字串**是否存在（JDK 8+） |
+| `asMatchPredicate()` | 判斷**整個字串**是否完全符合（JDK 11+） |
 
 ```java
 List<String> list = List.of("apple", "banana", "123", "456");
@@ -1478,7 +1478,7 @@ while (m.find()) {
 }
 // 版本: 8，位置: 0
 // 版本: 11，位置: 8
-// 版本: 21，位置: 16
+// 版本: 21，位置: 17
 ```
 
 <!--
@@ -1688,6 +1688,12 @@ layout: default
 <div class="mt-2 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
 ⚠️ <b>注意：</b> <code>\w</code> 是正規表達式的字元縮寫，但在 Java 字串中必須用雙反斜線 <code>\\w</code> 才能表示一個反斜線，否則 Java 編譯器會報錯
 </div>
+
+---
+layout: default
+---
+
+# 練習 3：解題程式
 
 ```java
 String emailRegex = "[\\w.+-]+@[\\w-]+(\\.([\\w-]{2,}))+";

@@ -17,6 +17,17 @@
   color: inherit !important;
 }
 
+/* Penguin theme caps code blocks at 600px, which wraps longer lines; use the full content width */
+.slidev-layout .slidev-code-wrapper {
+  max-width: 100% !important;
+}
+
+/* Keep code blocks (incl. ones nested in list items) within their container width */
+.slidev-layout pre.slidev-code {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 /* Fix Slidev v52+ Presenter Mode Layout Overflow */
 .grid-container {
   width: 100vw !important;

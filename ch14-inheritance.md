@@ -120,7 +120,7 @@ Animal、Dog、Bird 三個類別大量重複程式碼：
 
 # 繼承的語法 — extends
 
-使用 `extends` 關鍵字，子類別自動擁有父類別的所有屬性與方法：
+使用 `extends` 關鍵字，子類別自動擁有父類別的屬性與方法（`private` 成員無法直接存取，建構方法不會被繼承）：
 
 ```java
 class Dog extends Animal {
@@ -369,7 +369,7 @@ Java 不支援多重繼承的原因是「菱形問題」（Diamond Problem）—
 | --- | --- |
 | `final class` | 類別不能被繼承 |
 | `final` 方法 | 子類別無法 Override 此方法 |
-| 靜態綁定 | `final` 方法在編譯期決定，效能較佳 |
+| 靜態綁定 | `final` 方法不會被覆寫，呼叫對象在編譯期即可確定 |
 
 ```java
 final class MathUtil { }          // 無法被繼承
@@ -379,7 +379,7 @@ class Animal {
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>Java 內建範例：</b><code>String</code>、<code>Integer</code> 等 Wrapper 類別都宣告為 <code>final class</code>
+💡 <b>Java 內建範例：</b><code>String</code>、<code>Math</code>，以及 <code>Integer</code> 等 Wrapper 類別都宣告為 <code>final class</code>
 </div>
 
 <!--
@@ -405,7 +405,7 @@ JDK 17 正式功能，允許父類別**精確控制**哪些子類別可以繼承
 
 ```java
 // 只允許 Circle 和 Square 繼承 Shape
-public sealed class Shape permits Circle, Square { }
+public sealed abstract class Shape permits Circle, Square { }
 
 final class Circle extends Shape { }
 final class Square extends Shape { }
@@ -451,10 +451,11 @@ non-sealed：完全開放，任何人都可以繼承這個子類別。
 
 # Sealed Classes 與 Pattern Matching
 
-密封類別搭配 `switch`（JDK 17+），編譯器會檢查**窮舉性**：
+密封類別搭配 `switch` 模式比對（JDK 21 正式功能），編譯器會檢查**窮舉性**：
 
 ```java
-// 如果 Shape 是 sealed，編譯器知道只有 Circle 和 Square
+// Shape 是 sealed abstract，編譯器知道只有 Circle 和 Square
+// （假設 Circle 有 radius()、Square 有 side() 方法）
 return switch (shape) {
     case Circle c -> c.radius() * c.radius() * Math.PI;
     case Square s -> s.side() * s.side();
@@ -472,6 +473,7 @@ Sealed Classes 的最大優點是可以和 switch 搭配，讓編譯器幫你檢
 
 【帶讀程式碼】
 switch(shape) 不需要 default，因為編譯器知道 Shape 只有 Circle 和 Square 兩種子類別，兩個都處理了就完整了。
+注意 Shape 要宣告成 abstract（或改用 sealed interface），否則 Shape 自己也可能被 new 出來，switch 就不算窮舉。switch 的型別模式比對是 JDK 21 才正式推出的（JDK 17 只是預覽）。
 
 💼 業界實務：
 這個特性讓「新增子類別時忘記更新 switch」的 bug 變成編譯錯誤而不是執行時才發現，大大提高程式碼安全性。
@@ -577,18 +579,21 @@ instanceof 可以驗證：eagle instanceof Bird 是 true，eagle instanceof Anim
 
 # HAS-A 關係 — 聚合 vs 組合
 
-| 類型 | 關鍵字 | 說明 |
-| --- | --- | --- |
-| 聚合 (Aggregation) | 無 `extends` | 類別 A 的屬性是類別 B 的物件（A HAS A B） |
-| 組合 (Composition) | 用 `extends` | 將多個類別的共用屬性抽取到父類別再繼承 |
+HAS-A 代表「擁有一個」：類別 A 的**欄位**是類別 B 的物件，不使用 `extends`。
+
+| 類型 | 擁有程度 | 生命週期 | 範例 |
+| --- | --- | --- | --- |
+| 聚合 (Aggregation) | 弱擁有 | 部分可獨立存在，由外部傳入 | Car HAS-A Driver |
+| 組合 (Composition) | 強擁有 | 部分隨整體建立、一起消失 | Car HAS-A Engine |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 兩者目的相同：減少重複程式碼，提高可維護性
+💡 兩者都用「欄位 + 委派」重用程式碼；物件導向設計原則：<b>組合優於繼承</b>
 </div>
 
 <!--
 【帶讀表格】
-HAS-A 是組合關係：Car HAS-A Engine（車子有一個引擎）。這不是繼承，而是一個類別的屬性是另一個類別的物件。
+HAS-A 是「擁有」關係：Car HAS-A Engine（車子有一個引擎）。這不是繼承，而是一個類別的屬性是另一個類別的物件。
+聚合是弱擁有：司機不屬於某台車，車子報廢了司機還在。組合是強擁有：引擎是車子內部建立的零件，車子沒了引擎也跟著沒了。
 
 【關鍵區別】
 IS-A：Dog IS-A Animal → 用繼承（extends）
@@ -602,53 +607,59 @@ HAS-A：Car HAS-A Engine → 用屬性（把 Engine 當成 Car 的欄位）
 # HAS-A 聚合範例 (Aggregation)
 
 ```java
-class Speed {
-    protected int speed;
-    public int getSpeed() { return speed; }
+class Driver {
+    String name;
+    Driver(String name) { this.name = name; }
 }
 ```
 
 ```java
 class Car {
-    private Speed s = new Speed(); // Car HAS A Speed
-    public int getCarSpeed() { return s.getSpeed(); }
+    private Driver driver;                 // Car HAS A Driver
+    public void setDriver(Driver d) {      // 由外部傳入，可隨時更換
+        this.driver = d;
+    }
 }
 ```
 
 <!--
 【帶讀程式碼】
-Car 有一個 Speed 物件作為屬性，getCarSpeed() 委託給 Speed 來處理速度邏輯。Car 和 Speed 是 HAS-A 關係。
+Driver 物件是在 Car 外面建立好，再透過 setDriver() 交給 Car。Car 和 Driver 是 HAS-A 關係，但 Driver 可以獨立存在，換一台車開也沒問題，這就是聚合。
 
 【類比說明】
-就像你的車子「有一個」速度計，車子自己不計算速度，交給速度計去做。這叫「委派」（Delegation）。
+司機跟車子的關係：車子「有一個」司機，但司機不是車子的一部分，車子報廢了，司機還是可以去開別台車。
 -->
 ---
 
 # HAS-A 組合範例 (Composition)
 
-多個類別的共用屬性抽取到 `BasinInfo`，再繼承：
-
 ```java
-class BasinInfo {
-    protected String id;
-    protected String name;
+class Engine {
+    void start() { System.out.println("引擎發動"); }
 }
 ```
 
 ```java
-class Employee extends BasinInfo { int salary; }
-class Customer extends BasinInfo { int balance; }
+class Car {
+    // Car 自己建立並擁有 Engine
+    private final Engine engine = new Engine();
+    public void start() {
+        engine.start();   // 委派給 Engine
+    }
+}
 ```
 
 <!--
 【帶讀程式碼】
-組合繼承：Employee 和 Customer 都有 id 和 name，把共同屬性抽到 BasinInfo，然後分別繼承。
+Engine 是在 Car 內部 new 出來的，外面拿不到，Car 物件被回收時 Engine 也跟著消失，這就是組合（強擁有）。
+Car.start() 自己不處理發動邏輯，而是交給 Engine 去做，這叫「委派」（Delegation）。
 
 【比較說明】
-聚合（前一頁）：物件包含另一個物件作為屬性（Car HAS A Speed 物件）。
-組合（這頁）：把共同屬性抽出來用繼承共享（Employee 和 Customer 都繼承 BasinInfo）。
+聚合（前一頁）：部分物件由外部傳入，可以獨立存在（Car 與 Driver）。
+組合（這頁）：部分物件由整體建立並管理，生命週期綁在一起（Car 與 Engine）。
 
-兩種 HAS-A 的使用場景不同，根據語意選擇。
+⚠️ 學生常見誤解：
+組合不是用 extends！把共同屬性抽到父類別再繼承，那是 IS-A（繼承）；HAS-A 一律是用欄位持有另一個物件。
 -->
 ---
 layout: section
@@ -1144,12 +1155,13 @@ layout: default
 | 類型 | 說明 | 使用場景 |
 | --- | --- | --- |
 | 一般內部類別 (Inner Class) | 定義在外部類別內，可存取外部所有成員 | 資料封裝、輔助類別 |
+| 靜態巢狀類別 (Static Nested) | 以 `static` 宣告，不需外部物件即可建立 | Builder、工具類別 |
 | 方法內部類別 (Method-local) | 定義在方法內，只有該方法可使用 | 極少使用 |
 | 匿名內部類別 (Anonymous) | 宣告同時建立物件，一次性使用 | Override 介面或抽象方法 |
 
 <!--
 【帶讀表格】
-三種巢狀類別各有使用場景。最常用的是匿名內部類別，其次是一般內部類別，方法內部類別幾乎不用。
+四種巢狀類別各有使用場景。最常用的是匿名內部類別，其次是一般內部類別與靜態巢狀類別，方法內部類別幾乎不用。
 
 💼 業界實務：
 Java 8 之前，Lambda 表達式不存在，匿名內部類別是實作「介面的臨時版本」的標準做法。Java 8 之後 Lambda 取代了大部分匿名類別的使用場景，但理解匿名類別有助於讀懂舊程式碼。

@@ -228,14 +228,16 @@ layout: default
 ```java
 Car c1 = new Car();
 c1.brand = "Toyota";
+c1.color = "紅色";
 c1.speed = 80;
 
 Car c2 = new Car();
 c2.brand = "Honda";
+c2.color = "白色";
 c2.speed = 100;
 
-c1.displayInfo(); // Toyota / 時速 80
-c2.displayInfo(); // Honda / 時速 100
+c1.displayInfo(); // Toyota / 紅色 / 時速：80 km/h
+c2.displayInfo(); // Honda / 白色 / 時速：100 km/h
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
@@ -590,8 +592,8 @@ System.out.println(factorial(5)); // 120
 
 呼叫堆疊展開示意：
 
-```mermaid {scale: 0.8}
-graph TD
+```mermaid {scale: 0.7}
+graph LR
     A["factorial(5)"] --> B["5 × factorial(4)"]
     B --> C["4 × factorial(3)"]
     C --> D["3 × factorial(2)"]
@@ -605,7 +607,7 @@ graph TD
 
 以 `factorial(4)` 為例，呼叫與回傳過程：
 
-```mermaid {scale: 0.85}
+```mermaid {scale: 0.62}
 sequenceDiagram
     participant M as main
     participant F4 as factorial(4)
@@ -637,10 +639,14 @@ layout: default
 
 | 規則 | 說明 |
 | --- | --- |
-| 三根柱子 | 起點(A)、中轉(B)、終點(C) |
+| 三根柱子 | 起點（A）、中轉（B）、終點（C） |
 | n 個圓盤 | 從大到小疊放在 A 上 |
 | 目標 | 將所有圓盤移到 C |
 | 限制 | 大盤不可壓在小盤上 |
+
+---
+
+# 河內塔遞迴程式
 
 ```java
 static void hanoi(int n, char from, char aux, char to) {

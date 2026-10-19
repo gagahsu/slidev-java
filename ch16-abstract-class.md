@@ -288,7 +288,7 @@ class Circle extends Shape {
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>注意：</b> 子類別重新定義時，回傳值型態與參數個數、型態需與抽象方法一致，並建議加上 <code>@Override</code>。
+💡 <b>注意：</b> 子類別重新定義時，參數個數、型態需與抽象方法一致，回傳型態需相同（或為其子型態），並建議加上 <code>@Override</code>。
 </div>
 
 <!--
@@ -537,7 +537,7 @@ bmw.run();
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>常見用法：</b> 許多 Java 程式設計師會使用 Upcasting 宣告抽象類別物件，由所宣告物件的參考是子類別，所以可以正常執行工作。
+💡 <b>常見用法：</b> 許多 Java 程式設計師會使用 Upcasting 宣告抽象類別型態的變數，由於變數參考的實際物件是子類別，所以可以正常執行工作。
 </div>
 
 <!--
@@ -681,8 +681,9 @@ layout: default
 | --- | --- | --- |
 | 父類別/父介面繼承 | 只能繼承一個類別 | 能繼承多個介面（Java 實現多重繼承） |
 | 子類別繼承/實作 | `extends` 一個抽象類別 | `implements` 多個介面 |
-| 方法 | 可包含非抽象方法 | 只能是抽象方法（Java 8 以前） |
-| 必定為 | 父類別 | 可視為抽象類別的特例 |
+| 方法 | 可包含非抽象方法 | Java 8 以前只能是抽象方法；Java 8+ 可有 `default` / `static` 方法 |
+| 欄位（狀態） | 可有實例欄位 | 只能有 `public static final` 常數 |
+| 建構方法 | 可以有 | 不能有 |
 
 <!--
 【帶讀表格】

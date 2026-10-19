@@ -142,6 +142,14 @@ layout: default
 | 取得 [0, n) 的整數 | `(int)(Math.random() * n)` |
 | 取得 [min, max) 的整數 | `(int)(Math.random() * (max - min)) + min` |
 
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 <b>記憶技巧：</b>公式 <code>(int)(Math.random() * 範圍大小) + 最小值</code>，骰子範圍大小 6，最小值 1。
+</div>
+
+---
+
+# Math.random() — 範例
+
 ```java
 // 取得 0.0 ~ 1.0 之間的浮點數
 double d = Math.random();
@@ -153,10 +161,6 @@ int n = (int)(Math.random() * 10);
 int dice = (int)(Math.random() * 6) + 1;
 System.out.println("骰出：" + dice);
 ```
-
-<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>記憶技巧：</b>公式 <code>(int)(Math.random() * 範圍大小) + 最小值</code>，骰子範圍大小 6，最小值 1。
-</div>
 
 <!--
 【核心說明】
@@ -280,7 +284,7 @@ layout: default
 | `Math.floor(x)` | `double` | 無條件捨去（往負方向） |
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>選擇建議：</b>一般四捨五入用 <code>round()</code>；財務計算避免偏差用 <code>rint()</code>；需要 double 回傳時用 <code>rint()</code>、<code>ceil()</code>、<code>floor()</code>。
+💡 <b>選擇建議：</b>一般四捨五入用 <code>round()</code>；需避免累積偏差用 <code>rint()</code>（金額計算建議改用 <code>BigDecimal</code>）；需要 double 回傳時用 <code>rint()</code>、<code>ceil()</code>、<code>floor()</code>。
 </div>
 
 <!--
@@ -497,9 +501,7 @@ layout: default
 | `Math.sin(radians)` | 正弦值，參數單位為**弧度** |
 | `Math.cos(radians)` | 餘弦值，參數單位為**弧度** |
 | `Math.tan(radians)` | 正切值，參數單位為**弧度** |
-| `Math.asin(value)` | 反正弦，回傳弧度 |
-| `Math.acos(value)` | 反餘弦，回傳弧度 |
-| `Math.atan(value)` | 反正切，回傳弧度 |
+| `Math.asin(v)` / `acos(v)` / `atan(v)` | 反正弦 / 反餘弦 / 反正切，回傳弧度 |
 | `Math.toRadians(degrees)` | 度數 → 弧度 |
 | `Math.toDegrees(radians)` | 弧度 → 度數 |
 
@@ -508,7 +510,7 @@ layout: default
 如果你要算角度，記得 Java 認的是「弧度」。
 
 ⚠️ 學生常見誤解：
-如果你直接傳 90 進去 Math.sin(90)，得到的不是 1，而是 -0.89 左右。因為電腦以為你要算「90 弧度」。
+如果你直接傳 90 進去 Math.sin(90)，得到的不是 1，而是 0.894 左右。因為電腦以為你要算「90 弧度」。
 -->
 
 ---
@@ -563,9 +565,10 @@ layout: default
 
 | 方法 / 建構子 | 說明 |
 | --- | --- |
-| `new Random()` | 以系統時間為種子（每次不同）|
+| `new Random()` | 自動產生種子（每次執行結果不同）|
 | `new Random(long seed)` | 指定種子（相同種子產生相同序列）|
 | `nextInt(int n)` | 回傳 [0, n) 的整數 |
+| `nextInt(int min, int max)` | 回傳 [min, max) 的整數（Java 17+）|
 | `nextDouble()` | 回傳 [0.0, 1.0) 的 double |
 | `nextBoolean()` | 回傳 true 或 false（各 50%）|
 | `setSeed(long seed)` | 重新設定種子 |
@@ -595,6 +598,7 @@ System.out.println(rand.nextBoolean());   // true 或 false
 
 // 骰子：[1, 6]
 int dice = rand.nextInt(6) + 1;
+int dice2 = rand.nextInt(1, 7);           // Java 17+ 寫法
 
 // 指定種子（可重現相同序列）
 Random seeded = new Random(42);
@@ -719,7 +723,7 @@ layout: default
 // 台北 (25.033, 121.565)  →  東京 (35.689, 139.692)
 double dist = calcDistance(25.033, 121.565, 35.689, 139.692);
 System.out.printf("台北 → 東京：%.1f 公里%n", dist);
-// 約 2097.9 公里
+// 台北 → 東京：2098.7 公里
 ```
 
 <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
@@ -728,7 +732,7 @@ System.out.printf("台北 → 東京：%.1f 公里%n", dist);
 
 <!--
 【逐步解說】
-算出來台北到東京大約 2097 公里。下次你買機票時，可以跟空姐說：「嘿，我算過 Haversine 了，航程應該沒錯。」（雖然她可能會叫保安，但這就是工程師的浪漫）。
+算出來台北到東京大約 2099 公里。下次你買機票時，可以跟空姐說：「嘿，我算過 Haversine 了，航程應該沒錯。」（雖然她可能會叫保安，但這就是工程師的浪漫）。
 -->
 
 ---
@@ -806,9 +810,8 @@ layout: default
 撰寫一個程式，計算 BMI 並判斷體重狀態：
 
 1. 輸入身高（公分）與體重（公斤）
-2. 計算 BMI = 體重 / 身高²（身高換算為公尺）
-3. 用 `Math.round()` 或 `Math.floor()` 取小數點一位
-4. 依據以下標準輸出判斷結果：
+2. 計算 BMI = 體重 / 身高²（身高換算為公尺），用 `Math.round()` 或 `Math.floor()` 取小數點一位
+3. 依據以下標準輸出判斷結果：
 
 | BMI 範圍 | 狀態 |
 | --- | --- |
