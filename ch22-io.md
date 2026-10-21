@@ -729,6 +729,12 @@ System.out.printf("歡迎，%s！%n", username);
 java.util.Arrays.fill(password, ' ');  // 安全清除密碼
 ```
 
+<!--
+Console 類別，是專門用來和終端機互動的。用 System.console 取得它，但如果程式不是在終端機裡執行，例如在某些 IDE 裡，就會得到 null，所以要先檢查。
+
+看範例，readLine 先顯示提示，再讀取帳號；readPassword 讀取密碼。印出歡迎訊息之後，最後一行用 Arrays.fill 把密碼陣列清空。
+-->
+
 ---
 
 # Console 類別 — 常用方法
@@ -744,11 +750,9 @@ java.util.Arrays.fill(password, ' ');  // 安全清除密碼
 </div>
 
 <!--
-Console 類別，是專門用來和終端機互動的。用 System.console 取得它，但如果程式不是在終端機裡執行，例如在某些 IDE 裡，就會得到 null，所以要先檢查。
+這張表整理了 Console 常用的方法。readLine 可以先顯示提示，再讀取一行輸入。readPassword 用來讀取密碼，輸入時畫面上不會顯示字元。format 則和 printf 一樣，可以格式化輸出到終端機。
 
-readLine 可以先顯示提示，再讀取一行輸入。readPassword 用來讀取密碼，輸入時畫面上不會顯示字元。
-
-注意 readPassword 回傳的是字元陣列，而不是字串。因為字串是不可變的，會留在記憶體裡；字元陣列則可以在用完之後立刻清除，就像範例最後用 Arrays.fill 把密碼清空，更加安全。
+注意 readPassword 回傳的是字元陣列，而不是字串。因為字串是不可變的，會留在記憶體裡；字元陣列則可以在用完之後立刻清除。這就是為什麼前一頁範例的最後，要用 Arrays.fill 把密碼清空。
 -->
 
 ---

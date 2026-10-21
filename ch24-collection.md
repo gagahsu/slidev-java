@@ -710,6 +710,14 @@ Set 沒有索引，所以沒有 get 方法，通常用 for-each 或 Iterator 走
 td, th { padding: 6px 8px !important; }
 </style>
 
+<!--
+Set 常用的方法，大部分和 Collection 一樣，像是 add、remove、contains 和 size。
+
+特別的是 add 的回傳值：如果元素已經存在，就不會加入，並回傳 false。
+
+另外，Set 很適合做集合運算：addAll 是聯集，retainAll 是交集，removeAll 則是差集。
+-->
+
 ---
 
 # Set 常用方法 — 範例
@@ -724,11 +732,9 @@ System.out.println(names.isEmpty());          // true
 ```
 
 <!--
-Set 常用的方法，大部分和 Collection 一樣。
+我們用一個範例試試這幾個方法。
 
-特別的是 add 的回傳值：如果元素已經存在，就不會加入，並回傳 false。所以看範例，第一次加入炭治郎是 true，第二次就是 false。
-
-另外，Set 很適合做集合運算：addAll 是聯集，retainAll 是交集，removeAll 則是差集。
+第一次加入炭治郎，回傳 true；第二次因為已經存在，回傳 false。contains 檢查炭治郎，得到 true。remove 移除成功，也是 true。移除之後集合空了，所以 isEmpty 是 true。
 -->
 
 ---
@@ -948,6 +954,12 @@ Map 儲存的是一組一組的鍵值對，每一個鍵都是唯一的，對應�
 | `containsKey(Object key)` | 是否包含指定鍵 |
 | `containsValue(Object value)` | 是否包含指定值 |
 
+<!--
+Map 常用的方法有這些。
+
+put 存入鍵值對，get 用鍵取得值，找不到就回傳 null；getOrDefault 則可以在找不到時，回傳一個預設值。remove 移除指定的鍵，containsKey 和 containsValue 判斷是否包含某個鍵或值。
+-->
+
 ---
 
 # Map 常用方法（續）
@@ -960,9 +972,7 @@ Map 儲存的是一組一組的鍵值對，每一個鍵都是唯一的，對應�
 | `entrySet()` | 取得所有鍵值對（回傳 `Set<Map.Entry<K,V>>`）|
 
 <!--
-Map 常用的方法有這些。
-
-put 存入鍵值對，get 用鍵取得值，找不到就回傳 null；getOrDefault 則可以在找不到時，回傳一個預設值。remove 移除指定的鍵，containsKey 和 containsValue 判斷是否包含某個鍵或值，size 回傳鍵值對的數量。
+接著還有幾個方法。size 回傳鍵值對的數量。
 
 另外有三個方法用來走訪：keySet 取得所有的鍵，values 取得所有的值，entrySet 則取得所有的鍵值對。
 -->

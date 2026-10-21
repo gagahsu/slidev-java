@@ -931,14 +931,6 @@ class: flex flex-col justify-center items-center text-center
 
 # Q & A
 
-### 今天重點回顧
-
-- `java.util.Date` 執行緒不安全、API 設計老舊 → Java 8 起改用 `java.time`
-- `LocalDate` / `LocalTime` / `LocalDateTime` / `ZonedDateTime` 各有適用情境
-- `DateTimeFormatter.ofPattern()` 取代 `SimpleDateFormat`，執行緒安全
-- `Duration` 計時間差（秒）、`Period` 計日期差（年月日）
-- 新舊 API 互轉橋梁：`Instant`
-
 <!--
 這一章我們學會了處理日期與時間。
 

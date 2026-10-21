@@ -192,6 +192,12 @@ public class ThreadInfo {
 // 輸出：名稱: main / 優先: 5 / 狀態: RUNNABLE
 ```
 
+<!--
+其實每個 Java 程式，至少都有一個執行緒，就是執行 main 方法的那一個。
+
+看範例，Thread.currentThread 會取得目前正在執行的執行緒。印出它的資訊：名稱是 main，優先順序是 5，狀態是 RUNNABLE，代表正在執行。
+-->
+
 ---
 
 # Java 的多執行緒 — 相關 API
@@ -204,11 +210,7 @@ public class ThreadInfo {
 | `java.util.concurrent.*` | 進階並發工具（JDK 5+） |
 
 <!--
-其實每個 Java 程式，至少都有一個執行緒，就是執行 main 方法的那一個。
-
-看範例，Thread.currentThread 會取得目前正在執行的執行緒。印出它的資訊：名稱是 main，優先順序是 5，狀態是 RUNNABLE，代表正在執行。
-
-下面列出了相關的 API：Thread 是執行緒類別，Runnable 是代表任務的介面，wait 和 notify 方法定義在 Object 類別裡，java.util.concurrent 套件則提供了更進階的並行工具。
+剛才的範例用到了 Thread 類別。和多執行緒相關的 API，主要有這幾個：Thread 是執行緒類別，Runnable 是代表任務的介面，wait 和 notify 方法定義在 Object 類別裡，java.util.concurrent 套件則提供了更進階的並行工具。
 -->
 
 ---
@@ -287,6 +289,12 @@ class MyThread extends Thread {
 }
 ```
 
+<!--
+第一種方法，是繼承 Thread 類別。
+
+MyThread 繼承 Thread，並覆寫 run 方法，裡面寫的就是這個執行緒要做的工作：印出三個步驟。建構子傳入的名稱，用來分辨是哪一個執行緒在印。
+-->
+
 ---
 
 # 方法一：繼承 Thread 類別 — 啟動
@@ -307,9 +315,7 @@ public class Main {
 </div>
 
 <!--
-第一種方法，是繼承 Thread 類別。
-
-MyThread 繼承 Thread，並覆寫 run 方法，裡面寫的就是這個執行緒要做的工作：印出三個步驟。
+類別寫好了，接下來看怎麼啟動它。
 
 在 main 裡建立兩個執行緒，再呼叫 start 啟動它們。兩個執行緒會同時執行，所以輸出的順序可能每次都不一樣。
 
@@ -334,6 +340,12 @@ class PrintTask implements Runnable {
 }
 ```
 
+<!--
+第二種方法，是實作 Runnable 介面。
+
+PrintTask 實作 Runnable，在 run 方法裡寫要做的工作，印出三次訊息。注意它本身並不是執行緒，只是一份「要做什麼」的任務。
+-->
+
 ---
 
 # 方法二：實作 Runnable 介面 — 啟動
@@ -353,9 +365,7 @@ public class Main {
 </div>
 
 <!--
-第二種方法，是實作 Runnable 介面。
-
-PrintTask 實作 Runnable，在 run 方法裡寫要做的工作。使用時，先建立 PrintTask 物件，再把它交給 new Thread，最後呼叫 start。
+那這份任務要怎麼執行呢？先建立 PrintTask 物件，再把它交給 new Thread，最後呼叫 start，任務就會在新的執行緒裡跑起來。
 
 這是比較推薦的做法，原因有兩個。第一，Java 只能繼承一個類別，實作介面就不會佔用繼承的機會。第二，任務本身和執行它的機制分開了，Runnable 只負責「要做什麼」，Thread 負責「怎麼執行」，設計更有彈性。
 -->
@@ -441,6 +451,14 @@ t2.start();
 └─────────────────────────┘
 ```
 
+<!--
+我們看看執行緒在 JVM 裡是怎麼運作的。
+
+每個執行緒都有自己獨立的 Stack，用來存放自己的區域變數和方法呼叫。但所有執行緒，共用同一個 Heap，也就是物件存放的地方。
+
+這就是為什麼執行緒之間可以直接共享資料，也是為什麼需要小心同步。
+-->
+
 ---
 
 # 執行緒常用查詢方法
@@ -453,13 +471,9 @@ t2.start();
 | `Thread.currentThread()` | 取得目前執行緒 |
 
 <!--
-我們看看執行緒在 JVM 裡是怎麼運作的。
+既然每個執行緒都各自在跑，我們常常需要查詢它現在的情況。這張表列出幾個常用的查詢方法。
 
-每個執行緒都有自己獨立的 Stack，用來存放自己的區域變數和方法呼叫。但所有執行緒，共用同一個 Heap，也就是物件存放的地方。
-
-這就是為什麼執行緒之間可以直接共享資料，也是為什麼需要小心同步。
-
-下面列出了一些常用的方法：取得名稱和 ID、取得目前的狀態、判斷是否還在執行，以及取得目前的執行緒。
+getName 和 getId 取得名稱和編號。getState 取得目前的狀態，也就是前面生命週期講過的那幾種。isAlive 判斷它是否還在執行。Thread.currentThread 則是取得目前正在執行這段程式碼的執行緒，章節開頭的範例就用過它。
 -->
 
 ---
@@ -537,6 +551,14 @@ t1.join();  // 等待 t1 結束後再繼續
 | `join()` | 無限等待直到結束 |
 | `join(long millis)` | 最多等待指定毫秒 |
 
+<!--
+join 可以讓目前的執行緒，等待另一個執行緒完成之後，再繼續執行。
+
+最簡單的寫法是 `t1.join()`，意思是等 t1 結束，我才往下走。join 有兩個版本：不帶參數的，會一直等到對方結束；帶毫秒數的，最多只等那麼久，時間到了就不再等。
+
+另外，join 和 sleep 一樣會拋出 InterruptedException，所以也要捕捉或宣告 throws。
+-->
+
 ---
 
 # Thread.join() — 完整範例
@@ -557,13 +579,9 @@ public class JoinDemo {
 ```
 
 <!--
-join 可以讓目前的執行緒，等待另一個執行緒完成之後，再繼續執行。
-
-看範例，worker 執行緒會先印出開始處理，睡 2 秒，再印出完成。main 在啟動 worker 之後，呼叫 worker.join，就會停下來等它。
+我們看一個完整的範例。worker 執行緒會先印出開始處理，睡 2 秒，再印出完成。main 在啟動 worker 之後，呼叫 worker.join，就會停下來等它。
 
 所以輸出的順序一定是：Worker 開始處理、Worker 完成，最後才是主程式繼續執行。如果沒有 join，主程式那一行可能會先印出來。
-
-join 也可以指定最多等待幾毫秒，時間到了就不再等。
 -->
 
 ---
@@ -582,6 +600,12 @@ t.start();
 | `Thread.NORM_PRIORITY` | 5 | 預設優先權 |
 | `Thread.MAX_PRIORITY` | 10 | 最高優先權 |
 
+<!--
+每個執行緒都有一個優先順序，範圍是 1 到 10。
+
+範例用 setPriority，把執行緒設成 MAX_PRIORITY。表格列出了三個常數：MIN_PRIORITY 是 1，最低；NORM_PRIORITY 是 5，也是預設值；MAX_PRIORITY 是 10，最高。
+-->
+
 ---
 
 # setPriority() — 相關方法與注意事項
@@ -596,9 +620,7 @@ t.start();
 </div>
 
 <!--
-每個執行緒都有一個優先順序，範圍是 1 到 10。
-
-MIN_PRIORITY 是 1，最低；NORM_PRIORITY 是 5，也是預設值；MAX_PRIORITY 是 10，最高。可以用 setPriority 設定，用 getPriority 取得。
+和優先順序相關的方法有兩個：setPriority 用來設定，參數要在 1 到 10 之間；getPriority 用來取得目前的值。
 
 但要特別注意，優先順序只是給系統的「建議」，JVM 和作業系統不保證一定照著執行，不同的作業系統表現也可能不同。所以千萬不要依賴優先順序，來決定程式的邏輯。
 -->
@@ -849,6 +871,12 @@ class ClassLevelSync {
 }
 ```
 
+<!--
+靜態方法也可以加上 synchronized，但它使用的是類別層級的鎖，而不是 this。
+
+看範例，register 和 getCount 都是靜態的同步方法，它們鎖的是 ClassLevelSync 這個類別本身，所有的物件共用同一把鎖。
+-->
+
 ---
 
 # 實例方法 vs 靜態方法的 synchronized
@@ -860,11 +888,11 @@ class ClassLevelSync {
 | 保護目標 | 實例狀態 | 靜態（類別層級）狀態 |
 
 <!--
-靜態方法也可以加上 synchronized，但它使用的是類別層級的鎖，而不是 this。
+那實例方法和靜態方法的 synchronized，到底差在哪裡？我們用表格整理一下。
 
-看範例，register 和 getCount 都是靜態的同步方法，它們鎖的是 ClassLevelSync 這個類別本身，所有的物件共用同一把鎖。
+實例方法的鎖是物件本身，不同的物件有不同的鎖，可以同時執行；靜態方法的鎖是整個類別，全域只有一把，用來保護靜態的共用資料。
 
-表格整理了兩者的差別：實例方法的鎖是物件本身，不同的物件有不同的鎖，可以同時執行；靜態方法的鎖是整個類別，全域只有一把，用來保護靜態的共用資料。
+所以要保護 static 變數，就用靜態的同步方法；要保護物件自己的欄位，用實例方法就可以了。
 -->
 
 ---
