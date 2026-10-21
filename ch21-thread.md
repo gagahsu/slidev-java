@@ -192,6 +192,10 @@ public class ThreadInfo {
 // 輸出：名稱: main / 優先: 5 / 狀態: RUNNABLE
 ```
 
+---
+
+# Java 的多執行緒 — 相關 API
+
 | 相關 API | 說明 |
 |---------|------|
 | `java.lang.Thread` | 執行緒類別 |
@@ -283,6 +287,10 @@ class MyThread extends Thread {
 }
 ```
 
+---
+
+# 方法一：繼承 Thread 類別 — 啟動
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -325,6 +333,10 @@ class PrintTask implements Runnable {
     }
 }
 ```
+
+---
+
+# 方法二：實作 Runnable 介面 — 啟動
 
 ```java
 public class Main {
@@ -429,6 +441,10 @@ t2.start();
 └─────────────────────────┘
 ```
 
+---
+
+# 執行緒常用查詢方法
+
 | 方法 | 說明 |
 |------|------|
 | `getName()` / `getId()` | 取得名稱 / ID |
@@ -516,7 +532,14 @@ sleep 有兩個版本：一個只指定毫秒，另一個可以精確到奈秒�
 t1.join();  // 等待 t1 結束後再繼續
 ```
 
-完整範例：
+| 方法簽章 | 說明 |
+|---------|------|
+| `join()` | 無限等待直到結束 |
+| `join(long millis)` | 最多等待指定毫秒 |
+
+---
+
+# Thread.join() — 完整範例
 
 ```java
 public class JoinDemo {
@@ -532,11 +555,6 @@ public class JoinDemo {
     }
 }
 ```
-
-| 方法簽章 | 說明 |
-|---------|------|
-| `join()` | 無限等待直到結束 |
-| `join(long millis)` | 最多等待指定毫秒 |
 
 <!--
 join 可以讓目前的執行緒，等待另一個執行緒完成之後，再繼續執行。
@@ -563,6 +581,10 @@ t.start();
 | `Thread.MIN_PRIORITY` | 1 | 最低優先權 |
 | `Thread.NORM_PRIORITY` | 5 | 預設優先權 |
 | `Thread.MAX_PRIORITY` | 10 | 最高優先權 |
+
+---
+
+# setPriority() — 相關方法與注意事項
 
 | 方法 | 說明 |
 |------|------|
@@ -827,6 +849,10 @@ class ClassLevelSync {
 }
 ```
 
+---
+
+# 實例方法 vs 靜態方法的 synchronized
+
 | 比較 | 實例方法 synchronized | 靜態方法 synchronized |
 |------|---------------------|---------------------|
 | 鎖 | `this`（物件本身） | `ClassName.class`（Class 物件） |
@@ -891,7 +917,6 @@ Thread-2 持有 lockB，等待 lockA
 class DeadlockDemo {
     static Object lockA = new Object();
     static Object lockB = new Object();
-
     public static void main(String[] args) {
         Thread t1 = new Thread(() -> {
             synchronized (lockA) {

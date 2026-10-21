@@ -171,7 +171,7 @@ OutputStream (abstract)
 ├── FilterOutputStream
 │   ├── BufferedOutputStream ← 加緩衝
 │   ├── DataOutputStream   ← 寫基本型別
-│   └── PrintStream        ← System.out
+│   └── PrintStream    ← System.out
 └── ObjectOutputStream     ← 序列化
 ```
 
@@ -389,10 +389,8 @@ try (BufferedOutputStream bos =
 
 | 建構子 | 說明 |
 |--------|------|
-| `BufferedInputStream(InputStream in)` | 預設緩衝 8192 bytes |
-| `BufferedInputStream(InputStream in, int size)` | 自訂緩衝大小 |
-| `BufferedOutputStream(OutputStream out)` | 預設緩衝 8192 bytes |
-| `BufferedOutputStream(OutputStream out, int size)` | 自訂緩衝大小 |
+| `BufferedInputStream(InputStream in)` / `BufferedOutputStream(OutputStream out)` | 預設緩衝 8192 bytes |
+| `BufferedInputStream(in, int size)` / `BufferedOutputStream(out, int size)` | 自訂緩衝大小 |
 
 <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
 💡 <b>習慣：</b> 凡是讀寫檔案，<b>幾乎都應加上 Buffered 包裝</b>，除非是已知單次大塊傳輸。
@@ -428,11 +426,11 @@ class: flex flex-col justify-center items-center text-center
 
 ```
 Reader (abstract)
-├── InputStreamReader     ← byte→char 橋接
-│   └── FileReader        ← 讀文字檔
-├── BufferedReader        ← 加緩衝＋readLine
-├── StringReader          ← 讀 String
-└── CharArrayReader       ← 讀 char[]
+├── InputStreamReader ← byte→char
+│   └── FileReader    ← 讀文字檔
+├── BufferedReader    ← 加緩衝
+├── StringReader      ← 讀 String
+└── CharArrayReader   ← 讀 char[]
 ```
 
 </div>
@@ -442,18 +440,18 @@ Reader (abstract)
 
 ```
 Writer (abstract)
-├── OutputStreamWriter    ← char→byte 橋接
-│   └── FileWriter        ← 寫文字檔
-├── BufferedWriter        ← 加緩衝＋newLine
-├── PrintWriter           ← println/printf
-└── StringWriter          ← 寫到 String
+├── OutputStreamWriter ← char→byte
+│   └── FileWriter     ← 寫文字檔
+├── BufferedWriter     ← 加緩衝
+├── PrintWriter        ← 格式化輸出
+└── StringWriter       ← 寫到 String
 ```
 
 </div>
 </div>
 
 <div class="mt-3 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
-💡 <b>橋接器：</b> <code>InputStreamReader</code> / <code>OutputStreamWriter</code> 是 byte 串流與 char 串流的橋梁，可指定字元編碼（如 <code>"UTF-8"</code>）。
+💡 <b>橋接器：</b> <code>InputStreamReader</code> / <code>OutputStreamWriter</code> 是 byte 串流與 char 串流的橋梁，可指定字元編碼（如 <code>"UTF-8"</code>）。<code>BufferedReader</code> 提供 <code>readLine()</code>、<code>BufferedWriter</code> 提供 <code>newLine()</code>；<code>PrintWriter</code> 提供 <code>println()</code> / <code>printf()</code>。
 </div>
 
 <!--
@@ -467,8 +465,6 @@ Reader 下面，有讀取文字檔的 FileReader、加上緩衝並可以逐行�
 ---
 
 # FileReader — 讀取文字檔
-
-最簡讀取範例：
 
 ```java
 try (FileReader fr = new FileReader("hello.txt")) {
@@ -700,8 +696,7 @@ print 輸出但不換行，println 輸出之後換行，printf 則是格式化�
 | 格式符 | 說明 | 範例 | 輸出 |
 |--------|------|------|------|
 | `%d` | 十進位整數 | `printf("%d", 42)` | `42` |
-| `%5d` | 寬度 5，靠右 | `printf("%5d", 42)` | `   42` |
-| `%-5d` | 寬度 5，靠左 | `printf("%-5d", 42)` | `42   ` |
+| `%5d` / `%-5d` | 寬度 5，靠右 / 靠左 | `printf("%5d", 42)` | `   42` / `42   ` |
 | `%f` | 浮點數（預設 6 位小數） | `printf("%f", 3.14)` | `3.140000` |
 | `%.2f` | 2 位小數 | `printf("%.2f", 3.14)` | `3.14` |
 | `%s` | 字串 | `printf("%s", "Hi")` | `Hi` |
@@ -733,6 +728,10 @@ char[] password = console.readPassword("請輸入密碼：");
 System.out.printf("歡迎，%s！%n", username);
 java.util.Arrays.fill(password, ' ');  // 安全清除密碼
 ```
+
+---
+
+# Console 類別 — 常用方法
 
 | 方法 | 說明 |
 |------|------|
@@ -802,11 +801,9 @@ File 類別代表一個路徑，可能是一個檔案，也可能是一個資料
 | 方法 | 回傳 | 說明 |
 |------|------|------|
 | `exists()` | `boolean` | 路徑是否存在 |
-| `isFile()` | `boolean` | 是否為一般檔案 |
-| `isDirectory()` | `boolean` | 是否為目錄 |
+| `isFile()` / `isDirectory()` | `boolean` | 是否為一般檔案 / 目錄 |
 | `canRead()` / `canWrite()` | `boolean` | 是否可讀/可寫 |
-| `getName()` | `String` | 取得檔名（含副檔名） |
-| `getPath()` | `String` | 取得路徑字串 |
+| `getName()` / `getPath()` | `String` | 取得檔名（含副檔名）/ 路徑字串 |
 | `getAbsolutePath()` | `String` | 取得絕對路徑 |
 | `length()` | `long` | 檔案大小（bytes） |
 | `lastModified()` | `long` | 最後修改時間（epoch ms） |
@@ -888,10 +885,8 @@ if (dir.isDirectory()) {
 
 | 方法 | 回傳 | 說明 |
 |------|------|------|
-| `list()` | `String[]` | 子項目名稱陣列 |
-| `listFiles()` | `File[]` | 子項目 File 物件陣列 |
-| `list(FilenameFilter)` | `String[]` | 依過濾條件篩選名稱 |
-| `listFiles(FilenameFilter)` | `File[]` | 依過濾條件篩選 File |
+| `list()` / `listFiles()` | `String[]` / `File[]` | 子項目名稱 / File 物件陣列 |
+| `list(FilenameFilter)` / `listFiles(FilenameFilter)` | `String[]` / `File[]` | 依過濾條件篩選 |
 
 <!--
 要列出資料夾裡的內容，可以用 listFiles。

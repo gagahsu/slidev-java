@@ -375,7 +375,6 @@ try {
 } catch (UnsupportedOperationException e) {
     System.out.println("weekdays 不可變：" + e);
 }
-
 List<String> mutable = new ArrayList<>();
 mutable.add("A");
 mutable.add("B");
@@ -707,6 +706,14 @@ Set 沒有索引，所以沒有 get 方法，通常用 for-each 或 Iterator 走
 | `removeAll(Collection c)` | 差集：移除另一個集合中也有的元素 |
 | `clear()` | 清空所有元素 |
 
+<style>
+td, th { padding: 6px 8px !important; }
+</style>
+
+---
+
+# Set 常用方法 — 範例
+
 ```java
 Set<String> names = new HashSet<>();
 System.out.println(names.add("炭治郎")); // true，新增成功
@@ -940,6 +947,13 @@ Map 儲存的是一組一組的鍵值對，每一個鍵都是唯一的，對應�
 | `remove(Object key)` | 移除指定鍵的鍵值對 |
 | `containsKey(Object key)` | 是否包含指定鍵 |
 | `containsValue(Object value)` | 是否包含指定值 |
+
+---
+
+# Map 常用方法（續）
+
+| 方法名稱 | 說明 |
+| --- | --- |
 | `size()` | 鍵值對數量 |
 | `keySet()` | 取得所有鍵（回傳 `Set`) |
 | `values()` | 取得所有值（回傳 `Collection`） |
@@ -1181,6 +1195,10 @@ layout: default
 | 鍵值對應、快速查詢 | `HashMap` |
 | 鍵值對應、需維持插入順序 | `LinkedHashMap` |
 | 鍵值對應、需依鍵排序 | `TreeMap` |
+
+<style>
+td, th { padding: 6px 8px !important; }
+</style>
 
 <!--
 這張表是選用集合的指南，可以從兩個問題開始想：需不需要鍵值對應？能不能重複？

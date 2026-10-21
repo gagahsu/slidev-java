@@ -166,8 +166,7 @@ archive.zip
 | 方法 | 說明 |
 |------|------|
 | `getName()` | 取得 entry 名稱（含路徑） |
-| `getSize()` | 原始未壓縮大小（bytes），未知則 -1 |
-| `getCompressedSize()` | 壓縮後大小（bytes），未知則 -1 |
+| `getSize()` / `getCompressedSize()` | 壓縮前 / 壓縮後大小（bytes），未知則 -1 |
 | `getCrc()` | CRC-32 校驗碼，未知則 -1 |
 | `getTime()` | 修改時間（毫秒），未設則 -1 |
 | `isDirectory()` | 是否為目錄（名稱是否以 `/` 結尾） |

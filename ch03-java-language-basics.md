@@ -212,7 +212,11 @@ class: flex flex-col justify-center items-center text-center
 | `float` | 32 bit | IEEE 754 單精度 | `0.0f` | `Float` |
 | `double` | 64 bit | IEEE 754 雙精度 | `0.0` | `Double` |
 | `boolean` | 1 bit | `true` / `false` | `false` | `Boolean` |
-| `char` | 16 bit | ` ` ~ `￿`（0~65535）| ` ` | `Character` |
+| `char` | 16 bit | `'\u0000'` ~ `'\uffff'`（0~65535）| `'\u0000'` | `Character` |
+
+<style>
+td, th { padding: 6px 8px !important; }
+</style>
 
 <!--
 Java 有八種基本資料型態。
@@ -433,8 +437,7 @@ String 有三個重要特性。
 | `str.length()` | 字串長度（字元數）|
 | `str.charAt(i)` | 取得索引 i 的字元 |
 | `str.substring(begin, end)` | 擷取子字串 [begin, end-1] |
-| `str.toUpperCase()` | 轉大寫 |
-| `str.toLowerCase()` | 轉小寫 |
+| `str.toUpperCase()` / `str.toLowerCase()` | 轉大寫 / 轉小寫 |
 
 ```java
 String s = "Hello";
@@ -707,14 +710,9 @@ layout: default
 # 練習一：個人資料卡
 ### 任務說明
 
-宣告以下變數，並用 `printf` 整齊排版輸出：
+宣告以下變數（值任意），並用 `printf` 整齊排版輸出：
 
-| 資料 | 型態 | 值 |
-| --- | --- | --- |
-| 姓名 | `String` | 任意 |
-| 年齡 | `int` | 任意 |
-| 身高 | `double` | 任意（含小數）|
-| 是否在學 | `boolean` | 任意 |
+- 姓名 `String`、年齡 `int`、身高 `double`（含小數）、是否在學 `boolean`
 
 **預期格式（對齊欄位）：**
 

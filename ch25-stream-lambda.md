@@ -459,8 +459,7 @@ IntStream s2 = Arrays.stream(arr);
 | --- | --- |
 | `filter(Predicate)` | 篩選符合條件的元素 |
 | `map(Function)` | 將每個元素轉換為另一種型態 |
-| `sorted()` | 依自然順序排序 |
-| `sorted(Comparator)` | 依自訂比較器排序 |
+| `sorted()` / `sorted(Comparator)` | 依自然順序 / 自訂比較器排序 |
 | `distinct()` | 移除重複元素（依 `equals`）|
 | `limit(long n)` | 取前 n 個元素 |
 | `skip(long n)` | 跳過前 n 個元素 |
