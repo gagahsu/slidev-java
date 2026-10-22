@@ -17,19 +17,19 @@ public class PlusOne {
     }
 
     static int[] plusOne(int[] digits) {
-        // 方法：用字串轉換處理
+        // 方法：用字串轉換處理（數字超過 int 範圍時會出錯，題目 digits 不長時足夠）
         // 1. 拼成字串
         StringBuilder sb = new StringBuilder();
         for (int d : digits) sb.append(d);
 
-        // 2. 轉成 long 運算（防止大數溢位用 BigInteger 更安全，但題目 digits 不長時 long 足夠）
-        long num = Long.parseLong(sb.toString()) + 1;
+        // 2. 轉成 int 運算
+        int num = Integer.parseInt(sb.toString()) + 1;
 
         // 3. 把結果拆回陣列
-        String resultStr = String.valueOf(num);
-        int[] result = new int[resultStr.length()];
-        for (int i = 0; i < resultStr.length(); i++) {
-            result[i] = resultStr.charAt(i) - '0'; // char 轉數字
+        String[] parts = String.valueOf(num).split("");
+        int[] result = new int[parts.length];
+        for (int i = 0; i < parts.length; i++) {
+            result[i] = Integer.parseInt(parts[i]);
         }
         return result;
     }

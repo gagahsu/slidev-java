@@ -207,6 +207,32 @@ src/
 -->
 
 ---
+
+# 編譯與執行有套件的程式
+
+在**來源根目錄**（`com` 資料夾所在的位置）執行，以 `com.school.Main` 為例：
+
+```bash
+javac com/school/Main.java   # 用檔案路徑，import 到的類別會一起編譯
+java com.school.Main         # 用類別全名（套件 + 類別名稱）
+```
+
+| 常見錯誤 | 結果 |
+| --- | --- |
+| 進到 `com/school/` 裡執行 `javac Main.java` | `package com.school.model does not exist` |
+| 進到 `com/school/` 裡執行 `java Main` | 找不到或無法載入主要類別 Main |
+
+<!--
+有了套件之後，編譯和執行的方式也要跟著調整。
+
+關鍵是：一定要站在來源根目錄，也就是 com 資料夾所在的那一層，來下指令。以 com.school 套件裡的 Main 為例，編譯時，javac 後面接檔案路徑，com 斜線 school 斜線 Main.java。Main 有 import 到的其他類別，javac 會順著路徑找到，一起編譯。
+
+執行時，java 後面要接類別的全名，也就是套件名稱加上類別名稱，com.school.Main，中間用點，而且不用加 .class。
+
+初學者最常犯的錯，是直接進到 com/school 資料夾裡面下指令。這時候編譯會說找不到 com.school.model 套件；就算已經編譯好了，執行 java Main 也會出現「找不到或無法載入主要類別」。因為 Java 是從目前的資料夾，依照套件名稱往下找類別的，站錯位置，就找不到了。
+-->
+
+---
 layout: section
 class: flex flex-col justify-center items-center text-center
 ---
@@ -509,12 +535,10 @@ public class StringUtils {
 
 # `protected` — 保護繼承鏈
 
-- 同套件的類別可存取
-- **不同套件的子類別也可存取**（透過繼承）
+- 同套件的類別可存取，**不同套件的子類別也可存取**（透過繼承）
 
 ```java
 package com.example.animal;
-
 public class Animal {
     protected String name;
     protected void breathe() {
@@ -526,7 +550,6 @@ public class Animal {
 ```java
 package com.example.pet;      // 不同套件
 import com.example.animal.Animal;
-
 public class Dog extends Animal {
     public void show() {
         name = "小黑";         // 子類別可存取 protected 成員
@@ -759,22 +782,51 @@ layout: default
 
 設計一個簡單的學生管理系統，要求：
 
-1. 建立套件 `com.school.model`，內有 `Student` 類別：
+1. 在套件 `com.school.model` 建立 `Student` 類別：
    - 成員變數 `name`（`private`）、`grade`（`protected`）、`studentId`（`public`）
-   - 提供 `public` 的建構方法和 getter/setter
-2. 建立套件 `com.school.service`，內有 `StudentService` 類別：
+   - `public` 建構方法 `Student(String studentId, String name, int grade)`
+   - `public` 的 `getName()` / `setName()`、`getGrade()` / `setGrade()`
+2. 在套件 `com.school.service` 建立 `StudentService` 類別：
    - `import` 並使用 `Student`
-   - 提供 `public` 方法 `printInfo(Student s)` 列印學生資訊
-3. 建立 `com.school.Main`，建立 `Student` 物件並呼叫 `StudentService`
+   - 提供 `public` 方法 `printInfo(Student s)`，印出學號、姓名、年級
+3. 在套件 `com.school` 建立 `Main` 類別：建立 `new Student("S001", "炭治郎", 2)`，交給 `StudentService` 印出
 
 <!--
 這一題要設計一個簡單的學生管理系統。
 
-第一，在 com.school.model 套件裡建立 Student 類別，name 是 private，grade 是 protected，studentId 是 public，並提供 public 的建構子、getter 和 setter。第二，在 com.school.service 套件裡建立 StudentService，匯入 Student，提供 printInfo 方法印出學生資訊。第三，在 com.school 套件裡建立 Main，實際建立學生並呼叫 StudentService。
+第一，在 com.school.model 套件裡建立 Student 類別。name 是 private，grade 是 protected，studentId 是 public。建構方法的參數順序是學號、姓名、年級，另外提供 name 和 grade 的 getter 和 setter。studentId 是 public，可以直接存取，所以不用寫 getter。
+
+第二，在 com.school.service 套件裡建立 StudentService，匯入 Student，提供 printInfo 方法，印出學號、姓名和年級。
+
+第三，在 com.school 套件裡建立 Main 類別，建立一個學號 S001、名字炭治郎、2 年級的學生，交給 StudentService 印出來。
+-->
+
+---
+layout: default
+---
+
+# 練習：預期輸出與延伸
+
+在 `com` 所在的資料夾執行 `javac com/school/Main.java`、`java com.school.Main`：
+
+```
+學號：S001
+姓名：炭治郎
+年級：2
+```
+
+<div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
+🔍 <b>延伸：</b>在 <code>printInfo</code> 裡把 <code>s.getGrade()</code> 改成 <code>s.grade</code>，編譯看看會出現什麼錯誤？為什麼 <code>s.studentId</code> 就可以直接用？
+</div>
+
+<!--
+寫好之後，記得回到 com 資料夾所在的那一層，先用 javac 編譯 Main.java，再用 java 加上全名 com.school.Main 執行。正確的話，會印出學號、姓名和年級三行。
+
+完成的同學，可以挑戰延伸題：在 printInfo 裡，把 s.getGrade() 改成直接寫 s.grade，編譯看看會發生什麼事；再想想看，為什麼 s.studentId 就可以直接使用。
 
 我們先暫停一下，自己動手試試看。
 
-【講師】給學生約 20 分鐘實作，留意資料夾結構是否與套件名稱對應。
+【講師】給學生約 20 分鐘實作，留意資料夾結構是否與套件名稱對應，以及是否在正確的資料夾下指令。
 -->
 
 ---
@@ -800,13 +852,14 @@ public class Student {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public int getGrade() { return grade; }
+    public void setGrade(int grade) { this.grade = grade; }
 }
 ```
 
 <!--
 我們來看解答，先看 Student。
 
-第一行宣告 package com.school.model。三個欄位依照要求，分別是 private、protected 和 public。建構子和 getter、setter 都是 public，讓其他套件可以使用。
+第一行宣告 package com.school.model。三個欄位依照要求，分別是 private、protected 和 public。建構子和 name、grade 的 getter、setter 都是 public，讓其他套件可以使用。
 -->
 
 ---
@@ -835,7 +888,7 @@ public class StudentService {
 
 它在 service 套件，所以要先 import com.school.model.Student。printInfo 方法裡，studentId 是 public，可以直接存取；name 是 private，要透過 getName；grade 是 protected，StudentService 既不在同一個套件，也不是子類別，所以同樣要透過 getGrade。
 
-這裡正好驗證了不同存取等級的差別。
+這裡正好驗證了不同存取等級的差別。如果你做了延伸題，把 getGrade 改成 s.grade，編譯器會說 grade has protected access，也就是 grade 是 protected，這裡不能存取。
 -->
 
 ---

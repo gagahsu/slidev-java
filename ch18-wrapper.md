@@ -570,21 +570,40 @@ layout: default
 # 練習一：讀取使用者輸入並計算
 ### 任務說明
 
-請利用 `Scanner` 讀取兩個整數字串，轉換後計算並印出：
-1. 兩數的和、差、積
-2. 哪個數比較大
+請利用 `Scanner` 讀取兩個整數字串，轉換後計算並印出兩數的**和、差、積**，以及兩數中的**較大值**。
+
+<div class="grid grid-cols-2 gap-4">
+<div>
 
 ```java
+import java.util.Scanner;
+
 Scanner sc = new Scanner(System.in);
 String s1 = sc.nextLine();
 String s2 = sc.nextLine();
 // 請利用 Integer 的方法完成轉換與計算
 ```
 
+</div>
+<div>
+
+**預期輸出**（輸入 `7` 與 `3`）：
+```
+和：10
+差：4
+積：21
+較大值：7
+```
+
+</div>
+</div>
+
 <!--
 接下來我們動手練習。
 
-第一題，用 Scanner 讀入兩個字串形式的整數，轉換之後，計算並印出兩數的和、差、積，以及哪一個數比較大。
+第一題，用 Scanner 讀入兩個字串形式的整數，轉換之後，計算並印出兩數的和、差、積，以及兩數中比較大的那個值。別忘了最上面要 import Scanner。
+
+右邊是預期的輸出：輸入 7 和 3，和是 10，差是 4，積是 21，較大值是 7。
 
 我們先暫停一下，自己動手試試看。
 
@@ -631,23 +650,24 @@ layout: default
 
 # 練習二：解題提示
 
+1. 用 Ch13 學過的 `matches()` 搭配正規表達式判斷整個字串
+2. 整數的樣子：開頭**可以有一個負號**，後面是**至少一個數字**
+3. 想一想：「可有可無」和「至少一次」分別是哪個量次修飾詞？
+
 ```java
 static boolean isInteger(String s) {
-    try {
-        Integer.parseInt(s);
-        return true;
-    } catch (NumberFormatException e) {
-        return false;
-    }
+    return s.matches("______");
 }
 ```
 
 <!--
 我們來看提示。
 
-最直接的做法，是直接嘗試用 parseInt 轉換。如果成功，就回傳 true；如果拋出 NumberFormatException，就在 catch 裡回傳 false。
+這一題可以用正規表達式那一章學過的 matches。我們先想清楚，一個整數長什麼樣子：開頭可以有一個負號，也可以沒有；後面接著至少一個數字。
 
-try 和 catch 是處理例外的語法，之後的章節會詳細介紹，這裡先照著用。
+負號「可有可無」，數字「至少一次」，這兩個要用哪個量次修飾詞？想出來之後，填進底線的位置就完成了。答案是負號加問號，再接反斜線 d 加號。
+
+到了例外處理那一章，我們還會學到另一種寫法：直接用 parseInt 轉換，失敗就攔下錯誤。那種寫法還能擋掉超出 int 範圍的數字。
 -->
 
 ---

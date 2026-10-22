@@ -1,15 +1,10 @@
 // Ch18 練習二：判斷字串是否為合法整數
-// 利用 Integer.parseInt() 搭配 try-catch 判斷字串是否可轉為整數
+// 利用 Ch13 的正規表達式判斷：負號可有可無（-?），後面至少一個數字（\d+）
 
 public class Exercise2_IsInteger {
 
     static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        return s.matches("-?\\d+");
     }
 
     public static void main(String[] args) {

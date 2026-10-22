@@ -7,12 +7,12 @@ public class CountOccurrences {
         String text = "鬼滅之刃是炭治郎與禰豆子的故事，我不喜歡禰豆子的那田蜘蛛山，雖然禰豆子在炭治郎眼中是清新脫俗";
         String target = "禰豆子";
         int count = 0;
-        int index = 0;
 
-        // 使用 indexOf 搭配起始位置，每次找到後跳過已找到的部分
-        while ((index = text.indexOf(target, index)) != -1) {
+        // 先找第一個，找到就計數，再從「目前位置 + 目標長度」繼續找下一個
+        int index = text.indexOf(target);
+        while (index != -1) {
             count++;
-            index += target.length(); // 移動起點避免重複計算
+            index = text.indexOf(target, index + target.length());
         }
 
         System.out.println("原字串：" + text);

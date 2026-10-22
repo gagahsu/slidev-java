@@ -16,6 +16,7 @@ public class HeroStream {
             .sorted()
             .collect(Collectors.joining("、"));
 
-        System.out.println("長度 >= 3 且排序後：" + result);
+        // 中文依 Unicode 編碼排序：伊之助、時透無一郎、炭治郎、甘露寺、禰豆子
+        System.out.println(result);
     }
 }

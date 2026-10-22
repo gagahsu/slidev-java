@@ -48,6 +48,13 @@ Speaker scripts live in `scripts/chNN-script.md`.
 ### Templates
 - `_template/` — Blueprint for new chapters (slides.md, global-bottom.vue, package.json, .npmrc)
 
+## Curriculum Backlog
+
+`CURRICULUM-TODO.md` tracks content gaps per chapter (untaught APIs used in exercises, missing imports, etc.).
+- Before editing a chapter, check its section there; when an item is done, tick it and note the commit.
+- Run its 通用檢查清單 when changing slides, exercises, or notes.
+- Record newly found gaps there instead of leaving them only in chat.
+
 ## Navigation
 
 Slidev navigation uses `routeAlias` + Slidev's `<Link>` component (NOT `<RouterLink>` or `<a href>`):

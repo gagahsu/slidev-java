@@ -13,14 +13,14 @@ public class PalindromeCheck {
         }
 
         // 互動輸入
-        System.out.println("\n請輸入字串（輸入 q 結束）：");
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            String input = scanner.nextLine().trim();
-            if ("q".equalsIgnoreCase(input)) break;
-            printResult(input);
-        }
-        scanner.close();
+//        System.out.println("\n請輸入字串（輸入 q 結束）：");
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNextLine()) {
+//            String input = scanner.nextLine().trim();
+//            if ("q".equalsIgnoreCase(input)) break;
+//            printResult(input);
+//        }
+//        scanner.close();
     }
 
     static void printResult(String word) {

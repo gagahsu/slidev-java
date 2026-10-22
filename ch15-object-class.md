@@ -901,23 +901,26 @@ class Employee {
     String name;
     int age;
     String country;
+
+    Employee(String name, int age, String country) { /* 指定三個欄位 */ }
 }
 ```
 
 1. 建立兩個屬性值相同的 `Employee` 物件，比較它們的 `hashCode()`
 2. 觀察 `Object` 預設 `hashCode()` 的行為（屬性相同 ≠ 相同 hash 碼）
 3. **進階**：Override `hashCode()`，使屬性相同的物件回傳相同 hash 值
+4. **延伸**：用相同欄位 Override `equals()`，驗證兩個物件 `equals()` 為 `true`
 
 <!--
 接下來我們動手練習。
 
-請建立一個 Employee 類別，有姓名、年齡和國家三個欄位。先建立兩個屬性完全相同的物件，印出它們的 hashCode，觀察 Object 預設的行為。
+請建立一個 Employee 類別，有姓名、年齡和國家三個欄位，再加上一個建構方法，一次把三個欄位設定好。先建立兩個屬性完全相同的物件，印出它們的 hashCode，觀察 Object 預設的行為。
 
-進階挑戰是覆寫 hashCode，讓屬性相同的物件，回傳相同的雜湊碼。
+進階挑戰是覆寫 hashCode，讓屬性相同的物件，回傳相同的雜湊碼。延伸挑戰是用相同的欄位覆寫 equals，讓這兩個物件比較的結果是 true。
 
 我們先暫停一下，自己動手試試看。
 
-【講師】給學生約 10 分鐘實作，可延伸要求一併覆寫 equals。
+【講師】給學生約 10 分鐘實作。
 -->
 
 ---
@@ -942,6 +945,7 @@ public int hashCode() {
 ```
 
 3. **驗證結果**：Override 後，屬性相同的物件應回傳**相同** hashCode
+4. **延伸**：`equals()` 照「現代化的 equals() 實作」頁的寫法，比較 `name`、`age`、`country`
 
 <!--
 我們來看提示。
@@ -950,7 +954,7 @@ public int hashCode() {
 
 接著覆寫 hashCode，用 Objects.hash 傳入姓名、年齡和國家。重新執行，屬性相同的兩個物件，就會得到相同的雜湊碼。
 
-記得，實務上覆寫 hashCode 時，也要用相同的欄位覆寫 equals。
+延伸題的 equals，可以照前面「現代化的 equals 實作」那一頁的寫法，用相同的三個欄位來比較。記得，覆寫 hashCode 時，一定要用相同的欄位覆寫 equals。
 -->
 
 ---

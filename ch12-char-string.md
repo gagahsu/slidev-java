@@ -672,6 +672,7 @@ lastIndexOf 則是從右邊往左找，回傳最後一次出現的位置。
 | 方法名稱 | 說明 |
 | --- | --- |
 | `indexOf(String str)` | 子字串第一次出現的位置 |
+| `indexOf(String str, int from)` | 從指定索引開始往右找子字串 |
 | `lastIndexOf(String str)` | 子字串最後一次出現的位置 |
 | `contains(CharSequence s)`| 是否包含該子字串 |
 
@@ -683,7 +684,7 @@ System.out.println(str.contains("禰豆子"));   // true
 ```
 
 <!--
-搜尋的對象也可以是一段子字串，邏輯完全一樣，只是參數改成字串。
+搜尋的對象也可以是一段子字串，邏輯完全一樣，只是參數改成字串。同樣可以多傳一個起始索引，從那個位置開始往右找，等一下的練習就會用到。
 
 在炭治郎與禰豆子裡搜尋禰豆子，它從索引 4 開始。lastIndexOf 炭，結果是 0。
 
@@ -911,7 +912,38 @@ layout: default
 
 可以想一想，用 charAt 搭配迴圈逐一檢查每個字元，再思考要用什麼方式記錄每個字母的次數。
 
-【講師】給學生約 10 分鐘實作，挑戰題可提示使用陣列以字元編碼為索引計數。
+【講師】給學生約 10 分鐘實作。
+-->
+
+---
+
+# 練習三：解題提示
+### 提示說明
+
+1. 基本題：用迴圈搭配 `charAt(i)` 逐一取出字元，和 `'A'`～`'D'` 比較並計數
+2. 挑戰題：`char` 本身就是 0～65535 的編碼數字，可以**直接當陣列索引**
+
+```java
+String str = "AABCBDCDACBDA";
+int[] count = new int[65536];       // 每個 char 編碼一格
+for (int i = 0; i < str.length(); i++) {
+    count[str.charAt(i)]++;         // char 自動轉成 int 當索引
+}
+for (int i = 0; i < count.length; i++) {
+    if (count[i] > 0) {
+        System.out.println((char) i + "：" + count[i] + " 次");
+    }
+}
+```
+
+<!--
+我們來看提示。
+
+基本題很直接：用迴圈搭配 charAt，一個一個取出字元，和 A、B、C、D 比較，相同就讓對應的計數加 1。
+
+挑戰題的關鍵是：char 其實就是一個數字。前面的章節我們看過，char 的範圍是 0 到 65535，而且可以和 int 互相轉型，大寫 A 的編碼就是 65。所以我們準備一個長度 65536 的整數陣列，每一個字元都有自己的一格，直接用字元當索引，把那一格加 1。
+
+最後走訪整個陣列，次數大於 0 的才印出來，印的時候把索引轉回 char，就能看到是哪個字元。執行後會印出 A 4 次、B 3 次、C 3 次、D 3 次。不管字串裡有什麼字元，包括中文，這個寫法都能統計。
 -->
 
 ---
@@ -1596,6 +1628,35 @@ StringBuilder 也有 substring，用法和 String 一樣，可以擷取一段內
 
 ---
 
+# 轉回 String：toString( )
+
+| 方法名稱 | 說明 |
+| --- | --- |
+| `toString()` | 將 StringBuilder 的內容轉成 `String` |
+
+```java
+StringBuilder a = new StringBuilder("炭治郎");
+StringBuilder b = new StringBuilder("炭治郎");
+String s = a.toString();                               // "炭治郎"
+
+System.out.println(a.equals(b));                       // false
+System.out.println(a.toString().equals(b.toString())); // true
+```
+
+<div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
+⚠️ <b>陷阱：</b> StringBuilder 的 <code>equals()</code> 和 <code>==</code> 一樣只比較是不是同一個物件。要比較內容，先用 <code>toString()</code> 轉成 String。
+</div>
+
+<!--
+StringBuilder 處理完之後，通常還要把結果變回一般的字串，這時候用 toString。
+
+看範例，a 呼叫 toString，就得到內容是炭治郎的 String。
+
+這裡有一個很常見的陷阱。a 和 b 的內容都是炭治郎，但用 equals 比較卻是 false。因為 StringBuilder 的 equals，和兩個等號一樣，只看是不是同一個物件，不會比較內容。要比較內容，就先把兩邊都 toString 轉成字串，再用 String 的 equals，結果才是 true。
+-->
+
+---
+
 # StringBuffer vs StringBuilder
 
 | 類別名稱 | 執行緒安全 | 執行速度 |
@@ -1636,16 +1697,20 @@ layout: default
 # 練習四：解題提示
 ### 提示說明
 
-1. 建立 `StringBuilder` 物件。
-2. 使用 `.reverse()` 方法。
-3. 比對反轉後的內容與原內容是否相等。
+1. 用 `Scanner` 讀入字串，放進 `new StringBuilder(input)`。
+2. 使用 `.reverse()` 方法反轉。
+3. 用 `.toString()` 轉回 String，再用 `equals` 和原字串比較。
+
+<div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-gray-700 text-sm text-left">
+⚠️ <code>sb.reverse().equals(input)</code> 永遠是 <code>false</code>：StringBuilder 的 <code>equals</code> 不比較內容，一定要先 <code>toString()</code>。
+</div>
 
 <!--
 我們來看提示。
 
-把輸入的字串放進 StringBuilder，呼叫 reverse 反轉，再轉回字串，和原本的內容用 equals 比較。相等就是迴文，不相等就不是。
+用 Scanner 讀入使用者輸入的字串，放進 StringBuilder，呼叫 reverse 反轉，再用 toString 轉回字串，和原本的內容用 equals 比較。相等就是迴文，不相等就不是。
 
-記得要用 equals 比較內容，而不是兩個等號。
+這裡最容易犯的錯，就是少了 toString，直接拿反轉後的 StringBuilder 去 equals 原本的字串。就像剛才看到的，StringBuilder 的 equals 不比較內容，所以結果永遠是 false，不管輸入什麼都會判斷成不是迴文。
 -->
 
 ---
@@ -1675,14 +1740,14 @@ layout: default
 # 練習五：解題提示
 ### 邏輯挑戰
 
-1. 將陣列內容轉為字串拼接。
-2. 轉成數字進行運算。
-3. 將結果重新拆回陣列。
+1. 用 `StringBuilder` 的 `append` 把每個數字接成字串（`"19"`）。
+2. `Integer.parseInt` 轉成整數後 `+ 1`（`20`）。
+3. `String.valueOf` 轉回字串，`split("")` 拆成 `["2", "0"]`，每個再 `Integer.parseInt` 放回新陣列。
 
 <!--
 我們來看提示。
 
-一種做法是：先把陣列裡的數字串接成字串，例如 19；再轉成整數，加 1 得到 20；最後把 20 轉回字串，再拆成一個一個的數字放回陣列。
+一種做法是：先用 StringBuilder 的 append，把陣列裡的數字一個一個接成字串，例如 19；再用 Integer.parseInt 轉成整數，加 1 得到 20；最後用 String.valueOf 把 20 轉回字串，用 split 空字串拆成一個一個的字元，每一個再用 parseInt 轉成數字，放回新的陣列。新陣列的長度，就是拆出來的字串陣列長度。
 
 這個方法很直觀，但數字太長時會超出 int 的範圍。另一種做法，是從陣列的最後一位開始，直接處理進位，大家可以想想看要怎麼寫。
 -->

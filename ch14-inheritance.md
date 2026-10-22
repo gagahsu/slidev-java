@@ -1212,20 +1212,67 @@ obj.showAnimal(new Animal() {
 ### 任務說明
 
 1. **繼承練習**：建立父類別 `Father`，子類別 `Son` 和 `Daughter`
-   - `Father`：有 `protected String name` 欄位（透過建構方法傳入）、`walk()` 印出 `name is walking!!!`
-   - `Son`：建構方法呼叫 `super(name)`，Override `walk()` 印 `name is walking~~~`，加上 `playBall()`
-   - `Daughter`：建構方法呼叫 `super(name)`，Override `walk()` 印 `name is walking@@@`，加上 `shopping()`
+   - `Father`：有 `protected String name` 欄位與建構方法、`walk()` 印出「名字 + ` is walking!!!`」
+   - `Son`：建構方法呼叫 `super(name)`，Override `walk()` 改印 `~~~`，加上 `playBall()`
+   - `Daughter`：建構方法呼叫 `super(name)`，Override `walk()` 改印 `@@@`，加上 `shopping()`
+   - `main`：建立三個物件，呼叫各自的 `walk()` 與特有方法
 
 2. **多形練習**：建立 `Animal`、`Dog`、`Bird`
-   - 各自 Override `move()` 方法
+   - `Animal` 同樣有 `protected String name` 與建構方法，子類別呼叫 `super(name)`
+   - 各自 Override `move()`，印出「名字 + 移動方式」
    - 用 `Animal[] animals = { new Dog("旺財"), new Bird("小翠") }` 搭配迴圈呼叫 `move()`
 
 <!--
 接下來我們動手練習，這次有兩個部分。
 
-第一部分練習繼承。建立父類別 Father，有 name 欄位和 walk 方法。再建立兩個子類別 Son 和 Daughter，各自覆寫 walk，印出不同的符號，並加上自己獨有的方法。
+第一部分練習繼承。建立父類別 Father，有 name 欄位，透過建構子傳入，walk 方法印出名字加上 is walking。再建立兩個子類別 Son 和 Daughter，建構子都用 super name，各自覆寫 walk，把最後的符號換掉，並加上自己獨有的方法。最後在 main 裡建立三個物件，呼叫它們的方法。
 
-第二部分練習多形。建立 Animal、Dog 和 Bird，各自覆寫 move。用一個 Animal 陣列存放旺財和小翠，再用迴圈呼叫每一個的 move。
+第二部分練習多形。Animal 一樣要有 name 欄位和建構子，Dog 和 Bird 用 super name 傳給父類別，再各自覆寫 move，印出名字和移動方式。接著用一個 Animal 陣列存放旺財和小翠，用迴圈呼叫每一個的 move。
+
+下一頁是程式執行後應該看到的結果。
+-->
+
+---
+
+# 練習
+### 預期輸出
+
+<div class="grid grid-cols-2 gap-6">
+<div>
+
+**練習 1**
+
+```text
+Dad is walking!!!
+Tom is walking~~~
+Tom is playing ball!
+Amy is walking@@@
+Amy is shopping!
+```
+
+</div>
+<div>
+
+**練習 2**
+
+```text
+旺財 跑步
+小翠 飛翔
+```
+
+</div>
+</div>
+
+<div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-gray-700 text-sm text-left">
+💡 名字由建構方法傳入；練習 2 的迴圈只寫一次 <code>move()</code>，卻印出兩種結果
+</div>
+
+<!--
+這是預期的輸出。
+
+練習一，爸爸 Dad 印出三個驚嘆號，兒子 Tom 印出三個波浪號，還會打球；女兒 Amy 印出三個小老鼠符號，還會去逛街。這些名字都是建立物件時，透過建構子傳進去的。
+
+練習二，旺財印出跑步，小翠印出飛翔。注意迴圈裡只寫了一次 move，卻印出兩種不同的結果，這就是多形。
 
 我們先暫停一下，自己動手試試看。
 
